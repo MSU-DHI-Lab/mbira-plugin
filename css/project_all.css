@@ -47,8 +47,8 @@ body, html {
 }
 
 .header h1 {
-     margin: 0;
-    padding: 17px;
+    margin: 0;
+    line-height: 75px;
     color: #FFF;
     font-family: 'montserratbold', sans-serif;
     
