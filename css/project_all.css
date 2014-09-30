@@ -50,7 +50,7 @@ body, html {
      margin: 0;
     padding: 17px;
     color: #FFF;
-    font-family: sans-serif;
+    font-family: 'montserratbold', sans-serif;
     
 }
 
@@ -100,7 +100,7 @@ body, html {
 }
     
 .project_title h3 {
-    font-family: sans-serif;
+    font-family: 'montserratregular', sans-serif;
     font-size: 26px;
     color: #fff;
     margin:0;
@@ -115,7 +115,7 @@ body, html {
 }
     
 .project_title_new h3 {
-    font-family: sans-serif;
+    font-family: 'montserratregular', sans-serif;
     font-size: 26px;
     color: #fff;
     margin:0;
