@@ -11,6 +11,8 @@
         <div class="back"><a href="project_all.html"><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
         <div class="title"><h1>NEW PROJECT</h1></div></div>
     
+    
+    <!--PROJECT INFORMATION-->
 	<div class="main" ng-controller="newProjectCtrl">
         
         <div class="thumbnail"> <a href="thumbnail.html"> <img src="img/thumbnail_empty.png" height="340" width="340">
