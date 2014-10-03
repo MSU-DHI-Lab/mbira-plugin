@@ -1,0 +1,21 @@
+[Plugin Name]
+mbira_plugin
+[Minimum KORA Version]
+2.5.0
+[Minimum Database Version]
+2.5.0
+[Javascript]
+controllers.js
+script.js
+[CSS]
+project_all.css
+project_single.css
+[Menus]
+Menu1 = index.php
+Menu1 = project_all.php
+Menu2 = project_single.php
+Menu3 = project_new.html
+[User Permissions]
+USER_ADMIN
+[Enabled]
+0
