@@ -72,12 +72,13 @@ body, html {
 .project {
     width: 340px;
     height: 340px;
-    background: #ccc;
+    background: rgba(2,20,38,.7);
     margin: 20px 0 0 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
-    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2); 
+    -webkit-transition: -webkit-filter .5s;
 }
 
 .project_new {
