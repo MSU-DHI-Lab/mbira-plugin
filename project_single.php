@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+        <link rel="stylesheet" type="text/css" href="css/project_single.css"/>
     </head>
 <body>
     
@@ -9,7 +9,7 @@
     <div class="header">
         <div class="back"><a ui-sref="projects"><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
         <div class="title"><h1>PROJECT NAME</h1></div>
-        <div class="info"><a href="project_info.html"><img src="img/info.png"/></a></div></div>
+        <div class="info"><a href="project_info.php"><img src="img/info.png"/></a></div></div>
     
     
     <!--PROJECT DESCRIPTION-->

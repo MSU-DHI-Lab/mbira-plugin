@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-		
+		<link rel="stylesheet" type="text/css" href="css/project_all.css"/>
     </head>
 <body>
 
