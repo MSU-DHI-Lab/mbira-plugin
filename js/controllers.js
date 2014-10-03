@@ -17,6 +17,38 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    url: "/newProject",
 	    templateUrl: "project_new.html"
 	  })
+	  .state('viewExhibit', {
+	    url: "/viewExhibit",
+	    templateUrl: "exhibit_single.html"
+	  })
+	  .state('newExhibit', {
+	    url: "/newExhibit",
+	    templateUrl: "exhibit_new.html"
+	  })
+	  .state('viewLocation', {
+	    url: "/viewLocation",
+	    templateUrl: "location_single.html"
+	  })
+	  .state('newLocation', {
+	    url: "/newLocation",
+	    templateUrl: "location_new.html"
+	  })
+	  .state('viewArea', {
+	    url: "/viewArea",
+	    templateUrl: "area_single.html"
+	  })
+	  .state('newArea', {
+	    url: "/newArea",
+	    templateUrl: "area_new.html"
+	  })
+	  .state('viewExploration', {
+	    url: "/viewExploration",
+	    templateUrl: "exploration_single.html"
+	  })
+	  .state('newExploration', {
+	    url: "/newExploration",
+	    templateUrl: "exploration_new.html"
+	  })
 });
 
 mbira.controller("viewProjectsCtrl", function ($scope, $http, $state, $upload){
