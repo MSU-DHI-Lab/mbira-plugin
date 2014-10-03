@@ -7,7 +7,7 @@
     
     <!--HEADER-->
     <div class="header">
-        <div class="back"><a href="project_all.html"><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
+        <div class="back"><a ui-sref="projects"><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
         <div class="title"><h1>PROJECT NAME</h1></div>
         <div class="info"><a href="project_info.html"><img src="img/info.png"/></a></div></div>
     
