@@ -90,7 +90,6 @@ body, html {
 .toolbar {
     margin: 75px 0 0 0;
     background: rgba(255,255,255,.6);
-    height: 60px;
     text-align: center;
     position: absolute;
     z-index: 2;
@@ -101,6 +100,11 @@ body, html {
     display: inline-block;
     padding: 20px 0;
     width: 275px;
+    transition: background .5s;
+}
+
+.toolbar div:hover {
+    background: #FFF;
 }
 
 .toolbar h3, .toolbar img {
@@ -115,6 +119,11 @@ body, html {
     font-family: 'montserratbold', sans-serif;
     font-size: 14px;
 }
+
+
+
+
+
 
 
 
