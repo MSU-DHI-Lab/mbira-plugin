@@ -6,34 +6,39 @@
     </head>
 <body>
 
+    <!--HEADER-->    
     <div class="header">
 		<div class="back"><a ui-sref="viewProject"><img src="img/back.png"/><p>**NAME OF PROJECT**</p></a></div>
         <div class="title"><h1>**SINGLE EXHIBIT**</h1></div>
         <div class="info"><a href="project_info.php"><img src="img/info.png"/></a></div></div>
     
+    <!--TOOLBAR--> 
     <ul class="toolbar">
         <li class="tool_location"><a href="#"><h3>ADD LOCATION</h3><img src="img/add_location.png"/></a></li>
         <li class="tool_area"><a href="#"><h3>ADD AREA</h3><img src="img/add_area.png"/></a></li>
         <li class="tool_exploration"><a href="#"><h3>ADD EXPLORATION</h3><img src="img/add_exploration.png"/></a></li>
+        
+        <!--FILTER + DROPDOWN MENU--> 
         <li class="tool_filter"><a href="#"><h3>FILTER BY</h3><img src="img/filter_by.png"/></a>
-            <ul><form><li><input type="checkbox" name="locations" value="locations">LOCATIONS</li><li><input type="checkbox" name="areas" value="areas">AREAS</li><li><input type="checkbox" name="explorations" value="explorations">EXPLORATIONS</li></form></ul>
+            <ul><form>
+                    <li><input type="checkbox" id="checkbox-3-1" checked /><label for="checkbox-3-1"></label>LOCATIONS</li> 
+                    <li><input type="checkbox" id="checkbox-3-2" checked /><label for="checkbox-3-2"></label>AREAS</li>
+                    <li><input type="checkbox" id="checkbox-3-3" checked /><label for="checkbox-3-3"></label>EXPLORATIONS</li>
+                </form></ul>
         </li>
     </ul>
     
-     <div id="map"></div>
+    <!--MAP--> 
+    <div id="map"></div>
 
-    
-   <script src="js/leaflet.js"></script> 
+    <script src="js/leaflet.js"></script> 
+        
         <script>
-
             var map = L.map('map').setView([42.7404566603398, -84.5452880859375], 13);
-
             L.tileLayer('https://{s}.tiles.mapbox.com/v3/austintruchan.jb1pjhel/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18
-}).addTo(map);
-            
-            </script>
+}).addTo(map);</script>
     
 </body>
 </html>
