@@ -33,7 +33,7 @@ body, html {
 
 .header {
     background: #0A263D;
-    height: 75px;
+    height: 55px;
     text-align: center;
     -webkit-box-shadow: 0px 4px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    0px 4px 3px 0px rgba(50, 50, 50, 0.2);
@@ -42,13 +42,16 @@ body, html {
     position:fixed;
     top:0px;
     z-index: 1;
+    
 }
 
 .header h1 {
     margin: 0;
-    line-height: 75px;
+    line-height: 55px;
     color: #FFF;
-    font-family: 'montserratbold', sans-serif;  
+    font-size: 26px;
+    font-family: 'montserratregular', sans-serif;
+    
 }
 
 .header div {
@@ -58,7 +61,7 @@ body, html {
 
 .back {
     position: absolute;
-    top: 25px;
+    top: 19px;
     left: 20px;
 }
 
@@ -69,16 +72,18 @@ body, html {
 
 .back p {
     color: #FFF;
-    font-family: 'montserratbold', sans-serif;
-    padding: 0 20px;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 14px;
+    padding: 0 10px;
     margin: 0;
 }
 
 .info {
     position: absolute;
-    top: 25px;
+    top: 15px;
     right: 20px;
 }
+
 
 
 
@@ -87,7 +92,7 @@ body, html {
 /* TOOLBAR */
 
 .toolbar {
-    margin: 75px 0 0 0;
+    margin: 55px 0 0 0;
     padding: 0;
     background: rgba(255,255,255,.6);
     text-align: center;
@@ -99,7 +104,8 @@ body, html {
 .toolbar li {
     display: inline-block;
     padding: 20px 0;
-    width: 275px;
+    width: 196px;
+    margin: 0;
 }
 
 [class^="tool_"]{
@@ -120,7 +126,7 @@ body, html {
     margin:0;
     padding: 0 10px 0 0;
     font-family: 'montserratbold', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 
@@ -132,12 +138,12 @@ body, html {
 ul li ul {
     position: absolute;
     top: 66px;
-    right: 19px;
+    right: 0;
     display: none;
     opacity: 0;
     visibility: hidden;
     transition: visibility .5s;
-    width: 275px;
+    width: 196px;
     padding: 0;
     margin: 0;
 }
@@ -147,7 +153,7 @@ ul li ul li {
   display: block; 
   color: #021426;
     font-family: 'montserratbold', sans-serif;
-    font-size: 14px;
+    font-size: 10px;
     padding: 0;
     margin: 0;
     vertical-align: middle;
@@ -169,11 +175,11 @@ ul li:hover ul {
 	background-color: #FFF;
 	border: 1px solid #CCC;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
-	padding: 9px;
+	padding: 5px;
 	border-radius: 1000px;
 	display: inline-block;
 	position: absolute;
-	left: 30px;
+	left: 20px;
 }
 
 [id^="checkbox-3-"] + label:active {
@@ -197,8 +203,8 @@ ul li:hover ul {
 	box-shadow: inset 0 15px 23px -10px rgba(187, 230, 240, 0.3), 0 2px 2px rgba(0, 0, 0, 0.1);
 	top: 3px;
 	left: 3px;
-	width: 12px;
-	height: 12px;
+	width: 8px;
+	height: 8px;
 }
 
 [id^="checkbox-3-"]:checked + label:before {
@@ -207,42 +213,42 @@ ul li:hover ul {
 }
 
 #checkbox-3-1:checked + label:before {
-	top: 4px;
-	left: 4px;
-	width: 20px;
-	height: 20px;
+	top: 2px;
+	left: 2px;
+	width: 16px;
+	height: 16px;
 }
 
 #checkbox-3-2:checked + label:before {
-	top: 4px;
-	left: 4px;
-	width: 20px;
-	height: 20px;
+	top: 2px;
+	left: 2px;
+	width: 16px;
+	height: 16px;
 }
 
 #checkbox-3-3:checked + label:before {
-    top: 4px;
-	left: 4px;
-	width: 20px;
-	height: 20px;
+   top: 2px;
+	left: 2px;
+	width: 16px;
+	height: 16px;
 }
 
 #checkbox-3-1 + label {
 	width: 10px;
 	height: 10px;
-    top: 12px;
+    top: 15px;
 }
 
 #checkbox-3-2 + label {
 	width: 10px;
 	height: 10px;
-    top: 70px;
+    top: 66px;
 }
 
 #checkbox-3-3 + label {
     width: 10px;
 	height: 10px;
-    top: 127px;
+    top: 118px;
 }
 
 #checkbox-3-1 + label {
@@ -276,7 +282,7 @@ input[type="checkbox"] {
 }
 
 .leaflet-control-zoom.leaflet-bar.leaflet-control{
-    margin-top: 350px;
+    margin-top: 325px;
 }
 
 
