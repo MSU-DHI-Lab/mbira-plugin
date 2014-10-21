@@ -103,7 +103,7 @@ body, html {
 
 .toolbar li {
     display: inline-block;
-    padding: 20px 0;
+    padding: 15px 0;
     width: 199px;
     margin: 0;
 }
@@ -137,7 +137,7 @@ body, html {
 
 ul li ul {
     position: absolute;
-    top: 60px;
+    top: 50px;
     right: 0;
     display: none;
     opacity: 0;
@@ -154,7 +154,7 @@ ul li ul li {
   color: #021426;
     font-family: 'montserratbold', sans-serif;
     font-size: 10px;
-    padding: 0;
+    padding: 40px;
     margin: 0;
     vertical-align: middle;
 }
@@ -236,19 +236,19 @@ ul li:hover ul {
 #checkbox-3-1 + label {
 	width: 10px;
 	height: 10px;
-    top: 15px;
+    top: 10px;
 }
 
 #checkbox-3-2 + label {
 	width: 10px;
 	height: 10px;
-    top: 66px;
+    top: 51px;
 }
 
 #checkbox-3-3 + label {
     width: 10px;
 	height: 10px;
-    top: 118px;
+    top: 93px;
 }
 
 #checkbox-3-1 + label {
