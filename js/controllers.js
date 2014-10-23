@@ -15,7 +15,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	  })	  
 	  .state('newProject', {
 	    url: "/newProject",
-	    templateUrl: "project_new.php"
+	    templateUrl: "project_new.html"
 	  })
 	  .state('viewExhibit', {
 	    url: "/viewExhibit",
@@ -51,7 +51,40 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	  })
 });
 
-mbira.controller("viewProjectsCtrl", function ($scope, $http, $state, $upload){
+mbira.factory('projectID', function(){
+	var ID = ''
+	
+	return {
+		getID: function () {
+			return ID;
+		},
+		setID: function (newID) {
+			ID = newID;
+		}
+	};
+});
+
+mbira.controller("singleProjectCtrl", function ($scope, $http, $state, $upload, projectID){
+	var app = this;
+	
+	$scope.ID = projectID.getID();
+	
+	$http({
+		method: 'POST',
+		url: "ajax/getProjectInfo.php",
+		data: $.param({
+				id: $scope.ID
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+	console.log(data);
+		  $scope.project = data;
+	})
+	
+	
+});
+
+mbira.controller("viewProjectsCtrl", function ($scope, $http, $state, $upload, projectID){
 	var app = this;
 	
 	$http({
@@ -59,9 +92,12 @@ mbira.controller("viewProjectsCtrl", function ($scope, $http, $state, $upload){
 		url: "ajax/getProjects.php",
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
-	console.log(data);
 		  $scope.projects = data;
 	})
+	
+	$scope.toProject = function(ID){
+		projectID.setID(ID);
+	}
 });
 
 mbira.controller("newProjectCtrl", function ($scope, $http, $state, $upload){

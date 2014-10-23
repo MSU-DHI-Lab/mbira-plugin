@@ -35,7 +35,7 @@ body, html {
 
 .header {
     background: #0A263D;
-    height: 55px;
+    height: 75px;
     text-align: center;
     -webkit-box-shadow: 0px 4px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    0px 4px 3px 0px rgba(50, 50, 50, 0.2);
@@ -48,10 +48,9 @@ body, html {
 
 .header h1 {
     margin: 0;
-    line-height: 55px;
+    line-height: 75px;
     color: #FFF;
-    font-size: 26px;
-    font-family: 'montserratregular', sans-serif;
+    font-family: 'montserratbold', sans-serif;
     
 }
 
@@ -62,9 +61,8 @@ body, html {
 /* PROJECTS */
 
 .projects {
-    margin-top: 55px;
+    margin-top: 75px;
     z-index: 2;
-    padding: 0 10px 0 10px;
 }
 
 .projects div {
@@ -72,10 +70,10 @@ body, html {
 }
 
 .project {
-    width: 237px;
-    height: 237px;
+    width: 340px;
+    height: 340px;
     background: rgba(2,20,38,.7);
-    margin: 20px 10px 0 10px;
+    margin: 20px 0 0 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -84,10 +82,10 @@ body, html {
 }
 
 .project_new {
-    width: 237px;
-    height: 237px;
+    width: 340px;
+    height: 340px;
     background: #3EB9FD;
-    margin: 20px 10px 0 10px;
+    margin: 20px 0 0 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -104,7 +102,7 @@ body, html {
     
 .project_title h3 {
     font-family: 'montserratregular', sans-serif;
-    font-size: 20px;
+    font-size: 26px;
     color: #fff;
     margin:0;
     padding: 20px;
@@ -119,7 +117,7 @@ body, html {
     
 .project_title_new h3 {
     font-family: 'montserratregular', sans-serif;
-    font-size: 20px;
+    font-size: 26px;
     color: #fff;
     margin:0;
     padding: 20px;

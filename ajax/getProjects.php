@@ -5,7 +5,7 @@
 	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	}
 		
-	$results = mysqli_query($con, "SELECT * FROM testPlugin ORDER BY ID DESC");
+	$results = mysqli_query($con, "SELECT * FROM MBIRA");
 	$resultsArray = Array();
 	while($row = mysqli_fetch_array($results)) {
 		array_push($resultsArray, $row);
