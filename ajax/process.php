@@ -10,12 +10,12 @@ function createRow() {
 	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	}
 	
-	mysqli_query($con,"INSERT INTO MBIRA (NAME, DESCRIPTION) VALUES ('$title', '$desc')");
+	mysqli_query($con,"INSERT INTO mbira_projects (name, description) VALUES ('$title', '$desc')");
 		
-	$result = mysqli_query($con, "SELECT * FROM MBIRA ORDER BY ID DESC LIMIT 1;");
+	$result = mysqli_query($con, "SELECT * FROM mbira_projects ORDER BY id DESC LIMIT 1;");
 	
 	while($row = mysqli_fetch_array($result)) {
-	 echo $row['ID'];
+	 echo $row['id'];
 	}
 }
 
@@ -28,9 +28,9 @@ function uploadFile() {
 	
 	if (move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile)) {
 		$path = $_FILES['file']['name'];
-		mysqli_query($con,"UPDATE MBIRA
-			SET IMAGE_PATH='$path'
-			WHERE ID=$id;");
+		mysqli_query($con,"UPDATE mbira_projects
+			SET image_path='$path'
+			WHERE id=$id;");
 		
 		echo "images/".$path;
 		

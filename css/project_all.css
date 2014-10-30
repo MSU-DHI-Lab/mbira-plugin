@@ -1,8 +1,10 @@
 body, html {
     margin: 0;
-    padding: 0;
-    background: #18587C;
-  
+    padding: 0; 
+}
+
+.projects {
+	background-color: #18587C;
 }
 
 @font-face {
@@ -41,7 +43,7 @@ body, html {
     -moz-box-shadow:    0px 4px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         0px 4px 3px 0px rgba(50, 50, 50, 0.2);
     width:100%;
-    position:fixed;
+    position:relative;
     top:0px;
     z-index: 1;
 }
@@ -61,7 +63,7 @@ body, html {
 /* PROJECTS */
 
 .projects {
-    margin-top: 75px;
+    
     z-index: 2;
 }
 

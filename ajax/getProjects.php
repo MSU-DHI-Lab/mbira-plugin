@@ -5,7 +5,7 @@
 	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	}
 		
-	$results = mysqli_query($con, "SELECT * FROM MBIRA");
+	$results = mysqli_query($con, "SELECT * FROM mbira_projects");
 	$resultsArray = Array();
 	while($row = mysqli_fetch_array($results)) {
 		array_push($resultsArray, $row);

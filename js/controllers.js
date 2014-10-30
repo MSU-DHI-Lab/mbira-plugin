@@ -7,7 +7,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider
 	  .state('projects', {
 	    url: "/projects",
-	    templateUrl: "project_all.php"
+	    templateUrl: "menu_project_all.php"
 	  })
 	  .state('viewProject', {
 	    url: "/viewProject",
@@ -15,7 +15,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	  })	  
 	  .state('newProject', {
 	    url: "/newProject",
-	    templateUrl: "project_new.html"
+	    templateUrl: "menu_project_new.html"
 	  })
 	  .state('viewExhibit', {
 	    url: "/viewExhibit",
@@ -77,11 +77,9 @@ mbira.controller("singleProjectCtrl", function ($scope, $http, $state, $upload, 
 			}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
-	console.log(data);
 		  $scope.project = data;
+		  //console.log($scope.project);
 	})
-	
-	
 });
 
 mbira.controller("viewProjectsCtrl", function ($scope, $http, $state, $upload, projectID){
@@ -96,7 +94,8 @@ mbira.controller("viewProjectsCtrl", function ($scope, $http, $state, $upload, p
 	})
 	
 	$scope.toProject = function(ID){
-		projectID.setID(ID);
+		//console.log(ID);
+		projectID.setID(ID);	
 	}
 });
 

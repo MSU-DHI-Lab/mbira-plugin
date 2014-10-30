@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html ng-app='mbira'>
+<html>
     <head>
         <link rel="stylesheet" type="text/css" href="css/project_single.css"/>
     </head>
-<body ng-controller='singleProjectCtrl'>
-    
+<body ng-app='mbira'>
+    <div class="wrap" ng-controller='singleProjectCtrl'>
     <!--HEADER-->
     <div class="header">
         <div class="back"><a ui-sref="projects"><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
-        <div class="title"><h1>{{project.NAME}}</h1></div>
+        <div class="title"><h1>{{project.name}}</h1></div>
         <div class="info"><a href="project_info.php"><img src="img/info.png"/></a></div></div>
     
     
     <!--PROJECT DESCRIPTION-->
-    <p class="project_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse non nisl quis lacus tempus pulvinar at a ligula. Aliquam non felis sapien. Suspendisse viverra ullamcorper mollis. Vivamus eget ex ultrices, fringilla est non, efficitur enim. Suspendisse sagittis pellentesque purus et porttitor. Phasellus non nisl arcu. Nulla sit amet vulputate odio. Donec id magna ac arcu molestie maximus vel id lacus. Sed sit amet est sed eros volutpat laoreet. Integer sed euismod enim. Curabitur nec nisi quam. Vivamus at ipsum blandit nisl dictum vestibulum. Proin quis mi nec massa interdum euismod. Vestibulum ex orci, fermentum non dui sed, placerat pellentesque lacus.</p>
+    <p class="project_description">{{project.description}}</p>
     
     
     <!--PROJECT EXHIBITS-->
@@ -105,7 +105,7 @@
         
         <div class="exploration_new"> <a ui-sref="newExploration"><img src="img/project_new_plus_icon_small.png" height="130" width="130">
             <div class="exploration_title_new"><h3>NEW EXPLORATION</h3></div></a></div></div>
-    
+    </div>
 </body>
     
     </html>
