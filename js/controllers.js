@@ -94,7 +94,6 @@ mbira.controller("viewProjectsCtrl", function ($scope, $http, $state, $upload, p
 	})
 	
 	$scope.toProject = function(ID){
-		//console.log(ID);
 		projectID.setID(ID);	
 	}
 });
@@ -127,14 +126,15 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $state, $upload){
 		    		}),
 		    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	    }).success(function(data){
+			console.log(data);
 			  $scope.upload = $upload.upload({
 				url: 'ajax/process.php',
 				method: 'POST',
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-				data: {id: data},
+				data: {id: data, name_kora: $scope.newProject.name, description: $scope.newProject.description, admin: 'koraadmin'},
 				file: $scope.file
 			  }).success(function(data, status, headers, config) {
-					location.reload();
+					//location.reload();
 			  });
 	    })
 	};

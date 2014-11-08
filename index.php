@@ -1,13 +1,21 @@
+<?php
+	require_once('../../model/manager.php');
+	require_once('../pluginsConfig.php');
+	
+	Manager::Init();
+	
+	if (!Manager::IsLoggedIn())
+	{
+		header( 'Location: ../../accountLogin.php' ) ;
+	}	
+	
+	require_once("../pluginsInclude.php");
+	include_once(basePathPlugin.'plugins/pluginsHeader.php');
+?>
+
+<html>
 <head>
-	<?php
-		require_once("../pluginsInclude.php");
-		//include_once(basePathPlugin.'includes/header.php');
-		//include_once(basePathPlugin.'includes/menu.php');
-		
-		Manager::Init();
-		//Manager::PrintHeader();
-		include_once(basePathPlugin.'plugins/pluginsHeader.php');
-	?>plugins
+	
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" >
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">  	
 
@@ -31,7 +39,6 @@
 
 	</div>
 	<?php
-		//Manager::PrintFooter();
 		require_once(basePathPlugin."plugins/pluginsFooter.php");
 	?>
 </body>

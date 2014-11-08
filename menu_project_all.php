@@ -37,6 +37,5 @@
 	</div>
 
 </body>
-    
-    </html>
+</html>
 
