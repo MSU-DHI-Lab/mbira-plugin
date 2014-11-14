@@ -55,13 +55,7 @@ function CreateNewProject() {
    		global $db;
    		// syntax checks
    		$err = false;
-   		
-   		//if (empty($_POST['name_kora'])) { $err = true; echo gettext('You must provide a project name.<br>'); }
-   		//if (empty($_POST['description'])) { $err = true; echo gettext('You must provide a project description.<br>'); }
-   		//if (!is_numeric($_REQUEST['quota'])) { $err = true; echo gettext('Quota must be a number, use 0 for unlimited.<br>'); }
-   		//if (!isset($_POST['active'])) { $err = true; echo gettext('Connection error, try again.<br>'); }
-   		//if (mb_strlen($_POST['description']) > 255) { $err = true; echo gettext('Description too long.<br>'); }
-   		//if (mb_strlen($_POST['name_kora']) > 255) { $err = true; echo gettext('Name too long.<br>'); }
+   	
    		if (!$err){
    			// truncate field lengths
    			$name = mb_substr($_POST['name_kora'], 0, 255);
@@ -109,7 +103,6 @@ function CreateNewProject() {
    				value LONGTEXT,
    				PRIMARY KEY(id,cid)) CHARACTER SET utf8 COLLATE utf8_general_ci');
    			
-   			
    			// create project data table for *PUBLIC* ingestion
    			$db->query('CREATE TABLE IF NOT EXISTS p'.$pid.'PublicData(
    				id VARCHAR(30) NOT NULL,
@@ -117,8 +110,6 @@ function CreateNewProject() {
    				schemeid INTEGER UNSIGNED NOT NULL,
    				value LONGTEXT,
    				PRIMARY KEY(id,cid)) CHARACTER SET utf8 COLLATE utf8_general_ci');
-   			
-   			
    			
    			// create the initial groups and insert the default admin into the admin group
    			$query  = 'INSERT INTO permGroup (pid, name, permissions) VALUES (';
@@ -148,22 +139,18 @@ function CreateNewProject() {
 		
 }
 
-function addNewScheme($pid/* , $type, $id */) {
+function addNewScheme($pid) {
 		require_once('../../pluginsInclude.php');
 		global $db;
 		$result = $db->query("SELECT * FROM project where pid=".$pid."");
 		var_dump($pid);
 		$project = new Project($pid);
-   		//check if checkbox was checked
    		$public = 0;
-   		// if(isset($_REQUEST['publicIngestion']))
-   		// {
-   			// $public = 1;
-   		// }
    		
+		//Add Location Scheme   		
 		$query = "INSERT INTO scheme (pid, schemeName, sequence, publicIngestion, legal, description, nextid) ";
 		$query .= "SELECT ".escape($project->GetPID()).", ";
-		$query .= escape("Scheme 1").", COUNT(sequence) + 1, ";
+		$query .= escape("Location").", COUNT(sequence) + 1, ";
 		$query .= $public.", ".escape('').", ";
 		$query .= escape('Default Scheme').", 0 FROM scheme ";
 		$query .= "WHERE pid=".escape($project->GetPID());
@@ -171,90 +158,68 @@ function addNewScheme($pid/* , $type, $id */) {
 		
 		$sid = $db->insert_id;
 		
+		//Add location control collection
 		$query = "INSERT INTO collection (schemeid, name, sequence, description) ";
-			$query .= "SELECT ".escape($sid).", ";
-			$query .= escape("Primary Collection").", COUNT(sequence) + 1, ";
-			$query .= escape("Initial control collection")." FROM collection ";
-			$query .= "WHERE schemeid=".escape($sid);
-			$result = $db->query($query);
+		$query .= "SELECT ".escape($sid).", ";
+		$query .= escape("Location").", COUNT(sequence) + 1, ";
+		$query .= escape("Location control collection")." FROM collection ";
+		$query .= "WHERE schemeid=".escape($sid);
+		$result = $db->query($query);
 			
 		$cid = $db->insert_id;
+
+		$newscheme = new Scheme($project->GetPID(), $sid);
 		
-		//if(!$result) { Manager::PrintErrDiv($db->error); }
-		//else {
-			
-			$newscheme = new Scheme($project->GetPID(), $sid);
-			
-			//Add timestamp TextControl to every scheme created
-			//timestamp is not editable and not displayed on ingest
-			//on ingestion or when a record is edited, timestamp stores the current time
-			$tempReq = $_REQUEST;
-			$_REQUEST['name'] = 'systimestamp';
-			$_REQUEST['type'] = 'TextControl';
-			$_REQUEST['description'] = '';
-			$_REQUEST['submit'] = true;
-			$_REQUEST['collectionid'] = $cid;
-			$_REQUEST['publicentry'] = "on"; //Not used
-			$newscheme->CreateControl(true);
-			$_REQUEST = $tempReq;
-			//End add timestamp control
-			
-			//Add a record owner to every scheme created
-			//owner is not editable and not displayed on ingest
-			$tempReq = $_REQUEST;
-			$_REQUEST['name'] = 'recordowner';
-			$_REQUEST['type'] = 'TextControl';
-			$_REQUEST['description'] = '';
-			$_REQUEST['submit'] = true;
-			$_REQUEST['searchable'] = "on";
-			$_REQUEST['advanced'] = "on";
-			$_REQUEST['collectionid'] = $cid;
-			$_REQUEST['publicentry'] = "on"; //Not used
-			$newscheme->CreateControl(true);
-			$_REQUEST = $tempReq;
-			//End add owner control
-			
-			// if (!empty($_REQUEST['preset']))
-			// {
-				//Make sure this is a valid preset
-				// $presetInfo = $db->query('SELECT schemeid, pid FROM scheme WHERE schemeid='.escape($_REQUEST['preset']).' AND allowPreset=1 LIMIT 1');
-				// if ($presetInfo->num_rows > 0)
-				// {
-					// $presetInfo = $presetInfo->fetch_assoc();
-					
-					//Recreate the Collections and Store the mapping of old->new
-					//collectionMap is an associative mapping of oldID => newID
-					// $collectionMap = array();
-					// $collQuery = $db->query('SELECT collid, schemeid, name, description, sequence FROM collection WHERE schemeid='.$presetInfo['schemeid']);
-					// while($c = $collQuery->fetch_assoc())
-					// {
-						// $insertQuery = $db->query('INSERT INTO collection (schemeid, name, description, sequence) VALUES ('.$newscheme->GetSID().','.escape($c['name']).','.escape($c['description']).','.escape($c['sequence']).')');
-						// $collectionMap[$c['collid']] = $db->insert_id;
-					// }
-					
-					//Recreate the Controls
-					// $controlQuery = $db->query('SELECT collid, type, name, description, required, searchable, advSearchable, showInResults, showInPublicResults, publicEntry, options, sequence FROM p'.$presetInfo['pid'].'Control WHERE schemeid='.$presetInfo['schemeid']);
-					// while ($c = $controlQuery->fetch_assoc())
-					// {					
-						//don't clone the systimestamp(it has a collection ID of 0)
-						// if($c['collid'] != 0)
-						// {
-							//Clone the row, correcting the collection ID.
-							// $query  = 'INSERT INTO p'.$this->GetPID().'Control (schemeid, collid, type, name, description, required, searchable, advSearchable, showInResults, showInPublicResults, publicEntry, options, sequence) ';
-							// $query .= 'VALUES ('.$newscheme->GetSID().','.$collectionMap[$c['collid']].','.escape($c['type']).',';
-							// $query .= escape($c['name']).','.escape($c['description']).',';
-							// $query .= escape($c['required']).','.escape($c['searchable']).','.escape($c['advSearchable']).',';
-							// $query .= escape($c['showInResults']).','.escape($c['showInPublicResults']).','.escape($c['publicEntry']).',';
-							// $query .= escape($c['options']).','.escape($c['sequence']).')';
-							
-							// $db->query($query);
-							
-						// }
-					// }
-				// }
-			// }            
-		//}
-	}
+		//Add location name TextControl
+		$tempReq = $_REQUEST;
+		$_REQUEST['name'] = 'Name';
+		$_REQUEST['type'] = 'TextControl';
+		$_REQUEST['description'] = 'Location name';
+		$_REQUEST['submit'] = true;
+		$_REQUEST['collectionid'] = $cid;
+		$_REQUEST['publicentry'] = "on";
+		$newscheme->CreateControl(true);
+		$_REQUEST = $tempReq;
+		
+		//Add location description TextControl
+		$tempReq = $_REQUEST;
+		$_REQUEST['name'] = 'Description';
+		$_REQUEST['type'] = 'TextControl';
+		$_REQUEST['description'] = 'Location description';
+		$_REQUEST['submit'] = true;
+		$_REQUEST['searchable'] = "on";
+		$_REQUEST['advanced'] = "on";
+		$_REQUEST['collectionid'] = $cid;
+		$_REQUEST['publicentry'] = "on";
+		$newscheme->CreateControl(true);
+		$_REQUEST = $tempReq;
+		
+		//Add location longitude TextControl
+		$tempReq = $_REQUEST;
+		$_REQUEST['name'] = 'Longitude';
+		$_REQUEST['type'] = 'TextControl';
+		$_REQUEST['description'] = 'Location longitude';
+		$_REQUEST['submit'] = true;
+		$_REQUEST['searchable'] = "on";
+		$_REQUEST['advanced'] = "on";
+		$_REQUEST['collectionid'] = $cid;
+		$_REQUEST['publicentry'] = "on";
+		$newscheme->CreateControl(true);
+		$_REQUEST = $tempReq;
+		
+		//Add location latitude TextControl
+		$tempReq = $_REQUEST;
+		$_REQUEST['name'] = 'Latitude';
+		$_REQUEST['type'] = 'TextControl';
+		$_REQUEST['description'] = 'Location latitude';
+		$_REQUEST['submit'] = true;
+		$_REQUEST['searchable'] = "on";
+		$_REQUEST['advanced'] = "on";
+		$_REQUEST['collectionid'] = $cid;
+		$_REQUEST['publicentry'] = "on";
+		$newscheme->CreateControl(true);
+		$_REQUEST = $tempReq;
+}
 
 if(isset($_POST['name'])){
 	createRow();
