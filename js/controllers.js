@@ -15,7 +15,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	  })	  
 	  .state('newProject', {
 	    url: "/newProject",
-	    templateUrl: "menu_project_new.html"
+	    templateUrl: "menu_project_new.php"
 	  })
 	  .state('viewExhibit', {
 	    url: "/viewExhibit",
