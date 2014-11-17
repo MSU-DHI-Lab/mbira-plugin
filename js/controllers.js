@@ -126,7 +126,6 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $state, $upload){
 		    		}),
 		    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	    }).success(function(data){
-			console.log(data);
 			  $scope.upload = $upload.upload({
 				url: 'ajax/process.php',
 				method: 'POST',
@@ -134,7 +133,7 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $state, $upload){
 				data: {id: data, name_kora: $scope.newProject.name, description: $scope.newProject.description, admin: 'koraadmin'},
 				file: $scope.file
 			  }).success(function(data, status, headers, config) {
-					//location.reload();
+					location.reload();
 			  });
 	    })
 	};
