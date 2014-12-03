@@ -64,7 +64,23 @@ mbira.factory('projectID', function(){
 	};
 });
 
-mbira.controller("singleProjectCtrl", function ($scope, $http, $state, $upload, projectID){
+mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, projectID){
+	var app = this;
+	
+	$scope.ID = projectID.getID();
+	console.log($scope.ID);
+	// $http({
+		// method: 'POST',
+		// url: "ajax/getLocationInfo.php",
+		// data: $.param({
+				// id: $scope.ID
+			// }),
+		// headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	// }).success(function(data){
+		  // $scope.project = data;
+	// })
+});
+mbira.controller("singleProjectCtrl", function ($scope, $http, projectID){
 	var app = this;
 	
 	$scope.ID = projectID.getID();
@@ -78,11 +94,10 @@ mbira.controller("singleProjectCtrl", function ($scope, $http, $state, $upload, 
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
 		  $scope.project = data;
-		  //console.log($scope.project);
 	})
 });
 
-mbira.controller("viewProjectsCtrl", function ($scope, $http, $state, $upload, projectID){
+mbira.controller("viewProjectsCtrl", function ($scope, $http, projectID){
 	var app = this;
 	
 	$http({
@@ -98,7 +113,7 @@ mbira.controller("viewProjectsCtrl", function ($scope, $http, $state, $upload, p
 	}
 });
 
-mbira.controller("newProjectCtrl", function ($scope, $http, $state, $upload){
+mbira.controller("newProjectCtrl", function ($scope, $http, $upload){
 	var app = this;
 	$scope.file;
 	

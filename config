@@ -1,20 +1,3 @@
-[Plugin Name]
-mbira_plugin
-[Minimum KORA Version]
-2.5.0
-[Minimum Database Version]
-2.5.0
-[Javascript]
-plugins/mbira_plugin/js/controllers.js
-plugins/mbira_plugin/js/script.js
-javascripts/plugins.js
-[CSS]
-plugins/mbira_plugin/css/project_all.css
-plugins/mbira_plugin/css/project_single.css
 [Menus]
 All Projects = #/projects
 New Project = #/newProject
-[User Permissions]
-USER_ADMIN
-[Enabled]
-0

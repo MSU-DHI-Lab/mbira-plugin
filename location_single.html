@@ -1,13 +1,39 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="css/project_single.css"/>
+		<link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
+        <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
 		
+		<script src="js/leaflet.js"></script> 
     </head>
-<body>
+<body ng-app='mbira'>
+    <div class="wrap" ng-controller='singleLocationCtrl'>    
+		<div class="header">
+			<div class="back"><a ui-sref="viewProject"><img src="img/back.png"/><p>BACK TO PROJECT</p></a></div>
+			<h1>{{location.name}}</h1>
+		</div>
+		
+		<div class="toolbar">
+			<div class="tool_location"><a href="#"><h3>ADD LOCATION</h3><img src="img/add_location.png"/></a></div>
+			<div class="tool_area"><a href="#"><h3>ADD AREA</h3><img src="img/add_area.png"/></a></div>
+			<div class="tool_exploration"><a href="#"><h3>ADD EXPLORATION</h3><img src="img/add_exploration.png"/></a></div>
+			<div class="tool_filter"><a href="#"><h3>FILTER BY</h3><img src="img/filter_by.png"/></a></div>
+		</div>
+    
+		<div id="map"></div>
 
-    <div class="header">
-		<div class="back"><a ui-sref="viewProject"><img src="img/back.png"/><p>BACK TO PROJECT</p></a></div>
-        <h1>SINGLE LOCATION</h1>
+			<script>
+
+				var map = L.map('map').setView([42.7404566603398, -84.5452880859375], 13);
+
+				L.tileLayer('https://{s}.tiles.mapbox.com/v3/austintruchan.jb1pjhel/{z}/{x}/{y}.png', {
+					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+					maxZoom: 18
+				}).addTo(map);
+            
+            </script>
+    
 	</div>
     
 
