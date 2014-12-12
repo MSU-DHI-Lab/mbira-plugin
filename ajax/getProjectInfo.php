@@ -9,9 +9,18 @@
 	}
 		
 	$results = mysqli_query($con, "SELECT * FROM mbira_projects WHERE id = ".$id);
-	$resultsArray = Array();
+	$projectArray = Array();
 	while($row = mysqli_fetch_array($results)) {
-		array_push($resultsArray, $row);
+		array_push($projectArray, $row);
 	}
-	echo json_encode($resultsArray[0]);
+	
+	$results = mysqli_query($con, "SELECT * FROM mbira_locations WHERE project_id = ".$id);
+	$locationArray = Array();
+	while($row = mysqli_fetch_array($results)) {
+		array_push($locationArray, $row);
+	}
+	
+	
+	echo json_encode([$projectArray[0], $locationArray]);
+	
 ?>

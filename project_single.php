@@ -42,20 +42,16 @@
         
         <h2 class="project_element_title">LOCATIONS</h2>
         
-        <div class="location"> <a ui-sref="viewLocation"> <img src="img/" height="130" width="130">
-            <div class="location_title"><h3>LOCATION LONG LONG LONG LONG  NAME</h3></div></a></div>
+        <div class="location" ng-repeat='location in locations'}> 
+			<a ui-sref="viewLocation"> <img ng-src="images/{{location.file_path}}" height="130" width="130">
+				<div class="location_title"><h3>{{location.name}}</h3></div>
+			</a>
+		</div>
         
-        <div class="location"> <a ui-sref="viewLocation"> <img src="img/" height="130" width="130">
-            <div class="location_title"><h3>LOCATION NAME</h3></div></a></div>
-        
-        <div class="location"> <a ui-sref="viewLocation"> <img src="img/" height="130" width="130">
-            <div class="location_title"><h3>LOCATION NAME</h3></div></a></div>
-        
-        <div class="location"> <a ui-sref="viewLocation"><img src="img/" height="130" width="130">
-            <div class="location_title"><h3>LOCATION NAME</h3></div></a></div>
         
         <div class="location_new"> <a ui-sref="newLocation"><img src="img/project_new_plus_icon_small.png" height="130" width="130">
-            <div class="location_title_new"><h3>NEW LOCATION</h3></div></a></div></div>
+            <div class="location_title_new"><h3>NEW LOCATION</h3></div></a></div>
+	</div>
     
     
       <!--PROJECT AREAS-->
