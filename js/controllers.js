@@ -26,7 +26,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "exhibit_new.html"
 	  })
 	  .state('viewLocation', {
-	    url: "/viewLocation",
+	    url: "/viewLocation/?id",
 	    templateUrl: "location_single.html"
 	  })
 	  .state('newLocation', {
@@ -64,21 +64,42 @@ mbira.factory('projectID', function(){
 	};
 });
 
-mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, projectID){
+mbira.factory('setMap', function(){	
+	var map = L.map('map').setView([42.7404566603398, -84.5452880859375], 13);
+
+	L.tileLayer('https://{s}.tiles.mapbox.com/v3/austintruchan.jb1pjhel/{z}/{x}/{y}.png', {
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		maxZoom: 18
+	}).addTo(map);
+	
+	map.invalidateSize(false);
+	return map;
+});
+
+mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap){
 	var app = this;
 	
-	$scope.ID = projectID.getID();
-	console.log($scope.ID);
-	// $http({
-		// method: 'POST',
-		// url: "ajax/getLocationInfo.php",
-		// data: $.param({
-				// id: $scope.ID
-			// }),
-		// headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-	// }).success(function(data){
-		  // $scope.project = data;
-	// })
+	$scope.exhibits = [
+      {name:'EXHIBIT 1'},
+      {name:'EXHIBIT 2'},
+      {name:'EXHIBIT 3'},
+      {name:'EXHIBIT 4'},
+      {name:'EXHIBIT 5'}
+    ];
+    $scope.selectedExhibit = $scope.exhibits[0]; 
+
+	$http({
+		method: 'POST',
+		url: "ajax/getLocationInfo.php",
+		data: $.param({
+				id: $stateParams.id
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		  $scope.location = data;
+		  var map = setMap;
+		  $scope.marker = L.marker([data.latitude, data.longitude]).addTo(map);
+	})
 });
 
 mbira.controller("singleProjectCtrl", function ($scope, $http, projectID){

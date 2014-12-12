@@ -6,7 +6,6 @@
         <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
 		
 		<script src="js/leaflet.js"></script> 
-		<script src="js/createLeafletMap.js"></script> 
     </head>
 <body ng-app='mbira'>
     <div class="wrap" ng-controller='singleLocationCtrl'>    
@@ -14,15 +13,71 @@
 			<div class="back"><a ui-sref="viewProject"><img src="img/back.png"/><p>BACK TO PROJECT</p></a></div>
 			<h1>{{location.name}}</h1>
 		</div>
-		
-		<div class="toolbar">
-			<div class="tool_location"><a href="#"><h3>ADD LOCATION</h3><img src="img/add_location.png"/></a></div>
-			<div class="tool_area"><a href="#"><h3>ADD AREA</h3><img src="img/add_area.png"/></a></div>
-			<div class="tool_exploration"><a href="#"><h3>ADD EXPLORATION</h3><img src="img/add_exploration.png"/></a></div>
-			<div class="tool_filter"><a href="#"><h3>FILTER BY</h3><img src="img/filter_by.png"/></a></div>
-		</div>
     
 		<div id="map"></div>
+		
+		<div class="header">
+			<!-- <div><a ui-sref="viewProject"><img src="img/back.png"/><p>LOCATION INFO</p></a></div> -->
+			<h3>LOCATION INFO</h3>
+		</div>
+		<br>
+		<form id="editlocationform" name="editlocationform" novalidate ng-submit="submit()" role="form">
+			<div class="form-group">				        
+				<input type="text" required class="form-control npInput" ng-model="location.name" placeholder="Location Name">
+				<button type="submit" id="submit" class="btn btn-default" ng-disabled="editlocationform.$invalid" ng-class="{'btn-disabled': editlocationform.$invalid}">SAVE & CLOSE</button>
+			</div><br>
+			
+			<div class="form-group">				        
+				<select ng-model="selectedExhibit" ng-options="exhibit.name for exhibit in exhibits"></select>
+				<button class="btn btn-default">EDIT POSITION</button>
+			</div><br>
+			
+			<div class='field-label'>
+					<h1 class='label-name'>DESCRIPTION</h1>					
+			</div>
+			
+			<div class="form-group">			
+				<textarea ng-model="location.description"></textarea>
+			</div><br>
+			
+			<div class='field-label'>
+				<div class="switch">
+					<h1 class='label-name'>DIG DEEPER</h1>
+					<input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<label for="cmn-toggle-1"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">				        
+				<textarea ng-model="location.dig_deeper"></textarea>
+			</div><br>
+			
+			<div class='field-label'>
+				<div class="switch">
+					<h1 class='label-name'>MEDIA</h1>
+					<input id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<label for="cmn-toggle-2"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">				        
+				{{"Media will go here"}}
+			</div><br>
+			
+			<div class='field-label'>
+				<div class="switch">
+					<h1 class='label-name'>COMMENTS</h1>
+					<input id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<label for="cmn-toggle-3"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">				        
+				{{"Comments will go here"}}
+			</div><br>
+			
+			
+		</form>
     
 	</div>
     

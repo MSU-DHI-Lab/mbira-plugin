@@ -43,7 +43,7 @@
         <h2 class="project_element_title">LOCATIONS</h2>
         
         <div class="location" ng-repeat='location in locations'}> 
-			<a ui-sref="viewLocation"> <img ng-src="images/{{location.file_path}}" height="130" width="130">
+			<a ui-sref="viewLocation({id: location.id})"> <img ng-src="images/{{location.file_path}}" height="130" width="130">
 				<div class="location_title"><h3>{{location.name}}</h3></div>
 			</a>
 		</div>
