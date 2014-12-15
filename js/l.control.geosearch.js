@@ -177,15 +177,14 @@ L.Control.GeoSearch = L.Control.extend({
     },
 
 	_setLocation: function (location) {
-	console.log(this.options.scope.marker);
 		if(this.options.scope.marker != false){
 			this._map.removeLayer(this.options.scope.marker);
 			this.options.scope.marker = false;
 		}
 	
-		this._location = location;
-		this.options.scope.newLocation.lat = location.Y;
-		this.options.scope.newLocation.lon = location.X;
+		this._location = location;		
+		this.options.location.latitude = location.Y;
+		this.options.location.longitude = location.X;
 		this.options.scope.$apply();
 	},
 	

@@ -1,19 +1,38 @@
 <?php
+require_once('../../pluginsConfig.php');
+$con=mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+// Check connection
+if (mysqli_connect_errno()) {
+  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+}
 
+function deleteRow($con){
+	$id = $_POST['id'];
+	
+	mysqli_query($con,"DELETE FROM mbira_locations WHERE id='$id'");
+}
 
-function createRow() {
-	require_once('../../pluginsConfig.php');
+function updateRow($con){
+	$projectId = $_POST['projectId'];
+	$name = $_POST['name'];
+	$desc = $_POST['description'];
+	$dig_deeper = $_POST['dig_deeper'];
+	$lat = $_POST['latitude'];
+	$lon = $_POST['longitude'];
+	$toggle_dig_deeper = $_POST['toggle_dig_deeper'];
+	$toggle_media = $_POST['toggle_media'];
+	$toggle_comments = $_POST['toggle_comments'];
+	
+	mysqli_query($con,"UPDATE mbira_locations SET name='$name', description='$desc', dig_deeper='$dig_deeper', toggle_comments='$toggle_comments', toggle_dig_deeper='$toggle_dig_deeper', 
+		latitude='$lat', longitude='$lon', toggle_media='$toggle_media' WHERE project_id='$projectId'");
+}
+
+function createRow($con) {
 	$projectId = $_POST['projectId'];
 	$name = $_POST['name'];
 	$desc = $_POST['description'];
 	$lat = $_POST['lat'];
 	$lon = $_POST['lon'];
-	
-	$con=mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-	// Check connection
-	if (mysqli_connect_errno()) {
-	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-	}
 	
 	mysqli_query($con,"INSERT INTO mbira_locations (project_id, name, description, latitude, longitude) VALUES ('$projectId', '$name', '$desc', '$lat', '$lon')");
 		
@@ -25,29 +44,15 @@ function createRow() {
 	}
 }
 
-function uploadFile() {
-	require_once('../../pluginsConfig.php');
-	
+function uploadFile($con) {	
 	$id = $_POST['id'];
 
 	$uploaddir = '../images/';
 	$uploadfile = $uploaddir . basename($_FILES['file']['name']);
 	
-	$con=mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-
-	if (mysqli_connect_errno()) {
-	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-	}
-	
 	move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
 	$path = $_FILES['file']['name'];
 	
-	//$result = mysqli_query($con, "SHOW COLUMNS FROM mbira_locations");
-	//mysqli_query($con, "ALTER TABLE mbira_locations ADD file_path VARCHAR(500)");
-	//while($row = mysqli_fetch_array($result)) {
-	// var_dump($row) ;
-	 //var_dump($row);
-	//}
 	$sql = "UPDATE mbira_locations SET file_path='".$path."' WHERE id=".$id;
 	
 	if (mysqli_query($con, $sql)) {
@@ -55,14 +60,17 @@ function uploadFile() {
 	} else {
 		echo "Error updating record: " . mysqli_error($con);
 	}
-	
-	mysqli_close($con);
 }
 
-
-if(isset($_POST['name'])){
-	createRow();
+if($_POST['task'] == 'create'){
+	createRow($con);
+}else if($_POST['task'] == 'update'){
+	updateRow($con);
+}else if($_POST['task'] == 'delete'){
+	deleteRow($con);
 }else{
-	uploadFile();
+	uploadFile($con);
 }
+
+mysqli_close($con);
 ?>

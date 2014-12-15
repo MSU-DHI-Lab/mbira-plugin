@@ -11,7 +11,7 @@
     
     <div class="projects" ng-controller='viewProjectsCtrl'>
 		<div class="project" ng-repeat='project in projects' ng-click='toProject(project.id)'> 
-			<a ui-sref="viewProject"> 
+			<a ui-sref="viewProject({project: project.id})"> 
 				<img ng-src="images/{{project.image_path}}" height="340" width="340">
 				<div class="project_title"><h3>{{project.name}}</h3></div>
 			</a>

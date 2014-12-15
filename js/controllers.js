@@ -10,7 +10,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "menu_project_all.php"
 	  })
 	  .state('viewProject', {
-	    url: "/viewProject",
+	    url: "/viewProject/?project",
 	    templateUrl: "project_single.php"
 	  })	  
 	  .state('newProject', {
@@ -26,7 +26,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "exhibit_new.html"
 	  })
 	  .state('viewLocation', {
-	    url: "/viewLocation/?id",
+	    url: "/viewLocation/?project&location",
 	    templateUrl: "location_single.html"
 	  })
 	  .state('newLocation', {
@@ -65,19 +65,26 @@ mbira.factory('projectID', function(){
 });
 
 mbira.factory('setMap', function(){	
-	var map = L.map('map').setView([42.7404566603398, -84.5452880859375], 13);
+	return {
+		set: function(lat, lon){
+			var map = L.map('map').setView([lat, lon], 13);
 
-	L.tileLayer('https://{s}.tiles.mapbox.com/v3/austintruchan.jb1pjhel/{z}/{x}/{y}.png', {
-		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-		maxZoom: 18
-	}).addTo(map);
+			L.tileLayer('https://{s}.tiles.mapbox.com/v3/austintruchan.jb1pjhel/{z}/{x}/{y}.png', {
+				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+				maxZoom: 18
+			}).addTo(map);
+			
+			map.invalidateSize(false);
+			return map;
+		}
+	}
 	
-	map.invalidateSize(false);
-	return map;
 });
 
 mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap){
 	var app = this;
+	var map;
+	$scope.newMedia = false;
 	
 	$scope.exhibits = [
       {name:'EXHIBIT 1'},
@@ -87,31 +94,155 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
       {name:'EXHIBIT 5'}
     ];
     $scope.selectedExhibit = $scope.exhibits[0]; 
-
+	$scope.project = $stateParams.project;
+	
+	//load location info
 	$http({
 		method: 'POST',
 		url: "ajax/getLocationInfo.php",
 		data: $.param({
-				id: $stateParams.id
+				id: $stateParams.location
 			}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
-		  $scope.location = data;
-		  var map = setMap;
-		  $scope.marker = L.marker([data.latitude, data.longitude]).addTo(map);
+		$scope.location = data;
+		map = setMap.set(data.latitude, data.longitude);
+		$scope.marker = L.marker([data.latitude, data.longitude]).addTo(map);
+
+		if($scope.location.toggle_comments == 'true'){
+			$scope.location.toggle_comments = true;
+		}else{
+			$scope.location.toggle_comments = false;
+		}
+		if($scope.location.toggle_media == 'true'){
+			$scope.location.toggle_media = true;
+		}else{
+			$scope.location.toggle_media = false;
+		}
+		if($scope.location.toggle_dig_deeper == 'true'){
+			$scope.location.toggle_dig_deeper = true;
+		}else{
+			$scope.location.toggle_dig_deeper = false;
+		}
+		  
+		 $http({
+			method: 'POST',
+			url: "ajax/getMedia.php",
+			data: $.param({
+						location_id: $stateParams.location
+					}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			$scope.media = data;
+			console.log($scope.media);
+		})
 	})
+	
+	$scope.onFileSelect = function($files) {
+		if($files.length > 1) {
+			alert("Only upload one image for the thumbnail.");
+		}else{
+		  $scope.file = $files[0];		  
+		}
+	};
+	
+	$scope.submitMedia = function(){
+		$scope.upload = $upload.upload({
+				url: 'ajax/saveMedia.php',
+				method: 'POST',
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				data: {location_id: $stateParams.location},
+				file: $scope.file
+			  }).success(function(data, status, headers, config) {
+					$http({
+						method: 'POST',
+						url: "ajax/getMedia.php",
+						data: $.param({
+									location_id: $stateParams.location
+								}),
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					}).success(function(data){
+						$scope.media = data;
+					})
+			  });
+	}
+	
+	$scope.editPosition = function(){
+		$scope.active = true;
+		
+		$scope.search = new L.Control.GeoSearch({
+			provider: new L.GeoSearch.Provider.OpenStreetMap(),
+			position: 'topcenter',
+			showMarker: true,
+			scope: $scope,
+			location: $scope.location,
+			map: map
+		}).addTo(map);
+
+		map.on('click', function(e) 
+		{console.log(e);
+			if($scope.marker != false){
+				map.removeLayer($scope.marker);
+				$scope.marker = false;
+			}
+			if($scope.search._positionMarker){
+				map.removeLayer($scope.search._positionMarker);
+			}
+			$scope.location.latitude = e.latlng.lat;
+			$scope.location.longitude = e.latlng.lng;
+			
+			$scope.marker = L.marker(e.latlng).addTo(map);
+			$scope.$apply();
+		});
+	}
+	
+	//Handle "save and close"
+	$scope.submit = function(){
+		$http({
+			method: 'POST',
+			url: "ajax/saveLocation.php",
+			data: $.param({
+						task: 'update',
+						projectId: $scope.project,
+						name: $scope.location.name,
+						description: $scope.location.description,
+						dig_deeper: $scope.location.dig_deeper,
+						latitude: $scope.location.latitude,
+						longitude: $scope.location.longitude,
+						toggle_media: $scope.location.toggle_media,
+						toggle_dig_deeper: $scope.location.toggle_dig_deeper,
+						toggle_comments: $scope.location.toggle_comments
+					}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			//$state.go("viewProject/?project="+$stateParams.project+"})");
+			location.href = "#/viewProject/?project="+$stateParams.project;
+		})
+	}
+	
+	$scope.delete = function(){
+		$http({
+		method: 'POST',
+		url: "ajax/saveLocation.php",
+		data: $.param({
+				task: "delete",
+				id: $stateParams.location
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			  location.href = "#/viewProject/?project="+$stateParams.project;
+		})
+	}
 });
 
-mbira.controller("singleProjectCtrl", function ($scope, $http, projectID){
+mbira.controller("singleProjectCtrl", function ($scope, $http, $stateParams){
 	var app = this;
-	
-	$scope.ID = projectID.getID();
 	
 	$http({
 		method: 'POST',
 		url: "ajax/getProjectInfo.php",
 		data: $.param({
-				id: $scope.ID
+				id: $stateParams.project
 			}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
@@ -136,7 +267,7 @@ mbira.controller("viewProjectsCtrl", function ($scope, $http, projectID){
 	}
 });
 
-mbira.controller("newProjectCtrl", function ($scope, $http, $upload){
+mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 	var app = this;
 	$scope.file;
 	
@@ -171,7 +302,7 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload){
 				data: {id: data, name_kora: $scope.newProject.name, description: $scope.newProject.description, admin: 'koraadmin'},
 				file: $scope.file
 			  }).success(function(data, status, headers, config) {
-					location.reload();
+					$state.go("projects");
 			  });
 	    })
 	}
@@ -204,6 +335,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, projectID)
 			method: 'POST',
 			url: "ajax/saveLocation.php",
 			data: $.param({
+						task: 'create',
 						projectId: $scope.ID,
 						name: $scope.newLocation.name,
 						description: $scope.newLocation.description,
@@ -237,6 +369,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, projectID)
 		position: 'topcenter',
 		showMarker: true,
 		scope: $scope,
+		location: $scope.newLocation,
 		map: map
 	}).addTo(map);
 	
