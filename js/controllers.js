@@ -30,7 +30,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "location_single.html"
 	  })
 	  .state('newLocation', {
-	    url: "/newLocation",
+	    url: "/newLocation/?project",
 	    templateUrl: "location_new.html"
 	  })
 	  .state('viewArea', {
@@ -308,18 +308,18 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 	}
 });
 	
-mbira.controller("newLocationCtrl", function ($scope, $http, $upload, projectID){
+mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams){
 	var app = this;
 	$scope.marker = false;
 	$scope.file;
-	$scope.ID = projectID.getID();
+	$scope.ID = $stateParams.project;
 
 	$scope.newLocation = {
 		name: "",
 		descrition: "",
 		file: "",
-		lat: '',
-		lon: ''
+		latitude: '',
+		longitude: ''
 	}
 	
 	$scope.onFileSelect = function($files) {
@@ -339,16 +339,16 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, projectID)
 						projectId: $scope.ID,
 						name: $scope.newLocation.name,
 						description: $scope.newLocation.description,
-						lat: $scope.newLocation.lat,
-						lon: $scope.newLocation.lon
+						lat: $scope.newLocation.latitude,
+						lon: $scope.newLocation.longitude
 					}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
-			  $scope.upload = $upload.upload({
+			  $scope.upload = $upload.upload({				
 				url: 'ajax/saveLocation.php',
 				method: 'POST',
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-				data: {id: data},
+				data: {task: 'upload', id: data},
 				file: $scope.file
 			  }).success(function(data, status, headers, config) {
 					location.reload();
@@ -383,11 +383,10 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, projectID)
 		if($scope.search._positionMarker){
 			map.removeLayer($scope.search._positionMarker);
 		}
-		$scope.newLocation.lat = e.latlng.lat;
-		$scope.newLocation.lon = e.latlng.lng;
+		$scope.newLocation.latitude = e.latlng.lat;
+		$scope.newLocation.longitude = e.latlng.lng;
 		
 		$scope.marker = L.marker(e.latlng).addTo(map);
-		console.log($scope.marker);
 		$scope.$apply();
 	});
 	//</MAP_STUFF>

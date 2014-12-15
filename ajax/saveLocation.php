@@ -68,7 +68,7 @@ if($_POST['task'] == 'create'){
 	updateRow($con);
 }else if($_POST['task'] == 'delete'){
 	deleteRow($con);
-}else{
+}else if($_POST['task'] == 'upload') {
 	uploadFile($con);
 }
 

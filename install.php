@@ -26,12 +26,16 @@
 	$sql = "CREATE TABLE `$dbname`.`mbira_locations`(
 	`id` INTEGER (11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`project_id` INTEGER(11),
-	`name` VARCHAR(200) NOT NULL,
-	`description` VARCHAR(500),
 	`exhibit_id` INTEGER(11),
+	`name` VARCHAR(200) NOT NULL,
+	`description` VARCHAR(10000),	
+	`dig_deeper` VARCHAR(10000),	
 	`latitude` VARCHAR(100),
 	`longitude` VARCHAR(100),
 	`file_path` VARCHAR(500),
+	`toggle_dig_deeper` VARCHAR(45) NULL DEFAULT 'true',
+	`toggle_media` VARCHAR(45) NULL DEFAULT 'true',
+	`toggle_comments` VARCHAR(45) NULL DEFAULT 'true',
 	PRIMARY KEY (`id`)
 	)";
 	
@@ -40,28 +44,20 @@
 	} else {
 		echo "Error creating table: " . mysqli_error($con);
 	}
-
-	//MORE TABLES!!
 	
-/* 	if (mysqli_query($con, $sql)) {
-		echo "Table mbira_projects created successfully";
+	// sql to create table
+	$sql = "CREATE TABLE `$dbname`.`mbira_media`(
+	`id` INTEGER (11) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`location_id` INTEGER(11),
+	`file_path` VARCHAR(500),
+	PRIMARY KEY (`id`)
+	)";
+	
+	if (mysqli_query($con, $sql)) {
+		echo "Table mbira_media created successfully";
 	} else {
 		echo "Error creating table: " . mysqli_error($con);
 	}
-	
-	$sql = "CREATE TABLE `$dbname`.`mbira_ projects`(
-	`id` INTEGER (10) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`name` VARCHAR(5000) NOT NULL,
-	`description` VARCHAR(5000) NOT NULL,
-	`image_path` VARCHAR(300) NOT NULL,
-	PRIMARY KEY (`id`)
-	)";
-
-	if (mysqli_query($con, $sql)) {
-		echo "Table mbira_projects created successfully";
-	} else {
-		echo "Error creating table: " . mysqli_error($con);
-	} */
 
 	mysqli_close($con);
 ?>
