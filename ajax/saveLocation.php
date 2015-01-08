@@ -1,17 +1,22 @@
 <?php
 require_once('../../pluginsConfig.php');
+require_once(basePathPlugin.'includes/includes.php');
+
 $con=mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+
 // Check connection
 if (mysqli_connect_errno()) {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
+//Delete location
 function deleteRow($con){
 	$id = $_POST['id'];
 	
 	mysqli_query($con,"DELETE FROM mbira_locations WHERE id='$id'");
 }
 
+//Update location
 function updateRow($con){
 	$projectId = $_POST['projectId'];
 	$name = $_POST['name'];
@@ -27,6 +32,7 @@ function updateRow($con){
 		latitude='$lat', longitude='$lon', toggle_media='$toggle_media' WHERE project_id='$projectId'");
 }
 
+//Add new location
 function createRow($con) {
 	$projectId = $_POST['projectId'];
 	$name = $_POST['name'];
@@ -34,33 +40,43 @@ function createRow($con) {
 	$lat = $_POST['lat'];
 	$lon = $_POST['lon'];
 	
-	mysqli_query($con,"INSERT INTO mbira_locations (project_id, name, description, latitude, longitude) VALUES ('$projectId', '$name', '$desc', '$lat', '$lon')");
-		
-	$result = mysqli_query($con, "SELECT * FROM mbira_locations ORDER BY id DESC LIMIT 1;");
-	
-	while($row = mysqli_fetch_array($result)) {
-	 echo $row['id'];
-	 //var_dump($row);
-	}
-}
-
-function uploadFile($con) {	
-	$id = $_POST['id'];
-
+	//Save image
 	$uploaddir = '../images/';
 	$uploadfile = $uploaddir . basename($_FILES['file']['name']);
 	
 	move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
 	$path = $_FILES['file']['name'];
 	
-	$sql = "UPDATE mbira_locations SET file_path='".$path."' WHERE id=".$id;
+	//Create row in mbira_locations
+	mysqli_query($con,"INSERT INTO mbira_locations (project_id, name, description, latitude, longitude, file_path) VALUES ('$projectId', '$name', '$desc', '$lat', '$lon', '$path')");
 	
-	if (mysqli_query($con, $sql)) {
-		echo "Record updated successfully";
-	} else {
-		echo "Error updating record: " . mysqli_error($con);
+	
+	//Create and ingest location record to kora
+	$pid = 52;
+	$result = mysqli_query($con, "SELECT * FROM scheme WHERE schemeName = 'Location' AND pid = " . $pid);
+	
+	while($row = mysqli_fetch_array($result)) {
+		$sid = $row['schemeid'];
 	}
+	
+	$xml = Array();
+	$xml["Name"] = $name;
+	$xml["Description"] = $desc;
+	$xml["Longitude"] = $lon;
+	$xml["Latitude"] = $lat;
+	
+	// "<Record>
+	// <id>'$rid'</id> 
+	// <Name>'$name'</Name> 
+	// <Description>'$desc'</Description> 
+	// <Longitude>'$lat'</Longitude> 
+	// <Latitude>'$lon'</Latitude> 
+	// </Record>"
+
+	$record = new Record($pid, $sid);
+	$record -> ingest($xml);
 }
+
 
 if($_POST['task'] == 'create'){
 	createRow($con);
@@ -68,8 +84,6 @@ if($_POST['task'] == 'create'){
 	updateRow($con);
 }else if($_POST['task'] == 'delete'){
 	deleteRow($con);
-}else if($_POST['task'] == 'upload') {
-	uploadFile($con);
 }
 
 mysqli_close($con);

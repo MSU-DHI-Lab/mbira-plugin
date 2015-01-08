@@ -10,7 +10,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "menu_project_all.php"
 	  })
 	  .state('viewProject', {
-	    url: "/viewProject/?project",
+	    url: "/viewProject/?project&pid",
 	    templateUrl: "project_single.php"
 	  })	  
 	  .state('newProject', {
@@ -34,11 +34,11 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "location_new.html"
 	  })
 	  .state('viewArea', {
-	    url: "/viewArea",
+	    url: "/viewArea/?project&area",
 	    templateUrl: "area_single.html"
 	  })
 	  .state('newArea', {
-	    url: "/newArea",
+	    url: "/newArea/?project",
 	    templateUrl: "area_new.html"
 	  })
 	  .state('viewExploration', {
@@ -51,20 +51,8 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	  })
 });
 
-mbira.factory('projectID', function(){
-	var ID = ''
-	
-	return {
-		getID: function () {
-			return ID;
-		},
-		setID: function (newID) {
-			ID = newID;
-		}
-	};
-});
-
 mbira.factory('setMap', function(){	
+	//initialize map
 	return {
 		set: function(lat, lon){
 			var map = L.map('map').setView([lat, lon], 13);
@@ -82,10 +70,10 @@ mbira.factory('setMap', function(){
 });
 
 mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap){
-	var app = this;
 	var map;
 	$scope.newMedia = false;
 	
+	//todo when exhibits are ready --- populates exhibits dropdown
 	$scope.exhibits = [
       {name:'EXHIBIT 1'},
       {name:'EXHIBIT 2'},
@@ -105,10 +93,14 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
+		//Put location in scope
 		$scope.location = data;
+		
+		//Set up map
 		map = setMap.set(data.latitude, data.longitude);
 		$scope.marker = L.marker([data.latitude, data.longitude]).addTo(map);
 
+		//Set switches
 		if($scope.location.toggle_comments == 'true'){
 			$scope.location.toggle_comments = true;
 		}else{
@@ -124,8 +116,9 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 		}else{
 			$scope.location.toggle_dig_deeper = false;
 		}
-		  
-		 $http({
+		
+		//Get media from mbira_media table --- nesting this probably not the best way to do it
+		$http({
 			method: 'POST',
 			url: "ajax/getMedia.php",
 			data: $.param({
@@ -134,10 +127,10 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
 			$scope.media = data;
-			console.log($scope.media);
 		})
 	})
 	
+	//Get file to be uploaded
 	$scope.onFileSelect = function($files) {
 		if($files.length > 1) {
 			alert("Only upload one image for the thumbnail.");
@@ -146,6 +139,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 		}
 	};
 	
+	//Submit media
 	$scope.submitMedia = function(){
 		$scope.upload = $upload.upload({
 				url: 'ajax/saveMedia.php',
@@ -154,6 +148,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 				data: {location_id: $stateParams.location},
 				file: $scope.file
 			  }).success(function(data, status, headers, config) {
+					//Get media from mbira_media table --- nesting this probably not the best way to do it
 					$http({
 						method: 'POST',
 						url: "ajax/getMedia.php",
@@ -167,9 +162,12 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			  });
 	}
 	
+	//Allow position to be changed
 	$scope.editPosition = function(){
+		//Open new position fields
 		$scope.active = true;
 		
+		//Setup location search bar on map
 		$scope.search = new L.Control.GeoSearch({
 			provider: new L.GeoSearch.Provider.OpenStreetMap(),
 			position: 'topcenter',
@@ -179,8 +177,8 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			map: map
 		}).addTo(map);
 
-		map.on('click', function(e) 
-		{console.log(e);
+		//Allow clicking to set marker and save location from click in scope
+		map.on('click', function(e) {
 			if($scope.marker != false){
 				map.removeLayer($scope.marker);
 				$scope.marker = false;
@@ -198,6 +196,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 	
 	//Handle "save and close"
 	$scope.submit = function(){
+		//Save
 		$http({
 			method: 'POST',
 			url: "ajax/saveLocation.php",
@@ -215,11 +214,12 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 					}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
-			//$state.go("viewProject/?project="+$stateParams.project+"})");
+			//Close (return to project)
 			location.href = "#/viewProject/?project="+$stateParams.project;
 		})
 	}
 	
+	//Delete location
 	$scope.delete = function(){
 		$http({
 		method: 'POST',
@@ -230,14 +230,88 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
-			  location.href = "#/viewProject/?project="+$stateParams.project;
+			//return to projecct
+			location.href = "#/viewProject/?project="+$stateParams.project;
 		})
 	}
 });
 
-mbira.controller("singleProjectCtrl", function ($scope, $http, $stateParams){
-	var app = this;
+mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap){
+
+	//Copied form singleLocationCtrl but not done yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	var map;
+
+	//load area info
+	$http({
+		method: 'POST',
+		//getAreaInfo.php doesn't exist yet!!!!!!!!!!!!!!!!
+		url: "ajax/getAreaInfo.php",
+		data: $.param({
+				id: $stateParams.area
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		//Put area in scope
+		$scope.area = data;
+		
+		$scope.coordinates = JSON.parse(data.coordinates);
+		
+		//Set up map
+		map = setMap.set($scope.coordinates[0][0], $scope.coordinates[0][1]);
+		
+		if(data.shape == 'polygon'){
+			//Create polygon from array of coordinates 
+			$scope.polygon = L.polygon($scope.coordinates).addTo(map);
+		}else if(data.shape == 'circle'){
+			$scope.circle = L.circle($scope.coordinates[0], data.radius, {
+				color: 'red',
+				fillColor: '#f03',
+				fillOpacity: 0.5
+			}).addTo(map);
+		}
+	})
 	
+	//Handle "save and close"
+	$scope.submit = function(){
+		//Save
+		$http({
+			method: 'POST',
+			//saveArea.php only creates row, doesn't update or delete yet!!!!!
+			url: "ajax/saveArea.php",
+			data: $.param({
+						task: 'update',
+						projectId: $scope.project,
+						name: $scope.area.name,
+						description: $scope.area.description,
+					}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			//Close (return to project)
+			location.href = "#/viewProject/?project="+$stateParams.project;
+		})
+	}
+	
+	//Allow area to be changed --- NOT DONE!!!!!
+	$scope.editArea = function(){
+		//Open new position fields
+		$scope.active = true;
+		
+		//Setup location search bar on map
+		$scope.search = new L.Control.GeoSearch({
+			provider: new L.GeoSearch.Provider.OpenStreetMap(),
+			position: 'topcenter',
+			showMarker: true,
+			scope: $scope,
+			location: $scope.location,
+			map: map
+		}).addTo(map);
+	}
+});
+
+mbira.controller("singleProjectCtrl", function ($scope, $http, $stateParams){
+	
+	//Get single project info
 	$http({
 		method: 'POST',
 		url: "ajax/getProjectInfo.php",
@@ -246,14 +320,15 @@ mbira.controller("singleProjectCtrl", function ($scope, $http, $stateParams){
 			}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
-		  $scope.project = data[0];
-		  $scope.locations = data[1];
+		//Set to scope
+		$scope.project = data[0];
+		$scope.locations = data[1];
+		$scope.areas = data[2];
 	})
 });
 
-mbira.controller("viewProjectsCtrl", function ($scope, $http, projectID){
-	var app = this;
-	
+mbira.controller("viewProjectsCtrl", function ($scope, $http){
+	//Get all projects
 	$http({
 		method: 'GET',
 		url: "ajax/getProjects.php",
@@ -261,22 +336,19 @@ mbira.controller("viewProjectsCtrl", function ($scope, $http, projectID){
 	}).success(function(data){
 		  $scope.projects = data;
 	})
-	
-	$scope.toProject = function(ID){
-		projectID.setID(ID);	
-	}
 });
 
 mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
-	var app = this;
 	$scope.file;
 	
+	//model for new project
 	$scope.newProject = {
 	    name: "",
 		descrition: "",
 		file: ""
 	}
 	
+	//Get file to be uploaded
 	$scope.onFileSelect = function($files) {
 		if($files.length > 1) {
 			alert("Only upload one image for the thumbnail.");
@@ -285,35 +357,50 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 		}
 	};
 	
+	//Submit new project
 	$scope.submit = function() {
-		$http({
-		    method: 'POST',
-		    url: "ajax/process.php",
-		    data: $.param({
-		    			name: $scope.newProject.name,
-		    			description: $scope.newProject.description,
-		    		}),
-		    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-	    }).success(function(data){
-			  $scope.upload = $upload.upload({
-				url: 'ajax/process.php',
+		$scope.upload = $upload.upload({
+			url: 'ajax/process.php',
+			method: 'POST',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: {name: $scope.newProject.name, description: $scope.newProject.description},
+			file: $scope.file
+		}).success(function(data) {	
+			/* var fd = new FormData();
+			fd.append('pid', data);
+			fd.append('schemeSubmit','true');
+			fd.append('action','CreateScheme');
+			fd.append('source','ProjectFunctions');
+			fd.append('schemeName', "Location");
+			fd.append('description', "Default Scheme");
+			fd.append('preset', 0);
+			fd.append('publicIngestion', 0);
+			fd.append('legal', "");
+			
+			$http({
 				method: 'POST',
-				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-				data: {id: data, name_kora: $scope.newProject.name, description: $scope.newProject.description, admin: 'koraadmin'},
-				file: $scope.file
-			  }).success(function(data, status, headers, config) {
-					$state.go("projects");
-			  });
-	    })
+				url: "../../ajax/project.php",
+				data: fd, /* $.param({
+					data: fd
+				}), 
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).success(function(data){
+				
+			}) */
+			
+			//return to all projects page
+			$state.go("projects");
+		});
 	}
 });
 	
-mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams){
-	var app = this;
+mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
 	$scope.marker = false;
 	$scope.file;
 	$scope.ID = $stateParams.project;
+	$scope.param = $stateParams.project;
 
+	//new location model
 	$scope.newLocation = {
 		name: "",
 		descrition: "",
@@ -322,6 +409,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		longitude: ''
 	}
 	
+	//Get file to be uploaded
 	$scope.onFileSelect = function($files) {
 		if($files.length > 1) {
 			alert("Only upload one image for the thumbnail.");
@@ -330,40 +418,32 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		}
 	};
 	
-	$scope.submit = function() {
-		$http({
+	//submit new location
+	$scope.submit = function() {		
+		$scope.upload = $upload.upload({				
+			url: 'ajax/saveLocation.php',
 			method: 'POST',
-			url: "ajax/saveLocation.php",
-			data: $.param({
-						task: 'create',
-						projectId: $scope.ID,
-						name: $scope.newLocation.name,
-						description: $scope.newLocation.description,
-						lat: $scope.newLocation.latitude,
-						lon: $scope.newLocation.longitude
-					}),
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).success(function(data){
-			  $scope.upload = $upload.upload({				
-				url: 'ajax/saveLocation.php',
-				method: 'POST',
-				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-				data: {task: 'upload', id: data},
-				file: $scope.file
-			  }).success(function(data, status, headers, config) {
-					location.reload();
-			  });
-		})
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: { 
+					task: 'create',
+					projectId: $scope.ID,
+					name: $scope.newLocation.name,
+					description: $scope.newLocation.description,
+					lat: $scope.newLocation.latitude,
+					lon: $scope.newLocation.longitude
+				},
+			file: $scope.file
+		}).success(function(data) {
+			//return to project
+			//location.href = "#/viewProject/?project="+$stateParams.project;
+		});
 	};
 	
 	//<MAP_STUFF>
-	var map = L.map('map').setView([42.7404566603398, -84.5452880859375], 13);
+	//initialize map
+	var map = setMap.set(42.7404566603398, -84.5452880859375);
 
-	L.tileLayer('https://{s}.tiles.mapbox.com/v3/austintruchan.jb1pjhel/{z}/{x}/{y}.png', {
-		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-		maxZoom: 18
-	}).addTo(map);
-
+	//initialize search bar
 	$scope.search = new L.Control.GeoSearch({
 		provider: new L.GeoSearch.Provider.OpenStreetMap(),
 		position: 'topcenter',
@@ -372,9 +452,8 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		location: $scope.newLocation,
 		map: map
 	}).addTo(map);
-	
-	map.invalidateSize(false);
 
+	//Click to set marker and save location to scope
 	map.on('click', function(e) {
 		if($scope.marker != false){
 			map.removeLayer($scope.marker);
@@ -389,5 +468,141 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		$scope.marker = L.marker(e.latlng).addTo(map);
 		$scope.$apply();
 	});
+	//</MAP_STUFF>
+});
+
+mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, setMap){
+	
+	$scope.marker = false;
+	$scope.mark = '';
+	$scope.file;
+	$scope.ID = $stateParams.project;
+	$scope.markers = [];
+	$scope.radius = '300';
+	$scope.polygon = '';
+	$scope.circle = '';
+
+	//new area model
+	$scope.newArea = {
+		name: "",
+		descrition: "",
+		file:"",
+		shape: "",
+		radius: "",
+		coordinates: []
+	}
+	
+	//Get file to be uploaded
+	$scope.onFileSelect = function($files) {
+		if($files.length > 1) {
+			alert("Only upload one image for the thumbnail.");
+		}else{
+		  $scope.file = $files[0];  
+		}
+	};
+	
+	//submit new area
+	$scope.submit = function() {
+		$scope.upload = $upload.upload({
+			url: 'ajax/saveArea.php',
+			method: 'POST',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: {
+				task: 'create',
+				projectId: $scope.ID,
+				name: $scope.newArea.name,
+				description: $scope.newArea.description,
+				shape: $scope.newArea.shape,
+				radius: $scope.newArea.radius,
+				coordinates: $scope.newArea.coordinates
+			},
+			file: $scope.file
+		}).success(function(data, status, headers, config) {
+			//return to project
+			location.href = "#/viewProject/?project="+$scope.ID;
+		});
+	};
+	
+	//Reset markers on map
+	$scope.clearMarkers = function(){
+		$scope.markers.forEach(function(mark){
+			map.removeLayer(mark);
+		})
+		$scope.newArea.coordinates = [];
+		$scope.markers = [];
+		
+		$scope.newArea.shape = '';
+		
+		map.removeLayer($scope.polygon);
+		map.removeLayer($scope.circle);
+	}
+	
+	//Create polygon out of multiple markers
+	$scope.createPolygon = function(){
+		//remove any markers and shapes already there
+		$scope.markers.forEach(function(mark){
+			map.removeLayer(mark);
+		})
+		map.removeLayer($scope.polygon);
+		map.removeLayer($scope.circle);
+		
+		//Create polygon from array of coordinates 
+		$scope.polygon = L.polygon($scope.newArea.coordinates).addTo(map);
+		
+		//reset array of markers
+		$scope.markers = [];
+		
+		//set shape
+		$scope.newArea.shape = 'polygon';
+	}
+	
+	//Create polygon out of single marker
+	$scope.createCircle = function(radius){
+		//remove any markers and shapes already there
+		$scope.markers.forEach(function(mark){
+			map.removeLayer(mark);
+		})
+		map.removeLayer($scope.polygon);
+		map.removeLayer($scope.circle);
+		
+		//create circle from coordinate
+		$scope.circle = L.circle($scope.newArea.coordinates[0], radius, {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5
+		}).addTo(map);
+		
+		$scope.newArea.radius = radius;
+		
+		//reset array of markers
+		$scope.markers = [];
+		
+		//set shape
+		$scope.newArea.shape = 'circle';
+	}
+	
+	//<MAP_STUFF>
+	//initialize map
+	var map = setMap.set(42.7404566603398, -84.5452880859375);
+
+	//initialize search bar
+	$scope.search = new L.Control.GeoSearch({
+		provider: new L.GeoSearch.Provider.OpenStreetMap(),
+		position: 'topcenter',
+		showMarker: false,
+		scope: $scope,
+		location: $scope.mark,
+		map: map
+	}).addTo(map);
+
+	//Click to set marker and save location to scope
+	map.on('click', function(e) {
+		$scope.newArea.coordinates.push([e.latlng.lat, e.latlng.lng]);
+		var marker = L.marker(e.latlng).addTo(map);
+		marker.bindPopup(e.latlng.lat+", "+e.latlng.lng);
+		$scope.markers.push(marker);
+		$scope.$apply(); 
+	});
+	
 	//</MAP_STUFF>
 });

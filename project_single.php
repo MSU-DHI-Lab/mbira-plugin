@@ -60,23 +60,17 @@
     
     
       <!--PROJECT AREAS-->
-    <div class="areas">
-        
+    <div class="areas">    
         <h2 class="project_element_title">AREAS</h2>
         
-        <div class="area"> <a ui-sref="viewArea"> <img src="img/" height="130" width="130">
-            <div class="area_title"><h3>AREA NAME</h3></div></a></div>
+		<div class="area" ng-repeat='area in areas'}> 
+			<a ui-sref="viewArea({project: project.id, area: area.id})"> 
+				<img ng-src="images/{{area.file_path}}" height="130" width="130">
+				<div class="area_title"><h3>{{area.name}}</h3></div>
+			</a>
+		</div>
         
-        <div class="area"> <a ui-sref="viewArea"> <img src="img/" height="130" width="130">
-            <div class="area_title"><h3>AREA NAME</h3></div></a></div>
-        
-        <div class="area"> <a ui-sref="viewArea"> <img src="img/" height="130" width="130">
-            <div class="area_title"><h3>AREA NAME</h3></div></a></div>
-        
-        <div class="area"> <a ui-sref="viewArea"> <img src="img/" height="130" width="130">
-            <div class="area_title"><h3>AREA NAME</h3></div></a></div>        
-        
-        <div class="area_new"> <a ui-sref="newArea"><img src="img/project_new_plus_icon_small.png" height="130" width="130">
+        <div class="area_new"> <a ui-sref="newArea({project: project.id})"><img src="img/project_new_plus_icon_small.png" height="130" width="130">
             <div class="area_title_new"><h3>NEW AREA</h3></div></a></div>
 	</div>
     
