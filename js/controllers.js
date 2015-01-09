@@ -239,6 +239,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap){
 
 	//Copied form singleLocationCtrl but not done yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//Use singleLocationCtrl as a model for this
 
 	var map;
 
@@ -368,28 +369,6 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 			data: {name: $scope.newProject.name, description: $scope.newProject.description},
 			file: $scope.file
 		}).success(function(data) {	
-			/* var fd = new FormData();
-			fd.append('pid', data);
-			fd.append('schemeSubmit','true');
-			fd.append('action','CreateScheme');
-			fd.append('source','ProjectFunctions');
-			fd.append('schemeName', "Location");
-			fd.append('description', "Default Scheme");
-			fd.append('preset', 0);
-			fd.append('publicIngestion', 0);
-			fd.append('legal', "");
-			
-			$http({
-				method: 'POST',
-				url: "../../ajax/project.php",
-				data: fd, /* $.param({
-					data: fd
-				}), 
-				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-			}).success(function(data){
-				
-			}) */
-			
 			//return to all projects page
 			$state.go("projects");
 		});
