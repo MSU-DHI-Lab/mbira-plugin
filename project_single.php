@@ -51,7 +51,7 @@
         
         
         <div class="location_new"> 
-			<a ui-sref="newLocation({project: project.id})">
+			<a ui-sref="newLocation({project: project.id, pid: pid})">
 				<img src="img/project_new_plus_icon_small.png" height="130" width="130">
 				<div class="location_title_new"><h3>NEW LOCATION</h3></div>
 			</a>

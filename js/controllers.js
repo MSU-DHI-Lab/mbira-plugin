@@ -12,7 +12,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	  .state('viewProject', {
 	    url: "/viewProject/?project&pid",
 	    templateUrl: "project_single.php"
-	  })	  
+	  })
 	  .state('newProject', {
 	    url: "/newProject",
 	    templateUrl: "menu_project_new.php"
@@ -30,7 +30,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "location_single.html"
 	  })
 	  .state('newLocation', {
-	    url: "/newLocation/?project",
+	    url: "/newLocation/?project&pid",
 	    templateUrl: "location_new.html"
 	  })
 	  .state('viewArea', {
@@ -245,7 +245,6 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 	//load area info
 	$http({
 		method: 'POST',
-		//getAreaInfo.php doesn't exist yet!!!!!!!!!!!!!!!!
 		url: "ajax/getAreaInfo.php",
 		data: $.param({
 				id: $stateParams.area
@@ -255,6 +254,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 		//Put area in scope
 		$scope.area = data;
 		
+		//Parse string to get array  of coorinates
 		$scope.coordinates = JSON.parse(data.coordinates);
 		
 		//Set up map
@@ -264,6 +264,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 			//Create polygon from array of coordinates 
 			$scope.polygon = L.polygon($scope.coordinates).addTo(map);
 		}else if(data.shape == 'circle'){
+			//Create circle from coordinates
 			$scope.circle = L.circle($scope.coordinates[0], data.radius, {
 				color: 'red',
 				fillColor: '#f03',
@@ -310,6 +311,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 });
 
 mbira.controller("singleProjectCtrl", function ($scope, $http, $stateParams){
+	$scope.pid = $stateParams.pid;
 	
 	//Get single project info
 	$http({
@@ -360,7 +362,7 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 	//Submit new project
 	$scope.submit = function() {
 		$scope.upload = $upload.upload({
-			url: 'ajax/process.php',
+			url: 'ajax/saveProject.php',
 			method: 'POST',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data: {name: $scope.newProject.name, description: $scope.newProject.description},
@@ -396,7 +398,6 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 	
 mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
 	$scope.marker = false;
-	$scope.file;
 	$scope.ID = $stateParams.project;
 	$scope.param = $stateParams.project;
 
@@ -427,6 +428,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 			data: { 
 					task: 'create',
 					projectId: $scope.ID,
+					pid: $stateParams.pid,
 					name: $scope.newLocation.name,
 					description: $scope.newLocation.description,
 					lat: $scope.newLocation.latitude,

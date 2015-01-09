@@ -7,9 +7,10 @@
 	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	}
 	
-	// sql to create table
+	//mbira_projects
 	$sql = "CREATE TABLE `$dbname`.`mbira_projects`(
 	`id` INTEGER (10) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`pid` INTEGER(11),
 	`name` VARCHAR(5000),
 	`description` VARCHAR(5000),
 	`image_path` VARCHAR(300),
@@ -22,7 +23,7 @@
 		echo "Error creating table: " . mysqli_error($con);
 	}
 	
-	// sql to create table
+	//mbira_locations
 	$sql = "CREATE TABLE `$dbname`.`mbira_locations`(
 	`id` INTEGER (11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`project_id` INTEGER(11),
@@ -47,7 +48,7 @@
 		echo "Error creating table: " . mysqli_error($con);
 	}
 	
-	// sql to create table
+	//mbira_media
 	$sql = "CREATE TABLE `$dbname`.`mbira_media`(
 	`id` INTEGER (11) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`location_id` INTEGER(11),
@@ -61,18 +62,21 @@
 		echo "Error creating table: " . mysqli_error($con);
 	}
 	
+	//mbira_areas
 	$sql = "CREATE TABLE `$dbname`.`mbira_areas` (
 	`id` INT NOT NULL AUTO_INCREMENT,
 	`project_id` INT NULL,
 	`exhibit_id` INT NULL,
 	`name` VARCHAR(500) NULL,
 	`description` VARCHAR(10000) NULL,
-	`coordinates` VARCHAR(1000) NULL,
+	`coordinates` VARCHAR(10000) NULL,
+	`radius` VARCHAR(100) NULL,
 	`shape` VARCHAR(45) NULL,
+	`file_path` VARCHAR(500) NULL,
 	PRIMARY KEY (`id`))";
 	
 	if (mysqli_query($con, $sql)) {
-		echo "Table mbira_ares created successfully<br>";
+		echo "Table mbira_areas created successfully<br>";
 	} else {
 		echo "Error creating table: " . mysqli_error($con);
 	}

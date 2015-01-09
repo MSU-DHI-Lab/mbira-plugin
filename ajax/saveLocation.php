@@ -35,6 +35,7 @@ function updateRow($con){
 //Add new location
 function createRow($con) {
 	$projectId = $_POST['projectId'];
+	$pid = $_POST['pid'];
 	$name = $_POST['name'];
 	$desc = $_POST['description'];
 	$lat = $_POST['lat'];
@@ -42,17 +43,21 @@ function createRow($con) {
 	
 	//Save image
 	$uploaddir = '../images/';
-	$uploadfile = $uploaddir . basename($_FILES['file']['name']);
 	
-	move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
-	$path = $_FILES['file']['name'];
+	//Use default image if no file provided
+	if(isset($_FILES['file']['name'])){
+		$uploadfile = $uploaddir . basename($_FILES['file']['name']);	
+		move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+		$path = $_FILES['file']['name'];
+	}else{
+		$path = 'Default.png';
+	}
 	
 	//Create row in mbira_locations
-	mysqli_query($con,"INSERT INTO mbira_locations (project_id, name, description, latitude, longitude, file_path) VALUES ('$projectId', '$name', '$desc', '$lat', '$lon', '$path')");
+	mysqli_query($con,"INSERT INTO mbira_locations (project_id, pid, name, description, latitude, longitude, file_path) VALUES ('$projectId', '$pid', '$name', '$desc', '$lat', '$lon', '$path')");
 	
 	
 	//Create and ingest location record to kora
-	$pid = 52;
 	$result = mysqli_query($con, "SELECT * FROM scheme WHERE schemeName = 'Location' AND pid = " . $pid);
 	
 	while($row = mysqli_fetch_array($result)) {

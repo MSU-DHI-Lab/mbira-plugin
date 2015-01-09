@@ -33,6 +33,10 @@
 			<div class="project_information">    
 				<form id="newlocationform" name="newlocationform" novalidate ng-submit="submit()" role="form">
 					<br>
+					
+					<div id="map"></div>
+					<br><br>
+					
 					<div class="form-group">				        
 						<input type="text" required class="form-control npInput" id="name" name="name" ng-value="search._location.Label" ng-model="newLocation.name" placeholder="Location Name">
 					</div>
@@ -40,10 +44,6 @@
 					<div class="form-group">				        
 						<input type="text" required class="form-control npInput" id="description" name="description" ng-model="newLocation.description" placeholder="Location Description">
 					</div>
-					
-					<br><br>
-					<div id="map"></div>
-					<br><br>
 
 					<div class="form-group">				        
 						<input type="text" required class="form-control npInput" ng-model="newLocation.latitude" placeholder="Latitude">
@@ -53,6 +53,7 @@
 						<input type="text" required class="form-control npInput" ng-model="newLocation.longitude" placeholder="Longitude">
 					</div>
 					
+					File (Optional)
 					<div class="form-group">				        
 						<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)"/>
 					</div>
