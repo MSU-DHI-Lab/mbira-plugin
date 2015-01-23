@@ -25,6 +25,10 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    url: "/newExhibit",
 	    templateUrl: "exhibit_new.html"
 	  })
+	   .state('locations', {
+	    url: "/locations",
+	    templateUrl: "menu_location_all.php"
+	  })
 	  .state('viewLocation', {
 	    url: "/viewLocation/?project&location",
 	    templateUrl: "location_single.html"
@@ -374,7 +378,16 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 		});
 	}
 });
-	
+mbira.controller("viewLocationsCtrl", function ($scope, $http){
+	//Get all projects
+	$http({
+		method: 'GET',
+		url: "ajax/getLocations.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		  $scope.locations = data;
+	})
+});	
 mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
 	$scope.marker = false;
 	$scope.ID = $stateParams.project;
