@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <link rel="stylesheet" type="text/css" href="css/newproject.css"/>
     </head>
 <body ng-app="mbira">
 
@@ -9,10 +9,12 @@
 		<div class="back"><a ui-sref="projects"><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
         <h1> NEW PROJECT</h1>
 	</div>
-	<br><br><br><br>
 	<div class="main" ng-controller="newProjectCtrl">
-		<h1>New Project</h1>
 		<form id="newprojectform" name="newprojectform" novalidate ng-submit="submit()" role="form">
+            
+            <div class="thumbnail"> <a href="thumbnail.php"> <img src="img/Default.png" height="225" width="225">
+            <div class="thumbnail_title"><h3>ADD THUMBNAIL</h3></div></a></div>
+            
 			<div class="form-group">				        
 					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newProject.name" placeholder="Project Name">
 			</div>
