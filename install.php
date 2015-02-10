@@ -53,6 +53,28 @@
 		)";
 		mysqli_query($con, $sql);
 	}
+
+	/*if (mysqli_query($con, $sql)) {
+		echo "Table mbira_projects created successfully<br>";
+	} else {
+		echo "Error creating table: " . mysqli_error($con);
+	}*/
+	
+	// $result = mysqli_query($con, "SHOW TABLES LIKE 'mbira_explorations'");
+	// $tableExists = mysqli_num_rows($result) > 0;
+
+	// if(!$tableExists){
+	// 	//mbira_locations
+	// 	$sql = "CREATE TABLE `$dbname`.`mbira_explorations`(
+	// 	`id` INTEGER (11) UNSIGNED NOT NULL AUTO_INCREMENT,
+	// 	`name` VARCHAR(200) NOT NULL,
+	// 	`description` VARCHAR(10000),	
+	// 	`location_id` INTEGER(11),	
+	// 	PRIMARY KEY (`id`)
+	// 	)";
+	// 	mysqli_query($con, $sql);
+	// }
+
 	
 	/*if (mysqli_query($con, $sql)) {
 		echo "Table mbira_locations created successfully<br>";

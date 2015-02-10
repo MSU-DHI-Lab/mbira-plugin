@@ -1,4 +1,4 @@
 [Menus]
-All Projects = #/projects
-New Project = #/newProject
-All Locations = #/locations
+Projects = #/projects
+Locations = #/locations
+Exploration = #/explorations

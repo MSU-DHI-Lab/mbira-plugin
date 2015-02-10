@@ -1,8 +1,12 @@
 body, html {
     margin: 0;
     padding: 0;
-    background: #18587C;
-  
+
+}
+
+.main {
+    background-color: #18587C;
+    padding-bottom: 20px;
 }
 
 
@@ -42,7 +46,7 @@ body, html {
     -moz-box-shadow:    0px 4px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         0px 4px 3px 0px rgba(50, 50, 50, 0.2);
     width:100%;
-    position:fixed;
+    position:relative;
     top:0px;
     z-index: 1;
     
@@ -52,7 +56,8 @@ body, html {
     margin: 0;
     line-height: 75px;
     color: #FFF;
-    font-family: 'montserratbold', sans-serif;
+    font-size: 26px;
+    font-family: 'montserratregular', sans-serif;
     
 }
 
@@ -74,7 +79,8 @@ body, html {
 
 .back p {
     color: #FFF;
-    font-family: 'montserratbold', sans-serif;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 14px;
     padding: 0 20px;
     margin: 0;
 }
@@ -86,13 +92,13 @@ body, html {
 
 .dropzone {
     background: rgba(62,185,253,.3);
-    margin: 95px 20px 20px 20px;
+    margin: 10px 20px 10px 20px;
     border: #fff 3px dashed;
     text-align: center;
 }
 
 .dropzone_content {
-    padding: 200px;
+    padding: 50px;
     text-align: center;
 }
 

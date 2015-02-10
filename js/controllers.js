@@ -17,6 +17,10 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    url: "/newProject",
 	    templateUrl: "menu_project_new.php"
 	  })
+	  .state('thumbnail', {
+	    url: "/thumbnail",
+	    templateUrl: "thumbnail.php"
+	  })
 	  .state('viewExhibit', {
 	    url: "/viewExhibit",
 	    templateUrl: "exhibit_single.html"
@@ -44,6 +48,10 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	  .state('newArea', {
 	    url: "/newArea/?project",
 	    templateUrl: "area_new.html"
+	  })
+	   .state('explorations', {
+	    url: "/explorations",
+	    templateUrl: "menu_exploration_all.php"
 	  })
 	  .state('viewExploration', {
 	    url: "/viewExploration",
@@ -360,7 +368,19 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 		if($files.length > 1) {
 			alert("Only upload one image for the thumbnail.");
 		}else{
-		  $scope.file = $files[0];		  
+			$scope.file = $files[0];
+
+			$scope.uploadFile = $upload.upload({
+				url:'ajax/tempImg.php',
+				method:"POST",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				file: $scope.file
+			}).success(function(data) {	
+				$('.thumbnail .dropImg').css('display', 'none');
+				$('.thumbnail h5').css('display', 'none');
+				$('.thumbnail .clickAdd').css('display', 'none');
+				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+			});
 		}
 	};
 	
@@ -600,3 +620,14 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	
 	//</MAP_STUFF>
 });
+
+mbira.controller("viewExplorationsCtrl", function ($scope, $http){
+	//Get all projects
+	$http({
+		method: 'GET',
+		url: "ajax/getExplorations.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		  $scope.explorations = data;
+	})
+});	

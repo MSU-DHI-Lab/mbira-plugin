@@ -9,10 +9,15 @@ $desc = $_POST['description'];
 $con=mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
 $uploaddir = '../images/';
-$uploadfile = $uploaddir . basename($_FILES['file']['name']);
+if($_FILES['file']){
+	$uploadfile = $uploaddir . basename($_FILES['file']['name']);
 
-move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
-$path = $_FILES['file']['name'];
+	move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+	$path = $_FILES['file']['name'];
+} else {
+	$path = 'Default.png';
+}
+
 
 mysqli_query($con,"INSERT INTO mbira_projects (name, description, image_path) VALUES ('$title', '$desc', '$path')");
 	
