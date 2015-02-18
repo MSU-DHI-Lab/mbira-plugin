@@ -46,7 +46,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "area_single.html"
 	  })
 	  .state('newArea', {
-	    url: "/newArea/?project",
+	    url: "/newArea/?project&pid",
 	    templateUrl: "area_new.html"
 	  })
 	   .state('explorations', {
@@ -413,6 +413,7 @@ mbira.controller("viewLocationsCtrl", function ($scope, $http){
 mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
 	$scope.marker = false;
 	$scope.ID = $stateParams.project;
+	$scope.PID = $stateParams.pid;
 	$scope.param = $stateParams.project;
 
 	//new location model
@@ -451,7 +452,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 			file: $scope.file
 		}).success(function(data) {
 			//return to project
-			//location.href = "#/viewProject/?project="+$stateParams.project;
+			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
 		});
 	};
 	
@@ -493,6 +494,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	$scope.mark = '';
 	$scope.file;
 	$scope.ID = $stateParams.project;
+	$scope.PID = $stateParams.pid;
 	$scope.markers = [];
 	$scope.radius = '300';
 	$scope.polygon = '';
@@ -513,7 +515,19 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 		if($files.length > 1) {
 			alert("Only upload one image for the thumbnail.");
 		}else{
-		  $scope.file = $files[0];  
+			$scope.file = $files[0];
+
+			$scope.uploadFile = $upload.upload({
+				url:'ajax/tempImg.php',
+				method:"POST",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				file: $scope.file
+			}).success(function(data) {	
+				$('.thumbnail .dropImg').css('display', 'none');
+				$('.thumbnail h5').css('display', 'none');
+				$('.thumbnail .clickAdd').css('display', 'none');
+				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+			});
 		}
 	};
 	
@@ -535,7 +549,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 			file: $scope.file
 		}).success(function(data, status, headers, config) {
 			//return to project
-			location.href = "#/viewProject/?project="+$scope.ID;
+			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
 		});
 	};
 	
@@ -637,6 +651,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	$scope.marker = false;
 	$scope.places = [];
 	$scope.ID = $stateParams.project;
+	$scope.PID = $stateParams.pid;
 	$scope.param = $stateParams.project;
 
 	//new location model
@@ -653,7 +668,19 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 		if($files.length > 1) {
 			alert("Only upload one image for the thumbnail.");
 		}else{
-		  $scope.file = $files[0];		  
+			$scope.file = $files[0];
+
+			$scope.uploadFile = $upload.upload({
+				url:'ajax/tempImg.php',
+				method:"POST",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				file: $scope.file
+			}).success(function(data) {	
+				$('.thumbnail .dropImg').css('display', 'none');
+				$('.thumbnail h5').css('display', 'none');
+				$('.thumbnail .clickAdd').css('display', 'none');
+				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+			});
 		}
 	};
 	
@@ -683,7 +710,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 		}).success(function(data) {
 			//return to project
 			console.log("horray");
-			location.href = "#/viewProject/?project="+$stateParams.project;
+			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
 		});
 	};
 	
@@ -773,6 +800,64 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 			}
 		}
 	});
+	
+	$http({
+		method: 'GET',
+		url: "ajax/getAreas.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		for(i=0;i<data.length;i++) {
+			if (data[i]['project_id'] == $scope.param) {
+
+				//Put area in scope
+				$scope.area = data[i];
+				
+				//Parse string to get array  of coorinates
+				$scope.coordinates = JSON.parse(data[i].coordinates);
+				
+				if(data[i].shape == 'polygon'){
+					//Create polygon from array of coordinates 
+					$scope.polygon = L.polygon($scope.coordinates).addTo(map)
+						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['file_path']+'"></br>' + data[i]['name'])
+						.on('mouseover', function(e) {
+							//open popup;
+							this.openPopup();	
+						})
+						.on('mouseout', function(e) {
+							//close popup;
+							this.closePopup();	
+						})
+						.on('click', function(e) {
+							//store in exploration;
+							console.log("At least I have something");
+							this.closePopup();	//makes sure the popup doesn't show on click.
+						});
+				}else if(data[i].shape == 'circle'){
+					//Create circle from coordinates
+					$scope.circle = L.circle($scope.coordinates[0], data[i].radius, {
+						color: 'red',
+						fillColor: '#f03',
+						fillOpacity: 0.5
+					}).addTo(map)
+						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['file_path']+'"></br>' + data[i]['name'])
+						.on('mouseover', function(e) {
+							//open popup;
+							this.openPopup();	
+						})
+						.on('mouseout', function(e) {
+							//close popup;
+							this.closePopup();	
+						});
+				}
+			}
+		}
+	});
+	
+	
+	
+	
+	
+	
 
 	//initialize search bar
 	$scope.search = new L.Control.GeoSearch({

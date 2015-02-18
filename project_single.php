@@ -71,7 +71,7 @@
 		</div>
         
         <div class="area_new"> 
-            <a ui-sref="newArea({project: project.id})">
+            <a ui-sref="newArea({project: project.id, pid: pid})">
                 <img src="img/project_new_plus_icon_small.png" height="130" width="130">
                 <div class="area_title_new"><h3>NEW AREA</h3></div>
             </a>

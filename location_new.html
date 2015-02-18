@@ -12,9 +12,10 @@
 </head>
 <body ng-app="mbira">
     <div  ng-controller="newLocationCtrl">
+
 		 <!--HEADER-->
 		<div class="header">
-			<div class="back"><a href='viewProject({project: ID})'><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
+			<div class="back"><a ui-sref='viewProject({project: ID, pid: PID})'><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
 				<div class="title"><h1>NEW LOCATION</h1>
 			</div>
 		</div>
