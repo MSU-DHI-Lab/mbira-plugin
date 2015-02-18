@@ -3,6 +3,7 @@
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
+	top: 40px;
 }
 .leaflet-control-geosearch, .leaflet-control-geosearch ul {
 	border-radius: 7px;

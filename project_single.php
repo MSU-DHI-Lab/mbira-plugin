@@ -70,8 +70,12 @@
 			</a>
 		</div>
         
-        <div class="area_new"> <a ui-sref="newArea({project: project.id})"><img src="img/project_new_plus_icon_small.png" height="130" width="130">
-            <div class="area_title_new"><h3>NEW AREA</h3></div></a></div>
+        <div class="area_new"> 
+            <a ui-sref="newArea({project: project.id})">
+                <img src="img/project_new_plus_icon_small.png" height="130" width="130">
+                <div class="area_title_new"><h3>NEW AREA</h3></div>
+            </a>
+        </div>
 	</div>
     
     
@@ -79,28 +83,23 @@
     <div class="explorations">
         
         <h2 class="project_element_title">EXPLORATIONS</h2>
+
+        <div class="exploration" ng-repeat='exploration in explorations'}> 
+            <a ui-sref="viewExploration({project: project.id, exploration: exploration.id})"> 
+                <img ng-src="images/{{exploration.file_path}}" height="130" width="130">
+                <div class="exploration_title"><h3>{{exploration.name}}</h3></div>
+            </a>
+        </div>
         
-        <div class="exploration"> <a ui-sref="viewExploration"> <img src="img/" height="130" width="130">
-            <div class="exploration_title"><h3>EXPLORATION NAME</h3></div></a></div>
-        
-        <div class="exploration"> <a ui-sref="viewExploration"> <img src="img/" height="130" width="130">
-            <div class="exploration_title"><h3>EXPLORATION NAME</h3></div></a></div>
-        
-        <div class="exploration"> <a ui-sref="viewExploration"> <img src="img/" height="130" width="130">
-            <div class="exploration_title"><h3>EXPLORATION NAME</h3></div></a></div>
-        
-        <div class="exploration"> <a ui-sref="viewExploration"> <img src="img/" height="130" width="130">
-            <div class="exploration_title"><h3>EXPLORATION NAME</h3></div></a></div>
-        
-        <div class="exploration"> <a ui-sref="viewExploration"> <img src="img/" height="130" width="130">
-            <div class="exploration_title"><h3>EXPLORATION NAME</h3></div></a></div>
-        
-        <div class="exploration"> <a ui-sref="viewExploration"> <img src="img/" height="130" width="130">
-            <div class="exploration_title"><h3>EXPLORATION NAME</h3></div></a></div>
-        
-        <div class="exploration_new"> <a ui-sref="newExploration"><img src="img/project_new_plus_icon_small.png" height="130" width="130">
-            <div class="exploration_title_new"><h3>NEW EXPLORATION</h3></div></a></div></div>
+        <div class="exploration_new"> 
+            <a ui-sref="newExploration({project: project.id, pid: pid})">
+                <img src="img/project_new_plus_icon_small.png" height="130" width="130">
+                <div class="exploration_title_new"><h3>NEW EXPLORATION</h3></div>
+            </a>
+        </div>
+    
     </div>
+
 </body>
     
     </html>

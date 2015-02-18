@@ -30,7 +30,12 @@
 		array_push($areaArray, $row);
 	}
 	
-	
-	echo json_encode([$projectArray[0], $locationArray, $areaArray]);
+	//get exploration info
+	$results = mysqli_query($con, "SELECT * FROM mbira_explorations WHERE project_id = ".$id);
+	$explorationArray = Array();
+	while($row = mysqli_fetch_array($results)) {
+		array_push($explorationArray, $row);
+	}
+	echo json_encode([$projectArray[0], $locationArray, $areaArray, $explorationArray]);
 	
 ?>

@@ -1,4 +1,4 @@
-var mbira  = angular.module('mbira', ['ui.router', 'angularFileUpload']);
+var mbira  = angular.module('mbira', ['ui.router', 'angularFileUpload', 'angular-sortable-view']);
 
 mbira.config(function($stateProvider, $urlRouterProvider) {
 
@@ -58,7 +58,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "exploration_single.html"
 	  })
 	  .state('newExploration', {
-	    url: "/newExploration",
+	    url: "/newExploration/?project&pid",
 	    templateUrl: "exploration_new.html"
 	  })
 });
@@ -67,7 +67,7 @@ mbira.factory('setMap', function(){
 	//initialize map
 	return {
 		set: function(lat, lon){
-			var map = L.map('map').setView([lat, lon], 13);
+			var map = L.map('map').setView([lat, lon], 14);
 
 			L.tileLayer('https://{s}.tiles.mapbox.com/v3/austintruchan.jb1pjhel/{z}/{x}/{y}.png', {
 				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -111,7 +111,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 		//Set up map
 		map = setMap.set(data.latitude, data.longitude);
 		$scope.marker = L.marker([data.latitude, data.longitude]).addTo(map);
-
+	
 		//Set switches
 		if($scope.location.toggle_comments == 'true'){
 			$scope.location.toggle_comments = true;
@@ -339,6 +339,8 @@ mbira.controller("singleProjectCtrl", function ($scope, $http, $stateParams){
 		$scope.project = data[0];
 		$scope.locations = data[1];
 		$scope.areas = data[2];
+		$scope.explorations = data[3];
+		console.log($scope.explorations);
 	})
 });
 
@@ -631,3 +633,171 @@ mbira.controller("viewExplorationsCtrl", function ($scope, $http){
 		  $scope.explorations = data;
 	})
 });	
+mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
+	$scope.marker = false;
+	$scope.places = [];
+	$scope.ID = $stateParams.project;
+	$scope.param = $stateParams.project;
+
+	//new location model
+	$scope.newExploration = {
+		name: "",
+		descrition: "",
+		file: "",
+		latitude: '',
+		longitude: ''
+	}
+	
+	//Get file to be uploaded
+	$scope.onFileSelect = function($files) {
+		if($files.length > 1) {
+			alert("Only upload one image for the thumbnail.");
+		}else{
+		  $scope.file = $files[0];		  
+		}
+	};
+	
+	//submit new exploration
+	$scope.submit = function() {		
+		var direction = '';
+		for (i=0;i<$scope.places.length; i++){
+			direction += $scope.places[i][0] + ",";
+			if (i === $scope.places.length-1){
+				direction = direction.substr(0,direction.length-1);
+			}
+		}
+		console.log(direction);
+		$scope.upload = $upload.upload({				
+			url: 'ajax/saveExploration.php',
+			method: 'POST',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: { 
+					task: 'create',
+					projectId: $scope.ID,
+					pid: $stateParams.pid,
+					name: $scope.newExploration.name,
+					description: $scope.newExploration.description,
+					direction: direction,
+				},
+			file: $scope.file
+		}).success(function(data) {
+			//return to project
+			console.log("horray");
+			location.href = "#/viewProject/?project="+$stateParams.project;
+		});
+	};
+	
+	//<MAP_STUFF>
+	//initialize map
+	var map = setMap.set(42.723241200224216, -84.47797000408173);
+	LatLng=[];
+	var locArray=[];
+	var expArray=[];
+	var polyline = L.polyline(LatLng, {color: 'red'}).addTo(map);
+	
+	function removeFromLine(passedArray) {
+		var latslngs=polyline.getLatLngs();
+		var newlatlng=[];
+		var newExpArray = [];
+		for(q=0;q<latslngs.length;q++){
+			if (latslngs[q].lat !== parseFloat(passedArray[0]) && latslngs[q].lng !== parseFloat(passedArray[1])){
+				newlatlng.push([latslngs[q].lat,latslngs[q].lng]);
+				for (m=0; m < locArray.length; m++) {
+					if(latslngs[q].lat === parseFloat(locArray[m][0]) && latslngs[q].lng === parseFloat(locArray[m][1])) {
+						newExpArray.push([locArray[m][2],locArray[m][3]]);
+					}
+				}
+			} 
+		}
+		expArray = newExpArray;
+		$scope.places = expArray;
+		$scope.$apply();
+		polyline.setLatLngs(newlatlng);
+	}
+	
+	function createNewLine() {
+		newlatlng= [];
+		for(h=0; h<expArray.length; h++){
+			for (i=0; i < locArray.length; i++) {
+				if (locArray[i][2] === expArray[h][0]){
+					newlatlng.push([parseFloat(locArray[i][0]),parseFloat(locArray[i][1])]);
+				}
+			}
+		}
+		polyline.setLatLngs(newlatlng);
+	}
+	
+	function inExpCheck(checkArray) {
+		for(j=0;j<expArray.length;j++){
+			if (expArray[j][0] === checkArray[2]) {
+				removeFromLine(checkArray);
+				return 0;
+			} 
+		}
+		return 1;
+	}
+
+	$http({
+		method: 'GET',
+		url: "ajax/getLocations.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		for(i=0;i<data.length;i++) {
+		  	if (data[i]['project_id'] == $scope.param) {
+		  		locArray.push([data[i]['latitude'],data[i]['longitude'], data[i]['id'], data[i]['name']]);
+
+				L.marker([data[i]['latitude'], data[i]['longitude']]).addTo(map)
+					.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['file_path']+'"></br>' + data[i]['name'])
+					.on('mouseover', function(e) {
+					  	//open popup;
+						this.openPopup();	
+					})
+					.on('mouseout', function(e) {
+					  	//close popup;
+						this.closePopup();	
+					})
+					.on('click', function(e) {
+					  	//store in exploration;
+					  	for (i=0; i < locArray.length; i++) {
+					  		//finds the id of the coordinates and checks if it has already been added to exploration..
+					  		if (e.latlng.lat == locArray[i][0] && e.latlng.lng == locArray[i][1] && inExpCheck(locArray[i])) {
+								polyline.addLatLng([parseFloat(locArray[i][0]),parseFloat(locArray[i][1])]);
+					  			expArray.push([locArray[i][2],locArray[i][3]]);
+							 	$scope.places = expArray;
+								$scope.$apply();
+								$('#done').css('display', 'block');
+					  		}
+					  	}
+						this.closePopup();	//makes sure the popup doesn't show on click.
+					});
+			}
+		}
+	});
+
+	//initialize search bar
+	$scope.search = new L.Control.GeoSearch({
+		provider: new L.GeoSearch.Provider.OpenStreetMap(),
+		position: 'topcenter',
+		showMarker: true,
+		scope: $scope,
+		location: $scope.newExploration,
+		map: map
+	}).addTo(map);
+	
+	//Click to set marker and save location to scope
+	$("#done").on('click', function(e) {
+		$('#done').fadeOut('slow', function() {
+			$('#done').remove();
+			$('.exp_info').fadeIn('slow', function(){
+				$('html,body').animate({scrollTop: $('.exp_info').offset().top}, 1500);
+			});
+		});
+	});
+	//</MAP_STUFF>
+
+	$scope.onSort = function(){
+		createNewLine();
+	};
+
+
+});

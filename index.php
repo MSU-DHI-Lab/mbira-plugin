@@ -22,12 +22,13 @@
 	<link rel="stylesheet" type="text/css" href="css/project_single.css"/>
 	<link rel="stylesheet" type="text/css" href="css/project_all.css"/>
 	
-	<script src="js/jquery/jquery-1.11.1.min.js"></script> 
+	<script src="js/jquery/jquery-1.11.1.min.js"></script>
+ 
 	<script src="angular/angular.min.js"></script>
 	<script src="angular/angular-ui-router.min.js"></script>
 	<script src="angular/fileUpload/angular-file-upload-shim.min.js"></script> 
 	<script src="angular/fileUpload/angular-file-upload.min.js"></script> 
-
+	<script src="angular/angular-sortable-view.js"></script>
 	<script src="js/controllers.js"></script> 
     
 	

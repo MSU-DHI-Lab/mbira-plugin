@@ -99,6 +99,7 @@
 	bottom: 0;
 	}
 .leaflet-left {
+	top: 40px;
 	left: 0;
 	}
 .leaflet-control {
@@ -394,6 +395,7 @@
 	}
 .leaflet-popup-content {
 	margin: 13px 19px;
+	text-align: center;
 	line-height: 1.4;
 	}
 .leaflet-popup-content p {
