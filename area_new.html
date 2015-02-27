@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
     <link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
 	<link rel="stylesheet" type="text/css" href="css/newarea.css"/>
+        <link rel="stylesheet" type="text/css" href="css/project_single.css"/> <!-- This needs to change and be its own css -->
+        <link rel="stylesheet" type="text/css" href="css/project_all.css"/>  <!-- This needs to change and be its own css -->
 		
 	<script src="js/leaflet.js"></script>
 	<script src="js/l.control.geosearch.js"></script> 
@@ -14,7 +16,7 @@
 <body ng-app="mbira">
     
 	<!--AREA INFORMATION-->	
-	<div class="main" ng-controller="newAreaCtrl">
+	<div ng-controller="newAreaCtrl">
 
 		<!--HEADER-->
 		<div class="header">
@@ -25,7 +27,7 @@
 		
 		<div id="map"> 
 			<div style="position:absolute; top:0;left:0;right:0;height:40px; background-color: white; opacity:.5; z-index: 1500;">
-				<a ui-sref='newLocation({project: ID})'>Add Location</a>
+				<a ui-sref='newLocation({project: ID, pid: PID})'>Add Location</a>
 			</div> 
 			<button id="done" style="position:absolute; bottom:0; right:0; padding:25px; z-index:2000; display:none;">Done</button>
 		</div>

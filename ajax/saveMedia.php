@@ -1,20 +1,30 @@
 <?php
-require_once('../../pluginsConfig.php');
-$con=mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
-// Check connection
-if (mysqli_connect_errno()) {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-}
+	require_once('../../pluginsConfig.php');
+	$con=mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
+	// Check connection
+	if (mysqli_connect_errno()) {
+	  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+	}
 
-$locationId = $_POST['location_id'];
+	$id = $_POST['id'];
+	$type = $_POST['type'];
+	if ($type == 'loc'){
+		$typeID = 'location_id';
+	} else if ($type == 'exp'){
+		$typeID = 'exploration_id';
+	}	else if ($type == 'area'){
+		$typeID = 'area_id';
+	} 
+	
+	$name = explode('.', basename($_FILES['file']['name']));
 
-$uploaddir = 'mediaFiles/';
-$uploadfile = $uploaddir . basename($_FILES['file']['name']);
+	$uploaddir = '../images/';
+	$uploadfile = $uploaddir . $name[0].time().'.'.$name[count($name)-1];
+	echo $uploadfile;	
+	move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+	$path = $name[0].time().'.'.$name[count($name)-1];
 
-move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
-$path = $_FILES['file']['name'];
+	mysqli_query($con,"INSERT INTO mbira_".$type."_media (".$typeID.", file_path, isThumb) VALUES ('$id', '$path', 'no')");
 
-mysqli_query($con,"INSERT INTO mbira_media (location_id, file_path) VALUES ('$locationId', '$uploadfile')");
-
-mysqli_close($con);
+	mysqli_close($con);
 ?>

@@ -2,6 +2,8 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="css/project_single.css"/>
+        <link rel="stylesheet" type="text/css" href="css/project_single.css"/> <!-- This needs to change and be its own css -->
+        <link rel="stylesheet" type="text/css" href="css/project_all.css"/>  <!-- This needs to change and be its own css -->
     </head>
 <body ng-app='mbira'>
     <div class="wrap" ng-controller='singleProjectCtrl'>
@@ -21,20 +23,21 @@
         
         <h2 class="project_element_title">EXHIBITS</h2>
         
-        <div class="exhibit"> <a ui-sref="viewExhibit"> <img src="img/" height="130" width="130">
-            <div class="exhibit_title"><h3>EXHIBIT NAME</h3></div></a></div>
+        <div class="exhibit" ng-repeat='exhibit in exhibits'}> 
+            <a ui-sref="viewExhibit({project: project.id, pid: pid, exhibit: exhibit.id})"> 
+                <img ng-src="images/{{exhibit.thumb_path}}" height="130" width="130">
+                <div class="exhibit_title"><h3>{{exhibit.name}}</h3></div>
+            </a>
+        </div>
         
-        <div class="exhibit"> <a ui-sref="viewExhibit"> <img src="img/" height="130" width="130">
-            <div class="exhibit_title"><h3>EXHIBIT NAME</h3></div></a></div>
         
-        <div class="exhibit"> <a ui-sref="viewExhibit"> <img src="img/" height="130" width="130">
-            <div class="exhibit_title"><h3>EXHIBIT NAME</h3></div></a></div>
-        
-        <div class="exhibit"> <a ui-sref="viewExhibit"><img src="img/" height="130" width="130">
-            <div class="exhibit_title"><h3>EXHIBIT NAME</h3></div></a></div>
-        
-        <div class="exhibit_new"> <a ui-sref="newExhibit"><img src="img/project_new_plus_icon_small.png" height="130" width="130">
-            <div class="exhibit_title_new"><h3>NEW EXHIBIT</h3></div></a></div></div>
+        <div class="exhibit_new"> 
+            <a ui-sref="newExhibit({project: project.id, pid: pid})">
+                <img src="img/project_new_plus_icon_small.png" height="130" width="130">
+                <div class="exhibit_title_new"><h3>NEW EXHIBIT</h3></div>
+            </a>
+        </div>
+    </div>
         
       
     <!--PROJECT LOCATIONS-->
@@ -43,8 +46,8 @@
         <h2 class="project_element_title">LOCATIONS</h2>
         
         <div class="location" ng-repeat='location in locations'}> 
-			<a ui-sref="viewLocation({project: project.id, location: location.id})"> 
-				<img ng-src="images/{{location.file_path}}" height="130" width="130">
+			<a ui-sref="viewLocation({project: project.id, pid: pid, location: location.id})"> 
+				<img ng-src="images/{{location.thumb_path}}" height="130" width="130">
 				<div class="location_title"><h3>{{location.name}}</h3></div>
 			</a>
 		</div>
@@ -64,8 +67,8 @@
         <h2 class="project_element_title">AREAS</h2>
         
 		<div class="area" ng-repeat='area in areas'}> 
-			<a ui-sref="viewArea({project: project.id, area: area.id})"> 
-				<img ng-src="images/{{area.file_path}}" height="130" width="130">
+			<a ui-sref="viewArea({project: project.id, pid: pid, area: area.id})"> 
+				<img ng-src="images/{{area.thumb_path}}" height="130" width="130">
 				<div class="area_title"><h3>{{area.name}}</h3></div>
 			</a>
 		</div>
@@ -85,8 +88,8 @@
         <h2 class="project_element_title">EXPLORATIONS</h2>
 
         <div class="exploration" ng-repeat='exploration in explorations'}> 
-            <a ui-sref="viewExploration({project: project.id, exploration: exploration.id})"> 
-                <img ng-src="images/{{exploration.file_path}}" height="130" width="130">
+            <a ui-sref="viewExploration({project: project.id, exploration: exploration.id, pid: pid})"> 
+                <img ng-src="images/{{exploration.thumb_path}}" height="130" width="130">
                 <div class="exploration_title"><h3>{{exploration.name}}</h3></div>
             </a>
         </div>

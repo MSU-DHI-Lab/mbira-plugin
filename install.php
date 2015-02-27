@@ -28,10 +28,14 @@
 		`exhibit_id` INT(11) NULL DEFAULT NULL,
 		`name` VARCHAR(500) NULL DEFAULT NULL,
 		`description` VARCHAR(10000) NULL DEFAULT NULL,
+		`dig_deeper` VARCHAR(10000) NULL DEFAULT NULL,
 		`coordinates` VARCHAR(10000) NULL DEFAULT NULL,
 		`radius` VARCHAR(100) NULL DEFAULT NULL,
 		`shape` VARCHAR(45) NULL DEFAULT NULL,
-		`file_path` VARCHAR(500) NULL DEFAULT NULL,
+		`thumb_path` VARCHAR(500) NULL DEFAULT NULL,
+		`toggle_dig_deeper` VARCHAR(45) NULL DEFAULT 'true',
+		`toggle_media` VARCHAR(45) NULL DEFAULT 'true',
+		`toggle_comments` VARCHAR(45) NULL DEFAULT 'true',
 		PRIMARY KEY (`id`),
 		INDEX `fk_mbira_areas_mbira_projects_idx` (`project_id` ASC),
 		CONSTRAINT `fk_mbira_areas_mbira_projects`
@@ -54,6 +58,9 @@
 		`name` VARCHAR(200) NOT NULL,
 		`description` VARCHAR(10000) NULL DEFAULT NULL,
 		`direction` VARCHAR(200) NULL DEFAULT NULL,
+		`thumb_path` varchar(500) DEFAULT NULL,
+		`toggle_comments` varchar(45) DEFAULT 'true',
+		`toggle_media` varchar(45) DEFAULT 'true',
 		PRIMARY KEY (`id`),
 		INDEX `FK_project_exploration_idx` (`project_id` ASC),
 		CONSTRAINT `FK_project_exploration`
@@ -79,7 +86,7 @@
 		`dig_deeper` VARCHAR(10000) NULL DEFAULT NULL,
 		`latitude` VARCHAR(100) NULL DEFAULT NULL,
 		`longitude` VARCHAR(100) NULL DEFAULT NULL,
-		`file_path` VARCHAR(500) NULL DEFAULT NULL,
+		`thumb_path` VARCHAR(500) NULL DEFAULT NULL,
 		`toggle_dig_deeper` VARCHAR(45) NULL DEFAULT 'true',
 		`toggle_media` VARCHAR(45) NULL DEFAULT 'true',
 		`toggle_comments` VARCHAR(45) NULL DEFAULT 'true',
@@ -121,15 +128,22 @@
 	mysqli_query($con, $sql);
 
 // -- -----------------------------------------------------
-// -- Table `$dbname`.`mbira_media`
+// -- Table `$dbname`.`mbira_loc_media`
 // -- -----------------------------------------------------
-	$sql = "CREATE TABLE IF NOT EXISTS `$dbname`.`mbira_media` (
+	$sql = "CREATE TABLE IF NOT EXISTS `$dbname`.`mbira_loc_media` (
 		`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-		`location_id` INT(11) NULL DEFAULT NULL,
+		`location_id` INT(11) UNSIGNED NOT NULL,
 		`file_path` VARCHAR(500) NULL DEFAULT NULL,
-		PRIMARY KEY (`id`))
+		`isThumb` VARCHAR(45) NOT NULL DEFAULT 'NO',
+		PRIMARY KEY (`id`),
+		INDEX `fk_mbira_loc_media_mbira_locations1_idx` (`location_id` ASC),
+		CONSTRAINT `fk_mbira_loc_media_mbira_locations1`
+		FOREIGN KEY (`location_id`)
+		REFERENCES `bogdan_dev`.`mbira_locations` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
-		AUTO_INCREMENT = 2
+		AUTO_INCREMENT = 1
 		DEFAULT CHARACTER SET = latin1";
 	mysqli_query($con, $sql);
 	
@@ -157,5 +171,48 @@
 		DEFAULT CHARACTER SET = latin1";
 	mysqli_query($con, $sql);
 
+// -- -----------------------------------------------------
+// -- Table `$dbname`.`mbira_exp_media`
+// -- -----------------------------------------------------
+	$sql = "CREATE TABLE IF NOT EXISTS `$dbname`.`mbira_exp_media` (
+		`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+		`exploration_id` INT(11) UNSIGNED NOT NULL,
+		`file_path` VARCHAR(500) NULL DEFAULT NULL,
+		`isThumb` VARCHAR(45) NOT NULL DEFAULT 'NO',
+		PRIMARY KEY (`id`),
+		INDEX `fk_mbira_exp_media_mbira_explorations1_idx` (`exploration_id` ASC),
+		CONSTRAINT `fk_mbira_exp_media_mbira_explorations1`
+		FOREIGN KEY (`exploration_id`)
+		REFERENCES `bogdan_dev`.`mbira_explorations` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+		ENGINE = InnoDB
+		AUTO_INCREMENT = 1";
+	mysqli_query($con, $sql);	
+
+// -- -----------------------------------------------------
+// -- Table `$dbname`.`mbira_exp_media`
+// -- -----------------------------------------------------
+	$sql = "CREATE TABLE IF NOT EXISTS `$dbname`.`mbira_area_media` (
+		`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+		`area_id` INT(11) UNSIGNED NOT NULL,
+		`file_path` VARCHAR(500) NULL,
+		`isThumb` VARCHAR(45) NOT NULL DEFAULT 'no',
+		PRIMARY KEY (`id`),
+		INDEX `fk_mbira_area_media_mbira_areas1_idx` (`area_id` ASC),
+		CONSTRAINT `fk_mbira_area_media_mbira_areas1`
+		FOREIGN KEY (`area_id`)
+		REFERENCES `bogdan_dev`.`mbira_areas` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+		ENGINE = InnoDB";
+	mysqli_query($con, $sql);	
+
 	mysqli_close($con);
 ?>
+
+
+
+
+
+

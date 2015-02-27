@@ -21,6 +21,10 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    url: "/thumbnail",
 	    templateUrl: "thumbnail.php"
 	  })
+	   .state('exhibits', {
+	    url: "/exhibits",
+	    templateUrl: "menu_exhibit_all.php"
+	  })
 	  .state('viewExhibit', {
 	    url: "/viewExhibit",
 	    templateUrl: "exhibit_single.html"
@@ -34,15 +38,19 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "menu_location_all.php"
 	  })
 	  .state('viewLocation', {
-	    url: "/viewLocation/?project&location",
+	    url: "/viewLocation/?project&location&pid",
 	    templateUrl: "location_single.html"
 	  })
 	  .state('newLocation', {
 	    url: "/newLocation/?project&pid",
 	    templateUrl: "location_new.html"
 	  })
+	   .state('areas', {
+	    url: "/areas",
+	    templateUrl: "menu_area_all.php"
+	  })
 	  .state('viewArea', {
-	    url: "/viewArea/?project&area",
+	    url: "/viewArea/?project&area&pid",
 	    templateUrl: "area_single.html"
 	  })
 	  .state('newArea', {
@@ -54,12 +62,16 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "menu_exploration_all.php"
 	  })
 	  .state('viewExploration', {
-	    url: "/viewExploration",
+	    url: "/viewExploration/?project&exploration&pid",
 	    templateUrl: "exploration_single.html"
 	  })
 	  .state('newExploration', {
 	    url: "/newExploration/?project&pid",
 	    templateUrl: "exploration_new.html"
+	  })
+	   .state('notifications', {
+	    url: "/notifications",
+	    templateUrl: "menu_notification_all.php"
 	  })
 });
 
@@ -81,9 +93,26 @@ mbira.factory('setMap', function(){
 	
 });
 
+mbira.factory('makeArray', function () {
+	return {
+		make: function (project, scope) {
+			locArray = [];
+			for(j=0;j<scope.data.length;j++){
+				if (project === scope.data[j].project_id){
+					locArray.push(scope.data[j]);
+				}
+			}
+			return locArray;
+	    }
+	}
+});
+
 mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap){
 	var map;
 	$scope.newMedia = false;
+	$scope.project = $stateParams.project;
+	$scope.pid = $stateParams.pid;
+	$scope.media;
 	
 	//todo when exhibits are ready --- populates exhibits dropdown
 	$scope.exhibits = [
@@ -94,7 +123,17 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
       {name:'EXHIBIT 5'}
     ];
     $scope.selectedExhibit = $scope.exhibits[0]; 
-	$scope.project = $stateParams.project;
+	
+    function getMedia(){
+		$http({
+			method: 'POST',
+			url: "ajax/getMedia.php",
+			data: $.param({'id': $stateParams.location, 'type': 'loc'}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			$scope.media = data;
+		})
+    }
 	
 	//load location info
 	$http({
@@ -129,50 +168,26 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			$scope.location.toggle_dig_deeper = false;
 		}
 		
-		//Get media from mbira_media table --- nesting this probably not the best way to do it
-		$http({
-			method: 'POST',
-			url: "ajax/getMedia.php",
-			data: $.param({
-						location_id: $stateParams.location
-					}),
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).success(function(data){
-			$scope.media = data;
-		})
+		getMedia();
 	})
 	
-	//Get file to be uploaded
+	//Submit Media
 	$scope.onFileSelect = function($files) {
 		if($files.length > 1) {
-			alert("Only upload one image for the thumbnail.");
+			alert("Only upload one image at a time.");
 		}else{
-		  $scope.file = $files[0];		  
+		  	$scope.file = $files[0];
+			$scope.upload = $upload.upload({
+					url: 'ajax/saveMedia.php',
+					method: 'POST',
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					data: {'id': $stateParams.location, 'type': 'loc'},
+					file: $scope.file
+			}).success(function(data, status, headers, config) {
+				getMedia();
+			});  
 		}
 	};
-	
-	//Submit media
-	$scope.submitMedia = function(){
-		$scope.upload = $upload.upload({
-				url: 'ajax/saveMedia.php',
-				method: 'POST',
-				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-				data: {location_id: $stateParams.location},
-				file: $scope.file
-			  }).success(function(data, status, headers, config) {
-					//Get media from mbira_media table --- nesting this probably not the best way to do it
-					$http({
-						method: 'POST',
-						url: "ajax/getMedia.php",
-						data: $.param({
-									location_id: $stateParams.location
-								}),
-						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-					}).success(function(data){
-						$scope.media = data;
-					})
-			  });
-	}
 	
 	//Allow position to be changed
 	$scope.editPosition = function(){
@@ -214,7 +229,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			url: "ajax/saveLocation.php",
 			data: $.param({
 						task: 'update',
-						projectId: $scope.project,
+						lid: $stateParams.location,
 						name: $scope.location.name,
 						description: $scope.location.description,
 						dig_deeper: $scope.location.dig_deeper,
@@ -247,14 +262,61 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 		})
 	}
 });
+mbira.controller("viewAreasCtrl", function ($scope, $http, makeArray){
+	$scope.project
+	$scope.pid
+	$scope
+	//Get all areas
+	$http({
+		method: 'GET',
+		url: "ajax/getAreas.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		$scope.data = data;
+		
+		//Get all projects
+		$http({
+			method: 'GET',
+			url: "ajax/getProjects.php",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data2){
+			for(i=0;i<data2.length;i++){
+			  	areaArray = makeArray.make(data2[i].id, $scope);
+			  	data2[i].areas = areaArray;
+			}
+			$scope.projects = data2;
+		})
+	})
+});	
+
 
 mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap){
-
-	//Copied form singleLocationCtrl but not done yet!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	//Use singleLocationCtrl as a model for this
+	$scope.project = $stateParams.project;
+	$scope.pid = $stateParams.pid;
 
 	var map;
 
+	//todo when exhibits are ready --- populates exhibits dropdown
+	$scope.exhibits = [
+      {name:'EXHIBIT 1'},
+      {name:'EXHIBIT 2'},
+      {name:'EXHIBIT 3'},
+      {name:'EXHIBIT 4'},
+      {name:'EXHIBIT 5'}
+    ];
+    $scope.selectedExhibit = $scope.exhibits[0]; 
+    
+	function getMedia(){
+		$http({
+			method: 'POST',
+			url: "ajax/getMedia.php",
+			data: $.param({'id': $stateParams.area, 'type': 'area'}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			$scope.media = data;
+		})
+    }
+	
 	//load area info
 	$http({
 		method: 'POST',
@@ -271,6 +333,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 		$scope.coordinates = JSON.parse(data.coordinates);
 		
 		//Set up map
+		console.log($scope.coordinates)
 		map = setMap.set($scope.coordinates[0][0], $scope.coordinates[0][1]);
 		
 		if(data.shape == 'polygon'){
@@ -284,6 +347,24 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 				fillOpacity: 0.5
 			}).addTo(map);
 		}
+
+		//Set switches
+		if($scope.area.toggle_comments == 'true'){
+			$scope.area.toggle_comments = true;
+		}else{
+			$scope.area.toggle_comments = false;
+		}
+		if($scope.area.toggle_media == 'true'){
+			$scope.area.toggle_media = true;
+		}else{
+			$scope.area.toggle_media = false;
+		}
+		if($scope.area.toggle_dig_deeper == 'true'){
+			$scope.area.toggle_dig_deeper = true;
+		}else{
+			$scope.area.toggle_dig_deeper = false;
+		}
+		getMedia();
 	})
 	
 	//Handle "save and close"
@@ -295,14 +376,21 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 			url: "ajax/saveArea.php",
 			data: $.param({
 						task: 'update',
-						projectId: $scope.project,
+						id: $stateParams.area,
 						name: $scope.area.name,
 						description: $scope.area.description,
+						dig_deeper: $scope.area.dig_deeper,
+						shape: $scope.area.shape,
+						radius: $scope.area.radius,
+						coordinates: $scope.area.coordinates,
+						toggle_media: $scope.area.toggle_media,
+						toggle_comments: $scope.area.toggle_comments,
+						toggle_dig_deeper: $scope.area.toggle_dig_deeper,
 					}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
 			//Close (return to project)
-			location.href = "#/viewProject/?project="+$stateParams.project;
+			location.href = "#/viewProject/?project="+$stateParams.project+'&pid='+$stateParams.pid;
 		})
 	}
 	
@@ -320,6 +408,40 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 			location: $scope.location,
 			map: map
 		}).addTo(map);
+	}
+	
+	//Submit Media
+	$scope.onFileSelect = function($files) {
+		if($files.length > 1) {
+			alert("Only upload one image at a time.");
+		}else{
+		  	$scope.file = $files[0];
+			$scope.upload = $upload.upload({
+					url: 'ajax/saveMedia.php',
+					method: 'POST',
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					data: {'id': $stateParams.area, 'type': 'area'},
+					file: $scope.file
+			}).success(function(data, status, headers, config) {
+				getMedia();
+			});  
+		}
+	};
+
+	//Delete area
+	$scope.delete = function(){
+		$http({
+		method: 'POST',
+		url: "ajax/saveArea.php",
+		data: $.param({
+				task: "delete",
+				id: $stateParams.area
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			//return to project
+			location.href = "#/viewProject/?project="+$stateParams.project+'&pid='+$stateParams.pid;
+		})
 	}
 });
 
@@ -340,7 +462,6 @@ mbira.controller("singleProjectCtrl", function ($scope, $http, $stateParams){
 		$scope.locations = data[1];
 		$scope.areas = data[2];
 		$scope.explorations = data[3];
-		console.log($scope.explorations);
 	})
 });
 
@@ -400,14 +521,29 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 		});
 	}
 });
-mbira.controller("viewLocationsCtrl", function ($scope, $http){
-	//Get all projects
+mbira.controller("viewLocationsCtrl", function ($scope, $http, makeArray){
+
+	//Get all locations
 	$http({
 		method: 'GET',
 		url: "ajax/getLocations.php",
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
-		  $scope.locations = data;
+		$scope.data = data;
+		
+		//Get all projects
+		$http({
+			method: 'GET',
+			url: "ajax/getProjects.php",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data2){
+			for(i=0;i<data2.length;i++){
+			  	LocArray = makeArray.make(data2[i].id, $scope);
+			  	data2[i].locations = LocArray;
+			}
+			$scope.projects = data2;
+			console.log($scope.projects);
+		})
 	})
 });	
 mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
@@ -637,15 +773,29 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	//</MAP_STUFF>
 });
 
-mbira.controller("viewExplorationsCtrl", function ($scope, $http){
-	//Get all projects
+mbira.controller("viewExplorationsCtrl", function ($scope, $http, makeArray){
 	$http({
 		method: 'GET',
 		url: "ajax/getExplorations.php",
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
-		  $scope.explorations = data;
+		$scope.data = data;
+		
+		//Get all projects
+		$http({
+			method: 'GET',
+			url: "ajax/getProjects.php",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data2){
+			for(i=0;i<data2.length;i++){
+			  	expArray = makeArray.make(data2[i].id, $scope);
+			  	data2[i].explorations = expArray;
+			}
+			$scope.projects = data2;
+			console.log(data2)
+		})
 	})
+
 });	
 mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
 	$scope.marker = false;
@@ -693,7 +843,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 				direction = direction.substr(0,direction.length-1);
 			}
 		}
-		console.log(direction);
+		console.log($scope.newExploration.name);
 		$scope.upload = $upload.upload({				
 			url: 'ajax/saveExploration.php',
 			method: 'POST',
@@ -709,7 +859,6 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 			file: $scope.file
 		}).success(function(data) {
 			//return to project
-			console.log("horray");
 			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
 		});
 	};
@@ -774,7 +923,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 		  		locArray.push([data[i]['latitude'],data[i]['longitude'], data[i]['id'], data[i]['name']]);
 
 				L.marker([data[i]['latitude'], data[i]['longitude']]).addTo(map)
-					.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['file_path']+'"></br>' + data[i]['name'])
+					.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
 					.on('mouseover', function(e) {
 					  	//open popup;
 						this.openPopup();	
@@ -818,7 +967,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 				if(data[i].shape == 'polygon'){
 					//Create polygon from array of coordinates 
 					$scope.polygon = L.polygon($scope.coordinates).addTo(map)
-						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['file_path']+'"></br>' + data[i]['name'])
+						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
 						.on('mouseover', function(e) {
 							//open popup;
 							this.openPopup();	
@@ -886,3 +1035,236 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 
 
 });
+mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
+	$scope.newMedia = false;
+	$scope.project = $stateParams.project;
+	$scope.pid = $stateParams.pid;
+
+	$scope.marker = false;
+	$scope.places = [];
+	var LatLng=[];
+	var allLoc = [];
+	var expArray=[];
+	var map;
+	var polyline;
+	
+	//todo when exhibits are ready --- populates exhibits dropdown
+	$scope.exhibits = [
+      {name:'EXHIBIT 1'},
+      {name:'EXHIBIT 2'},
+      {name:'EXHIBIT 3'},
+      {name:'EXHIBIT 4'},
+      {name:'EXHIBIT 5'}
+    ];
+    $scope.selectedExhibit = $scope.exhibits[0]; 
+
+	$scope.exploration = {
+		name: "",
+		descrition: "",
+		file: "",
+		latitude: '',
+		longitude: ''
+	}	
+	
+	
+	
+    function getMedia(){
+		$http({
+			method: 'POST',
+			url: "ajax/getMedia.php",
+			data: $.param({'id': $stateParams.exploration, 'type': 'exp'}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			$scope.media = data;
+		})
+    }
+
+	//load exploration info
+	$http({
+		method: 'POST',
+		url: "ajax/getExplorationInfo.php",
+		data: $.param({
+				id: $stateParams.exploration
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		//Put location in scope
+		$scope.exploration = data;
+		locArray = data['direction'].split(',');
+		$http({
+				method: 'GET',
+				url: "ajax/getLocations.php",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).success(function(data2){
+				for(i=0;i<locArray.length;i++){
+					for(j=0;j<data2.length;j++){
+						allLoc = data2;
+						if(data2[j]['id'] == locArray[i]){
+							//Set up map
+							if (i === 0) {
+								map = setMap.set(parseFloat(data2[j]['latitude']), parseFloat(data2[j]['longitude']));
+								polyline = L.polyline(LatLng, {color: 'red'}).addTo(map);
+							}
+							polyline.addLatLng([parseFloat(data2[j]['latitude']),parseFloat(data2[j]['longitude'])]);
+							L.marker([data2[j]['latitude'], data2[j]['longitude']]).addTo(map)
+								.bindPopup('<img style="width:50px;height:50px;" src="images/'+data2[j]['thumb_path']+'"></br>' + data2[j]['name'])
+								.on('mouseover', function(e) {
+									//open popup;
+									this.openPopup();	
+								})
+								.on('mouseout', function(e) {
+									//close popup;
+									this.closePopup();	
+								})
+							expArray.push([data2[j]['id'],data2[j]['name']]);
+							$scope.places = expArray;
+							break;
+						}
+					}
+				}
+			});
+			
+		//Set switches
+		if($scope.exploration.toggle_comments == 'true'){
+			$scope.exploration.toggle_comments = true;
+		}else{
+			$scope.exploration.toggle_comments = false;
+		}
+		if($scope.exploration.toggle_media == 'true'){
+			$scope.exploration.toggle_media = true;
+		}else{
+			$scope.exploration.toggle_media = false;
+		}
+		
+		getMedia();
+	})
+
+	//Submit Media
+	$scope.onFileSelect = function($files) {
+		if($files.length > 1) {
+			alert("Only upload one image at a time.");
+		}else{
+		  	$scope.file = $files[0];
+			$scope.upload = $upload.upload({
+					url: 'ajax/saveMedia.php',
+					method: 'POST',
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					data: {'id': $stateParams.exploration, 'type': 'exp'},
+					file: $scope.file
+			}).success(function(data, status, headers, config) {
+				getMedia();
+			});  
+		}
+	};
+
+	//Allow stops to be changed
+	$scope.editPosition = function(){
+		//Open new position fields
+		$scope.active = true;
+		
+		//initialize search bar
+		$scope.search = new L.Control.GeoSearch({
+			provider: new L.GeoSearch.Provider.OpenStreetMap(),
+			position: 'topcenter',
+			showMarker: true,
+			scope: $scope,
+			location: $scope.exploration,
+			map: map
+		}).addTo(map);
+
+		//Allow clicking to set marker and save location from click in scope
+		map.on('click', function(e) {
+			console.log('go');
+
+		});
+	}
+	
+	//Handle "save and close"
+	$scope.submit = function(){
+		var direction = '';
+		for (i=0;i<$scope.places.length; i++){
+			direction += $scope.places[i][0] + ",";
+			if (i === $scope.places.length-1){
+				direction = direction.substr(0,direction.length-1);
+			}
+		}
+		//Save
+		$http({
+			method: 'POST',
+			url: "ajax/saveExploration.php",
+			data: $.param({
+						task: 'update',
+						eid: $stateParams.exploration,
+						name: $scope.exploration.name,
+						description: $scope.exploration.description,
+						direction: direction,
+						toggle_media: $scope.exploration.toggle_media,
+						toggle_comments: $scope.exploration.toggle_comments
+					}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			//Close (return to project)
+			location.href = "#/viewProject/?project="+$stateParams.project+'&pid='+$stateParams.pid;
+		})
+	}
+	
+	//Delete exploration
+	$scope.delete = function(){
+		$http({
+		method: 'POST',
+		url: "ajax/saveExploration.php",
+		data: $.param({
+				task: "delete",
+				id: $stateParams.exploration
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			//return to projecct
+			location.href = "#/viewProject/?project="+$stateParams.project+'&pid='+$stateParams.pid;
+		})
+	}
+	
+	function createNewLine() {
+		newlatlng= [];
+		for(h=0; h<expArray.length; h++){
+			for (i=0; i < allLoc.length; i++) {
+				if (allLoc[i]['id'] === expArray[h][0]){
+					newlatlng.push([parseFloat(allLoc[i]['latitude']),parseFloat(allLoc[i]['longitude'])]);
+				}
+			}
+		}
+		polyline.setLatLngs(newlatlng);
+	}	
+	
+	
+	$scope.onSort = function(){
+		createNewLine();
+	};
+
+
+});
+
+
+
+
+
+mbira.controller("viewExhibitsCtrl", function ($scope, $http){
+	//Get all exhibits
+	$http({
+		method: 'GET',
+		url: "ajax/getExhibits.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		  $scope.exhibits = data;
+	})
+});	
+mbira.controller("viewNotificationsCtrl", function ($scope, $http){
+	//Get all notifications
+	$http({
+		method: 'GET',
+		url: "ajax/getNotifications.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		  $scope.notifications = data;
+	})
+});	
