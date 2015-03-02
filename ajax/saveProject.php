@@ -8,9 +8,12 @@ $desc = $_POST['description'];
 
 $con=mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
+$uploaddir = '../images/';
+
 //Use default image if no file provided
 if(isset($_FILES['file']['name'])){
 	$filename = explode('.', basename($_FILES['file']['name']));
+	
 
 	$uploadfile = $uploaddir . $filename[0].time().'.'.$filename[count($filename)-1];
 	move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
