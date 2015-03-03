@@ -139,7 +139,7 @@
 		INDEX `fk_mbira_loc_media_mbira_locations1_idx` (`location_id` ASC),
 		CONSTRAINT `fk_mbira_loc_media_mbira_locations1`
 		FOREIGN KEY (`location_id`)
-		REFERENCES `bogdan_dev`.`mbira_locations` (`id`)
+		REFERENCES `mbira_locations` (`id`)
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
@@ -183,7 +183,7 @@
 		INDEX `fk_mbira_exp_media_mbira_explorations1_idx` (`exploration_id` ASC),
 		CONSTRAINT `fk_mbira_exp_media_mbira_explorations1`
 		FOREIGN KEY (`exploration_id`)
-		REFERENCES `bogdan_dev`.`mbira_explorations` (`id`)
+		REFERENCES `mbira_explorations` (`id`)
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
@@ -202,12 +202,97 @@
 		INDEX `fk_mbira_area_media_mbira_areas1_idx` (`area_id` ASC),
 		CONSTRAINT `fk_mbira_area_media_mbira_areas1`
 		FOREIGN KEY (`area_id`)
-		REFERENCES `bogdan_dev`.`mbira_areas` (`id`)
+		REFERENCES `mbira_areas` (`id`)
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB";
 	mysqli_query($con, $sql);	
 
+// -- -----------------------------------------------------
+// -- Table `$dbname`.`mbira_exhibits`
+// -- -----------------------------------------------------
+	$sql = "CREATE TABLE IF NOT EXISTS `mbira_exhibits` (
+		`id` INT(11) UNSIGNED NOT NULL,
+		`projects_id` INT(11) UNSIGNED NOT NULL,
+		`name` VARCHAR(200) NOT NULL,
+		`description` VARCHAR(10000) NULL,
+		`thumb_path` VARCHAR(500) NULL,
+		PRIMARY KEY (`id`),
+		INDEX `fk_mbira_exhibits_mbira_projects1_idx` (`projects_id` ASC),
+		CONSTRAINT `fk_mbira_exhibits_mbira_projects1`
+		FOREIGN KEY (`projects_id`)
+		REFERENCES `mbira_projects` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+		ENGINE = InnoDB";
+	mysqli_query($con, $sql);	
+	
+// -- -----------------------------------------------------
+// -- Table `$dbname`.`mbira_areas_has_mbira_exhibits`
+// -- -----------------------------------------------------
+	$sql = "CREATE TABLE IF NOT EXISTS `mbira_areas_has_mbira_exhibits` (
+		`mbira_areas_id` INT(11) UNSIGNED NOT NULL,
+		`mbira_exhibits_id` INT UNSIGNED NOT NULL,
+		INDEX `fk_mbira_areas_has_mbira_exhibits_mbira_exhibits1_idx` (`mbira_exhibits_id` ASC),
+		INDEX `fk_mbira_areas_has_mbira_exhibits_mbira_areas1_idx` (`mbira_areas_id` ASC),
+		CONSTRAINT `fk_mbira_areas_has_mbira_exhibits_mbira_areas1`
+		FOREIGN KEY (`mbira_areas_id`)
+		REFERENCES `mbira_areas` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+		CONSTRAINT `fk_mbira_areas_has_mbira_exhibits_mbira_exhibits1`
+		FOREIGN KEY (`mbira_exhibits_id`)
+		REFERENCES `mbira_exhibits` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+		ENGINE = InnoDB
+		DEFAULT CHARACTER SET = latin1";
+	mysqli_query($con, $sql);	
+	
+// -- -----------------------------------------------------
+// -- Table `$dbname`.`mbira_explorations_has_mbira_exhibits`
+// -- -----------------------------------------------------
+	$sql = "CREATE TABLE IF NOT EXISTS `mbira_explorations_has_mbira_exhibits` (
+		`mbira_explorations_id` INT(11) UNSIGNED NOT NULL,
+		`mbira_exhibits_id` INT UNSIGNED NOT NULL,
+		INDEX `fk_mbira_explorations_has_mbira_exhibits_mbira_exhibits1_idx` (`mbira_exhibits_id` ASC),
+		INDEX `fk_mbira_explorations_has_mbira_exhibits_mbira_explorations_idx` (`mbira_explorations_id` ASC),
+		CONSTRAINT `fk_mbira_explorations_has_mbira_exhibits_mbira_explorations1`
+		FOREIGN KEY (`mbira_explorations_id`)
+		REFERENCES `mbira_explorations` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+		CONSTRAINT `fk_mbira_explorations_has_mbira_exhibits_mbira_exhibits1`
+		FOREIGN KEY (`mbira_exhibits_id`)
+		REFERENCES `mbira_exhibits` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+		ENGINE = InnoDB
+		DEFAULT CHARACTER SET = latin1";
+	mysqli_query($con, $sql);	
+
+// -- -----------------------------------------------------
+// -- Table `$dbname`.`mbira_locations_has_mbira_exhibits`
+// -- -----------------------------------------------------
+	$sql = "CREATE TABLE IF NOT EXISTS `mbira_locations_has_mbira_exhibits` (
+		`mbira_locations_id` INT(11) UNSIGNED NOT NULL,
+		`mbira_exhibits_id` INT UNSIGNED NOT NULL,
+		INDEX `fk_mbira_locations_has_mbira_exhibits_mbira_exhibits1_idx` (`mbira_exhibits_id` ASC),
+		INDEX `fk_mbira_locations_has_mbira_exhibits_mbira_locations1_idx` (`mbira_locations_id` ASC),
+		CONSTRAINT `fk_mbira_locations_has_mbira_exhibits_mbira_locations1`
+		FOREIGN KEY (`mbira_locations_id`)
+		REFERENCES `mbira_locations` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+		CONSTRAINT `fk_mbira_locations_has_mbira_exhibits_mbira_exhibits1`
+		FOREIGN KEY (`mbira_exhibits_id`)
+		REFERENCES `mbira_exhibits` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+		ENGINE = InnoDB
+		DEFAULT CHARACTER SET = latin1";
+	mysqli_query($con, $sql);		
+	
 	mysqli_close($con);
 ?>
 

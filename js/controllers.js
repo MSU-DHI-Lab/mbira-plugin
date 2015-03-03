@@ -30,7 +30,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "exhibit_single.html"
 	  })
 	  .state('newExhibit', {
-	    url: "/newExhibit",
+	    url: "/newExhibit/?project&pid",
 	    templateUrl: "exhibit_new.html"
 	  })
 	   .state('locations', {
@@ -1243,7 +1243,185 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 
 
 });
+mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
+	$scope.marker = false;
+	$scope.places = [];
+	$scope.ID = $stateParams.project;
+	$scope.PID = $stateParams.pid;
+	$scope.param = $stateParams.project;
 
+	//new location model
+	$scope.newExhibit = {
+		name: "",
+		descrition: "",
+		file: "",
+		latitude: '',
+		longitude: ''
+	}
+	
+	//Get file to be uploaded
+	$scope.onFileSelect = function($files) {
+		if($files.length > 1) {
+			alert("Only upload one image for the thumbnail.");
+		}else{
+			$scope.file = $files[0];
+
+			$scope.uploadFile = $upload.upload({
+				url:'ajax/tempImg.php',
+				method:"POST",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				file: $scope.file
+			}).success(function(data) {	
+				$('.thumbnail .dropImg').css('display', 'none');
+				$('.thumbnail h5').css('display', 'none');
+				$('.thumbnail .clickAdd').css('display', 'none');
+				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+			});
+		}
+	};
+	
+	//submit new exhibit
+	$scope.submit = function() {		
+/* 		var direction = '';
+		for (i=0;i<$scope.places.length; i++){
+			direction += $scope.places[i][0] + ",";
+			if (i === $scope.places.length-1){
+				direction = direction.substr(0,direction.length-1);
+			}
+		}
+		console.log($scope.newExploration.name);
+		$scope.upload = $upload.upload({				
+			url: 'ajax/saveExploration.php',
+			method: 'POST',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: { 
+					task: 'create',
+					projectId: $scope.ID,
+					pid: $stateParams.pid,
+					name: $scope.newExploration.name,
+					description: $scope.newExploration.description,
+					direction: direction,
+				},
+			file: $scope.file
+		}).success(function(data) {
+			//return to project
+			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
+		}); */
+	};
+	
+	//<MAP_STUFF>
+	//initialize map
+	var map = setMap.set(42.723241200224216, -84.47797000408173);
+	LatLng=[];
+	var locArray=[];
+	var expArray=[];
+	var polyline = L.polyline(LatLng, {color: 'red'}).addTo(map);
+	var expBeginning = []
+		
+	function getLoc(){
+		$http({
+			method: 'GET',
+			url: "ajax/getLocations.php",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			for(i=0;i<data.length;i++) {
+				if (data[i]['project_id'] == $scope.param) {
+					locArray.push([data[i]['latitude'],data[i]['longitude'], data[i]['id'], data[i]['name']]);
+					if(expBeginning.indexOf(data[i]['id']) >=0){
+						isExp = "<br><img style='width:25px;height:25px;' src='img/add_exploration.png'>";
+						isExp2 = "exp";
+					} else {
+						isExp = "";
+						isExp2 = "";
+					}
+
+					L.marker([data[i]['latitude'], data[i]['longitude']]).addTo(map)
+						.bindPopup('<img style="width:50px;height:50px;" id="'+isExp2+'" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name']+ isExp)
+						.on('mouseover', function(e) {
+							//open popup;
+							this.openPopup();	
+						})
+						.on('mouseout', function(e) {
+							//close popup;
+							this.closePopup();	
+						})
+				}
+			}
+		});
+	}
+
+	function getArea() {
+		$http({
+			method: 'GET',
+			url: "ajax/getAreas.php",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			for(i=0;i<data.length;i++) {
+				if (data[i]['project_id'] == $scope.param) {
+
+					//Put area in scope
+					$scope.area = data[i];
+					
+					//Parse string to get array  of coorinates
+					$scope.coordinates = JSON.parse(data[i].coordinates);
+					
+					if(data[i].shape == 'polygon'){
+						//Create polygon from array of coordinates 
+						$scope.polygon = L.polygon($scope.coordinates).addTo(map)
+							.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
+							.on('mouseover', function(e) {
+								//open popup;
+								this.openPopup();	
+							})
+							.on('mouseout', function(e) {
+								//close popup;
+								this.closePopup();	
+							})
+							.on('click', function(e) {
+								//store in exploration;
+								console.log("At least I have something");
+								this.closePopup();	//makes sure the popup doesn't show on click.
+							});
+					}else if(data[i].shape == 'circle'){
+						//Create circle from coordinates
+						$scope.circle = L.circle($scope.coordinates[0], data[i].radius, {
+							color: 'red',
+							fillColor: '#f03',
+							fillOpacity: 0.5
+						}).addTo(map)
+							.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['file_path']+'"></br>' + data[i]['name'])
+							.on('mouseover', function(e) {
+								//open popup;
+								this.openPopup();	
+							})
+							.on('mouseout', function(e) {
+								//close popup;
+								this.closePopup();	
+							});
+					}
+				}
+			}
+		});
+	}
+
+	$http({
+		method: 'GET',
+		url: "ajax/getExplorations.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(resp){
+		for(i=0;i<resp.length;i++) {
+		  	if (resp[i]['project_id'] == $scope.param) {
+				dirArray = resp[i]['direction'].split(",");
+				expBeginning.push(dirArray[0]);
+				
+				
+			}
+		}
+		getLoc();
+		getArea();
+	});
+	
+});
 
 
 
