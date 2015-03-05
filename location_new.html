@@ -22,23 +22,14 @@
 			</div>
 		</div>
 
-		<!--PROJECT INFORMATION-->
+        <!--PROJECT INFORMATION-->       
+		<div id="map"> 
+		</div>
 		
 		<div class="main">
-		
-			
-			<!-- <div class="thumbnail"> 
-				<a href="thumbnail.html"> <img src="img/thumbnail_empty.png" height="340" width="340">
-					<div class="thumbnail_title"><h3>ADD THUMBNAIL</h3></div>
-				</a>
-			</div> -->
-			
 			<div class="project_information">    
 				<form id="newlocationform" name="newlocationform" novalidate ng-submit="submit()" role="form">
-					
-					<div id="map"></div>
-					<br><br>
-					
+
 					<div class="form-group">				        
 						<input type="text" required class="form-control npInput" id="name" name="name" ng-value="search._location.Label" ng-model="newLocation.name" placeholder="Location Name">
 					</div>

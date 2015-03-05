@@ -212,15 +212,16 @@
 // -- Table `$dbname`.`mbira_exhibits`
 // -- -----------------------------------------------------
 	$sql = "CREATE TABLE IF NOT EXISTS `mbira_exhibits` (
-		`id` INT(11) UNSIGNED NOT NULL,
-		`projects_id` INT(11) UNSIGNED NOT NULL,
+		`id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+		`project_id` INT(11) UNSIGNED NOT NULL,
+		`pid` int(11) unsigned NOT NULL,
 		`name` VARCHAR(200) NOT NULL,
 		`description` VARCHAR(10000) NULL,
 		`thumb_path` VARCHAR(500) NULL,
 		PRIMARY KEY (`id`),
-		INDEX `fk_mbira_exhibits_mbira_projects1_idx` (`projects_id` ASC),
+		INDEX `fk_mbira_exhibits_mbira_projects1_idx` (`project_id` ASC),
 		CONSTRAINT `fk_mbira_exhibits_mbira_projects1`
-		FOREIGN KEY (`projects_id`)
+		FOREIGN KEY (`project_id`)
 		REFERENCES `mbira_projects` (`id`)
 		ON DELETE NO ACTION
 		ON UPDATE NO ACTION)
@@ -248,29 +249,7 @@
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = latin1";
 	mysqli_query($con, $sql);	
-	
-// -- -----------------------------------------------------
-// -- Table `$dbname`.`mbira_explorations_has_mbira_exhibits`
-// -- -----------------------------------------------------
-	$sql = "CREATE TABLE IF NOT EXISTS `mbira_explorations_has_mbira_exhibits` (
-		`mbira_explorations_id` INT(11) UNSIGNED NOT NULL,
-		`mbira_exhibits_id` INT UNSIGNED NOT NULL,
-		INDEX `fk_mbira_explorations_has_mbira_exhibits_mbira_exhibits1_idx` (`mbira_exhibits_id` ASC),
-		INDEX `fk_mbira_explorations_has_mbira_exhibits_mbira_explorations_idx` (`mbira_explorations_id` ASC),
-		CONSTRAINT `fk_mbira_explorations_has_mbira_exhibits_mbira_explorations1`
-		FOREIGN KEY (`mbira_explorations_id`)
-		REFERENCES `mbira_explorations` (`id`)
-		ON DELETE NO ACTION
-		ON UPDATE NO ACTION,
-		CONSTRAINT `fk_mbira_explorations_has_mbira_exhibits_mbira_exhibits1`
-		FOREIGN KEY (`mbira_exhibits_id`)
-		REFERENCES `mbira_exhibits` (`id`)
-		ON DELETE NO ACTION
-		ON UPDATE NO ACTION)
-		ENGINE = InnoDB
-		DEFAULT CHARACTER SET = latin1";
-	mysqli_query($con, $sql);	
-
+		
 // -- -----------------------------------------------------
 // -- Table `$dbname`.`mbira_locations_has_mbira_exhibits`
 // -- -----------------------------------------------------

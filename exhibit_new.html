@@ -24,11 +24,11 @@
 
         <!--PROJECT INFORMATION-->       
 		<div id="map"> 
-			<div style="position:absolute; top:0;left:0;right:0;height:40px; background-color: white; opacity:.5; z-index: 1500;">
-				<a ui-sref='newLocation({project: ID, pid: PID})'>Add Location</a>
-				<a ui-sref='newArea({project: ID, pid: PID})'>Add Area</a>
-				<a ui-sref='newExploration({project: ID, pid: PID})'>Add Exploration</a>
-			</div> 
+			<div class="toolbar">
+				<div class="tool_location"><a ui-sref='newLocation({project: ID, pid: PID})'><h3>ADD LOCATION</h3><img src="img/add_location.png"/></a></div>
+				<div class="tool_area"><a ui-sref='newArea({project: ID, pid: PID})'><h3>ADD AREA</h3><img src="img/add_area.png"/></a></div>
+				<div class="tool_filter"><a href="#"><h3>FILTER BY</h3><img src="img/filter_by.png"/></a></div>
+			</div>
 		</div>
 		
 		<div class="exhibit_info">    
@@ -55,6 +55,10 @@
 				
 				<div class="form-group">                        
 					<textarea required class="form-control npInput" id="description" name="description" ng-model="newExhibit.description" placeholder="Exhibit Description"></textarea>
+				</div>
+				
+				<div id='stops' ng-repeat="place in places">
+					{{place[1]}} {{place[2]}}
 				</div>
 				
 				<button type="submit" id="submit" class="btn btn-default" ng-disabled="newexhibitform.$invalid" ng-class="{'btn-disabled': newexhibitform.$invalid}">Add Exhibit</button>

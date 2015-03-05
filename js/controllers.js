@@ -26,7 +26,7 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    templateUrl: "menu_exhibit_all.php"
 	  })
 	  .state('viewExhibit', {
-	    url: "/viewExhibit",
+	    url: "/viewExhibit?project&exhibit&pid",
 	    templateUrl: "exhibit_single.html"
 	  })
 	  .state('newExhibit', {
@@ -333,7 +333,6 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 		$scope.coordinates = JSON.parse(data.coordinates);
 		
 		//Set up map
-		console.log($scope.coordinates)
 		map = setMap.set($scope.coordinates[0][0], $scope.coordinates[0][1]);
 		
 		if(data.shape == 'polygon'){
@@ -462,6 +461,7 @@ mbira.controller("singleProjectCtrl", function ($scope, $http, $stateParams){
 		$scope.locations = data[1];
 		$scope.areas = data[2];
 		$scope.explorations = data[3];
+		$scope.exhibits = data[4];
 	})
 });
 
@@ -542,7 +542,6 @@ mbira.controller("viewLocationsCtrl", function ($scope, $http, makeArray){
 			  	data2[i].locations = LocArray;
 			}
 			$scope.projects = data2;
-			console.log($scope.projects);
 		})
 	})
 });	
@@ -792,7 +791,6 @@ mbira.controller("viewExplorationsCtrl", function ($scope, $http, makeArray){
 			  	data2[i].explorations = expArray;
 			}
 			$scope.projects = data2;
-			console.log(data2)
 		})
 	})
 
@@ -843,7 +841,6 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 				direction = direction.substr(0,direction.length-1);
 			}
 		}
-		console.log($scope.newExploration.name);
 		$scope.upload = $upload.upload({				
 			url: 'ajax/saveExploration.php',
 			method: 'POST',
@@ -1258,7 +1255,7 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 		latitude: '',
 		longitude: ''
 	}
-	
+		
 	//Get file to be uploaded
 	$scope.onFileSelect = function($files) {
 		if($files.length > 1) {
@@ -1281,32 +1278,29 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 	};
 	
 	//submit new exhibit
-	$scope.submit = function() {		
-/* 		var direction = '';
-		for (i=0;i<$scope.places.length; i++){
-			direction += $scope.places[i][0] + ",";
-			if (i === $scope.places.length-1){
-				direction = direction.substr(0,direction.length-1);
-			}
+	$scope.submit = function() {
+		points = [];
+		for(i=0;i<exhibitPoints.length;i++){
+			points.push(exhibitPoints[i][0])
 		}
-		console.log($scope.newExploration.name);
+
 		$scope.upload = $upload.upload({				
-			url: 'ajax/saveExploration.php',
+			url: 'ajax/saveExhibit.php',
 			method: 'POST',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data: { 
 					task: 'create',
 					projectId: $scope.ID,
 					pid: $stateParams.pid,
-					name: $scope.newExploration.name,
-					description: $scope.newExploration.description,
-					direction: direction,
+					name: $scope.newExhibit.name,
+					description: $scope.newExhibit.description,
+					exhibitPoints: JSON.stringify(points)
 				},
 			file: $scope.file
 		}).success(function(data) {
-			//return to project
+			// return to project
 			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
-		}); */
+		});
 	};
 	
 	//<MAP_STUFF>
@@ -1314,29 +1308,98 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 	var map = setMap.set(42.723241200224216, -84.47797000408173);
 	LatLng=[];
 	var locArray=[];
-	var expArray=[];
+	var areaArray=[];
 	var polyline = L.polyline(LatLng, {color: 'red'}).addTo(map);
-	var expBeginning = []
-		
-	function getLoc(){
-		$http({
-			method: 'GET',
-			url: "ajax/getLocations.php",
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).success(function(data){
-			for(i=0;i<data.length;i++) {
-				if (data[i]['project_id'] == $scope.param) {
-					locArray.push([data[i]['latitude'],data[i]['longitude'], data[i]['id'], data[i]['name']]);
-					if(expBeginning.indexOf(data[i]['id']) >=0){
-						isExp = "<br><img style='width:25px;height:25px;' src='img/add_exploration.png'>";
-						isExp2 = "exp";
-					} else {
-						isExp = "";
-						isExp2 = "";
-					}
+	var expBeginning = [];
+	var exhibitPoints = [];
+	
+	function deleteFromExhibit(idToDelete) {
+		for(m=0;m<exhibitPoints.length;m++){
+			if (exhibitPoints[m].indexOf('L'+ idToDelete) >=0){
+				exhibitPoints.splice(m, 1);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	function addToExhibit(id, name){
+		if (!deleteFromExhibit(id)){
+			exhibitPoints.push(['L'+ id, name, 'Location']);
+		}
+		$scope.places = exhibitPoints;
+		$scope.$apply();
+	}
+	
+	
+	
+				
+	$http({
+		method: 'GET',
+		url: "ajax/getLocations.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		for(i=0;i<data.length;i++) {
+			if (data[i]['project_id'] == $scope.param) {
+				locArray.push([data[i]['latitude'],data[i]['longitude'], data[i]['id'], data[i]['name']]);
+				L.marker([data[i]['latitude'], data[i]['longitude']]).addTo(map)
+					.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
+					.on('mouseover', function(e) {
+						//open popup;
+						this.openPopup();	
+					})
+					.on('mouseout', function(e) {
+						//close popup;
+						this.closePopup();	
+					})
+					.on('click', function(e) {
+						for (i=0; i < locArray.length; i++) {
+							//finds the id of the coordinates and checks if it has already been added to exploration..
+							if (e.latlng.lat == locArray[i][0] && e.latlng.lng == locArray[i][1]) {
+								addToExhibit(locArray[i][2], locArray[i][3]);
+							}
+						}
+						this.closePopup();	//makes sure the popup doesn't show on click.
+					})
+			}
+		}
+	});
 
-					L.marker([data[i]['latitude'], data[i]['longitude']]).addTo(map)
-						.bindPopup('<img style="width:50px;height:50px;" id="'+isExp2+'" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name']+ isExp)
+	
+	function deleteAreaFromExhibit(idToDelete){
+		for(m=0;m<exhibitPoints.length;m++){
+			if (exhibitPoints[m].indexOf(
+			idToDelete) >=0){
+				exhibitPoints.splice(m, 1);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	$http({
+		method: 'GET',
+		url: "ajax/getAreas.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		tempArray = [];
+		for(i=0;i<data.length;i++) {
+			if (data[i]['project_id'] == $scope.param) {
+				tempArray.push(data[i].id);
+				//Put area in scope
+				$scope.area = data[i];
+				
+				//Parse string to get array  of coorinates
+				$scope.coordinates = JSON.parse(data[i].coordinates);
+				tempArray.push($scope.coordinates);
+				tempArray.push(data[i].name);
+				areaArray.push(tempArray);
+				tempArray =[];
+				
+				if(data[i].shape == 'polygon'){
+					//Create polygon from array of coordinates 
+					$scope.polygon = L.polygon($scope.coordinates).addTo(map)
+						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
 						.on('mouseover', function(e) {
 							//open popup;
 							this.openPopup();	
@@ -1345,97 +1408,166 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 							//close popup;
 							this.closePopup();	
 						})
+						.on('click', function(e) {
+							//store in exploration;		
+							for (i=0; i < areaArray.length; i++) {			
+								if (this._latlngs[0].lat == areaArray[i][1][0][0] && this._latlngs[1].lng == areaArray[i][1][1][1]) {
+									if (!deleteAreaFromExhibit('A'+ areaArray[i][0])){
+										exhibitPoints.push(['A'+ data[i]['id'], areaArray[i][2], 'Area']);
+									}
+								}
+							}
+							$scope.places = exhibitPoints;
+							$scope.$apply();
+							this.closePopup();	//makes sure the popup doesn't show on click.
+						});
+				}else if(data[i].shape == 'circle'){
+					//Create circle from coordinates
+					$scope.circle = L.circle($scope.coordinates[0], data[i].radius, {
+						color: 'red',
+						fillColor: '#f03',
+						fillOpacity: 0.5
+					}).addTo(map)
+						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['file_path']+'"></br>' + data[i]['name'])
+						.on('mouseover', function(e) {
+							//open popup;
+							this.openPopup();	
+						})
+						.on('mouseout', function(e) {
+							//close popup;
+							this.closePopup();	
+						})
+						.on('click', function(e) {
+							//store in exploration;
+							if (!deleteAreaFromExhibit('A'+ areaArray[i][0])){
+								exhibitPoints.push('A'+ data[i]['id']);
+							} 
+							this.closePopup();	//makes sure the popup doesn't show on click.
+						});
 				}
-			}
-		});
-	}
-
-	function getArea() {
-		$http({
-			method: 'GET',
-			url: "ajax/getAreas.php",
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).success(function(data){
-			for(i=0;i<data.length;i++) {
-				if (data[i]['project_id'] == $scope.param) {
-
-					//Put area in scope
-					$scope.area = data[i];
-					
-					//Parse string to get array  of coorinates
-					$scope.coordinates = JSON.parse(data[i].coordinates);
-					
-					if(data[i].shape == 'polygon'){
-						//Create polygon from array of coordinates 
-						$scope.polygon = L.polygon($scope.coordinates).addTo(map)
-							.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
-							.on('mouseover', function(e) {
-								//open popup;
-								this.openPopup();	
-							})
-							.on('mouseout', function(e) {
-								//close popup;
-								this.closePopup();	
-							})
-							.on('click', function(e) {
-								//store in exploration;
-								console.log("At least I have something");
-								this.closePopup();	//makes sure the popup doesn't show on click.
-							});
-					}else if(data[i].shape == 'circle'){
-						//Create circle from coordinates
-						$scope.circle = L.circle($scope.coordinates[0], data[i].radius, {
-							color: 'red',
-							fillColor: '#f03',
-							fillOpacity: 0.5
-						}).addTo(map)
-							.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['file_path']+'"></br>' + data[i]['name'])
-							.on('mouseover', function(e) {
-								//open popup;
-								this.openPopup();	
-							})
-							.on('mouseout', function(e) {
-								//close popup;
-								this.closePopup();	
-							});
-					}
-				}
-			}
-		});
-	}
-
-	$http({
-		method: 'GET',
-		url: "ajax/getExplorations.php",
-		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-	}).success(function(resp){
-		for(i=0;i<resp.length;i++) {
-		  	if (resp[i]['project_id'] == $scope.param) {
-				dirArray = resp[i]['direction'].split(",");
-				expBeginning.push(dirArray[0]);
-				
-				
 			}
 		}
-		getLoc();
-		getArea();
 	});
-	
 });
 
 
-
-
-mbira.controller("viewExhibitsCtrl", function ($scope, $http){
+mbira.controller("viewExhibitsCtrl", function ($scope, $http, makeArray){
 	//Get all exhibits
 	$http({
 		method: 'GET',
 		url: "ajax/getExhibits.php",
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
-		  $scope.exhibits = data;
+		$scope.data = data;
+		
+		//Get all projects
+		$http({
+			method: 'GET',
+			url: "ajax/getProjects.php",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data2){
+			for(i=0;i<data2.length;i++){
+			  	exhArray = makeArray.make(data2[i].id, $scope);
+			  	data2[i].exhibits = exhArray;
+			}
+			$scope.projects = data2;
+			console.log($scope.projects);
+		})
 	})
 });	
+
+mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
+	$scope.newMedia = false;
+	$scope.project = $stateParams.project;
+	$scope.pid = $stateParams.pid;
+
+	$scope.marker = false;
+	$scope.places = [];
+	var LatLng=[];
+	var allLoc = [];
+	var map;
+	
+	$scope.exploration = {
+		name: "",
+		descrition: "",
+		file: "",
+		latitude: '',
+		longitude: ''
+	}	
+	
+	//Set up map
+	map = setMap.set(42.7404566603398, -84.5452880859375);
+	// $scope.marker = L.marker([data.latitude, data.longitude]).addTo(map);	
+	
+    function getMedia(){
+		$http({
+			method: 'POST',
+			url: "ajax/getMedia.php",
+			data: $.param({'id': $stateParams.exploration, 'type': 'exp'}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			$scope.media = data;
+		})
+    }
+	
+	//Handle "save and close"
+	// $scope.submit = function(){
+		// var direction = '';
+		// for (i=0;i<$scope.places.length; i++){
+			// direction += $scope.places[i][0] + ",";
+			// if (i === $scope.places.length-1){
+				// direction = direction.substr(0,direction.length-1);
+			// }
+		// }
+		// //Save
+		// $http({
+			// method: 'POST',
+			// url: "ajax/saveExploration.php",
+			// data: $.param({
+						// task: 'update',
+						// eid: $stateParams.exploration,
+						// name: $scope.exploration.name,
+						// description: $scope.exploration.description,
+						// direction: direction,
+						// toggle_media: $scope.exploration.toggle_media,
+						// toggle_comments: $scope.exploration.toggle_comments
+					// }),
+			// headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		// }).success(function(data){
+			// //Close (return to project)
+			// location.href = "#/viewProject/?project="+$stateParams.project+'&pid='+$stateParams.pid;
+		// })
+	// }
+	
+	//Delete exploration
+	// $scope.delete = function(){
+		// $http({
+		// method: 'POST',
+		// url: "ajax/saveExploration.php",
+		// data: $.param({
+				// task: "delete",
+				// id: $stateParams.exploration
+			// }),
+		// headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		// }).success(function(data){
+			// //return to projecct
+			// location.href = "#/viewProject/?project="+$stateParams.project+'&pid='+$stateParams.pid;
+		// })
+	// }
+	
+});
+
+
+
+
+
+
+
+
+
+
+
+
 mbira.controller("viewNotificationsCtrl", function ($scope, $http){
 	//Get all notifications
 	$http({

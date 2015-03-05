@@ -1,37 +1,32 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="css/exhibit_single.css"/>
+        <link rel="stylesheet" type="text/css" href="css/project_all.css"/>    <!--remove eventually-->
 		<link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
         <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
+		<link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
+		
+		<script src="js/leaflet.js"></script> 
+		<script src="js/l.control.geosearch.js"></script> 
+		<script src="js/l.geosearch.provider.openstreetmap.js"></script> 
     </head>
 <body>
-
-    <div class="header">
-		<div class="back"><a ui-sref="viewProject"><img src="img/back.png"/><p>**NAME OF PROJECT**</p></a></div>
-        <div class="title"><h1>**SINGLE EXHIBIT**</h1></div>
-        <div class="info"><a href="project_info.php"><img src="img/info.png"/></a></div></div>
-    
-    <div class="toolbar">
-        <div class="tool_location"><a href="#"><h3>ADD LOCATION</h3><img src="img/add_location.png"/></a></div>
-        <div class="tool_area"><a href="#"><h3>ADD AREA</h3><img src="img/add_area.png"/></a></div>
-        <div class="tool_exploration"><a href="#"><h3>ADD EXPLORATION</h3><img src="img/add_exploration.png"/></a></div>
-        <div class="tool_filter"><a href="#"><h3>FILTER BY</h3><img src="img/filter_by.png"/></a></div>
-    </div>
-    
-     <div id="map"></div>
-
-    
-   <script src="js/leaflet.js"></script> 
-        <script>
-
-            var map = L.map('map').setView([42.7404566603398, -84.5452880859375], 13);
-
-            L.tileLayer('https://{s}.tiles.mapbox.com/v3/austintruchan.jb1pjhel/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    maxZoom: 18
-}).addTo(map);
-            
-            </script>
+	<div class="wrap" ng-controller='singleExhibitCtrl'> 
+		<div class="header">
+			<div class="back"><a ui-sref='viewProject({project: ID, pid: PID})'><img src="img/back.png"/><p>TO PROJECT</p></a></div>
+			<div class="title"><h1>{{exhibit.name}}</h1></div>
+			<div class="info"><a href="exhibit_info.php"><img src="img/info.png"/></a></div></div>
+		
+		 <div id="map">
+			<div class="toolbar">
+				<div class="tool_location"><a ui-sref='newLocation({project: ID, pid: PID})'><h3>ADD LOCATION</h3><img src="img/add_location.png"/></a></div>
+				<div class="tool_area"><a ui-sref='newArea({project: ID, pid: PID})'><h3>ADD AREA</h3><img src="img/add_area.png"/></a></div>
+				<div class="tool_filter"><a href="#"><h3>FILTER BY</h3><img src="img/filter_by.png"/></a></div>
+			</div>
+		 </div>
+		 
+	</div>
     
 </body>
 </html>

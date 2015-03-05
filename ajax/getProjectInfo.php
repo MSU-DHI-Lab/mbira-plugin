@@ -36,6 +36,13 @@
 	while($row = mysqli_fetch_array($results)) {
 		array_push($explorationArray, $row);
 	}
-	echo json_encode([$projectArray[0], $locationArray, $areaArray, $explorationArray]);
+	
+	//get exhibit info
+	$results = mysqli_query($con, "SELECT * FROM mbira_exhibits WHERE project_id = ".$id);
+	$exhibitArray = Array();
+	while($row = mysqli_fetch_array($results)) {
+		array_push($exhibitArray, $row);
+	}
+	echo json_encode([$projectArray[0], $locationArray, $areaArray, $explorationArray, $exhibitArray]);
 	
 ?>
