@@ -24,7 +24,7 @@
         <h2 class="project_element_title">EXHIBITS</h2>
         
         <div class="exhibit" ng-repeat='exhibit in exhibits'}> 
-            <a ui-sref="viewExhibit({project: project.id, pid: pid, exhibit: exhibit.id})"> 
+            <a ui-sref="viewExhibit({project: project.id, pid: pid, exhibit: exhibit.id, previous: 'PROJECT'})"> 
                 <img ng-src="images/{{exhibit.thumb_path}}" height="130" width="130">
                 <div class="exhibit_title"><h3>{{exhibit.name}}</h3></div>
             </a>
@@ -46,7 +46,7 @@
         <h2 class="project_element_title">LOCATIONS</h2>
         
         <div class="location" ng-repeat='location in locations'}> 
-			<a ui-sref="viewLocation({project: project.id, pid: pid, location: location.id})"> 
+			<a ui-sref="viewLocation({project: project.id, pid: pid, location: location.id, previous: 'PROJECT'})"> 
 				<img ng-src="images/{{location.thumb_path}}" height="130" width="130">
 				<div class="location_title"><h3>{{location.name}}</h3></div>
 			</a>
@@ -67,7 +67,7 @@
         <h2 class="project_element_title">AREAS</h2>
         
 		<div class="area" ng-repeat='area in areas'}> 
-			<a ui-sref="viewArea({project: project.id, pid: pid, area: area.id})"> 
+			<a ui-sref="viewArea({project: project.id, pid: pid, area: area.id, previous: 'PROJECT'})"> 
 				<img ng-src="images/{{area.thumb_path}}" height="130" width="130">
 				<div class="area_title"><h3>{{area.name}}</h3></div>
 			</a>
@@ -88,7 +88,7 @@
         <h2 class="project_element_title">EXPLORATIONS</h2>
 
         <div class="exploration" ng-repeat='exploration in explorations'}> 
-            <a ui-sref="viewExploration({project: project.id, exploration: exploration.id, pid: pid})"> 
+            <a ui-sref="viewExploration({project: project.id, exploration: exploration.id, pid: pid, previous: 'PROJECT'})"> 
                 <img ng-src="images/{{exploration.thumb_path}}" height="130" width="130">
                 <div class="exploration_title"><h3>{{exploration.name}}</h3></div>
             </a>

@@ -13,7 +13,7 @@
 			<div class="project" ng-repeat='project in projects'>
 				<a ui-sref="viewProject({project: project.id, pid: project.pid})"> <div class="project_title"><h3>{{project.name}}</h3></div></a>
 				<div class="exhibit" ng-repeat='exhibit in project.exhibits' ng-class-odd="'odd'" ng-class-even="'even'">
-					<a ui-sref="viewExhibit({exhibit: exhibit.id, pid: exhibit.pid, project: exhibit.project_id})"> 
+					<a ui-sref="viewExhibit({exhibit: exhibit.id, pid: exhibit.pid, project: exhibit.project_id, previous: 'ALL EXHIBITS'})"> 
 						<div class="exhibit_title"><h3>{{exhibit.name}}</h3></div><div class="description">{{exhibit.description}}</div>
 					
 					</a>

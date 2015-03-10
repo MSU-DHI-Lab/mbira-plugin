@@ -14,7 +14,7 @@
 <body ng-app='mbira'>
     <div class="wrap" ng-controller='singleLocationCtrl'>    
 		<div class="header">
-			<div class="back"><a ui-sref="viewProject({project: project, pid: pid})"><img src="img/back.png"/><p>TO PROJECT</p></a></div>
+			<div class="back"><a onclick="window.history.go(-1); return false;"><img src="img/back.png"/><p>TO {{previous}}</p></a></div>
 			<h1>{{location.name}}</h1>
 		</div>
     
