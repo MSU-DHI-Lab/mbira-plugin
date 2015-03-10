@@ -1434,7 +1434,7 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 						fillColor: '#f03',
 						fillOpacity: 0.5
 					}).addTo(map)
-						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['file_path']+'"></br>' + data[i]['name'])
+						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
 						.on('mouseover', function(e) {
 							//open popup;
 							this.openPopup();	
@@ -1444,10 +1444,17 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 							this.closePopup();	
 						})
 						.on('click', function(e) {
-							//store in exploration;
-							if (!deleteAreaFromExhibit('A'+ areaArray[i][0])){
-								exhibitPoints.push('A'+ data[i]['id']);
-							} 
+							//store in exploration;		
+							console.log(this)
+							for (i=0; i < areaArray.length; i++) {			
+								if (this._latlng.lat == areaArray[i][1][0][0] && this._latlng.lng == areaArray[i][1][0][1]) {
+									if (!deleteAreaFromExhibit('A'+ areaArray[i][0])){
+										exhibitPoints.push(['A'+ data[i]['id'], areaArray[i][2], 'Area']);
+									}
+								}
+							}
+							$scope.places = exhibitPoints;
+							$scope.$apply();
 							this.closePopup();	//makes sure the popup doesn't show on click.
 						});
 				}
@@ -1541,20 +1548,21 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 				});
 		}
 
-		areas = data[1];
-		for(i=0;i<areas.length;i++) {
+		$scope.areas = data[1];
+		console.log(data[1])
+		for(i=0;i<$scope.areas.length;i++) {
 				//Put area in scope
 				
 				//Parse string to get array  of coorinates
-				areaCoordinates = JSON.parse(areas[i].coordinates);
+				areaCoordinates = JSON.parse($scope.areas[i].coordinates);
 				for(j=0;j<areaCoordinates.length;j++){
 					mapPoints.push(areaCoordinates[j])
 				}
 
-				if(areas[i].shape == 'polygon'){
+				if($scope.areas[i].shape == 'polygon'){
 					//Create polygon from array of coordinates 
 					$scope.polygon = L.polygon(areaCoordinates).addTo(map)
-						.bindPopup('<img style="width:50px;height:50px;" src="images/'+areas[i]['thumb_path']+'"></br>' + areas[i]['name'])
+						.bindPopup('<img style="width:50px;height:50px;" src="images/'+$scope.areas[i]['thumb_path']+'"></br>' + $scope.areas[i]['name'])
 						.on('mouseover', function(e) {
 							//open popup;
 							this.openPopup();	
@@ -1563,14 +1571,25 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 							//close popup;
 							this.closePopup();	
 						})
-				}else if(areas[i].shape == 'circle'){
+						.on('click', function(e) {
+							thisID = '';
+							console.log(this._latlngs)
+							for(i=0;i<$scope.areas.length;i++) {
+								if (this._latlngs[0].lat === parseFloat(JSON.parse($scope.areas[i].coordinates)[0][0]) && this._latlngs[0].lng === parseFloat(JSON.parse($scope.areas[i].coordinates)[0][1])){
+									thisID = $scope.areas[i]['id']
+								}
+							}
+							
+							location.href = "#/viewArea/?project="+$scope.ID+'&pid='+$scope.PID+'&area='+thisID+'&previous=EXHIBIT';
+						});
+				}else if($scope.areas[i].shape == 'circle'){
 					//Create circle from coordinates
-					$scope.circle = L.circle(areaCoordinates[0], areas[i].radius, {
+					$scope.circle = L.circle(areaCoordinates[0], $scope.areas[i].radius, {
 						color: 'red',
 						fillColor: '#f03',
 						fillOpacity: 0.5
 					}).addTo(map)
-						.bindPopup('<img style="width:50px;height:50px;" src="images/'+areas[i]['file_path']+'"></br>' + areas[i]['name'])
+						.bindPopup('<img style="width:50px;height:50px;" src="images/'+$scope.areas[i]['thumb_path']+'"></br>' + $scope.areas[i]['name'])
 						.on('mouseover', function(e) {
 							//open popup;
 							this.openPopup();	
@@ -1579,6 +1598,17 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 							//close popup;
 							this.closePopup();	
 						})
+						.on('click', function(e) {
+							thisID = '';
+							console.log(this._latlngs)
+							for(i=0;i<$scope.areas.length;i++) {
+								if (this._latlng.lat === parseFloat(JSON.parse($scope.areas[i].coordinates)[0][0]) && this._latlng.lng === parseFloat(JSON.parse($scope.areas[i].coordinates)[0][1])){
+									thisID = $scope.areas[i]['id']
+								}
+							}
+							
+							location.href = "#/viewArea/?project="+$scope.ID+'&pid='+$scope.PID+'&area='+thisID+'&previous=EXHIBIT';
+						});
 				}
 		}
 		map.fitBounds(mapPoints);
