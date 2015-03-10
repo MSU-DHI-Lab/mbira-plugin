@@ -1698,7 +1698,7 @@ mbira.controller("exhibitInfoCtrl", function ($scope, $http, $upload, $statePara
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
 			//return to projecct
-			location.href = "javascript:history.back()";
+			location.href = "#/viewProject/?project="+$scope.project+'&pid='+$scope.pid;
 		})
 	}
 
