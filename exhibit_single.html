@@ -17,7 +17,7 @@
 		<div class="header">
 			<div class="back"><a onclick="window.history.go(-1); return false;"><img src="img/back.png"/><p>TO {{previous}}</p></a></div>
 			<div class="title"><h1>{{exhibit.name}}</h1></div>
-			<div class="info"><a href="exhibit_info.php"><img src="img/info.png"/></a></div></div>
+			<div class="info"><a ui-sref='exhibitInfo({project: ID, pid: PID, exhibit: EXHIBIT})'><img src="img/info.png"/></a></div></div>
 		
 		 <div id="map">
 			<div class="toolbar">

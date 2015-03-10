@@ -14,13 +14,13 @@ function deleteRow($con){
 	$id = $_POST['id'];
 	
 	//Get media to delete
-	$mediaResult = mysqli_query($con, "SELECT thumb_path FROM mbira_exhibits WHERE exploration_id = '$id'");
+	$mediaResult = mysqli_query($con, "SELECT thumb_path FROM mbira_exhibits WHERE id = '$id'");
 	
 	while($mediaRow = mysqli_fetch_array($mediaResult)) {
 		unlink('../images/' .$mediaRow['file_path']);
 	}
-	mysqli_query($con,"DELETE FROM mbira_locations_has_mbira_exhibits WHERE explorationid='$id'");
-	mysqli_query($con,"DELETE FROM mbira_areas_has_mbira_exhibits WHERE exploration_id='$id'");
+	mysqli_query($con,"DELETE FROM mbira_locations_has_mbira_exhibits WHERE mbira_exhibits_id='$id'");
+	mysqli_query($con,"DELETE FROM mbira_areas_has_mbira_exhibits WHERE mbira_exhibits_id='$id'");
 	mysqli_query($con,"DELETE FROM mbira_exhibits WHERE id='$id'");
 }
 

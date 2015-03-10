@@ -29,6 +29,10 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    url: "/newExhibit/?project&pid",
 	    templateUrl: "exhibit_new.html"
 	  })
+	  .state('exhibitInfo', {
+	    url: "/exhibitInfo/?project&exhibit&pid",
+	    templateUrl: "exhibit_info.html"
+	  })
 	   .state('locations', {
 	    url: "/locations",
 	    templateUrl: "menu_location_all.php"
@@ -1482,6 +1486,7 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 	$scope.newMedia = false;
 	$scope.ID = $stateParams.project;
 	$scope.PID = $stateParams.pid;
+	$scope.EXHIBIT = $stateParams.exhibit
 	$scope.previous = $stateParams.previous
 	$scope.locations;
 
@@ -1498,11 +1503,6 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 		file: "",
 	}	
 	
-
-
-
-
-
 	//Set up map
 	map = setMap.set(42.7404566603398, -84.5452880859375);
 
@@ -1597,6 +1597,79 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 	
 });
 
+mbira.controller("exhibitInfoCtrl", function ($scope, $http, $upload, $stateParams, $state){
+	$scope.project = $stateParams.project;
+	$scope.pid = $stateParams.pid;
+	$scope.exhibit = {}	
+	
+	//Get file to be uploaded
+	$scope.onFileSelect = function($files) {
+		if($files.length > 1) {
+			alert("Only upload one image for the thumbnail.");
+		}else{
+			$scope.file = $files[0];
+
+			$scope.uploadFile = $upload.upload({
+				url:'ajax/tempImg.php',
+				method:"POST",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				file: $scope.file
+			}).success(function(data) {	
+				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+			});
+		}
+	};
+
+	//load exhibit info
+	$http({
+		method: 'POST',
+		url: "ajax/getExhibitInfo.php",
+		data: $.param({
+				id: $stateParams.exhibit
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		//Put exhibit in scope
+		$scope.exhibit = data;
+		$('.dropzone img').attr('src', 'images/'+ $scope.exhibit.thumb_path )
+	})
+	
+	//Handle "save and close"
+	$scope.submit = function(){
+		//Save
+		$http({
+			method: 'POST',
+			url: "ajax/saveExhibit.php",
+			data: $.param({
+						task: 'update',
+						id: $stateParams.exhibit,
+						name: $scope.exhibit.name,
+						description: $scope.exhibit.description,
+					}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			//Close (return to project)
+			location.href = "javascript:history.back()";
+		})
+	}
+	
+	//Delete exhibit
+	$scope.delete = function(){
+		$http({
+		method: 'POST',
+		url: "ajax/saveExhibit.php",
+		data: $.param({
+				task: "delete",
+				id: $stateParams.exhibit
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			//return to projecct
+			location.href = "javascript:history.back()";
+		})
+	}
+
+});
 
 mbira.controller("viewNotificationsCtrl", function ($scope, $http){
 	//Get all notifications
