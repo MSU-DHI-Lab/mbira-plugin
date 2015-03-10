@@ -1600,7 +1600,8 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 mbira.controller("exhibitInfoCtrl", function ($scope, $http, $upload, $stateParams, $state){
 	$scope.project = $stateParams.project;
 	$scope.pid = $stateParams.pid;
-	$scope.exhibit = {}	
+	$scope.exhibit = {};
+	$scope.file;
 	
 	//Get file to be uploaded
 	$scope.onFileSelect = function($files) {
@@ -1636,21 +1637,23 @@ mbira.controller("exhibitInfoCtrl", function ($scope, $http, $upload, $statePara
 	
 	//Handle "save and close"
 	$scope.submit = function(){
-		//Save
-		$http({
+		//Save		
+		$scope.upload = $upload.upload({				
+			url: 'ajax/saveExhibit.php',
 			method: 'POST',
-			url: "ajax/saveExhibit.php",
-			data: $.param({
-						task: 'update',
-						id: $stateParams.exhibit,
-						name: $scope.exhibit.name,
-						description: $scope.exhibit.description,
-					}),
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).success(function(data){
-			//Close (return to project)
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: { 
+					task: 'update',
+					id: $stateParams.exhibit,
+					name: $scope.exhibit.name,
+					description: $scope.exhibit.description,
+					path: $scope.exhibit.thumb_path
+				},
+			file: $scope.file
+		}).success(function(data) {
+			// return to project
 			location.href = "javascript:history.back()";
-		})
+		});
 	}
 	
 	//Delete exhibit

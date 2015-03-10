@@ -24,19 +24,35 @@ function deleteRow($con){
 	mysqli_query($con,"DELETE FROM mbira_exhibits WHERE id='$id'");
 }
 
-//Update exploration
+//Update hibit
 function updateRow($con){
-	$exhid = $_POST['exhid'];
+	$id = $_POST['id'];
 	$name = mysqli_real_escape_string($con, $_POST['name']);
 	$desc = mysqli_real_escape_string($con, $_POST['description']);
-	$dir = mysqli_real_escape_string($con, $_POST['direction']);
-	$toggle_media = $_POST['toggle_media'];
-	$toggle_comments = $_POST['toggle_comments'];
+	$path = $_POST['path'];
 	
-	mysqli_query($con,"UPDATE mbira_explorations SET name='$name', description='$desc', toggle_comments='$toggle_comments', toggle_media='$toggle_media', direction='$dir' WHERE id='$eid'");
+	//Save image
+	$uploaddir = '../images/';
+
+	//Use default image if no file provided
+	if(isset($_FILES['file']['name'])){
+
+		$mediaResult = mysqli_query($con, "SELECT thumb_path FROM mbira_exhibits WHERE id = '$id'");
+		
+		while($mediaRow = mysqli_fetch_array($mediaResult)) {
+			unlink('../images/' .$mediaRow['thumb_path']);
+		}
+		$filename = explode('.', basename($_FILES['file']['name']));
+
+		$uploadfile = $uploaddir . $filename[0].time().'.'.$filename[count($filename)-1];
+		move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+		$path = $filename[0].time().'.'.$filename[count($filename)-1];
+	}
+	
+	mysqli_query($con,"UPDATE mbira_exhibits SET name='$name', description='$desc', thumb_path='$path' WHERE id='$id'");
 }
 
-//Add new exploration
+//Add new exhibit
 function createRow($con) {
 	$projectId = $_POST['projectId'];
 	$pid = $_POST['pid'];
