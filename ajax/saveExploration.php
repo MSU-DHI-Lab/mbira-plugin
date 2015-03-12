@@ -65,9 +65,14 @@ function createRow($con) {
 	$eid = $IDrow['id'];	
 	
 	//Create row in mbira_map_locexpl
-	$locids = explode(",", $dir);
-	foreach ($locids as $loc) {
-		mysqli_query($con,"INSERT INTO `mbira_map_locexpl` (locationid, explorationid) VALUES ('".$loc."', '".$eid."')");
+	$alids = explode(",", $dir);
+	foreach ($alids as $arealoc) {
+		if (strpos($arealoc,'A') !== false) {
+			$arealoc = str_replace('A',"",$arealoc);
+			mysqli_query($con,"INSERT INTO `mbira_explorations_has_mbira_areas` (mbira_areas_id, mbira_explorations_id) VALUES ('".$arealoc."', '".$eid."')");
+		}else{
+			mysqli_query($con,"INSERT INTO `mbira_map_locexpl` (locationid, explorationid) VALUES ('".$arealoc."', '".$eid."')");
+		}
 	}
 	
 	//Create row in mbira_exp_media

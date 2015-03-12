@@ -870,47 +870,72 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	var map = setMap.set(42.723241200224216, -84.47797000408173);
 	LatLng=[];
 	var locArray=[];
+	var areaArray=[]
 	var expArray=[];
+	$scope.coordinates = []
 	var polyline = L.polyline(LatLng, {color: 'red'}).addTo(map);
 	
-	function removeFromLine(passedArray) {
+	function removeFromLine(passedArray, objectToCheck) {
 		var latslngs=polyline.getLatLngs();
-		var newlatlng=[];
-		var newExpArray = [];
-		for(q=0;q<latslngs.length;q++){
-			if (latslngs[q].lat !== parseFloat(passedArray[0]) && latslngs[q].lng !== parseFloat(passedArray[1])){
-				newlatlng.push([latslngs[q].lat,latslngs[q].lng]);
-				for (m=0; m < locArray.length; m++) {
-					if(latslngs[q].lat === parseFloat(locArray[m][0]) && latslngs[q].lng === parseFloat(locArray[m][1])) {
-						newExpArray.push([locArray[m][2],locArray[m][3]]);
-					}
-				}
-			} 
+		for(q=0;q<latslngs.length;q++){  																						//for every latitude longitude pair
+			if (passedArray.length === 4){																						//if a location array is passed
+				if (latslngs[q].lat === parseFloat(passedArray[0]) && latslngs[q].lng === parseFloat(passedArray[1])){			//	find index of coordinates to remove
+					latslngs.splice(q,1)																						// remove coordinates from polyline
+					for (m=0; m < expArray.length; m++) {																		
+						if(expArray[m][0] === passedArray[2]) {																	//find marker in expArray
+							expArray.splice(m, 1);																				// remove marker from expArray
+						}
+					}					
+				} 
+			} else { //an area array is passed
+				if (latslngs[q].lat === objectToCheck.getBounds().getCenter().lat && latslngs[q].lng === objectToCheck.getBounds().getCenter().lng){
+					latslngs.splice(q,1)																						// remove coordinates from polyline
+					for (m=0; m < expArray.length; m++) {																		
+						if(expArray[m][0] === 'A' + passedArray[1]) {																	//find marker in expArray
+							expArray.splice(m, 1);																				// remove marker from expArray
+						}
+					}	
+				} 
+			}
 		}
-		expArray = newExpArray;
 		$scope.places = expArray;
 		$scope.$apply();
-		polyline.setLatLngs(newlatlng);
+		polyline.setLatLngs(latslngs);
 	}
 	
 	function createNewLine() {
 		newlatlng= [];
 		for(h=0; h<expArray.length; h++){
-			for (i=0; i < locArray.length; i++) {
-				if (locArray[i][2] === expArray[h][0]){
-					newlatlng.push([parseFloat(locArray[i][0]),parseFloat(locArray[i][1])]);
+			if (expArray[h][0].indexOf("A") >=0) {
+				for (i=0; i < areaArray.length; i++) {
+					if ('A' + areaArray[i][1] === expArray[h][0]){
+						newlatlng.push(L.polygon(JSON.parse(areaArray[i][0])).getBounds().getCenter());
+					}
+				}
+			}else {		
+				for (i=0; i < locArray.length; i++) {
+					if (locArray[i][2] === expArray[h][0]){
+						newlatlng.push([parseFloat(locArray[i][0]),parseFloat(locArray[i][1])]);
+					}
 				}
 			}
 		}
 		polyline.setLatLngs(newlatlng);
 	}
 	
-	function inExpCheck(checkArray) {
+	function inExpCheck(checkArray, objectToCheck) {
 		for(j=0;j<expArray.length;j++){
-			if (expArray[j][0] === checkArray[2]) {
-				removeFromLine(checkArray);
-				return 0;
-			} 
+			if (checkArray.length === 4){				//is a locArray
+				if (expArray[j][0] === checkArray[2]) {
+					removeFromLine(checkArray, objectToCheck);
+					return 0;
+				} 
+			} else {     //is an areaArray
+				if (expArray[j][0] === 'A'+checkArray[1]) {
+					removeFromLine(checkArray, objectToCheck);
+					return 0;
+				} 
+			}
 		}
 		return 1;
 	}
@@ -923,7 +948,8 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 		for(i=0;i<data.length;i++) {
 		  	if (data[i]['project_id'] == $scope.param) {
 		  		locArray.push([data[i]['latitude'],data[i]['longitude'], data[i]['id'], data[i]['name']]);
-
+				$scope.coordinates.push([data[i]['latitude'],data[i]['longitude']])
+				
 				L.marker([data[i]['latitude'], data[i]['longitude']]).addTo(map)
 					.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
 					.on('mouseover', function(e) {
@@ -938,7 +964,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 					  	//store in exploration;
 					  	for (i=0; i < locArray.length; i++) {
 					  		//finds the id of the coordinates and checks if it has already been added to exploration..
-					  		if (e.latlng.lat == locArray[i][0] && e.latlng.lng == locArray[i][1] && inExpCheck(locArray[i])) {
+					  		if (e.latlng.lat == locArray[i][0] && e.latlng.lng == locArray[i][1] && inExpCheck(locArray[i], this)) {
 								polyline.addLatLng([parseFloat(locArray[i][0]),parseFloat(locArray[i][1])]);
 					  			expArray.push([locArray[i][2],locArray[i][3]]);
 							 	$scope.places = expArray;
@@ -950,6 +976,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 					});
 			}
 		}
+		map.fitBounds($scope.coordinates)
 	});
 	
 	$http({
@@ -959,16 +986,18 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	}).success(function(data){
 		for(i=0;i<data.length;i++) {
 			if (data[i]['project_id'] == $scope.param) {
-
+				areaArray.push([data[i]['coordinates'], data[i]['id'], data[i]['name']]);
 				//Put area in scope
 				$scope.area = data[i];
 				
+				
 				//Parse string to get array  of coorinates
-				$scope.coordinates = JSON.parse(data[i].coordinates);
+				coordinates = JSON.parse(data[i].coordinates);
+				$scope.coordinates.push(JSON.parse(data[i].coordinates))
 				
 				if(data[i].shape == 'polygon'){
 					//Create polygon from array of coordinates 
-					$scope.polygon = L.polygon($scope.coordinates).addTo(map)
+					$scope.polygon = L.polygon(coordinates).addTo(map)
 						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
 						.on('mouseover', function(e) {
 							//open popup;
@@ -980,17 +1009,27 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 						})
 						.on('click', function(e) {
 							//store in exploration;
-							console.log("At least I have something");
-							this.closePopup();	//makes sure the popup doesn't show on click.
+							for (i=0; i < areaArray.length; i++) {
+								//finds the id of the coordinates and checks if it has already been added to exploration..
+								if (this._latlngs[0].lat == parseFloat((JSON.parse(areaArray[i][0]))[0][0]) && this._latlngs[0].lng == parseFloat((JSON.parse(areaArray[i][0]))[0][1]) && inExpCheck(areaArray[i],this)) {
+									polyline.addLatLng(this.getBounds().getCenter());
+									
+									expArray.push(['A'+areaArray[i][1],areaArray[i][2]]);
+									$scope.places = expArray;
+									$scope.$apply();
+									$('#done').css('display', 'block');
+								}
+							}
+							this.closePopup();	
 						});
 				}else if(data[i].shape == 'circle'){
 					//Create circle from coordinates
-					$scope.circle = L.circle($scope.coordinates[0], data[i].radius, {
+					$scope.circle = L.circle(coordinates[0], data[i].radius, {
 						color: 'red',
 						fillColor: '#f03',
 						fillOpacity: 0.5
 					}).addTo(map)
-						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['file_path']+'"></br>' + data[i]['name'])
+						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
 						.on('mouseover', function(e) {
 							//open popup;
 							this.openPopup();	
@@ -998,10 +1037,27 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 						.on('mouseout', function(e) {
 							//close popup;
 							this.closePopup();	
+						})
+						.on('click', function(e) {
+							//store in exploration;
+							for (i=0; i < areaArray.length; i++) {
+								//finds the id of the coordinates and checks if it has already been added to exploration..
+								console.log(areaArray[i][0])
+								if (this._latlng.lat == parseFloat((JSON.parse(areaArray[i][0]))[0][0]) && this._latlng.lng == parseFloat((JSON.parse(areaArray[i][0]))[0][1]) && inExpCheck(areaArray[i],this)) {
+									polyline.addLatLng(this.getBounds().getCenter());
+									
+									expArray.push(['A'+areaArray[i][1],areaArray[i][2]]);
+									$scope.places = expArray;
+									$scope.$apply();
+									$('#done').css('display', 'block');
+								}
+							}
+							this.closePopup();	
 						});
 				}
 			}
 		}
+		map.fitBounds($scope.coordinates)
 	});
 	
 	
@@ -1045,22 +1101,15 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 
 	$scope.marker = false;
 	$scope.places = [];
+	$scope.coordinates = [];
 	var LatLng=[];
-	var allLoc = [];
+	var locArray = [];
+	var areaArray = [];
 	var expArray=[];
+	
 	var map;
 	var polyline;
 	
-	//todo when exhibits are ready --- populates exhibits dropdown
-	$scope.exhibits = [
-      {name:'EXHIBIT 1'},
-      {name:'EXHIBIT 2'},
-      {name:'EXHIBIT 3'},
-      {name:'EXHIBIT 4'},
-      {name:'EXHIBIT 5'}
-    ];
-    $scope.selectedExhibit = $scope.exhibits[0]; 
-
 	$scope.exploration = {
 		name: "",
 		descrition: "",
@@ -1093,39 +1142,96 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 	}).success(function(data){
 		//Put location in scope
 		$scope.exploration = data;
-		locArray = data['direction'].split(',');
+		areaLocArray = data['direction'].split(',');
 		$http({
 				method: 'GET',
 				url: "ajax/getLocations.php",
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			}).success(function(data2){
-				for(i=0;i<locArray.length;i++){
-					for(j=0;j<data2.length;j++){
-						allLoc = data2;
-						if(data2[j]['id'] == locArray[i]){
-							//Set up map
-							if (i === 0) {
-								map = setMap.set(parseFloat(data2[j]['latitude']), parseFloat(data2[j]['longitude']));
-								polyline = L.polyline(LatLng, {color: 'red'}).addTo(map);
+				locArray = data2;
+				$http({
+						method: 'GET',
+						url: "ajax/getAreas.php",
+						headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+					}).success(function(data3){
+						areaArray = data3;
+						for(i=0;i<areaLocArray.length;i++){
+							if (areaLocArray[i].indexOf("A") >=0) {
+								for(j=0;j<data3.length;j++){
+									if('A' + data3[j]['id'] == areaLocArray[i]){
+										//Set up map
+										if (i === 0) {
+											
+											map = setMap.set(parseFloat(JSON.parse(data3[j]['coordinates'])[0][0]), parseFloat(JSON.parse(data3[j]['coordinates'])[0][1]));
+											polyline = L.polyline([], {color: 'red'}).addTo(map);
+										}
+										$scope.coordinates.push(L.polygon(JSON.parse(data3[j]['coordinates'])).getBounds().getCenter());
+										if(data3[j].shape == 'polygon'){
+											polyline.addLatLng(L.polygon(JSON.parse(data3[j]['coordinates'])).getBounds().getCenter())
+											L.polygon(JSON.parse(data3[j]['coordinates'])).addTo(map)
+												.bindPopup('<img style="width:50px;height:50px;" src="images/'+data3[j]['thumb_path']+'"></br>' + data3[j]['name'])
+												.on('mouseover', function(e) {
+													//open popup;
+													this.openPopup();	
+												})
+												.on('mouseout', function(e) {
+													//close popup;
+													this.closePopup();	
+												})
+										}else if(data3[j].shape == 'circle') {
+											console.log(data3[j]['coordinates'][0])
+											polyline.addLatLng(JSON.parse(data3[j]['coordinates'])[0])
+											L.circle(JSON.parse(data3[j]['coordinates'])[0], data3[j].radius, {
+												color: 'red',
+												fillColor: '#f03',
+												fillOpacity: 0.5
+											}).addTo(map)	
+												.bindPopup('<img style="width:50px;height:50px;" src="images/'+data3[j]['thumb_path']+'"></br>' + data3[j]['name'])
+												.on('mouseover', function(e) {
+													//open popup;
+													this.openPopup();	
+												})
+												.on('mouseout', function(e) {
+													//close popup;
+													this.closePopup();	
+												})											
+										}
+										expArray.push(['A' + data3[j]['id'],data3[j]['name']]);
+										$scope.places = expArray;
+										break;
+									}
+								}
+							} else {
+								for(j=0;j<data2.length;j++){
+									if(data2[j]['id'] == areaLocArray[i]){
+										//Set up map
+										if (i === 0) {
+											map = setMap.set(parseFloat(data2[j]['latitude']), parseFloat(data2[j]['longitude']));
+											polyline = L.polyline(LatLng, {color: 'red'}).addTo(map);
+										}
+										polyline.addLatLng([parseFloat(data2[j]['latitude']),parseFloat(data2[j]['longitude'])])
+										$scope.coordinates.push([parseFloat(data2[j]['latitude']),parseFloat(data2[j]['longitude'])])
+										L.marker([data2[j]['latitude'], data2[j]['longitude']]).addTo(map)
+											.bindPopup('<img style="width:50px;height:50px;" src="images/'+data2[j]['thumb_path']+'"></br>' + data2[j]['name'])
+											.on('mouseover', function(e) {
+												//open popup;
+												this.openPopup();	
+											})
+											.on('mouseout', function(e) {
+												//close popup;
+												this.closePopup();	
+											})
+										expArray.push([data2[j]['id'],data2[j]['name']]);
+										$scope.places = expArray;
+										break;
+									}
+								}
 							}
-							polyline.addLatLng([parseFloat(data2[j]['latitude']),parseFloat(data2[j]['longitude'])]);
-							L.marker([data2[j]['latitude'], data2[j]['longitude']]).addTo(map)
-								.bindPopup('<img style="width:50px;height:50px;" src="images/'+data2[j]['thumb_path']+'"></br>' + data2[j]['name'])
-								.on('mouseover', function(e) {
-									//open popup;
-									this.openPopup();	
-								})
-								.on('mouseout', function(e) {
-									//close popup;
-									this.closePopup();	
-								})
-							expArray.push([data2[j]['id'],data2[j]['name']]);
-							$scope.places = expArray;
-							break;
 						}
-					}
-				}
+						map.fitBounds($scope.coordinates)
+					});
 			});
+
 			
 		//Set switches
 		if($scope.exploration.toggle_comments == 'true'){
@@ -1141,6 +1247,8 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 		
 		getMedia();
 	})
+	
+	
 
 	//Submit Media
 	$scope.onFileSelect = function($files) {
@@ -1174,12 +1282,6 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 			location: $scope.exploration,
 			map: map
 		}).addTo(map);
-
-		//Allow clicking to set marker and save location from click in scope
-		map.on('click', function(e) {
-			console.log('go');
-
-		});
 	}
 	
 	//Handle "save and close"
@@ -1230,14 +1332,22 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 	function createNewLine() {
 		newlatlng= [];
 		for(h=0; h<expArray.length; h++){
-			for (i=0; i < allLoc.length; i++) {
-				if (allLoc[i]['id'] === expArray[h][0]){
-					newlatlng.push([parseFloat(allLoc[i]['latitude']),parseFloat(allLoc[i]['longitude'])]);
+			if (expArray[h][0].indexOf("A") >=0) {
+				for (i=0; i < areaArray.length; i++) {
+					if ('A' + areaArray[i]['id'] === expArray[h][0]){
+						newlatlng.push(L.polygon(JSON.parse(areaArray[i]['coordinates'])).getBounds().getCenter());
+					}
+				}
+			}else {		
+				for (i=0; i < locArray.length; i++) {
+					if (locArray[i]['id'] === expArray[h][0]){
+						newlatlng.push([parseFloat(locArray[i]['latitude']),parseFloat(locArray[i]['longitude'])]);
+					}
 				}
 			}
 		}
 		polyline.setLatLngs(newlatlng);
-	}	
+	}
 	
 	
 	$scope.onSort = function(){
