@@ -1,0 +1,171 @@
+body, html {
+    margin: 0;
+    padding: 0; 
+}
+
+.projects {
+	background-color: #18587C;
+    padding-bottom: 16.5px;
+}
+
+img {
+    border:none;
+}
+
+@font-face {
+    font-family: 'montserratregular';
+    src: url('fonts/Montserrat-Regular-webfont.eot');
+    src: url('fonts/Montserrat-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Montserrat-Regular-webfont.woff') format('woff'),
+         url('fonts/Montserrat-Regular-webfont.ttf') format('truetype'),
+         url('fonts/Montserrat-Regular-webfont.svg#montserratregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'montserratbold';
+    src: url('fonts/Montserrat-Bold-webfont.eot');
+    src: url('fonts/Montserrat-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Montserrat-Bold-webfont.woff') format('woff'),
+         url('fonts/Montserrat-Bold-webfont.ttf') format('truetype'),
+         url('fonts/Montserrat-Bold-webfont.svg#montserratbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'montserratlight';
+    src: url('fonts/montserrat-light-webfont.eot');
+    src: url('fonts/montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('montserrat-light-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-light-webfont.woff') format('woff'),
+         url('fonts/montserrat-light-webfont.ttf') format('truetype'),
+         url('fonts/montserrat-light-webfont.svg#montserratlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'montserratthin';
+    src: url('fonts/montserrat-thin-webfont.eot');
+    src: url('fonts/montserrat-thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/montserrat-thin-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-thin-webfont.woff') format('woff'),
+         url('fonts/montserrat-thin-webfont.ttf') format('truetype'),
+         url('fonts/montserrat-thin-webfont.svg#montserratthin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+/* HEADER */
+
+.header {
+    background: #0A263D;
+    height: 75px;
+    text-align: center;
+    -webkit-box-shadow: 0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    width:100%;
+    position:relative;
+    top:0px;
+    z-index: 1;
+}
+
+.header h1 {
+    margin: 0;
+    line-height: 75px;
+    color: #FFF;
+    font-family: 'montserratlight' sans-serif;
+    letter-spacing: 1px;
+    font-weight: 100;    
+}
+
+
+
+
+
+/* PROJECTS */
+
+.projects {
+    
+    z-index: 2;
+}
+
+.projects div {
+    display: inline-block;
+}
+
+.project {
+    width: 225px;
+    height: 225px;
+    background: rgba(2,20,38,.7);
+    margin: 20px 0 0 20px;
+    position: relative;
+    -webkit-box-shadow: 3px 3px 2px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 2px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2); 
+    -webkit-transition: -webkit-filter .5s;
+}
+
+.project_new {
+    width: 225px;
+    height: 225px;
+    background: #3EB9FD;
+    margin: 20px 0 0 20px;
+    position: relative;
+    -webkit-box-shadow: 3px 3px 2px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 2px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2);
+}
+
+.project_title {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    background: rgba(2,20,38,.8);
+}
+    
+.project_title h3 {
+    font-family: 'montserratlight' sans-serif;
+    letter-spacing: 1px;
+    font-weight: 100;
+    font-size: 20px;
+    color: #fff;
+    margin:0;
+    padding: 20px;
+}
+    
+.project_title_new {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+}
+    
+.project_title_new h3 {
+    font-family: 'montserratlight' sans-serif;
+    letter-spacing: 1px;
+    font-weight: 100;
+    font-size: 20px;
+    color: #fff;
+    margin:0;
+    padding: 20px;
+}
+    
+.project_title_new img {
+   text-align: center;
+}
+    

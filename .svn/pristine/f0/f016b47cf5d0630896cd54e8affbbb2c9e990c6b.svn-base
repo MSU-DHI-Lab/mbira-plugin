@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script src="js/script.js"></script> 
+	<link rel="stylesheet" type="text/css" href="css/newproject.css"/>
+	<link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
+    <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
+    <link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
+		
+	<script src="js/leaflet.js"></script>
+	<script src="js/l.control.geosearch.js"></script> 
+	<script src="js/l.geosearch.provider.openstreetmap.js"></script> 
+</head>
+<body ng-app="mbira">
+    
+     <!--HEADER-->
+    <div class="header">
+        <div class="back"><a ui-sref='viewProject({project: ID})'><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
+			<div class="title"><h1>NEW AREA</h1>
+		</div>
+	</div>
+    
+    
+    <!--PROJECT INFORMATION-->
+	
+	<div class="main" ng-controller="newAreaCtrl">
+		
+		<div class="project_information">    
+			<form id="newareaform" name="newareaform" novalidate ng-submit="submit()" role="form">
+				<br>
+				<div class="form-group">				        
+					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newArea.name" placeholder="Location Name">
+				</div>
+				
+				<div class="form-group">				        
+					<input type="text" required class="form-control npInput" id="description" name="description" ng-model="newArea.description" placeholder="Location Description">
+				</div>
+				
+				<br><br>
+				<div id="map"></div>
+				<button type='button' ng-click='clearMarkers()'>Clear Map</button>
+				<br><br>
+				<button type='button' ng-click='createPolygon()' ng-if='markers.length >= 1'>Create Polygon</button>
+				<div ng-if='markers.length == 1'>
+					<button type='button' ng-click='createCircle(radius)'>Create Circle</button>
+					radius = <input ng-model='radius'>
+				</div>
+				<div ng-repeat='mark in markers'>
+					{{mark._latlng.lat}}, {{mark._latlng.lng}}
+					<br>
+				</div>
+				
+				<div class="form-group">				        
+					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)"/>
+				</div>	
+				
+				<button type="submit" id="submit" class="btn btn-default" ng-disabled="newareaform.$invalid" ng-class="{'btn-disabled': newareaform.$invalid}">Add Area</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
+

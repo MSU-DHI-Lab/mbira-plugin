@@ -1,0 +1,138 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    background: #18587C;
+  
+}
+
+
+@font-face {
+    font-family: 'montserratregular';
+    src: url('Montserrat-Regular-webfont.eot');
+    src: url('Montserrat-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Montserrat-Regular-webfont.woff') format('woff'),
+         url('Montserrat-Regular-webfont.ttf') format('truetype'),
+         url('Montserrat-Regular-webfont.svg#montserratregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'montserratbold';
+    src: url('Montserrat-Bold-webfont.eot');
+    src: url('Montserrat-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('Montserrat-Bold-webfont.woff') format('woff'),
+         url('Montserrat-Bold-webfont.ttf') format('truetype'),
+         url('Montserrat-Bold-webfont.svg#montserratbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+/* HEADER */
+
+.header {
+    background: #0A263D;
+    height: 75px;
+    text-align: center;
+    -webkit-box-shadow: 0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    width:100%;
+    position:fixed;
+    top:0px;
+    z-index: 1;
+    
+}
+
+.header h1 {
+    margin: 0;
+    line-height: 75px;
+    color: #FFF;
+    font-family: 'montserratbold', sans-serif;
+    
+}
+
+.header div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.back {
+    position: absolute;
+    top: 25px;
+    left: 20px;
+}
+
+.back img, p {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.back p {
+    color: #FFF;
+    font-family: 'montserratbold', sans-serif;
+    padding: 0 20px;
+    margin: 0;
+}
+
+
+
+/* DROPZONE */
+
+
+.dropzone {
+    background: rgba(62,185,253,.3);
+    margin: 95px 20px 20px 20px;
+    border: #fff 3px dashed;
+    text-align: center;
+}
+
+.dropzone_content {
+    padding: 200px;
+    text-align: center;
+}
+
+.dropzone_content h2{
+    font-family: 'montserratregular', sans-serif;
+    color: #FFF;
+    margin: 0 0 30px 0;
+}
+
+
+
+/* FILESELECT */
+
+.form-group {
+    margin-left: auto;
+    margin-right: auto;
+    width: 221px;
+    height: 50px;
+    background: rgba(255,255,255,.2) url("selectfiles.png");
+}
+
+.form-group input {
+    width: 221px !important;
+    height: 50px !important;
+    opacity: 0 !important;
+    cursor: pointer;
+}
+
+.form-group2 {
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 424px;
+    height: 50px;
+    background: rgba(255,255,255,.2) url("chooseFromLibrary.png");
+}
+
+.form-group2 input {
+    width: 424px !important;
+    height: 50px !important;
+    opacity: 0 !important;
+    cursor: pointer;
+}

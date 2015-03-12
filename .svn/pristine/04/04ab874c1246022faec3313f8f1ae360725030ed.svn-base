@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <script src="js/script.js"></script> 
+    <link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
+    <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
+    <link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
+	<link rel="stylesheet" type="text/css" href="css/newexploration.css"/>
+        <link rel="stylesheet" type="text/css" href="css/project_single.css"/> <!-- This needs to change and be its own css -->
+        <link rel="stylesheet" type="text/css" href="css/project_all.css"/>  <!-- This needs to change and be its own css -->
+   
+    <script src="js/leaflet.js"></script>
+    <script src="js/l.control.geosearch.js"></script> 
+    <script src="js/l.geosearch.provider.openstreetmap.js"></script> 
+</head>
+<body ng-app="mbira">
+    <div  ng-controller="newExplorationCtrl">
+         <!--HEADER-->
+        <div class="header">
+            <div class="back"><a ui-sref='viewProject({project: ID, pid: PID})'><img src="img/back.png"/><p>PROJECT</p></a></div>
+                <div class="title"><h1>NEW Exploration</h1>
+            </div>
+        </div>
+
+        <!--PROJECT INFORMATION-->       
+		<div id="map"> 
+			<div style="position:absolute; top:0;left:0;right:0;height:40px; background-color: white; opacity:.5; z-index: 1500;">
+				<a ui-sref='newLocation({project: ID, pid: PID})'>Add Location</a>
+				<a ui-sref='newArea({project: ID, pid: PID})'>Add Area</a>
+			</div> 
+
+			<button id="done" style="position:absolute; bottom:0; right:0; padding:25px; z-index:2000; display:none;">Done</button>
+		</div>
+		
+		<div class="exp_info" style='display:none'>    
+			<form id="newexplorationform" name="newexplorationform" novalidate ng-submit="submit()" role="form">                    
+				
+				<br><br>
+				
+				<div class="thumbnail dropzone"> 
+					<h4 class="dropImg">Drop an Image</h4
+					><h5>or</h5>
+					<h4 class="clickAdd">Click to Add</h4>
+					<img src="img/Default.png" height="225" width="225">
+					<div class="thumbnail_title">
+						<h3>{{newExploration.name || "Thumbnail"}}</h3>
+					</div>
+					<div class="form-group-file">				        
+							<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
+					</div>
+				</div>
+				
+				<div class="form-group">                        
+					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newExploration.name" placeholder="Exploration Name">
+				</div>
+				
+				<div class="form-group">                        
+					<textarea required class="form-control npInput" id="description" name="description" ng-model="newExploration.description" placeholder="Exploration Description"></textarea>
+				</div>
+				
+				<div id='reorder' sv-root sv-part="places" sv-on-sort="onSort($part, $item, $index)">Stops (Drag to Reorder)
+					<div id='stops' ng-repeat="place in places" sv-element>
+						<div style='position:absolute; padding-left:5px;'>{{$index + 1}}</div>{{place[1]}}
+					</div>
+				</div>
+				
+				<button type="submit" id="submit" class="btn btn-default" ng-disabled="newexplorationform.$invalid" ng-class="{'btn-disabled': newexplorationform.$invalid}">Add Exploration</button>
+			</form>
+		</div>
+ 
+    </div>
+</body>
+</html>
