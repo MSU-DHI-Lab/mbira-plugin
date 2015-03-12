@@ -135,6 +135,7 @@
 		`location_id` INT(11) UNSIGNED NOT NULL,
 		`file_path` VARCHAR(500) NULL DEFAULT NULL,
 		`isThumb` VARCHAR(45) NOT NULL DEFAULT 'NO',
+		`isPending` VARCHAR(45) NULL DEFAULT 'yes',
 		PRIMARY KEY (`id`),
 		INDEX `fk_mbira_loc_media_mbira_locations1_idx` (`location_id` ASC),
 		CONSTRAINT `fk_mbira_loc_media_mbira_locations1`
@@ -179,6 +180,7 @@
 		`exploration_id` INT(11) UNSIGNED NOT NULL,
 		`file_path` VARCHAR(500) NULL DEFAULT NULL,
 		`isThumb` VARCHAR(45) NOT NULL DEFAULT 'NO',
+		`isPending` VARCHAR(45) NULL DEFAULT 'yes',
 		PRIMARY KEY (`id`),
 		INDEX `fk_mbira_exp_media_mbira_explorations1_idx` (`exploration_id` ASC),
 		CONSTRAINT `fk_mbira_exp_media_mbira_explorations1`
@@ -191,13 +193,14 @@
 	mysqli_query($con, $sql);	
 
 // -- -----------------------------------------------------
-// -- Table `$dbname`.`mbira_exp_media`
+// -- Table `$dbname`.`mbira_area_media`
 // -- -----------------------------------------------------
 	$sql = "CREATE TABLE IF NOT EXISTS `$dbname`.`mbira_area_media` (
 		`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 		`area_id` INT(11) UNSIGNED NOT NULL,
 		`file_path` VARCHAR(500) NULL,
-		`isThumb` VARCHAR(45) NOT NULL DEFAULT 'no',
+		`isThumb` VARCHAR(45) NOT NULL DEFAULT 'NO',
+		`isPending` VARCHAR(45) NULL DEFAULT 'yes',
 		PRIMARY KEY (`id`),
 		INDEX `fk_mbira_area_media_mbira_areas1_idx` (`area_id` ASC),
 		CONSTRAINT `fk_mbira_area_media_mbira_areas1`
@@ -270,7 +273,118 @@
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = latin1";
+	mysqli_query($con, $sql);	
+
+// -- -----------------------------------------------------
+// -- Table `$dbname`.`mbira_users`
+// -- -----------------------------------------------------
+	$sql = "CREATE TABLE IF NOT EXISTS `mbira_users` (
+		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+		`username` VARCHAR(45) NULL,
+		`firstName` VARCHAR(45) NULL,
+		`lastName` VARCHAR(45) NULL,
+		`isExpert` VARCHAR(45) NULL,
+		PRIMARY KEY (`id`),
+		UNIQUE INDEX `username_UNIQUE` (`username` ASC))
+		ENGINE = InnoDB";
 	mysqli_query($con, $sql);		
+
+// -- -----------------------------------------------------
+// -- Table `$dbname`.`mbira_projects_has_mbira_users`
+// -- -----------------------------------------------------
+	$sql = "CREATE TABLE IF NOT EXISTS `mbira_projects_has_mbira_users` (
+		`mbira_projects_id` INT(10) UNSIGNED NOT NULL,
+		`mbira_users_id` INT UNSIGNED NOT NULL,
+		INDEX `fk_mbira_projects_has_mbira_users_mbira_users1_idx` (`mbira_users_id` ASC),
+		INDEX `fk_mbira_projects_has_mbira_users_mbira_projects1_idx` (`mbira_projects_id` ASC),
+		CONSTRAINT `fk_mbira_projects_has_mbira_users_mbira_projects1`
+		FOREIGN KEY (`mbira_projects_id`)
+		REFERENCES `mbira_projects` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+		CONSTRAINT `fk_mbira_projects_has_mbira_users_mbira_users1`
+		FOREIGN KEY (`mbira_users_id`)
+		REFERENCES `mbira_users` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+		ENGINE = InnoDB
+		DEFAULT CHARACTER SET = latin1";
+	mysqli_query($con, $sql);	
+
+// -- -----------------------------------------------------
+// -- Table `$dbname`.`mbira_area_comments`
+// -- -----------------------------------------------------
+	$sql = "CREATE TABLE IF NOT EXISTS `mbira_area_comments` (
+		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+		`area_id` INT(11) UNSIGNED NOT NULL,
+		`user_id` INT UNSIGNED NOT NULL,
+		`comment` VARCHAR(1000) NULL,
+		`isPending` VARCHAR(45) NULL DEFAULT 'yes',
+		PRIMARY KEY (`id`),
+		INDEX `fk_mbira_area_comments_mbira_areas1_idx` (`area_id` ASC),
+		INDEX `fk_mbira_area_comments_mbira_users1_idx` (`user_id` ASC),
+		CONSTRAINT `fk_mbira_area_comments_mbira_areas1`
+		FOREIGN KEY (`area_id`)
+		REFERENCES `mbira_areas` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+		CONSTRAINT `fk_mbira_area_comments_mbira_users1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `mbira_users` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+		ENGINE = InnoDB";
+	mysqli_query($con, $sql);	
+
+// -- -----------------------------------------------------
+// -- Table `$dbname`.`mbira_exploration_comments`
+// -- -----------------------------------------------------
+	$sql = "CREATE TABLE IF NOT EXISTS `mbira_exploration_comments` (
+		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+		`exploration_id` INT(11) UNSIGNED NOT NULL,
+		`user_id` INT UNSIGNED NOT NULL,
+		`comment` VARCHAR(1000) NULL,
+		`isPending` VARCHAR(45) NULL DEFAULT 'yes',
+		PRIMARY KEY (`id`),
+		INDEX `fk_mbira_exploration_comments_mbira_explorations1_idx` (`exploration_id` ASC),
+		INDEX `fk_mbira_exploration_comments_mbira_users1_idx` (`user_id` ASC),
+		CONSTRAINT `fk_mbira_exploration_comments_mbira_explorations1`
+		FOREIGN KEY (`exploration_id`)
+		REFERENCES `mbira_explorations` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+		CONSTRAINT `fk_mbira_exploration_comments_mbira_users1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `mbira_users` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+		ENGINE = InnoDB";
+	mysqli_query($con, $sql);	
+	
+// -- -----------------------------------------------------
+// -- Table `$dbname`.`mbira_location_comments`
+// -- -----------------------------------------------------
+	$sql = "CREATE TABLE IF NOT EXISTS `mbira_location_comments` (
+		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+		`user_id` INT UNSIGNED NOT NULL,
+		`location_id` INT(11) UNSIGNED NOT NULL,
+		`comment` VARCHAR(1000) NULL,
+		`isPending` VARCHAR(45) NULL DEFAULT 'yes',
+		PRIMARY KEY (`id`),
+		INDEX `fk_mbira_location_comments_mbira_users1_idx` (`user_id` ASC),
+		INDEX `fk_mbira_location_comments_mbira_locations1_idx` (`location_id` ASC),
+		CONSTRAINT `fk_mbira_location_comments_mbira_users1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `mbira_users` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION,
+		CONSTRAINT `fk_mbira_location_comments_mbira_locations1`
+		FOREIGN KEY (`location_id`)
+		REFERENCES `mbira_locations` (`id`)
+		ON DELETE NO ACTION
+		ON UPDATE NO ACTION)
+		ENGINE = InnoDB";
+	mysqli_query($con, $sql);
 	
 	mysqli_close($con);
 ?>
