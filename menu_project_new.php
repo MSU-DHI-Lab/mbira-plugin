@@ -6,8 +6,8 @@
 <body ng-app="mbira">
 
     <div class="header">
-		<div class="back"><a onclick="window.history.go(-1); return false;"><img src="img/back.png"/><p>TO {{previous}}</p></div>
-        <h1> NEW PROJECT</h1>
+		<div class="back"><a onclick="window.history.go(-1); return false;"><img src="img/back.png"/><p>TO PROJECTS</p></a></div>
+        <h1>NEW PROJECT</h1>
 	</div>
 	<div class="main" ng-controller="newProjectCtrl">
 		<form id="newprojectform" name="newprojectform" novalidate ng-submit="submit()" role="form">
