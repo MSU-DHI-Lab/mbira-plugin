@@ -1,3 +1,5 @@
+![mbira logo](http://mbira.matrix.msu.edu/wp-content/uploads/2015/03/Mbira_Logo_Horizontal.png "mbira logo")
+
 mbira
 =====
 
