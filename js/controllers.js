@@ -114,56 +114,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 	$scope.pid = $stateParams.pid;
 	$scope.previous = $stateParams.previous
 	$scope.media;
-	$scope.comments = [
-						{user: "Bogdan Pozderca", date:'03/13/15',comment:"i am pokemon",
-							replies:[
-								{user: "Aasiruddin Walajahi", date:'03/13/15', comment:'no, you are not', 
-									replies:[
-										{user: "Bogdan Pozderca", date:'03/13/15', comment:"meh", 
-											replies:[
-												{user: "Aasiruddin Walajahi", date:'03/13/15', comment:'hahahaha', 
-													replies:[
-													]
-												},
-												{user: "Sam Carne", date:'03/13/15', comment:'blub', 
-													replies:[
-													]
-												}												
-											]
-										},
-										{user: "Bogdan Pozderca", date:'03/13/15', comment:"you're a punk", 
-											replies:[
-												{user: "Sam Carne", date:'03/13/15', comment:'blub blub', 
-													replies:[
-													]
-												}
-											]
-										}
-									]
-								},
-								{user: "Brandon Bielicki", date:'03/13/15', comment:'LOL', 
-									replies:[
-										{user: "Bogdan Pozderca", date:'03/13/15', comment:"meh", 
-											replies:[
-											]
-										},
-										{user: "Bogdan Pozderca", date:'03/13/15', comment:"oh well", 
-											replies:[
-											]
-										}
-									]
-								},
-								{user: "Sam Carne", date:'03/13/15',comment:"i believe it",
-									replies:[
-									]
-								}
-							]
-						},
-						{user: "Sam Carne", date:'03/13/15',comment:"i am a fish",
-							replies:[
-							]
-						}
-					];
+	$scope.comments = []
 	
 	//todo when exhibits are ready --- populates exhibits dropdown
 	$scope.exhibits = [
@@ -185,6 +136,51 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			$scope.media = data;
 		})
     }
+	
+	function checkIfHasReply(objToPushTo, idToCheck,data){
+		for(j=0;j<data.length;j++){
+			if (idToCheck == data[j].replyTo) {
+				tempObj = {comment_id:data[j].id, user:data[j].user_id, date:data[j].timeStamp,comment:data[j].comment, replies:[]};
+				objToPushTo.replies.push(tempObj);
+			}
+		}
+		for(h=0;h<objToPushTo.replies.length;h++) {
+			checkIfHasReply(objToPushTo.replies[h],objToPushTo.replies[h].comment_id,data);
+		}
+	}
+	
+	
+	//load comments
+	$http({
+		method: 'POST',
+		url: "ajax/getComments.php",
+		data: $.param({
+				id: $stateParams.location,
+				type: 'location'
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		data.sort(function(x, y){
+			if ( x.replyTo - y.replyTo === 0){
+				return y.timeStamp - x.timeStamp
+			} else {
+				return y.replyTo - x.replyTo;
+			}
+		})
+		console.log(data)
+		for(i=0;i<data.length;i++){
+			if (data[i].replyTo == 0){
+				tempObj = {comment_id:data[i].id, user:data[i].user_id, date:data[i].timeStamp,comment:data[i].comment, replies:[]}
+				$scope.comments.push(tempObj)
+			}
+		}
+		for(i=0;i<$scope.comments.length;i++){
+			checkIfHasReply($scope.comments[i], $scope.comments[i].comment_id, data)
+			console.log($scope.comments)
+		}
+		
+	})
+	
 	
 	//load location info
 	$http({

@@ -1,0 +1,52 @@
+example of comment system set up 
+
+[
+	{user: "Bogdan Pozderca", date:'03/13/15',comment:"i am pokemon",
+		replies:[
+			{user: "Aasiruddin Walajahi", date:'03/13/15', comment:'no, you are not', 
+				replies:[
+					{user: "Bogdan Pozderca", date:'03/13/15', comment:"meh", 
+						replies:[
+							{user: "Aasiruddin Walajahi", date:'03/13/15', comment:'hahahaha', 
+								replies:[
+								]
+							},
+							{user: "Sam Carne", date:'03/13/15', comment:'blub', 
+								replies:[
+								]
+							}												
+						]
+					},
+					{user: "Bogdan Pozderca", date:'03/13/15', comment:"you're a punk", 
+						replies:[
+							{user: "Sam Carne", date:'03/13/15', comment:'blub blub', 
+								replies:[
+								]
+							}
+						]
+					}
+				]
+			},
+			{user: "Brandon Bielicki", date:'03/13/15', comment:'LOL', 
+				replies:[
+					{user: "Bogdan Pozderca", date:'03/13/15', comment:"meh", 
+						replies:[
+						]
+					},
+					{user: "Bogdan Pozderca", date:'03/13/15', comment:"oh well", 
+						replies:[
+						]
+					}
+				]
+			},
+			{user: "Sam Carne", date:'03/13/15',comment:"i believe it",
+				replies:[
+				]
+			}
+		]
+	},
+	{user: "Sam Carne", date:'03/13/15',comment:"i am a fish",
+		replies:[
+		]
+	}
+];
