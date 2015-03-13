@@ -247,3 +247,12 @@ div.form-group-file input {
     
 .media_title_new img {
    text-align: center;
+}
+
+.odd {
+    background: rgb(89,120,150);
+}
+
+.even {
+    background: rgb(71,104,138);
+}
