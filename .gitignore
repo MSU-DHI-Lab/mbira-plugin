@@ -7,6 +7,10 @@
 # Ignore svn
 /.svn
 
+# Ignore images
+/.images
+
+
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
