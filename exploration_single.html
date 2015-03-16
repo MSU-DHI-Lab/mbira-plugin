@@ -10,6 +10,15 @@
 		<script src="js/leaflet.js"></script> 
 		<script src="js/l.control.geosearch.js"></script> 
 		<script src="js/l.geosearch.provider.openstreetmap.js"></script> 
+		
+		<script type="text/ng-template" id="replyTree">
+			<div style='display:inline-block; width:100%; font-size:15px;'>{{comment.user}}<div style='display:inline-block; float: right; font-size:15px;'>{{comment.date}}</div></div> <br>{{comment.comment}}<br>
+			<div ng-if="comment.replies">
+				<div style='margin-left:20px; border: 2px black solid;' ng-repeat="comment in comment.replies" ng-include="'replyTree'">
+				</div>
+			</div>
+		</script>
+		
     </head>
 <body ng-app='mbira'>
     <div class="wrap" ng-controller='singleExplorationCtrl'>    
@@ -79,9 +88,11 @@
 				</div>
 			</div>
 			
-			<div class="form-group">				        
-				{{"Comments will go here"}}
-			</div><br>
+			<div class="form-group">	
+				<div id='comments' ng-repeat="comment in comments" ng-if="exploration.toggle_comments" ng-include="'replyTree'">
+				</div>				
+			</div>
+			<br> 
 			
 			
 		</form>

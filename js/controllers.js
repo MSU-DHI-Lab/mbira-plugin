@@ -1264,11 +1264,13 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 
 
 });
-mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
+mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, timeStamp){
 	$scope.newMedia = false;
 	$scope.project = $stateParams.project;
 	$scope.pid = $stateParams.pid;
 	$scope.previous = $stateParams.previous
+	$scope.comments = []
+	$scope.userData = []
 
 	$scope.marker = false;
 	$scope.places = [];
@@ -1302,6 +1304,71 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 		})
     }
 
+	function checkIfHasReply(objToPushTo, idToCheck,data){
+		for(j=0;j<data.length;j++){
+			if (idToCheck == data[j].replyTo) {
+				name = idToUser(data[j]);
+				date = timeStamp.toDate(data[j].timeStamp) + " | " + timeStamp.toTime(data[j].timeStamp)
+				tempObj = {comment_id:data[j].id, user:name, date:date,comment:data[j].comment, replies:[]};
+				objToPushTo.replies.push(tempObj);
+			}
+		}
+		for(h=0;h<objToPushTo.replies.length;h++) {
+			checkIfHasReply(objToPushTo.replies[h],objToPushTo.replies[h].comment_id,data);
+		}
+	}
+	
+	function idToUser(commentData){
+		for(q=0;q<$scope.userData.length;q++){					//match user_id of comment or reply to name
+			if ($scope.userData[q].id === commentData.user_id){
+				return $scope.userData[q].firstName + " " + $scope.userData[q].lastName;
+			}
+		}
+	}
+	
+	function loadComments(userData) {//load comments
+		$http({
+			method: 'POST',
+			url: "ajax/getComments.php",
+			data: $.param({
+					id: $stateParams.exploration,
+					type: 'exploration'
+				}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			data.sort(function(x, y){
+				if ( x.replyTo - y.replyTo === 0){
+					return y.timeStamp - x.timeStamp
+				} else {
+					return y.replyTo - x.replyTo;
+				}
+			})
+			for(i=0;i<data.length;i++){
+				if (data[i].replyTo == 0){
+					name = idToUser(data[i]);
+					date = timeStamp.toDate(data[i].timeStamp) + " | " + timeStamp.toTime(data[i].timeStamp)
+					tempObj = {comment_id:data[i].id, user:name, date:date,comment:data[i].comment, replies:[]}
+					$scope.comments.push(tempObj)
+				}
+			}
+			for(i=0;i<$scope.comments.length;i++){
+				checkIfHasReply($scope.comments[i], $scope.comments[i].comment_id, data)
+			}
+			
+		})
+	}
+	
+	
+	
+	$http({
+		method: 'POST',
+		url: "ajax/getUsers.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		$scope.userData = data;
+		loadComments(data);
+	})	
+	
 	//load exploration info
 	$http({
 		method: 'POST',
