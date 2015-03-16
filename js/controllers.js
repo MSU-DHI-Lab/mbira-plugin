@@ -93,6 +93,43 @@ mbira.factory('setMap', function(){
 	
 });
 
+mbira.factory('timeStamp', function(){	
+	return {
+		toTime: function(timeStamp){
+			d = new Date(parseInt(timeStamp))
+			var hh = d.getHours();
+			var m = d.getMinutes();
+			var s = d.getSeconds();
+			var dd = "AM";
+			var h = hh;
+			if (h >= 12) {
+				h = hh-12;
+				dd = "PM";
+			}
+			if (h == 0) {
+				h = 12;
+			}
+			m = m<10?"0"+m:m;
+
+			s = s<10?"0"+s:s;
+
+			var pattern = new RegExp("0?"+hh+":"+m+":"+s);
+
+			var replacement = h+":"+m;
+
+			replacement += ":"+s;  
+			replacement += " "+dd;    
+
+			return replacement;
+		},
+		toDate: function(timeStamp){
+			d = new Date(parseInt(timeStamp))
+			return d.getMonth()+1 + "." + d.getUTCDate() + "." + d.getFullYear().toString().substr(2)
+		}
+	}
+	
+});
+
 mbira.factory('makeArray', function () {
 	return {
 		make: function (project, scope) {
@@ -107,7 +144,7 @@ mbira.factory('makeArray', function () {
 	}
 });
 
-mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap){
+mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp){
 	var map;
 	$scope.newMedia = false;
 	$scope.project = $stateParams.project;
@@ -142,7 +179,8 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 		for(j=0;j<data.length;j++){
 			if (idToCheck == data[j].replyTo) {
 				name = idToUser(data[j]);
-				tempObj = {comment_id:data[j].id, user:name, date:data[j].timeStamp,comment:data[j].comment, replies:[]};
+				date = timeStamp.toDate(data[j].timeStamp) + " | " + timeStamp.toTime(data[j].timeStamp)
+				tempObj = {comment_id:data[j].id, user:name, date:date,comment:data[j].comment, replies:[]};
 				objToPushTo.replies.push(tempObj);
 			}
 		}
@@ -159,7 +197,6 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 		}
 	}
 	
-
 	function loadComments(userData) {//load comments
 		$http({
 			method: 'POST',
@@ -177,11 +214,11 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 					return y.replyTo - x.replyTo;
 				}
 			})
-			console.log(data)
 			for(i=0;i<data.length;i++){
 				if (data[i].replyTo == 0){
 					name = idToUser(data[i]);
-					tempObj = {comment_id:data[i].id, user:name, date:data[i].timeStamp,comment:data[i].comment, replies:[]}
+					date = timeStamp.toDate(data[i].timeStamp) + " | " + timeStamp.toTime(data[i].timeStamp)
+					tempObj = {comment_id:data[i].id, user:name, date:date,comment:data[i].comment, replies:[]}
 					$scope.comments.push(tempObj)
 				}
 			}
