@@ -115,6 +115,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 	$scope.previous = $stateParams.previous
 	$scope.media;
 	$scope.comments = []
+	$scope.userData = []
 	
 	//todo when exhibits are ready --- populates exhibits dropdown
 	$scope.exhibits = [
@@ -140,7 +141,8 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 	function checkIfHasReply(objToPushTo, idToCheck,data){
 		for(j=0;j<data.length;j++){
 			if (idToCheck == data[j].replyTo) {
-				tempObj = {comment_id:data[j].id, user:data[j].user_id, date:data[j].timeStamp,comment:data[j].comment, replies:[]};
+				name = idToUser(data[j]);
+				tempObj = {comment_id:data[j].id, user:name, date:data[j].timeStamp,comment:data[j].comment, replies:[]};
 				objToPushTo.replies.push(tempObj);
 			}
 		}
@@ -149,38 +151,61 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 		}
 	}
 	
+	function idToUser(commentData){
+		for(q=0;q<$scope.userData.length;q++){					//match user_id of comment or reply to name
+			if ($scope.userData[q].id === commentData.user_id){
+				return $scope.userData[q].firstName + " " + $scope.userData[q].lastName;
+			}
+		}
+	}
 	
-	//load comments
+
+	function loadComments(userData) {//load comments
+		$http({
+			method: 'POST',
+			url: "ajax/getComments.php",
+			data: $.param({
+					id: $stateParams.location,
+					type: 'location'
+				}),
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			data.sort(function(x, y){
+				if ( x.replyTo - y.replyTo === 0){
+					return y.timeStamp - x.timeStamp
+				} else {
+					return y.replyTo - x.replyTo;
+				}
+			})
+			console.log(data)
+			for(i=0;i<data.length;i++){
+				if (data[i].replyTo == 0){
+					name = idToUser(data[i]);
+					tempObj = {comment_id:data[i].id, user:name, date:data[i].timeStamp,comment:data[i].comment, replies:[]}
+					$scope.comments.push(tempObj)
+				}
+			}
+			for(i=0;i<$scope.comments.length;i++){
+				checkIfHasReply($scope.comments[i], $scope.comments[i].comment_id, data)
+			}
+			
+		})
+	}
+	
+	
+	
 	$http({
 		method: 'POST',
-		url: "ajax/getComments.php",
+		url: "ajax/getUsers.php",
 		data: $.param({
 				id: $stateParams.location,
 				type: 'location'
 			}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
-		data.sort(function(x, y){
-			if ( x.replyTo - y.replyTo === 0){
-				return y.timeStamp - x.timeStamp
-			} else {
-				return y.replyTo - x.replyTo;
-			}
-		})
-		console.log(data)
-		for(i=0;i<data.length;i++){
-			if (data[i].replyTo == 0){
-				tempObj = {comment_id:data[i].id, user:data[i].user_id, date:data[i].timeStamp,comment:data[i].comment, replies:[]}
-				$scope.comments.push(tempObj)
-			}
-		}
-		for(i=0;i<$scope.comments.length;i++){
-			checkIfHasReply($scope.comments[i], $scope.comments[i].comment_id, data)
-			console.log($scope.comments)
-		}
-		
-	})
-	
+		$scope.userData = data;
+		loadComments(data);
+	})	
 	
 	//load location info
 	$http({
