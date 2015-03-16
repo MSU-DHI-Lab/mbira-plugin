@@ -8,7 +8,7 @@
 /.svn
 
 # Ignore images
-/.images
+/images
 
 
 # Ignore all logfiles and tempfiles.
