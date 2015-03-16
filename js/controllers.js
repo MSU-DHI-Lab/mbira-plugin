@@ -153,16 +153,25 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 	$scope.media;
 	$scope.comments = []
 	$scope.userData = []
+	$scope.exhibits = []
 	
-	//todo when exhibits are ready --- populates exhibits dropdown
-	$scope.exhibits = [
-      {name:'EXHIBIT 1'},
-      {name:'EXHIBIT 2'},
-      {name:'EXHIBIT 3'},
-      {name:'EXHIBIT 4'},
-      {name:'EXHIBIT 5'}
-    ];
-    $scope.selectedExhibit = $scope.exhibits[0]; 
+	$http({
+		method: 'POST',
+		url: "ajax/inExhibit.php",
+		data: $.param({'id': $stateParams.location, 'task': 'loc'}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		if (!data.length) {
+			$scope.exhibits.push({name:'No Exhibits'})
+		}else {
+			for(i=0;i<data.length;i++){
+				$scope.exhibits.push({name:data[i].name,id:data[i].id})
+			}
+		}
+		$scope.selectedExhibit = $scope.exhibits[0];
+	}) 
+	
+	
 	
     function getMedia(){
 		$http({
@@ -402,18 +411,23 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 	$scope.previous = $stateParams.previous
 	$scope.userData = []
 	$scope.comments = []
-
-	var map;
-
-	//todo when exhibits are ready --- populates exhibits dropdown
-	$scope.exhibits = [
-      {name:'EXHIBIT 1'},
-      {name:'EXHIBIT 2'},
-      {name:'EXHIBIT 3'},
-      {name:'EXHIBIT 4'},
-      {name:'EXHIBIT 5'}
-    ];
-    $scope.selectedExhibit = $scope.exhibits[0]; 
+	$scope.exhibits = []
+	
+	$http({
+		method: 'POST',
+		url: "ajax/inExhibit.php",
+		data: $.param({'id': $stateParams.area, 'task': 'area'}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		if (!data.length) {
+			$scope.exhibits.push({name:'No Exhibits'})
+		}else {
+			for(i=0;i<data.length;i++){
+				$scope.exhibits.push({name:data[i].name,id:data[i].id})
+			}
+		}
+		$scope.selectedExhibit = $scope.exhibits[0];
+	}) 
     
 	function getMedia(){
 		$http({
