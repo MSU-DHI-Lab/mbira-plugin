@@ -11,7 +11,7 @@
     <div class="header">
         <div class="back"><a ui-sref="projects"><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
         <div class="title"><h1>{{project.name}}</h1></div>
-        <div class="info"><a href="project_info.php"><img src="img/info.png"/></a></div></div>
+        <div class="info"><a  ui-sref="projectInfo({project: project.id, pid: pid})"><img src="img/info.png"/></a></div></div>
     
     
     <!--PROJECT DESCRIPTION-->
