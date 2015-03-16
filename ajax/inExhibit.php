@@ -34,16 +34,46 @@
 
 	}
 
+	function getLoc($con) {
+		$loc = $_POST['id'];
+	
+		$results = mysqli_query($con, "SELECT mbira_exhibits_id FROM mbira_locations_has_mbira_exhibits WHERE mbira_locations_id='$loc'");
+		$exhibitArray = Array();
+		while($row = mysqli_fetch_array($results)) {
+			$eid = $row['mbira_exhibits_id'];
+			$results2 = mysqli_query($con, "SELECT * FROM mbira_exhibits WHERE id='$eid'");
+			$row2 = mysqli_fetch_array($results2);
+			array_push($exhibitArray, $row2);
+		}
 
+		echo json_encode($exhibitArray);
 
+	}
+
+	function getArea($con) {
+		$area = $_POST['id'];
+
+		$results = mysqli_query($con, "SELECT mbira_exhibits_id FROM mbira_areas_has_mbira_exhibits WHERE mbira_areas_id='$area'");
+		$exhibitArray = Array();
+		while($row = mysqli_fetch_array($results)) {
+			$eid = $row['mbira_exhibits_id'];
+			$results2 = mysqli_query($con, "SELECT * FROM mbira_exhibits WHERE id='$eid'");
+			$row2 = mysqli_fetch_array($results2);
+			array_push($exhibitArray, $row2);
+
+		}
+	
+		echo json_encode($exhibitArray);
+
+	}
 
 
 
 	if($_POST['task'] == 'getAll'){
 		getAll($con);
-	}else if($_POST['task'] == 'update'){
-		updateRow($con);
-	}else if($_POST['task'] == 'delete'){
-		deleteRow($con);
+	}else if($_POST['task'] == 'loc'){
+		getLoc($con);
+	}else if($_POST['task'] == 'area'){
+		getArea($con);
 	}
 ?>
