@@ -13,6 +13,10 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    url: "/viewProject/?project&pid",
 	    templateUrl: "project_single.php"
 	  })
+	  .state('projectInfo', {
+	    url: "/projectInfo/?project&pid",
+	    templateUrl: "project_info.html"
+	  })
 	  .state('newProject', {
 	    url: "/newProject",
 	    templateUrl: "menu_project_new.php"
@@ -651,6 +655,42 @@ mbira.controller("singleProjectCtrl", function ($scope, $http, $stateParams){
 		$scope.areas = data[2];
 		$scope.explorations = data[3];
 		$scope.exhibits = data[4];
+	})
+});
+
+mbira.controller("projectInfoCtrl", function ($scope, $http, $stateParams){
+	$scope.pid = $stateParams.pid;
+
+	//Get file to be uploaded
+	$scope.onFileSelect = function($files) {
+		if($files.length > 1) {
+			alert("Only upload one image for the thumbnail.");
+		}else{
+			$scope.file = $files[0];
+
+			$scope.uploadFile = $upload.upload({
+				url:'ajax/tempImg.php',
+				method:"POST",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				file: $scope.file
+			}).success(function(data) {	
+				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+			});
+		}
+	};	
+	
+	//Get single project info
+	$http({
+		method: 'POST',
+		url: "ajax/getProjectInfo.php",
+		data: $.param({
+				id: $stateParams.project
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		//Set to scope
+		$scope.project = data[0];
+		$('.dropzone img').attr('src', 'images/'+ $scope.project.image_path )
 	})
 });
 
