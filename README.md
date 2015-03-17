@@ -16,3 +16,11 @@ Based on the metaphor of “space and landscape as museum,” mbira lets users c
 2. mbira plugin: the mbira plugin (which is installed on top of the user’s chosen digital repository platform or content management system) is the core authoring environment in mbira’s constellation of open source tools. The mbira plugin facilitates the creation of mobile projects and their associated exhibits, as well as all locations, areas, and explorations (and their associated content).  The mbira plugin also allows creators and editors to manage all social aspects of their mobile applications. In addition, the plugin lets users manage all of the device specific deployments of their mobile heritage experience (iOS, Android, mobile-first responsive web).
 
 3. Mobile Front-end Templates: the mbira constellation of tools includes elegantly designed (and well documented) native mobile (iOS and Android) and mobile-web stock templates that individuals, projects, or institutions can use as-is or modify as they see fit. While the templates are designed primarily for those with minimal programming experience, they can also serve as a project jump-start for more seasoned developers. The templates are built specifically to dynamically display content (exhibits, places, spaces, explorations) authored in the mbira plugin. As with all of the other components of the mbira platform, the mobile templates are available to users for free under an open source license. The mobile first responsive web templates will be built in HTML, CSS, PHP, and JavaScript.
+ 
+###Current Development Status & Roadmap###
+
+*Coming Soon*
+
+###Installation Instructions###
+
+*Coming Soon*
