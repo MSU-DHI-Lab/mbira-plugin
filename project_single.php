@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="css/project_single.css"/>
+        
         <link rel="stylesheet" type="text/css" href="css/project_single.css"/> <!-- This needs to change and be its own css -->
         <link rel="stylesheet" type="text/css" href="css/project_all.css"/>  <!-- This needs to change and be its own css -->
     </head>

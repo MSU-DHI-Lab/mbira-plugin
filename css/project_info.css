@@ -15,11 +15,11 @@ img {
 
 @font-face {
     font-family: 'montserratregular';
-    src: url('Montserrat-Regular-webfont.eot');
-    src: url('Montserrat-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('Montserrat-Regular-webfont.woff') format('woff'),
-         url('Montserrat-Regular-webfont.ttf') format('truetype'),
-         url('Montserrat-Regular-webfont.svg#montserratregular') format('svg');
+    src: url('fonts/Montserrat-Regular-webfont.eot');
+    src: url('fonts/Montserrat-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Montserrat-Regular-webfont.woff') format('woff'),
+         url('fonts/Montserrat-Regular-webfont.ttf') format('truetype'),
+         url('fonts/Montserrat-Regular-webfont.svg#montserratregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -121,7 +121,7 @@ img {
 
 .thumbnail_title h3 {
     font-family: 'montserratregular', sans-serif;
-    font-size: 20px;
+    font-size: 16px;
     color: #fff;
     margin:0;
     padding: 20px 0px;
@@ -256,9 +256,9 @@ textarea {
 #delete {
      width: 185px;
     font-family: 'montserratregular', sans-serif;
-    font-size: 20px;
+    font-size: 16px;
     text-align: center;
-    background: #cc0000;
+    background: #C17070;
     color: #FFF;
     box-shadow: none;
     border:none;
