@@ -1,6 +1,9 @@
 [Menus]
 Projects = #/projects
 Exhibits = #/exhibits
+Areas = #/areas
 Locations = #/locations
 Explorations = #/explorations
 Notifications = #/notifications
+Users = #/users
+Settings = #/settings
