@@ -12,9 +12,9 @@
 		<script src="js/l.geosearch.provider.openstreetmap.js"></script> 
 		
 		<script type="text/ng-template" id="replyTree">
-			<div style='display:inline-block; width:100%; font-size:15px;'>{{comment.user}}<div style='display:inline-block; float: right; font-size:15px;'>{{comment.date}}</div></div> <br>{{comment.comment}}<br>
+			<div class='comment' style='display:inline-block;'>{{comment.user}}<div style='display:inline-block; float: right; font-size:12px;'>{{comment.date}}</div><br>{{comment.comment}}<br></div> 
 			<div ng-if="comment.replies">
-				<div style='margin-left:20px; border: 2px black solid;' ng-repeat="comment in comment.replies" ng-include="'replyTree'">
+				<div style='margin-left:50px;' ng-repeat="comment in comment.replies" ng-include="'replyTree'">
 				</div>
 			</div>
 		</script>
@@ -31,41 +31,49 @@
 		</div>
 
 		<form id="editexplorationform" name="editexplorationform" novalidate ng-submit="submit()" role="form">
+            
 			<div class="header2">
 				<div class="form-group">				        
-					<input type="text" required class="form-control npInput" ng-model="exploration.name" placeholder="Exploration Name">
+					<input type="text" required class="form-control npInput" id="explorationName" ng-model="exploration.name" placeholder="Exploration Name">
 					<button type="submit" id="submit" class="btn btn-default" ng-disabled="editexplorationform.$invalid" ng-class="{'btn-disabled': editexplorationform.$invalid}">SAVE & CLOSE</button>
 				</div><br>
 			</div>
 			
-			<div class="form-group">				        
-				<button type="button" ng-click='editPosition()' class="btn btn-default">EDIT STOPS</button>
-			</div><br>
 			
-			<div class="form-group" ng-if='active'>	
-				Rearrange stops below to set a new exploration path.<br><br>
-				<div id='reorder' sv-root sv-part="places" sv-on-sort="onSort($part, $item, $index)">Stops (Drag to Reorder)
-					<div id='stops' ng-repeat="place in places" sv-element>
-						<div style='position:absolute; padding-left:5px;'>{{$index + 1}}</div>{{place[1]}}
-					</div>
-				</div>				
-			</div><br>
-			
+            <div class="field">
 			<div class='field-label'>
 					<h1 class='label-name'>DESCRIPTION</h1>					
 			</div>
 			
 			<div class="form-group">			
-				<textarea ng-model="exploration.description"></textarea>
-			</div><br>
-					
+				<textarea id="textField" ng-model="exploration.description"></textarea>
+                </div></div>
+            
+			
+			<div class="form-group" >	<!--ng-if='active'-->
+                <div class="field">
+                <div class='field-label'>
+					<h1 class='label-name'>STOPS (Drag to Reorder)</h1>	
+                    <div class="form-group">				        
+				<button type="button" ng-click='editPosition()' id="editStops" class="btn btn-default">EDIT STOPS</button></div>
+			</div>
+				<div id='reorder' sv-root sv-part="places" sv-on-sort="onSort($part, $item, $index)">
+                    
+					<div id='stops' ng-repeat="place in places" sv-element>
+						<div style='position:absolute; padding-left:5px;'>{{$index + 1}}</div>{{place[1]}}
+					</div>
+				</div>
+                </div>
+			</div>
+			
+            <div class="field">
 			<div class='field-label'>
 				<div class="switch">
 					<h1 class='label-name'>MEDIA</h1>
 					<input ng-model='exploration.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
 					<label for="cmn-toggle-2"></label>
 				</div>
-			</div>
+                </div>
 			
 			<div class="medias">	
 				<div class='media' ng-repeat='m in media'>
@@ -78,8 +86,9 @@
 					<img src="img/project_new_plus_icon_small.png" height="130" width="130">
 					<div class="media_title_new"><h3>ADD MEDIA</h3></div>
 				</div>
-			</div><br>
+                </div></div>
 			
+            <div class="field">
 			<div class='field-label'>
 				<div class="switch">
 					<h1 class='label-name'>COMMENTS</h1>
@@ -92,7 +101,7 @@
 				<div id='comments' ng-repeat="comment in comments" ng-if="exploration.toggle_comments" ng-include="'replyTree'">
 				</div>				
 			</div>
-			<br> 
+            </div> 
 			
 			
 		</form>

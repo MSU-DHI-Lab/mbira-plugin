@@ -24,7 +24,7 @@ function deleteRow($con){
 	mysqli_query($con,"DELETE FROM mbira_exhibits WHERE id='$id'");
 }
 
-//Update hibit
+//Update exhibit
 function updateRow($con){
 	$id = $_POST['id'];
 	$name = mysqli_real_escape_string($con, $_POST['name']);

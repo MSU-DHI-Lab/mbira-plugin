@@ -426,6 +426,7 @@ input.cmn-toggle-round-flat:checked + label:after {
     
 .explorations {
     margin: 50px 0 20px 0;
+    padding: 20px;
     z-index: 2;
 }
 
@@ -437,7 +438,7 @@ input.cmn-toggle-round-flat:checked + label:after {
     width: 130px;
     height: 130px;
     background: #ccc;
-    margin: 20px 0 0 20px;
+    margin: 20px 0 20px 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -448,7 +449,7 @@ input.cmn-toggle-round-flat:checked + label:after {
     width: 130px;
     height: 130px;
     background: #3EB9FD;
-    margin: 20px 0 0 20px;
+    margin: 20px 0 20px 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);

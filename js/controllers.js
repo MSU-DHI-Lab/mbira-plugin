@@ -21,6 +21,10 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    url: "/newProject",
 	    templateUrl: "menu_project_new.php"
 	  })
+	   .state('users', {
+	    url: "/users",
+	    templateUrl: "menu_user_all.php"
+	  })
 	   .state('exhibits', {
 	    url: "/exhibits",
 	    templateUrl: "menu_exhibit_all.php"
@@ -137,13 +141,26 @@ mbira.factory('timeStamp', function(){
 mbira.factory('makeArray', function () {
 	return {
 		make: function (project, scope) {
-			locArray = [];
+			theArray = [];
 			for(j=0;j<scope.data.length;j++){
 				if (project === scope.data[j].project_id){
-					locArray.push(scope.data[j]);
+					theArray.push(scope.data[j]);
 				}
 			}
-			return locArray;
+			return theArray;
+	    },
+		user: function (project, scope, usersInProjects) {
+			theArray = [];
+			for(j=0;j<usersInProjects.length;j++){
+				if (project === usersInProjects[j].mbira_projects_id){
+					for(q=0;q<scope.data.length;q++){
+						if (usersInProjects[j].mbira_users_id === scope.data[q].id){
+							theArray.push(scope.data[q]);
+						}
+					}
+				}
+			}
+			return theArray;
 	    }
 	}
 });
@@ -658,7 +675,7 @@ mbira.controller("singleProjectCtrl", function ($scope, $http, $stateParams){
 	})
 });
 
-mbira.controller("projectInfoCtrl", function ($scope, $http, $stateParams){
+mbira.controller("projectInfoCtrl", function ($scope, $http, $upload, $stateParams, $state){
 	$scope.pid = $stateParams.pid;
 
 	//Get file to be uploaded
@@ -692,6 +709,44 @@ mbira.controller("projectInfoCtrl", function ($scope, $http, $stateParams){
 		$scope.project = data[0];
 		$('.dropzone img').attr('src', 'images/'+ $scope.project.image_path )
 	})
+	
+	//Handle "save and close"
+	$scope.submit = function(){
+		//Save		
+		$scope.upload = $upload.upload({				
+			url: 'ajax/saveProject.php',
+			method: 'POST',
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: { 
+					task: 'update',
+					id: $stateParams.project,
+					name: $scope.project.name,
+					description: $scope.project.description,
+					path: $scope.project.image_path
+				},
+			file: $scope.file
+		}).success(function(data) {
+			// return to project
+			location.href = "javascript:history.back()";
+		});
+	}
+	
+	//Delete project
+	$scope.delete = function(){
+		$http({
+		method: 'POST',
+		url: "ajax/saveProject.php",
+		data: $.param({
+				task: "delete",
+				id: $stateParams.project
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			//return to projecct
+			location.href = "#/projects"
+		})
+	}
+	
 });
 
 mbira.controller("viewProjectsCtrl", function ($scope, $http){
@@ -742,7 +797,7 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 			url: 'ajax/saveProject.php',
 			method: 'POST',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-			data: {name: $scope.newProject.name, description: $scope.newProject.description},
+			data: {task: 'create', name: $scope.newProject.name, description: $scope.newProject.description},
 			file: $scope.file
 		}).success(function(data) {	
 			//return to all projects page
@@ -750,6 +805,37 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 		});
 	}
 });
+mbira.controller("viewUsersCtrl", function ($scope, $http, makeArray){
+	//Get all exhibits
+	$http({
+		method: 'GET',
+		url: "ajax/getUsers.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		$scope.data = data;
+		$http({
+			method: 'GET',
+			url: "ajax/getUsersInProjects.php",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data2){
+			//Get all projects
+			$http({
+				method: 'GET',
+				url: "ajax/getProjects.php",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).success(function(data3){
+				for(i=0;i<data2.length;i++){
+					userArray = makeArray.user(data3[i].id, $scope, data2);
+					data3[i].users = userArray;
+				}
+				console.log(data3);
+				$scope.projects = data3;
+			})
+		})
+	})
+});	
+
+
 mbira.controller("viewLocationsCtrl", function ($scope, $http, makeArray){
 
 	//Get all locations

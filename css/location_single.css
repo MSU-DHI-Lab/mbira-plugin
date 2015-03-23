@@ -38,7 +38,8 @@ body, html {
   cursor: pointer;
   outline: none;
   user-select: none;
-  left: 500px;
+  float: right;
+    margin-top: -7px;
 }
 
 input.cmn-toggle-round-flat + label {
@@ -94,9 +95,7 @@ input.cmn-toggle-round-flat:checked + label:after {
     display: inline-block;
 }
 
-.delete {
-    cursor: pointer;
-}
+
 
 
 
@@ -153,8 +152,9 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 /* HEADER2 */
 .header2 {
+    width: 100%;
     background: #0A263D;
-    height: 75px;
+    height: 107px;
     -webkit-box-shadow: 0px 4px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    0px 4px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         0px 4px 3px 0px rgba(50, 50, 50, 0.2);
@@ -162,6 +162,141 @@ input.cmn-toggle-round-flat:checked + label:after {
     position:relative;
     top:0px;
     z-index: 1;   
+}
+
+#locationName {
+    width: 59.5%;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 20px;
+    background: rgba(255,255,255, 0.3);
+    color: #FFF;
+    border:none;
+    padding: 22px;
+    margin: 20px 0 20px 20px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+#submit {
+    width: 32%;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    background: #3EB9FD;
+    color: #FFF;
+    border: 2px solid #fff;
+    padding: 20px;
+    margin: 0 0 0 20px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    cursor: pointer;
+}
+
+
+/* CHOOSE EXHIBIT, EDIT POSITION*/
+
+.edit-position {
+    margin-bottom: -35px;
+}
+
+#editExhibit {
+    height: 64px;
+     min-width: 59.5%;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 20px;
+    background: rgba(255,255,255, 0.4);
+    color: #FFF;
+    border:none;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    padding: 20px;
+    margin: 20px 0 20px 20px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+#editExhibit select {
+    border-radius: 0px;
+    padding: 20px;
+}
+
+#editPosition {
+    width: 32%;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    background: #3EB9FD;
+    color: #FFF;
+    box-shadow: none;
+    padding: 20px;
+    margin: 0 0 0 20px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    cursor: pointer;
+}
+    
+/* DESCRIPTION & DIG DEEPR */
+.field {
+    margin: 20px;
+}
+
+.field .field-label{
+    padding: 20px;
+}
+
+.field .field-label h1{
+    font-size: 16px;
+     font-family: 'montserratregular', sans-serif;
+}
+
+#textField {
+    width: 100%;
+    height: 140px;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 16px;
+    background: rgba(255,255,255, 0.2);
+    color: #FFF;
+    box-shadow: none;
+    border:none;
+    padding: 20px 20px 20px 20px;
+    
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+textarea {
+    resize: none;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #FFF;
+    top: 0;
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #FFF;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #FFF;
+   opacity:  1;
+}
+
+#textField:focus {
+    outline: none !important;
+    border: inset 2px solid rgba(255,255,255, .5);
+    box-shadow: inset 0px 0 5px #FFF;
+}
+
+.field .field-label .cmn-toggle + label{
+    display: inline-block;
+    vertical-align: middle;
 }
 
 /* ADD MEDIA */
@@ -184,8 +319,10 @@ div.form-group-file input {
 }
 
 .medias {
-    margin: 10px 0 10px 0;
+    margin: 0;
+    padding-bottom: 20px;
     z-index: 2;
+    background: rgba(255,255,255, 0.2);
 }
 
 .medias div {
@@ -248,6 +385,51 @@ div.form-group-file input {
 .media_title_new img {
    text-align: center;
 }
+
+
+/* COMMENTS */
+
+.comments-all { 
+    background: rgba(255,255,255, 0.2);
+    box-shadow: none;
+    border:none;
+    padding: 20px 20px 0px 20px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+#comments {
+    margin: 0 20px 0 0;
+    padding: 0 20px 0 0;
+}
+
+.comment {
+   width: 100%;
+     font-family: 'montserratregular', sans-serif;
+    font-size: 16px;
+    background: rgba(255,255,255, 0.2);
+    color: #FFF;
+    box-shadow: none;
+    border:none;
+    padding: 20px 20px 20px 20px;
+    margin-bottom: 20px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+
+/* DELETE */
+.delete {
+    cursor: pointer;
+    margin: 20px;
+    padding: 20px;
+    font-family: 'montserratregular', sans-serif;
+    background: #0A263D;
+}
+
+
 
 .odd {
     background: rgb(89,120,150);
