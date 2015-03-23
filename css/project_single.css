@@ -27,59 +27,7 @@ body, html {
 
 }
 
-.cmn-toggle {
-  position: absolute;
-  margin-left: -9999px;
-  visibility: hidden;
-}
-.cmn-toggle + label {
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-  outline: none;
-  user-select: none;
-  left: 500px;
-}
 
-input.cmn-toggle-round-flat + label {
-  padding: 2px;
-  width: 60px;
-  height: 30px;
-  background-color: #dddddd;
-  border-radius: 60px;
-  transition: background 0.4s;
-}
-input.cmn-toggle-round-flat + label:before,
-input.cmn-toggle-round-flat + label:after {
-  display: block;
-  position: absolute;
-  content: "";
-}
-input.cmn-toggle-round-flat + label:before {
-  top: 2px;
-  left: 2px;
-  bottom: 2px;
-  right: 2px;
-  background-color: #fff;
-  border-radius: 60px;
-  transition: background 0.4s;
-}
-input.cmn-toggle-round-flat + label:after {
-  top: 4px;
-  left: 4px;
-  bottom: 4px;
-  width: 26px;
-  background-color: #dddddd;
-  border-radius: 52px;
-  transition: margin 0.4s, background 0.4s;
-}
-input.cmn-toggle-round-flat:checked + label {
-  background-color: #3EB9FD;
-}
-input.cmn-toggle-round-flat:checked + label:after {
-  margin-left: 30px;
-  background-color: #3EB9FD;
-}
 
 .wrap {
 	background-color: #18587C;
@@ -425,8 +373,8 @@ input.cmn-toggle-round-flat:checked + label:after {
 /* EXPLORATIONS */
     
 .explorations {
-    margin: 50px 0 20px 0;
-    padding: 20px;
+    margin: 50px 0 50px 0;
+    
     z-index: 2;
 }
 

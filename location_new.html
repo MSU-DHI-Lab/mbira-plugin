@@ -5,8 +5,8 @@
 	<link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
     <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
     <link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
-        <link rel="stylesheet" type="text/css" href="css/project_single.css"/> <!-- This needs to change and be its own css -->
-        <link rel="stylesheet" type="text/css" href="css/project_all.css"/>  <!-- This needs to change and be its own css -->
+        <link rel="stylesheet" type="text/css" href="css/newlocation.css"/>
+       
 		
 	<script src="js/leaflet.js"></script>
 	<script src="js/l.control.geosearch.js"></script> 
@@ -22,7 +22,9 @@
 			</div>
 		</div>
 
-        <!--PROJECT INFORMATION-->       
+    <div class="help">
+            <p>Just click or search where you would like your new location to be...</p></div>
+        
 		<div id="map"> 
 		</div>
 		
@@ -30,28 +32,92 @@
 			<div class="project_information">    
 				<form id="newlocationform" name="newlocationform" novalidate ng-submit="submit()" role="form">
 
-					<div class="form-group">				        
-						<input type="text" required class="form-control npInput" id="name" name="name" ng-value="search._location.Label" ng-model="newLocation.name" placeholder="Location Name">
-					</div>
+                    <div class="header2">
+				<div class="form-group">				        
+					<input type="text" required class="form-control npInput" id="name" name="name" ng-value="search._location.Label" ng-model="newLocation.name" placeholder="Enter New Location Name">
+					<button type="submit" id="submit" class="btn btn-default" ng-disabled="newlocationform.$invalid" ng-class="{'btn-disabled': newlocationform.$invalid}">ADD LOCATION</button>
+				</div>
+			</div>
+                
+                 <div class="edit-position">
+			<div class="form-group">				        
+				<select ng-model="selectedExhibit" id="editExhibit" ng-options="exhibit.name for exhibit in exhibits"></select>
+				<button type="button" ng-click='editArea()' id="editPosition" class="btn btn-default">EDIT POSITION</button>
+                </div></div>
+			
+            <div class="field">
+			<div class='field-label'>
+					<h1 class='label-name'>DESCRIPTION</h1>					
+                </div>
+			
+			<div class="form-group">			
+				<textarea id="textField" ng-model="newLocation.description" placeholder="Enter New Location Description"></textarea>
+			</div></div>				
+		
+                <div class="field">
+			<div class='field-label'>
+				<div class="switch">
+					<h1 class='label-name'>DIG DEEPER</h1>
+					<input ng-model='area.toggle_dig_deeper' id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<label for="cmn-toggle-1"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">				        
+				<textarea id="textField" ng-model="area.dig_deeper" placeholder="Enter New Area Dig Deeper"></textarea>
+                </div></div>
+                
+                <div class="field">
+			<div class='field-label'>
+				<div class="switch">
+					<h1 class='label-name'>MEDIA</h1>
+					<input ng-model='area.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<label for="cmn-toggle-2"></label>
+				</div>
+			</div>
+			
+			<div class="medias">
+                
+                <div class="thumbnail dropzone"> 
 					
-					<div class="form-group">				        
-						<input type="text" required class="form-control npInput" id="description" name="description" ng-model="newLocation.description" placeholder="Location Description">
+					<img src="img/Default.png" height="130" width="130">
+					<div class="thumbnail_title">
+						<h3>{{"Add Thumbnail"}}</h3>
 					</div>
-
-					<div class="form-group">				        
-						<input type="text" required class="form-control npInput" ng-model="newLocation.latitude" placeholder="Latitude">
+					<div class="form-group-file">				        
+							<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
 					</div>
-					
-					<div class="form-group">				        
-						<input type="text" required class="form-control npInput" ng-model="newLocation.longitude" placeholder="Longitude">
-					</div>
-					
-					File (Optional)
-					<div class="form-group">				        
-						<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)"/>
-					</div>
-					
-					<button type="submit" id="submit" class="btn btn-default" ng-disabled="newlocationform.$invalid" ng-class="{'btn-disabled': newlocationform.$invalid}">Add Location</button>
+				</div>
+                
+				<div class='media' ng-repeat='m in media'>
+					<img ng-src='images/{{m.file_path}}' height="130" width="130">
+				</div>
+				<div class="media_new"> 
+	                <div class="form-group-file">				        
+	    					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
+	    			</div>
+					<img src="img/project_new_plus_icon_small.png" height="130" width="130">
+					<div class="media_title_new"><h3>ADD MEDIA</h3></div>
+				</div>
+            </div></div>
+                
+                <div class="field">
+			<div class='field-label'>
+				<div class="switch">
+					<h1 class='label-name'>COMMENTS</h1>
+					<input ng-model='area.toggle_comments' id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<label for="cmn-toggle-3"></label>
+				</div>
+			</div>
+			
+			<div class="form-group comments-all">	<p>No Comments Yet.</p>
+				<div id='comments' ng-repeat="comment in comments" ng-if="area.toggle_comments" ng-include="'replyTree'">
+				</div>				
+			</div>
+            </div>
+                    
+                    
+                    
 				</form>
 			</div>
 		</div>

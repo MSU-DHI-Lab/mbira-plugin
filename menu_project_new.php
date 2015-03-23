@@ -33,7 +33,7 @@
 					<textarea required class="form-control npInput" id="description" name="description" ng-model="newProject.description" placeholder="Project Description"></textarea>
 			</div>
 			
-			<button type="submit" id="submit" class="btn btn-default" ng-disabled="newprojectform.$invalid" ng-class="{'btn-disabled': newprojectform.$invalid}">Create Project</button>
+			<button type="submit" id="submit" class="btn btn-default" ng-disabled="newprojectform.$invalid" ng-class="{'btn-disabled': newprojectform.$invalid}">CREATE PROJECT</button>
 		</form
 	</div>
 </body>
