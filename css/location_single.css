@@ -165,7 +165,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #locationName {
-    width: 472px;
+    width: 59.5%;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
@@ -179,7 +179,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #submit {
-    width: 258px;
+    width: 32%;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -203,7 +203,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 #editExhibit {
     height: 64px;
-     min-width: 472px;
+     min-width: 59.5%;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.4);
@@ -225,7 +225,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #editPosition {
-    width: 258px;
+    width: 32%;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
