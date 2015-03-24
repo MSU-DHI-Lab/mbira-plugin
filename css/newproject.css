@@ -71,7 +71,7 @@ img {
 
 .back {
     position: absolute;
-    top: 25px;
+    top: 28px;
     left: 20px;
 }
 
@@ -84,7 +84,7 @@ img {
     color: #FFF;
     font-family: 'montserratregular', sans-serif;
     font-size: 14px;
-    padding: 0 10px;
+    padding: 0 15px;
     margin: 0;
 }
 
@@ -121,7 +121,7 @@ img {
 
 .thumbnail_title h3 {
     font-family: 'montserratregular', sans-serif;
-    font-size: 20px;
+    font-size: 15px;
     color: #fff;
     margin:0;
     padding: 20px 0px;
@@ -182,7 +182,7 @@ img {
 }
 
 #name {
-    width: 472px;
+    width: 500px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
@@ -197,7 +197,7 @@ img {
 }
 
 #description {
-    width: 472px;
+    width: 500px;
     height: 140px;
     font-family: 'montserratregular', sans-serif;
     font-size: 16px;
@@ -237,7 +237,7 @@ textarea {
 }
 
 #submit {
-     width: 472px;
+     width: 500px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -246,7 +246,7 @@ textarea {
     box-shadow: none;
     border:none;
     padding: 20px;
-    margin: 0 50px 0 266px;
+    margin: 0 50px 0 268px;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);

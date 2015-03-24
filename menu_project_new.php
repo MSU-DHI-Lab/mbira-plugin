@@ -13,12 +13,9 @@
 		<form id="newprojectform" name="newprojectform" novalidate ng-submit="submit()" role="form">
             
             <div class="thumbnail dropzone"> 
-        		<h4 class="dropImg">Drop an Image</h4
-        		><h5>or</h5>
-        		<h4 class="clickAdd">Click to Add</h4>
         		<img src="img/Default.png" height="225" width="225">
         		<div class="thumbnail_title">
-        			<h3>{{newProject.name || "Thumbnail"}}</h3>
+        			<h3>{{newProject.name || "Drop/Add Thumbnail"}}</h3>
         		</div>
                 <div class="form-group-file">				        
     					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">

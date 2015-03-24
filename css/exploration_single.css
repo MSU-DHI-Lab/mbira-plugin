@@ -127,7 +127,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 .back {
     position: absolute;
-    top: 25px;
+    top: 28px;
     left: 20px;
 }
 
@@ -138,8 +138,8 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 .back p {
     color: #FFF;
-    font-family: 'montserratbold', sans-serif;
-    padding: 0 20px;
+    font-family: 'montserratregular', sans-serif;
+    padding: 0 15px;
     margin: 0;
 }
 
