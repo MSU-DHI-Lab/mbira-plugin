@@ -128,7 +128,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 .back {
     position: absolute;
-    top: 25px;
+    top: 28px;
     left: 20px;
 }
 
@@ -139,8 +139,8 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 .back p {
     color: #FFF;
-    font-family: 'montserratbold', sans-serif;
-    padding: 0 20px;
+    font-family: 'montserratregular', sans-serif;
+    padding: 0 15px;
     margin: 0;
 }
 
@@ -198,7 +198,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 /* CHOOSE EXHIBIT, EDIT POSITION*/
 
 .edit-position {
-    margin-bottom: -35px;
+    margin-bottom: -20px;
 }
 
 #editExhibit {
@@ -239,6 +239,37 @@ input.cmn-toggle-round-flat:checked + label:after {
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
 }
+
+.latlong {
+    padding: 0 20px 20px 20px;
+}
+
+.latlong h3 {
+    margin: 0;
+    color: #FFF;
+    font-family: 'montserratregular', sans-serif;
+}
+
+.latlong p {
+    margin: 0;
+    color: #FFF;
+    font-family: 'montserratregular', sans-serif;
+}
+
+.lat {
+    float: left;
+}
+
+.long {
+    padding: 0 0 0 20px;
+}
+
+.latlong .lat, .long {
+    display: inline-block;
+    vertical-align: middle;
+    clear: both;
+}
+
     
 /* DESCRIPTION & DIG DEEPR */
 .field {

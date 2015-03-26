@@ -127,7 +127,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 .back {
     position: absolute;
-    top: 25px;
+    top: 28px;
     left: 20px;
 }
 
@@ -138,8 +138,8 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 .back p {
     color: #FFF;
-    font-family: 'montserratbold', sans-serif;
-    padding: 0 20px;
+    font-family: 'montserratregular', sans-serif;
+    padding: 0 15px;
     margin: 0;
 }
 
@@ -164,7 +164,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #explorationName {
-    width: 472px;
+    width: 59.5%;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
@@ -178,7 +178,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #submit {
-    width: 258px;
+    width: 32%;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -286,8 +286,8 @@ div.form-group-file input {
 }
 
 .media {
-    width: 126px;
-    height: 126px;
+    width: 130px;
+    height: 130px;
     background: #ccc;
     margin: 20px 0 0 20px;
     position: relative;
@@ -297,8 +297,8 @@ div.form-group-file input {
 }
 
 .media_new {
-    width: 126px;
-    height: 126px;
+    width: 130px;
+    height: 130px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;
@@ -354,7 +354,7 @@ div.form-group-file input {
     color: #FFF;
     box-shadow: none;
     border:none;
-    padding: -20px 20px 20px 20px;
+    padding: 20px;
 
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -369,10 +369,20 @@ div.form-group-file input {
 }
 
 #editStops {
+   background: none;
+    color: #FFF;
+    font-size: 14px;
+  
+    cursor: pointer;
+    font-family: 'montserratregular', sans-serif;
     float: right;
-    margin-top: -10px;
+    
 }
 
+.stops label-name, .form-group {
+    display: inline;
+    vertical-align: middle;
+}
 
 
 /* COMMENTS */

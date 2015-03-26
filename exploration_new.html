@@ -6,8 +6,7 @@
     <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
     <link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
 	<link rel="stylesheet" type="text/css" href="css/newexploration.css"/>
-        <link rel="stylesheet" type="text/css" href="css/project_single.css"/> <!-- This needs to change and be its own css -->
-        <link rel="stylesheet" type="text/css" href="css/project_all.css"/>  <!-- This needs to change and be its own css -->
+       
    
     <script src="js/leaflet.js"></script>
     <script src="js/l.control.geosearch.js"></script> 
@@ -21,51 +20,106 @@
                 <div class="title"><h1>NEW Exploration</h1>
             </div>
         </div>
+        <div class="help">
+            <p>Select and connect the locations you would like to use within your new exploration, then click “DONE!”</p></div>
+        
+		
 
         <!--PROJECT INFORMATION-->       
 		<div id="map"> 
-			<div class="toolbar">
-				<div class="tool_location"><a ui-sref='newLocation({project: ID, pid: PID})'><h3>ADD LOCATION</h3><img src="img/add_location.png"/></a></div>
-				<div class="tool_area"><a ui-sref='newArea({project: ID, pid: PID})'><h3>ADD AREA</h3><img src="img/add_area.png"/></a></div>
-				<div class="tool_filter"><a href="#"><h3>FILTER BY</h3><img src="img/filter_by.png"/></a></div>
-			</div>
+			
 
-			<button id="done" style="position:absolute; bottom:0; right:0; padding:25px; z-index:2000; display:none;">Done</button>
+			<button id="done">DONE!</button>
 		</div>
 		
 		<div class="exp_info" style='display:none'>    
 			<form id="newexplorationform" name="newexplorationform" novalidate ng-submit="submit()" role="form">                    
 				
-				<br><br>
-				
-				<div class="thumbnail dropzone"> 
-					<h4 class="dropImg">Drop an Image</h4
-					><h5>or</h5>
-					<h4 class="clickAdd">Click to Add</h4>
-					<img src="img/Default.png" height="225" width="225">
+				<div class="header2">
+				<div class="form-group">				        
+					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newExploration.name" placeholder="Enter Exploration Name">
+					<button type="submit" id="submit" class="btn btn-default" ng-disabled="newexplorationform.$invalid" ng-class="{'btn-disabled': newexplorationform.$invalid}">ADD EXPLORATION</button>
+				</div>
+			</div>
+                
+			
+            <div class="field">
+			<div class='field-label'>
+					<h1 class='label-name'>DESCRIPTION</h1>					
+                </div>
+			
+			<div class="form-group">			
+				<textarea id="textField" ng-model="newExploration.description" placeholder="Enter New Exploration Description"></textarea>
+			</div></div>				
+		
+                
+                <div class="form-group" >	<!--ng-if='active'-->
+                <div class="field">
+                <div class='field-label stops'>
+					<h1 class='label-name'>STOPS</h1>	
+                    <div class="form-group edit">				        
+				<button type="button" ng-click='editPosition()' id="editStops" class="btn btn-default">ADD/REMOVE STOPS</button></div>
+			</div>
+                <div id='reorder' sv-root sv-part="places" sv-on-sort="onSort($part, $item, $index)">Drag to Reorder
+					<div id='stops' ng-repeat="place in places" sv-element>
+						<div style='position:absolute; padding-left:5px;'>{{$index + 1}}</div>{{place[1]}}
+					</div>
+				</div>
+                    </div></div>
+                
+                <div class="field">
+			<div class='field-label'>
+				<div class="switch">
+					<h1 class='label-name'>MEDIA</h1>
+					<input ng-model='area.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<label for="cmn-toggle-2"></label>
+				</div>
+			</div>
+			
+			<div class="medias">
+                
+                <div class="thumbnail dropzone"> 
+					
+					<img src="img/Default.png" height="130" width="130">
 					<div class="thumbnail_title">
-						<h3>{{newExploration.name || "Thumbnail"}}</h3>
+						<h3>{{"Add Thumbnail"}}</h3>
 					</div>
 					<div class="form-group-file">				        
 							<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
 					</div>
 				</div>
-				
-				<div class="form-group">                        
-					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newExploration.name" placeholder="Exploration Name">
+                
+				<div class='media' ng-repeat='m in media'>
+					<img ng-src='images/{{m.file_path}}' height="130" width="130">
 				</div>
-				
-				<div class="form-group">                        
-					<textarea required class="form-control npInput" id="description" name="description" ng-model="newExploration.description" placeholder="Exploration Description"></textarea>
+				<div class="media_new"> 
+	                <div class="form-group-file">				        
+	    					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
+	    			</div>
+					<img src="img/project_new_plus_icon_small.png" height="130" width="130">
+					<div class="media_title_new"><h3>ADD MEDIA</h3></div>
 				</div>
-				
-				<div id='reorder' sv-root sv-part="places" sv-on-sort="onSort($part, $item, $index)">Stops (Drag to Reorder)
-					<div id='stops' ng-repeat="place in places" sv-element>
-						<div style='position:absolute; padding-left:5px;'>{{$index + 1}}</div>{{place[1]}}
-					</div>
+            </div></div>
+                
+                <div class="field">
+			<div class='field-label'>
+				<div class="switch">
+					<h1 class='label-name'>COMMENTS</h1>
+					<input ng-model='area.toggle_comments' id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<label for="cmn-toggle-3"></label>
 				</div>
+			</div>
+			
+			<div class="form-group comments-all">	<p>No Comments Yet.</p>
+				<div id='comments' ng-repeat="comment in comments" ng-if="area.toggle_comments" ng-include="'replyTree'"> 
+				</div>				
+			</div>
+            </div>
+                
+                <br>
+
 				
-				<button type="submit" id="submit" class="btn btn-default" ng-disabled="newexplorationform.$invalid" ng-class="{'btn-disabled': newexplorationform.$invalid}">Add Exploration</button>
+				
 			</form>
 		</div>
  

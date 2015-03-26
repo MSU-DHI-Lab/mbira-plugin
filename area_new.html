@@ -6,8 +6,7 @@
     <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
     <link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
 	<link rel="stylesheet" type="text/css" href="css/newarea.css"/>
-        <link rel="stylesheet" type="text/css" href="css/project_single.css"/> <!-- This needs to change and be its own css -->
-        <link rel="stylesheet" type="text/css" href="css/project_all.css"/>  <!-- This needs to change and be its own css -->
+       
 		
 	<script src="js/leaflet.js"></script>
 	<script src="js/l.control.geosearch.js"></script> 
@@ -24,40 +23,20 @@
 				<div class="title"><h1>NEW AREA</h1>
 			</div>
 		</div>
+        <div class="help">
+            <p>Click out the dimensions you’d like to use for the area. Connect the first and last point to finish.</p></div>
 		
 		<div id="map"> 
+            
+    
+            
 		</div>
-		
-		<div class="area_info">    
-			<form id="newareaform" name="newareaform" novalidate ng-submit="submit()" role="form">
-				<br>
-				
-				<div class="thumbnail dropzone"> 
-					<h4 class="dropImg">Drop an Image</h4
-					><h5>or</h5>
-					<h4 class="clickAdd">Click to Add</h4>
-					<img src="img/Default.png" height="225" width="225">
-					<div class="thumbnail_title">
-						<h3>{{newArea.name || "Thumbnail"}}</h3>
-					</div>
-					<div class="form-group-file">				        
-							<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
-					</div>
-				</div>
-				
-				<div class="form-group">				        
-					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newArea.name" placeholder="Location Name">
-				</div>
-				
-				<div class="form-group">				        
-					<input type="text" required class="form-control npInput" id="description" name="description" ng-model="newArea.description" placeholder="Location Description">
-				</div>
-				
+        
+        
+        <!--
+        <button type='button' ng-click='clearMarkers()'>Clear Map</button>
 				<br><br>
 				
-				<button type='button' ng-click='clearMarkers()'>Clear Map</button>
-				<br><br>
-				<button type='button' ng-click='createPolygon()' ng-if='markers.length >= 1'>Create Polygon</button>
 				<div ng-if='markers.length == 1'>
 					<button type='button' ng-click='createCircle(radius)'>Create Circle</button>
 					radius = <input ng-model='radius'>
@@ -65,13 +44,99 @@
 				<div ng-repeat='mark in markers'>
 					{{mark._latlng.lat}}, {{mark._latlng.lng}}
 					<br>
-				</div>
+				</div>-->
+        
+        <button type='button' ng-click='createPolygon()' ng-if='markers.length >= 1'>Create Polygon</button>
+		
+		<div class="area_info">    
+			<form id="newareaform" name="newareaform" novalidate ng-submit="submit()" role="form">
 				
+                <div class="header2">
 				<div class="form-group">				        
-					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)"/>
-				</div>	
-				
-				<button type="submit" id="submit" class="btn btn-default" ng-disabled="newareaform.$invalid" ng-class="{'btn-disabled': newareaform.$invalid}">Add Area</button>
+					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newArea.name" placeholder="Enter New Area Name">
+					<button type="submit" id="submit" class="btn btn-default" ng-disabled="newareaform.$invalid" ng-class="{'btn-disabled': newareaform.$invalid}">ADD AREA</button>
+				</div>
+			</div>
+                
+                 <div class="edit-position">
+			<div class="form-group">				        
+				<select ng-model="selectedExhibit" id="editExhibit" ng-options="exhibit.name for exhibit in exhibits"></select>
+				<button type="button" ng-click='editArea()' id="editPosition" class="btn btn-default">EDIT AREA</button>
+                </div></div>
+			
+            <div class="field">
+			<div class='field-label'>
+					<h1 class='label-name'>DESCRIPTION</h1>					
+                </div>
+			
+			<div class="form-group">			
+				<textarea id="textField" ng-model="newArea.description" placeholder="Enter New Area Description"></textarea>
+			</div></div>				
+		
+                <div class="field">
+			<div class='field-label'>
+				<div class="switch">
+					<h1 class='label-name'>DIG DEEPER</h1>
+					<input ng-model='area.toggle_dig_deeper' id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<label for="cmn-toggle-1"></label>
+				</div>
+			</div>
+			
+			<div class="form-group">				        
+				<textarea id="textField" ng-model="area.dig_deeper" placeholder="Enter New Area Dig Deeper"></textarea>
+                </div></div>
+                
+                <div class="field">
+			<div class='field-label'>
+				<div class="switch">
+					<h1 class='label-name'>MEDIA</h1>
+					<input ng-model='area.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<label for="cmn-toggle-2"></label>
+				</div>
+			</div>
+			
+			<div class="medias">
+                
+                <div class="thumbnail dropzone"> 
+					
+					<img src="img/Default.png" height="130" width="130">
+					<div class="thumbnail_title">
+						<h3>{{"Add Thumbnail"}}</h3>
+					</div>
+					<div class="form-group-file">				        
+							<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
+					</div>
+				</div>
+                
+				<div class='media' ng-repeat='m in media'>
+					<img ng-src='images/{{m.file_path}}' height="130" width="130">
+				</div>
+				<div class="media_new"> 
+	                <div class="form-group-file">				        
+	    					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
+	    			</div>
+					<img src="img/project_new_plus_icon_small.png" height="130" width="130">
+					<div class="media_title_new"><h3>ADD MEDIA</h3></div>
+				</div>
+            </div></div>
+                
+                <div class="field">
+			<div class='field-label'>
+				<div class="switch">
+					<h1 class='label-name'>COMMENTS</h1>
+					<input ng-model='area.toggle_comments' id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<label for="cmn-toggle-3"></label>
+				</div>
+			</div>
+			
+			<div class="form-group comments-all">	<p>No Comments Yet.</p>
+				<div id='comments' ng-repeat="comment in comments" ng-if="area.toggle_comments" ng-include="'replyTree'">
+				</div>				
+			</div>
+            </div>
+                
+                <br>
+               
 			</form>
 		</div>
 	</div>
