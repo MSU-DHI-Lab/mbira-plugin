@@ -84,6 +84,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 .wrap {
     background-color: #18587C;
+    padding-bottom: 1px;
 }
 
 .field-label {
@@ -164,7 +165,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #explorationName {
-    width: 59.5%;
+    width: 448px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
@@ -178,7 +179,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #submit {
-    width: 32%;
+    width: 242px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -218,7 +219,6 @@ input.cmn-toggle-round-flat:checked + label:after {
     box-shadow: none;
     border:none;
     padding: 20px 20px 20px 20px;
-    
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -263,13 +263,13 @@ div.form-group-file {
     left: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 126px;
-    height: 126px;
+    width: 130px;
+    height: 130px;
 }
 
 div.form-group-file input {
-    width: 126px !important;
-    height: 126px !important;
+    width: 130px !important;
+    height: 130px !important;
     opacity: 0 !important;
     cursor: pointer;
 }
@@ -391,10 +391,17 @@ div.form-group-file input {
     background: rgba(255,255,255, 0.2);
     box-shadow: none;
     border:none;
-    padding: 20px 20px 0px 20px;
+    padding: 20px;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    display: block;
+}
+
+.comments-all p {
+    color: #FFF;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 14px;
 }
 
 #comments {
@@ -426,4 +433,8 @@ div.form-group-file input {
     padding: 20px;
     font-family: 'montserratregular', sans-serif;
     background: #0A263D;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
 }
+
