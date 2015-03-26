@@ -41,7 +41,7 @@
 		CONSTRAINT `fk_mbira_areas_mbira_projects`
 		FOREIGN KEY (`project_id`)
 		REFERENCES `$dbname`.`mbira_projects` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = latin1";
@@ -66,7 +66,7 @@
 		CONSTRAINT `FK_project_exploration`
 		FOREIGN KEY (`project_id`)
 		REFERENCES `$dbname`.`mbira_projects` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = latin1";
@@ -95,7 +95,7 @@
 		CONSTRAINT `FK_project_location`
 		FOREIGN KEY (`project_id`)
 		REFERENCES `$dbname`.`mbira_projects` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		AUTO_INCREMENT = 28
@@ -116,12 +116,12 @@
 		CONSTRAINT `fk_location_map`
 		FOREIGN KEY (`locationid`)
 		REFERENCES `$dbname`.`mbira_locations` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION,
 		CONSTRAINT `fk_exploration_map`
 		FOREIGN KEY (`explorationid`)
 		REFERENCES `$dbname`.`mbira_explorations` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = latin1";
@@ -141,7 +141,7 @@
 		CONSTRAINT `fk_mbira_loc_media_mbira_locations1`
 		FOREIGN KEY (`location_id`)
 		REFERENCES `mbira_locations` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		AUTO_INCREMENT = 1
@@ -161,12 +161,12 @@
 		CONSTRAINT `fk_mbira_explorations_has_mbira_areas_mbira_explorations1`
 		FOREIGN KEY (`mbira_explorations_id`)
 		REFERENCES `$dbname`.`mbira_explorations` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION,
 		CONSTRAINT `fk_mbira_explorations_has_mbira_areas_mbira_areas1`
 		FOREIGN KEY (`mbira_areas_id`)
 		REFERENCES `$dbname`.`mbira_areas` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = latin1";
@@ -186,7 +186,7 @@
 		CONSTRAINT `fk_mbira_exp_media_mbira_explorations1`
 		FOREIGN KEY (`exploration_id`)
 		REFERENCES `mbira_explorations` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		AUTO_INCREMENT = 1";
@@ -206,7 +206,7 @@
 		CONSTRAINT `fk_mbira_area_media_mbira_areas1`
 		FOREIGN KEY (`area_id`)
 		REFERENCES `mbira_areas` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB";
 	mysqli_query($con, $sql);	
@@ -226,7 +226,7 @@
 		CONSTRAINT `fk_mbira_exhibits_mbira_projects1`
 		FOREIGN KEY (`project_id`)
 		REFERENCES `mbira_projects` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB";
 	mysqli_query($con, $sql);	
@@ -242,12 +242,12 @@
 		CONSTRAINT `fk_mbira_areas_has_mbira_exhibits_mbira_areas1`
 		FOREIGN KEY (`mbira_areas_id`)
 		REFERENCES `mbira_areas` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION,
 		CONSTRAINT `fk_mbira_areas_has_mbira_exhibits_mbira_exhibits1`
 		FOREIGN KEY (`mbira_exhibits_id`)
 		REFERENCES `mbira_exhibits` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = latin1";
@@ -264,12 +264,12 @@
 		CONSTRAINT `fk_mbira_locations_has_mbira_exhibits_mbira_locations1`
 		FOREIGN KEY (`mbira_locations_id`)
 		REFERENCES `mbira_locations` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION,
 		CONSTRAINT `fk_mbira_locations_has_mbira_exhibits_mbira_exhibits1`
 		FOREIGN KEY (`mbira_exhibits_id`)
 		REFERENCES `mbira_exhibits` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = latin1";
@@ -281,6 +281,7 @@
 	$sql = "CREATE TABLE IF NOT EXISTS `mbira_users` (
 		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 		`username` VARCHAR(45) NULL,
+		`email` varchar(100) NOT NULL,
 		`firstName` VARCHAR(45) NULL,
 		`lastName` VARCHAR(45) NULL,
 		`isExpert` VARCHAR(45) NULL,
@@ -295,17 +296,18 @@
 	$sql = "CREATE TABLE IF NOT EXISTS `mbira_projects_has_mbira_users` (
 		`mbira_projects_id` INT(10) UNSIGNED NOT NULL,
 		`mbira_users_id` INT UNSIGNED NOT NULL,
+		`isExpert` varchar(10) DEFAULT NULL,
 		INDEX `fk_mbira_projects_has_mbira_users_mbira_users1_idx` (`mbira_users_id` ASC),
 		INDEX `fk_mbira_projects_has_mbira_users_mbira_projects1_idx` (`mbira_projects_id` ASC),
 		CONSTRAINT `fk_mbira_projects_has_mbira_users_mbira_projects1`
 		FOREIGN KEY (`mbira_projects_id`)
 		REFERENCES `mbira_projects` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION,
 		CONSTRAINT `fk_mbira_projects_has_mbira_users_mbira_users1`
 		FOREIGN KEY (`mbira_users_id`)
 		REFERENCES `mbira_users` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		DEFAULT CHARACTER SET = latin1";
@@ -328,12 +330,12 @@
 		CONSTRAINT `fk_mbira_area_comments_mbira_areas1`
 		FOREIGN KEY (`area_id`)
 		REFERENCES `mbira_areas` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION,
 		CONSTRAINT `fk_mbira_area_comments_mbira_users1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `mbira_users` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB";
 	mysqli_query($con, $sql);	
@@ -355,12 +357,12 @@
 		CONSTRAINT `fk_mbira_exploration_comments_mbira_explorations1`
 		FOREIGN KEY (`exploration_id`)
 		REFERENCES `mbira_explorations` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION,
 		CONSTRAINT `fk_mbira_exploration_comments_mbira_users1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `mbira_users` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB";
 	mysqli_query($con, $sql);	
@@ -382,12 +384,12 @@
 		CONSTRAINT `fk_mbira_location_comments_mbira_users1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `mbira_users` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION,
 		CONSTRAINT `fk_mbira_location_comments_mbira_locations1`
 		FOREIGN KEY (`location_id`)
 		REFERENCES `mbira_locations` (`id`)
-		ON DELETE NO ACTION
+		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB";
 	mysqli_query($con, $sql);
