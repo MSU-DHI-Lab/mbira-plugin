@@ -162,8 +162,8 @@ body, html {
 }
 
 .exhibit {
-    width: 130px;
-    height: 130px;
+    width: 126px;
+    height: 126px;
     background: #ccc;
     margin: 20px 0 0 20px;
     position: relative;
@@ -173,8 +173,8 @@ body, html {
 }
 
 .exhibit_new {
-    width: 130px;
-    height: 130px;
+    width: 126px;
+    height: 126px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;
@@ -228,6 +228,7 @@ body, html {
     
 .locations {
     margin-top: 50px;
+    padding-right: 20px;
     z-index: 2;
 }
 
@@ -236,8 +237,8 @@ body, html {
 }
 
 .location {
-    width: 130px;
-    height: 130px;
+    width: 126px;
+    height: 126px;
     background: #ccc;
     margin: 20px 0 0 20px;
     position: relative;
@@ -247,8 +248,8 @@ body, html {
 }
 
 .location_new {
-    width: 130px;
-    height: 130px;
+    width: 126px;
+    height: 126px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;
@@ -310,8 +311,8 @@ body, html {
 }
 
 .area {
-    width: 130px;
-    height: 130px;
+    width: 126px;
+    height: 126px;
     background: #ccc;
     margin: 20px 0 0 20px;
     position: relative;
@@ -321,8 +322,8 @@ body, html {
 }
 
 .area_new {
-    width: 130px;
-    height: 130px;
+    width: 126px;
+    height: 126px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;
@@ -384,8 +385,8 @@ body, html {
 }
 
 .exploration {
-    width: 130px;
-    height: 130px;
+    width: 126px;
+    height: 126px;
     background: #ccc;
     margin: 20px 0 20px 20px;
     position: relative;
@@ -395,8 +396,8 @@ body, html {
 }
 
 .exploration_new {
-    width: 130px;
-    height: 130px;
+    width: 126px;
+    height: 126px;
     background: #3EB9FD;
     margin: 20px 0 20px 20px;
     position: relative;

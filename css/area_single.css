@@ -84,6 +84,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 .wrap {
     background-color: #18587C;
+    padding-bottom: 1px;
 }
 
 .field-label {
@@ -164,8 +165,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #areaName {
-    width: 59.5%;
-    width: 472px;
+    width: 448px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
@@ -179,7 +179,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #submit {
-    width: 33.5%;
+    width: 242px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -203,7 +203,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 #editExhibit {
     height: 64px;
-     min-width: 59.5%;
+     min-width: 448px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.4);
@@ -225,7 +225,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #editPosition {
-    width: 32%;
+    width: 242px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -308,13 +308,13 @@ div.form-group-file {
     left: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 126px;
-    height: 126px;
+    width: 130px;
+    height: 130px;
 }
 
 div.form-group-file input {
-    width: 126px !important;
-    height: 126px !important;
+    width: 130px !important;
+    height: 130px !important;
     opacity: 0 !important;
     cursor: pointer;
 }
@@ -331,8 +331,8 @@ div.form-group-file input {
 }
 
 .media {
-    width: 126px;
-    height: 126px;
+    width: 130px;
+    height: 130px;
     background: #ccc;
     margin: 20px 0 0 20px;
     position: relative;
@@ -342,8 +342,8 @@ div.form-group-file input {
 }
 
 .media_new {
-    width: 126px;
-    height: 126px;
+    width: 130px;
+    height: 130px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;
@@ -428,6 +428,9 @@ div.form-group-file input {
     padding: 20px;
     font-family: 'montserratregular', sans-serif;
     background: #0A263D;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
 }
 
 

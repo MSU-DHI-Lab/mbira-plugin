@@ -987,10 +987,24 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		if($files.length > 1) {
 			alert("Only upload one image for the thumbnail.");
 		}else{
-		  $scope.file = $files[0];		  
+			$scope.file = $files[0];
+
+			$scope.uploadFile = $upload.upload({
+				url:'ajax/tempImg.php',
+				method:"POST",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				file: $scope.file
+			}).success(function(data) {	
+				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+			});
 		}
 	};
-	
+
+	$scope.newLocation.toggle_comments = true;
+	$scope.newLocation.toggle_media = true;
+	$scope.newLocation.toggle_dig_deeper = true;
+
+
 	//submit new location
 	$scope.submit = function() {		
 		$scope.upload = $upload.upload({				
@@ -2088,7 +2102,8 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 	$scope.newMedia = false;
 	$scope.ID = $stateParams.project;
 	$scope.PID = $stateParams.pid;
-	$scope.EXHIBIT = $stateParams.exhibit
+	$scope.EXHIBITID = $stateParams.exhibit
+	$scope.exhibit = {};
 	$scope.previous = $stateParams.previous
 	$scope.locations;
 
@@ -2104,6 +2119,19 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 		descrition: "",
 		file: "",
 	}	
+
+	//load exhibit info
+	$http({
+		method: 'POST',
+		url: "ajax/getExhibitInfo.php",
+		data: $.param({
+				id: $stateParams.exhibit
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		//Put exhibit in scope
+		$scope.exhibit = data;
+	})
 	
 	//Set up map
 	map = setMap.set(42.7404566603398, -84.5452880859375);

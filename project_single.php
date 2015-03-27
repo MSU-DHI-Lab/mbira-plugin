@@ -25,7 +25,7 @@
         
         <div class="exhibit" ng-repeat='exhibit in exhibits'}> 
             <a ui-sref="viewExhibit({project: project.id, pid: pid, exhibit: exhibit.id, previous: 'PROJECT'})"> 
-                <img ng-src="images/{{exhibit.thumb_path}}" height="130" width="130">
+                <img ng-src="images/{{exhibit.thumb_path}}" height="126" width="126">
                 <div class="exhibit_title"><h3>{{exhibit.name}}</h3></div>
             </a>
         </div>
@@ -33,7 +33,7 @@
         
         <div class="exhibit_new"> 
             <a ui-sref="newExhibit({project: project.id, pid: pid})">
-                <img src="img/project_new_plus_icon_small.png" height="130" width="130">
+                <img src="img/project_new_plus_icon_small.png" height="126" width="126">
                 <div class="exhibit_title_new"><h3>NEW EXHIBIT</h3></div>
             </a>
         </div>
@@ -47,7 +47,7 @@
         
         <div class="location" ng-repeat='location in locations'}> 
 			<a ui-sref="viewLocation({project: project.id, pid: pid, location: location.id, previous: 'PROJECT'})"> 
-				<img ng-src="images/{{location.thumb_path}}" height="130" width="130">
+				<img ng-src="images/{{location.thumb_path}}" height="126" width="126">
 				<div class="location_title"><h3>{{location.name}}</h3></div>
 			</a>
 		</div>
@@ -55,7 +55,7 @@
         
         <div class="location_new"> 
 			<a ui-sref="newLocation({project: project.id, pid: pid})">
-				<img src="img/project_new_plus_icon_small.png" height="130" width="130">
+				<img src="img/project_new_plus_icon_small.png" height="126" width="126">
 				<div class="location_title_new"><h3>NEW LOCATION</h3></div>
 			</a>
 		</div>
@@ -68,14 +68,14 @@
         
 		<div class="area" ng-repeat='area in areas'}> 
 			<a ui-sref="viewArea({project: project.id, pid: pid, area: area.id, previous: 'PROJECT'})"> 
-				<img ng-src="images/{{area.thumb_path}}" height="130" width="130">
+				<img ng-src="images/{{area.thumb_path}}" height="126" width="126">
 				<div class="area_title"><h3>{{area.name}}</h3></div>
 			</a>
 		</div>
         
         <div class="area_new"> 
             <a ui-sref="newArea({project: project.id, pid: pid})">
-                <img src="img/project_new_plus_icon_small.png" height="130" width="130">
+                <img src="img/project_new_plus_icon_small.png" height="126" width="126">
                 <div class="area_title_new"><h3>NEW AREA</h3></div>
             </a>
         </div>
@@ -89,14 +89,14 @@
 
         <div class="exploration" ng-repeat='exploration in explorations'}> 
             <a ui-sref="viewExploration({project: project.id, exploration: exploration.id, pid: pid, previous: 'PROJECT'})"> 
-                <img ng-src="images/{{exploration.thumb_path}}" height="130" width="130">
+                <img ng-src="images/{{exploration.thumb_path}}" height="126" width="126">
                 <div class="exploration_title"><h3>{{exploration.name}}</h3></div>
             </a>
         </div>
         
         <div class="exploration_new"> 
             <a ui-sref="newExploration({project: project.id, pid: pid})">
-                <img src="img/project_new_plus_icon_small.png" height="130" width="130">
+                <img src="img/project_new_plus_icon_small.png" height="126" width="126">
                 <div class="exploration_title_new"><h3>NEW EXPLORATION</h3></div>
             </a>
         </div>

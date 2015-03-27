@@ -182,7 +182,7 @@ img {
 }
 
 #name {
-    width: 500px;
+    width: 470px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
@@ -197,7 +197,7 @@ img {
 }
 
 #description {
-    width: 500px;
+    width: 470px;
     height: 140px;
     font-family: 'montserratregular', sans-serif;
     font-size: 16px;
@@ -237,7 +237,7 @@ textarea {
 }
 
 #submit {
-     width: 500px;
+     width: 470px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
