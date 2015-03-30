@@ -336,13 +336,13 @@ div.form-group-file {
     left: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 130px;
-    height: 130px;
+    width: 119px;
+    height: 119px;
 }
 
 div.form-group-file input {
-    width: 130px !important;
-    height: 130px !important;
+    width: 119px !important;
+    height: 119px !important;
     opacity: 0 !important;
     cursor: pointer;
 }
@@ -362,9 +362,9 @@ div.form-group-file input {
 }
 
 .media {
-    width: 130px;
-    height: 130px;
-    background: #ccc;
+    width: 119px;
+    height: 119px;
+    background: #FFF;
     margin: 20px 0 0 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -373,8 +373,8 @@ div.form-group-file input {
 }
 
 .media_new {
-    width: 130px;
-    height: 130px;
+    width: 119px;
+    height: 119px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;
