@@ -42,7 +42,7 @@
                  <div class="edit-position">
 			<div class="form-group">				        
 				<select ng-model="selectedExhibit" id="editExhibit" ng-options="exhibit.name for exhibit in exhibits"></select>
-				<button type="button" ng-click='editArea()' id="editPosition" class="btn btn-default">EDIT POSITION</button>
+				<button type="button" ng-click='editLocation()' id="editPosition" class="btn btn-default">EDIT POSITION</button>
                 </div></div>
 			
             <div class="field">
@@ -58,20 +58,20 @@
 			<div class='field-label'>
 				<div class="switch">
 					<h1 class='label-name'>DIG DEEPER</h1>
-					<input ng-model='area.toggle_dig_deeper' id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<input ng-model='newLocation.toggle_dig_deeper' id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
 					<label for="cmn-toggle-1"></label>
 				</div>
 			</div>
 			
 			<div class="form-group">				        
-				<textarea id="textField" ng-model="area.dig_deeper" placeholder="Enter New Area Dig Deeper"></textarea>
+				<textarea id="textField" ng-model="newLocation.dig_deeper" placeholder="Enter New Location Dig Deeper"></textarea>
                 </div></div>
                 
                 <div class="field">
 			<div class='field-label'>
 				<div class="switch">
 					<h1 class='label-name'>MEDIA</h1>
-					<input ng-model='area.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<input ng-model='newLocation.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
 					<label for="cmn-toggle-2"></label>
 				</div>
 			</div>
@@ -82,7 +82,7 @@
 					
 					<img src="img/Default.png" height="130" width="130">
 					<div class="thumbnail_title">
-						<h3>{{"Add Thumbnail"}}</h3>
+						<h3>{{"Thumbnail"}}</h3>
 					</div>
 					<div class="form-group-file">				        
 							<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
@@ -105,13 +105,13 @@
 			<div class='field-label'>
 				<div class="switch">
 					<h1 class='label-name'>COMMENTS</h1>
-					<input ng-model='area.toggle_comments' id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<input ng-model='newLocation.toggle_comments' id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
 					<label for="cmn-toggle-3"></label>
 				</div>
 			</div>
 			
 			<div class="form-group comments-all">	<p>No Comments Yet.</p>
-				<div id='comments' ng-repeat="comment in comments" ng-if="area.toggle_comments" ng-include="'replyTree'">
+				<div id='comments' ng-repeat="comment in comments" ng-if="newLocation.toggle_comments">
 				</div>				
 			</div>
             </div>

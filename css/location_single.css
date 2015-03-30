@@ -84,6 +84,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 .wrap {
     background-color: #18587C;
+    padding-bottom: 1px;
 }
 
 .field-label {
@@ -165,7 +166,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #locationName {
-    width: 59.5%;
+    width: 448px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
@@ -179,7 +180,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #submit {
-    width: 32%;
+    width: 242px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -197,13 +198,10 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 /* CHOOSE EXHIBIT, EDIT POSITION*/
 
-.edit-position {
-    margin-bottom: -20px;
-}
 
 #editExhibit {
     height: 64px;
-     min-width: 59.5%;
+    min-width: 715px; 
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.4);
@@ -213,7 +211,7 @@ input.cmn-toggle-round-flat:checked + label:after {
     -moz-border-radius: 0px;
     border-radius: 0px;
     padding: 20px;
-    margin: 20px 0 20px 20px;
+    margin: 20px 0 0 20px;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -225,7 +223,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #editPosition {
-    width: 32%;
+    width: 242px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -338,13 +336,13 @@ div.form-group-file {
     left: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 126px;
-    height: 126px;
+    width: 119px;
+    height: 119px;
 }
 
 div.form-group-file input {
-    width: 126px !important;
-    height: 126px !important;
+    width: 119px !important;
+    height: 119px !important;
     opacity: 0 !important;
     cursor: pointer;
 }
@@ -354,6 +352,9 @@ div.form-group-file input {
     padding-bottom: 20px;
     z-index: 2;
     background: rgba(255,255,255, 0.2);
+     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
 }
 
 .medias div {
@@ -361,9 +362,9 @@ div.form-group-file input {
 }
 
 .media {
-    width: 126px;
-    height: 126px;
-    background: #ccc;
+    width: 119px;
+    height: 119px;
+    background: #FFF;
     margin: 20px 0 0 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -372,8 +373,8 @@ div.form-group-file input {
 }
 
 .media_new {
-    width: 126px;
-    height: 126px;
+    width: 119px;
+    height: 119px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;
@@ -458,6 +459,9 @@ div.form-group-file input {
     padding: 20px;
     font-family: 'montserratregular', sans-serif;
     background: #0A263D;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
 }
 
 

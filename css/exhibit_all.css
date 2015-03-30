@@ -99,7 +99,6 @@ body, html {
 /* EXHIBITS */
 
 .exhibits {
-    width:795px;
     z-index: 2;
 }
 
@@ -108,7 +107,7 @@ body, html {
 }
 
 .project {
-    width: 755px;
+    width: 715px;
     margin: 20px 0 0 20px;
 
 }
