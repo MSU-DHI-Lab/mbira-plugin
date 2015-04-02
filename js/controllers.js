@@ -289,7 +289,14 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 		
 		//Set up map
 		map = setMap.set(data.latitude, data.longitude);
-		$scope.marker = L.marker([data.latitude, data.longitude]).addTo(map);
+		$scope.marker = L.marker([data.latitude, data.longitude],{draggable:'true'}).addTo(map);
+		$scope.marker.on('dragend', function(event){
+				var marker = event.target;
+				var position = marker.getLatLng();
+				$scope.location.latitude = position.lat;
+				$scope.location.longitude = position.lng;
+				marker.setLatLng([position.lat,position.lng],{draggable:'true'}).update();
+		});
 	
 		//Set switches
 		if($scope.location.toggle_comments == 'true'){
@@ -328,38 +335,6 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			});  
 		}
 	};
-	
-	//Allow position to be changed
-	$scope.editPosition = function(){
-		//Open new position fields
-		$scope.active = true;
-		
-		//Setup location search bar on map
-		$scope.search = new L.Control.GeoSearch({
-			provider: new L.GeoSearch.Provider.OpenStreetMap(),
-			position: 'topcenter',
-			showMarker: true,
-			scope: $scope,
-			location: $scope.location,
-			map: map
-		}).addTo(map);
-
-		//Allow clicking to set marker and save location from click in scope
-		map.on('click', function(e) {
-			if($scope.marker != false){
-				map.removeLayer($scope.marker);
-				$scope.marker = false;
-			}
-			if($scope.search._positionMarker){
-				map.removeLayer($scope.search._positionMarker);
-			}
-			$scope.location.latitude = e.latlng.lat;
-			$scope.location.longitude = e.latlng.lng;
-			
-			$scope.marker = L.marker(e.latlng).addTo(map);
-			$scope.$apply();
-		});
-	}
 	
 	//Handle "save and close"
 	$scope.submit = function(){
@@ -438,6 +413,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 	$scope.userData = []
 	$scope.comments = []
 	$scope.exhibits = []
+	latlngArray = []
 	
 	$http({
 		method: 'POST',
@@ -553,6 +529,22 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 		if(data.shape == 'polygon'){
 			//Create polygon from array of coordinates 
 			$scope.polygon = L.polygon($scope.coordinates).addTo(map);
+			newLatLngs = $scope.polygon.getLatLngs();
+			for (m=0;m<$scope.polygon._latlngs.length;m++) {
+				$scope.marker = L.marker([$scope.polygon._latlngs[m].lat, [$scope.polygon._latlngs[m].lng]],{id:m, draggable:'true'}).addTo(map);
+				$scope.marker.on('drag', function(event){
+						var marker = event.target;
+						var position = marker.getLatLng();
+						newLatLngs[marker.options.id].lat = position.lat;
+						newLatLngs[marker.options.id].lng = position.lng;
+						latlngArray = []
+						for (p=0;p<newLatLngs.length;p++){
+							latlngArray.push([newLatLngs[p].lat,newLatLngs[p].lng])
+						}
+						$scope.polygon.setLatLngs(latlngArray);
+				});
+			}
+			
 		}else if(data.shape == 'circle'){
 			//Create circle from coordinates
 			$scope.circle = L.circle($scope.coordinates[0], data.radius, {
@@ -561,6 +553,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 				fillOpacity: 0.5
 			}).addTo(map);
 		}
+		
 
 		//Set switches
 		if($scope.area.toggle_comments == 'true'){
@@ -584,6 +577,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 	//Handle "save and close"
 	$scope.submit = function(){
 		//Save
+		
 		$http({
 			method: 'POST',
 			//saveArea.php only creates row, doesn't update or delete yet!!!!!
@@ -596,7 +590,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 						dig_deeper: $scope.area.dig_deeper,
 						shape: $scope.area.shape,
 						radius: $scope.area.radius,
-						coordinates: $scope.area.coordinates,
+						coordinates: JSON.stringify(latlngArray),
 						toggle_media: $scope.area.toggle_media,
 						toggle_comments: $scope.area.toggle_comments,
 						toggle_dig_deeper: $scope.area.toggle_dig_deeper,
