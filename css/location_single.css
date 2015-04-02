@@ -219,7 +219,6 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 #editExhibit select {
     border-radius: 0px;
-    padding: 20px;
 }
 
 #editPosition {

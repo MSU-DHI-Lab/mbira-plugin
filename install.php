@@ -282,6 +282,8 @@
 		`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
 		`username` VARCHAR(45) NULL,
 		`email` varchar(100) NOT NULL,
+		`password` varchar(64) NOT NULL,
+		`salt` char(16) NOT NULL,
 		`firstName` VARCHAR(45) NULL,
 		`lastName` VARCHAR(45) NULL,
 		`isExpert` VARCHAR(45) NULL,
