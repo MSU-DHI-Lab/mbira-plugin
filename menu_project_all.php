@@ -12,7 +12,7 @@
 		<div class="projects" ng-controller='viewProjectsCtrl'>
 			<div class="project" ng-repeat='project in projects'>
 				<a ui-sref="viewProject({project: project.id, pid: project.pid})"> 
-					<img ng-src="images/{{project.image_path}}" height="239" width="239">
+					<img class="projectImg" ng-src="images/{{project.image_path}}" height="239px" width="239px">
 					<div class="project_title"><h3>{{project.name}}</h3></div>
 				</a>
 			</div>

@@ -25,7 +25,7 @@
         
         <div class="exhibit" ng-repeat='exhibit in exhibits'}> 
             <a ui-sref="viewExhibit({project: project.id, pid: pid, exhibit: exhibit.id, previous: 'PROJECT'})"> 
-                <img ng-src="images/{{exhibit.thumb_path}}" height="135.5" width="135.5">
+                <img class="projectImg" ng-src="images/{{exhibit.thumb_path}}" height="135.5" width="135.5">
                 <div class="exhibit_title"><h3>{{exhibit.name}}</h3></div>
             </a>
         </div>
@@ -47,7 +47,7 @@
         
         <div class="location" ng-repeat='location in locations'}> 
 			<a ui-sref="viewLocation({project: project.id, pid: pid, location: location.id, previous: 'PROJECT'})"> 
-				<img ng-src="images/{{location.thumb_path}}" height="135.5" width="135.5">
+				<img class="projectImg" ng-src="images/{{location.thumb_path}}" height="135.5" width="135.5">
 				<div class="location_title"><h3>{{location.name}}</h3></div>
 			</a>
 		</div>
@@ -68,7 +68,7 @@
         
 		<div class="area" ng-repeat='area in areas'}> 
 			<a ui-sref="viewArea({project: project.id, pid: pid, area: area.id, previous: 'PROJECT'})"> 
-				<img ng-src="images/{{area.thumb_path}}" height="135.5" width="135.5">
+				<img class="projectImg" ng-src="images/{{area.thumb_path}}" height="135.5" width="135.5">
 				<div class="area_title"><h3>{{area.name}}</h3></div>
 			</a>
 		</div>
@@ -89,7 +89,7 @@
 
         <div class="exploration" ng-repeat='exploration in explorations'}> 
             <a ui-sref="viewExploration({project: project.id, exploration: exploration.id, pid: pid, previous: 'PROJECT'})"> 
-                <img ng-src="images/{{exploration.thumb_path}}" height="135.5" width="135.5">
+                <img class="projectImg" ng-src="images/{{exploration.thumb_path}}" height="135.5" width="135.5">
                 <div class="exploration_title"><h3>{{exploration.name}}</h3></div>
             </a>
         </div>

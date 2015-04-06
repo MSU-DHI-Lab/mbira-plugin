@@ -871,10 +871,8 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 				file: $scope.file
 			}).success(function(data) {	
-				$('.thumbnail .dropImg').css('display', 'none');
-				$('.thumbnail h5').css('display', 'none');
-				$('.thumbnail .clickAdd').css('display', 'none');
-				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+				$('.projectImg').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+				$('.projectImg').css('object-fit: contain;')
 			});
 		}
 	};
