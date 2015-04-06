@@ -414,6 +414,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 	$scope.comments = []
 	$scope.exhibits = []
 	latlngArray = []
+	removed = 1000;
 	
 	$http({
 		method: 'POST',
@@ -496,7 +497,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 		})
 	}
 	
-	
+
 	
 	$http({
 		method: 'POST',
@@ -528,13 +529,111 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 		
 		if(data.shape == 'polygon'){
 			//Create polygon from array of coordinates 
-			$scope.polygon = L.polygon($scope.coordinates).addTo(map);
-			newLatLngs = $scope.polygon.getLatLngs();
+			$scope.polygon = L.polygon($scope.coordinates).addTo(map)
+				.on('click', function(e) {
+					areaMarkers = []
+					$.each(map._layers, function (ml) {
+						if (map._layers[ml]._icon) {
+							areaMarkers.push(this);
+						}
+					})
+					areaMarkers.splice(areaMarkers.length-1,1)  // removes most recently added marker
+					areaMarkers.sort(function(a,b){
+						return Math.sqrt(Math.pow((a._latlng.lat-e.latlng.lat),2)+Math.pow((a._latlng.lng-e.latlng.lng),2)) - Math.sqrt(Math.pow((b._latlng.lat-e.latlng.lat),2)+Math.pow((b._latlng.lng-e.latlng.lng),2))
+					})
+					index = 0;
+					areaMarkers[1].options.id > areaMarkers[0].options.id ? index = areaMarkers[1].options.id : index = areaMarkers[0].options.id;
+					newMarkerID = index;
+					currentlatlng = $scope.polygon._latlngs;
+					for (p=0;p<currentlatlng.length;p++){
+						latlngArray.push([currentlatlng[p].lat,currentlatlng[p].lng])
+					}
+					latlngArray.splice(index, 0, [e.latlng.lat, e.latlng.lng]);
+					$scope.polygon.setLatLngs(latlngArray);
+					newlatlngs = $scope.polygon._latlngs;
+					console.log(map._layers)
+					$.each(map._layers, function (ml) {
+						if (map._layers[ml]._icon && map._layers[ml].options.id === index) {
+							index++;
+							this.options.id = index;
+						}
+					})
+					$scope.marker = L.marker([e.latlng.lat, e.latlng.lng],{id:newMarkerID, draggable:'true'}).addTo(map)
+						.on('click', function(e) {
+							currentlatlng = $scope.polygon._latlngs;
+							if ($scope.polygon._latlngs.length === 3){
+								alert("You cannot remove this point. To remove this area, scroll down to delete the area.")
+							} else {
+								console.log(currentlatlng)
+								
+								currentlatlng.splice(this.options.id,1);
+								latlngArray = []
+								for (p=0;p<currentlatlng.length;p++){
+									latlngArray.push([currentlatlng[p].lat,currentlatlng[p].lng])
+								}
+								removedEdge = this.options.id
+								map.removeLayer(this);
+								
+								$.each(map._layers, function (ml) {
+									if (map._layers[ml]._icon && map._layers[ml].options.id > removedEdge) {
+										this.options.id -= 1;
+									}
+								})
+							
+								$scope.polygon.setLatLngs(currentlatlng);
+								latlngArray = [];
+								console.log(map)
+							}
+
+						})
+						
+						.on('drag', function(event){
+							var marker = event.target;
+							var position = marker.getLatLng();
+							newLatLngs = $scope.polygon.getLatLngs();
+							newLatLngs[marker.options.id].lat = position.lat;
+							newLatLngs[marker.options.id].lng = position.lng;
+							latlngArray = []
+							for (p=0;p<newLatLngs.length;p++){
+								latlngArray.push([newLatLngs[p].lat,newLatLngs[p].lng])
+							}
+							$scope.polygon.setLatLngs(latlngArray);
+							latlngArray = [];
+						});
+						
+					latlngArray = []
+				});
 			for (m=0;m<$scope.polygon._latlngs.length;m++) {
-				$scope.marker = L.marker([$scope.polygon._latlngs[m].lat, [$scope.polygon._latlngs[m].lng]],{id:m, draggable:'true'}).addTo(map);
-				$scope.marker.on('drag', function(event){
+				$scope.marker = L.marker([$scope.polygon._latlngs[m].lat, $scope.polygon._latlngs[m].lng],{id:m, draggable:'true'}).addTo(map)
+					.on('click', function(e) {
+						currentlatlng = $scope.polygon._latlngs;
+						if ($scope.polygon._latlngs.length === 3){
+							alert("You cannot remove this point. To remove this area, scroll down to delete the area.")
+						} else {
+							currentlatlng.splice(this.options.id,1);
+							latlngArray = []
+							for (p=0;p<currentlatlng.length;p++){
+								latlngArray.push([currentlatlng[p].lat,currentlatlng[p].lng])
+							}
+							removedEdge = this.options.id
+							map.removeLayer(this);
+							
+							$.each(map._layers, function (ml) {
+								if (map._layers[ml]._icon && map._layers[ml].options.id > removedEdge) {
+									this.options.id -= 1;
+								}
+							})
+							
+							$scope.polygon.setLatLngs(currentlatlng);
+							latlngArray = [];
+							console.log(map)
+						}
+
+					})
+					.on('drag', function(event){
 						var marker = event.target;
 						var position = marker.getLatLng();
+						newLatLngs = $scope.polygon.getLatLngs();
 						newLatLngs[marker.options.id].lat = position.lat;
 						newLatLngs[marker.options.id].lng = position.lng;
 						latlngArray = []
@@ -542,17 +641,19 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 							latlngArray.push([newLatLngs[p].lat,newLatLngs[p].lng])
 						}
 						$scope.polygon.setLatLngs(latlngArray);
-				});
+						latlngArray = [];
+					});
+
 			}
 			
-		}else if(data.shape == 'circle'){
-			//Create circle from coordinates
-			$scope.circle = L.circle($scope.coordinates[0], data.radius, {
-				color: 'red',
-				fillColor: '#f03',
-				fillOpacity: 0.5
-			}).addTo(map);
-		}
+		}// else if(data.shape == 'circle'){
+			// //Create circle from coordinates
+			// $scope.circle = L.circle($scope.coordinates[0], data.radius, {
+				// color: 'red',
+				// fillColor: '#f03',
+				// fillOpacity: 0.5
+			// }).addTo(map);
+		// }
 		
 
 		//Set switches
@@ -577,7 +678,11 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 	//Handle "save and close"
 	$scope.submit = function(){
 		//Save
-		
+		currentlatlng = $scope.polygon.getLatLngs();
+		latlngArray = []
+		for (p=0;p<currentlatlng.length;p++){
+			latlngArray.push([currentlatlng[p].lat,currentlatlng[p].lng])
+		}
 		$http({
 			method: 'POST',
 			//saveArea.php only creates row, doesn't update or delete yet!!!!!
@@ -600,22 +705,6 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 			//Close (return to project)
 			location.href = "javascript:history.back()";
 		})
-	}
-	
-	//Allow area to be changed --- NOT DONE!!!!!
-	$scope.editArea = function(){
-		//Open new position fields
-		$scope.active = true;
-		
-		//Setup location search bar on map
-		$scope.search = new L.Control.GeoSearch({
-			provider: new L.GeoSearch.Provider.OpenStreetMap(),
-			position: 'topcenter',
-			showMarker: true,
-			scope: $scope,
-			location: $scope.location,
-			map: map
-		}).addTo(map);
 	}
 	
 	//Submit Media
