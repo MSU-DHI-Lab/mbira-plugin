@@ -13,6 +13,12 @@ img {
     border:none;
 }
 
+.projectImg {
+	height:225px; 
+	width:225px;
+	object-fit: contain;
+}
+
 @font-face {
     font-family: 'montserratregular';
     src: url('fonts/Montserrat-Regular-webfont.eot');

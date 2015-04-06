@@ -13,7 +13,7 @@
 		<form id="newprojectform" name="newprojectform" novalidate ng-submit="submit()" role="form">
             
             <div class="thumbnail dropzone"> 
-        		<img src="img/Default.png" height="225" width="225">
+        		<img class="projectImg" src="img/Default.png">
         		<div class="thumbnail_title">
         			<h3>{{newProject.name || "Drop/Add Thumbnail"}}</h3>
         		</div>
