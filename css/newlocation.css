@@ -37,6 +37,19 @@ img {
 
 }
 
+#right {
+    margin: 0;
+}
+
+#right_container {
+    width: 799px;
+    padding-bottom: 5px;
+}
+
+#global_error {
+    padding-bottom: 0;
+}
+
 .wrap {
 	background-color: #18587C;
 }
@@ -156,8 +169,8 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 
 .thumbnail {
-    width: 130px;
-    height: 130px;
+    width: 127.5px;
+    height: 127.5px;
     background: rgba(255,255,255,.3);
     position: relative;
     margin: 20px 0 0 20px;
@@ -177,7 +190,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 .thumbnail_title h3 {
     font-family: 'montserratregular', sans-serif;
-    font-size: 12px;
+    font-size: 10px;
     color: #fff;
     margin:0;
     padding: 10px 10px;
@@ -219,13 +232,13 @@ input.cmn-toggle-round-flat:checked + label:after {
     left: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 225px;
-    height: 245px;
+    width: 227.5px;
+    height: 227.5px;
 }
 
 .form-group-file input {
-    width: 225px !important;
-    height: 245px !important;
+    width: 227.5px !important;
+    height: 227.5px !important;
     opacity: 0 !important;
     cursor: pointer;
 }
@@ -245,7 +258,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #name {
-    width: 448px;
+    width: 490px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
@@ -259,7 +272,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #submit {
-    width: 242px;
+    width: 244px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -287,13 +300,10 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 
-.edit-position {
-    margin-bottom: -20px;
-}
 
 #editExhibit {
     height: 64px;
-     min-width: 448px;
+     min-width: 759px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.4);
@@ -303,7 +313,7 @@ input.cmn-toggle-round-flat:checked + label:after {
     -moz-border-radius: 0px;
     border-radius: 0px;
     padding: 20px;
-    margin: 20px 0 20px 20px;
+    margin: 20px 0 0 20px;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -398,13 +408,13 @@ div.form-group-file {
     left: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 130px;
-    height: 130px;
+    width: 127.5px;
+    height: 127.5px;
 }
 
 div.form-group-file input {
-    width: 130px !important;
-    height: 130px !important;
+    width: 127.5px !important;
+    height: 127.5px !important;
     opacity: 0 !important;
     cursor: pointer;
 }
@@ -424,8 +434,8 @@ div.form-group-file input {
 }
 
 .media {
-    width: 130px;
-    height: 130px;
+    width: 127.5px;
+    height: 127.5px;
     background: #ccc;
     margin: 20px 0 0 20px;
     position: relative;
@@ -435,8 +445,8 @@ div.form-group-file input {
 }
 
 .media_new {
-    width: 130px;
-    height: 130px;
+    width: 127.5px;
+    height: 127.5px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;

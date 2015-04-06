@@ -6,6 +6,7 @@ body, html {
 .projects {
 	background-color: #18587C;
     padding-bottom: 16.5px;
+     min-height: 500px;
 }
 
 img {
@@ -92,7 +93,18 @@ img {
     font-weight: 100;    
 }
 
+#right {
+    margin: 0;
+}
 
+#right_container {
+    width: 799px;
+    padding-bottom: 5px;
+}
+
+#global_error {
+    padding-bottom: 0;
+}
 
 
 
@@ -108,26 +120,39 @@ img {
 }
 
 .project {
-    width: 225px;
-    height: 225px;
+    width: 239px;
+    height: 239px;
     background: rgba(2,20,38,.7);
     margin: 20px 0 0 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2); 
-    -webkit-transition: -webkit-filter .5s;
+    transition: all ease .1s;
+}
+
+.project:hover {
+    -moz-box-shadow: 0 0 0 1px #FFF; 
+    -webkit-box-shadow: 0 0 0 1px #FFF; 
+    box-shadow: 0 0 0 1px #FFF; 
 }
 
 .project_new {
-    width: 225px;
-    height: 225px;
+    width: 239px;
+    height: 239px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2);
+    transition: all ease .1s;
+}
+
+.project_new:hover {
+    -moz-box-shadow: 0 0 0 1px #FFF; 
+    -webkit-box-shadow: 0 0 0 1px #FFF; 
+    box-shadow: 0 0 0 1px #FFF; 
 }
 
 .project_title {

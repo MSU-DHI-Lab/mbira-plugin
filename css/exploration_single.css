@@ -27,6 +27,19 @@ body, html {
 
 }
 
+#right {
+    margin: 0;
+}
+
+#right_container {
+    width: 799px;
+    padding-bottom: 5px;
+}
+
+#global_error {
+    padding-bottom: 0;
+}
+
 .cmn-toggle {
   position: absolute;
   margin-left: -9999px;
@@ -165,7 +178,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #explorationName {
-    width: 448px;
+    width: 474px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
@@ -179,7 +192,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #submit {
-    width: 242px;
+    width: 260px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -263,13 +276,13 @@ div.form-group-file {
     left: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 130px;
-    height: 130px;
+    width: 127.5px;
+    height: 127.5px;
 }
 
 div.form-group-file input {
-    width: 130px !important;
-    height: 130px !important;
+    width: 127.5px !important;
+    height: 127.5px !important;
     opacity: 0 !important;
     cursor: pointer;
 }
@@ -289,8 +302,8 @@ div.form-group-file input {
 }
 
 .media {
-    width: 130px;
-    height: 130px;
+    width: 127.5px;
+    height: 127.5px;
     background: #ccc;
     margin: 20px 0 0 20px;
     position: relative;
@@ -300,8 +313,8 @@ div.form-group-file input {
 }
 
 .media_new {
-    width: 130px;
-    height: 130px;
+    width: 127.5px;
+    height: 127.5px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;

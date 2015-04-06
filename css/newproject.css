@@ -37,6 +37,18 @@ img {
 
 }
 
+#right {
+    margin: 0;
+}
+
+#right_container {
+    width: 799px;
+    padding-bottom: 5px;
+}
+
+#global_error {
+    padding-bottom: 0;
+}
 
 
 /* HEADER */
