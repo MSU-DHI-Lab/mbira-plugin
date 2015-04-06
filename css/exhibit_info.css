@@ -37,6 +37,18 @@ img {
 
 }
 
+#right {
+    margin: 0;
+}
+
+#right_container {
+    width: 799px;
+    padding-bottom: 5px;
+}
+
+#global_error {
+    padding-bottom: 0;
+}
 
 
 /* HEADER */
@@ -96,12 +108,13 @@ img {
 .main {
     padding-top: 20px;
     z-index: 2;
+    min-height: 500px;
 }
 
 
 .thumbnail {
-    width: 225px;
-    height: 225px;
+    width: 239px;
+    height: 239px;
     background: rgba(255,255,255,.3);
     margin: 0 0 0 20px;
     position: relative;
@@ -163,13 +176,13 @@ img {
     left: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 225px;
-    height: 245px;
+    width: 239px;
+    height: 239px;
 }
 
 .form-group-file input {
-    width: 225px !important;
-    height: 245px !important;
+    width: 239px !important;
+    height: 239px !important;
     opacity: 0 !important;
     cursor: pointer;
 }
@@ -182,7 +195,7 @@ img {
 }
 
 #name {
-    width: 472px;
+    width: 500px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
@@ -197,8 +210,8 @@ img {
 }
 
 #description {
-    width: 472px;
-    height: 140px;
+    width: 500px;
+    height: 155px;
     font-family: 'montserratregular', sans-serif;
     font-size: 16px;
     background: rgba(255,255,255, 0.3);
@@ -237,7 +250,7 @@ textarea {
 }
 
 #submit {
-     width: 472px;
+     width: 500px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -246,7 +259,7 @@ textarea {
     box-shadow: none;
     border:none;
     padding: 20px;
-    margin: 0 50px 0 266px;
+    margin: 0 50px 0 280px;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -254,7 +267,7 @@ textarea {
 }
 
 #delete {
-     width: 185px;
+     width: 199px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;

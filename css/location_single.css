@@ -27,6 +27,19 @@ body, html {
 
 }
 
+#right {
+    margin: 0;
+}
+
+#right_container {
+    width: 799px;
+    padding-bottom: 5px;
+}
+
+#global_error {
+    padding-bottom: 0;
+}
+
 .cmn-toggle {
   position: absolute;
   margin-left: -9999px;
@@ -166,7 +179,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #locationName {
-    width: 448px;
+    width: 490px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
@@ -180,7 +193,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 }
 
 #submit {
-    width: 242px;
+    width: 244px;
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -201,7 +214,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 #editExhibit {
     height: 64px;
-    min-width: 715px; 
+    min-width: 759px; 
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.4);
@@ -221,51 +234,7 @@ input.cmn-toggle-round-flat:checked + label:after {
     border-radius: 0px;
 }
 
-#editPosition {
-    width: 242px;
-    font-family: 'montserratregular', sans-serif;
-    font-size: 20px;
-    text-align: center;
-    background: #3EB9FD;
-    color: #FFF;
-    box-shadow: none;
-    padding: 20px;
-    margin: 0 0 0 20px;
-    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
-    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
-    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
-    cursor: pointer;
-}
 
-.latlong {
-    padding: 0 20px 20px 20px;
-}
-
-.latlong h3 {
-    margin: 0;
-    color: #FFF;
-    font-family: 'montserratregular', sans-serif;
-}
-
-.latlong p {
-    margin: 0;
-    color: #FFF;
-    font-family: 'montserratregular', sans-serif;
-}
-
-.lat {
-    float: left;
-}
-
-.long {
-    padding: 0 0 0 20px;
-}
-
-.latlong .lat, .long {
-    display: inline-block;
-    vertical-align: middle;
-    clear: both;
-}
 
     
 /* DESCRIPTION & DIG DEEPR */
@@ -335,13 +304,13 @@ div.form-group-file {
     left: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 119px;
-    height: 119px;
+    width: 127.5px;
+    height: 127.5px;
 }
 
 div.form-group-file input {
-    width: 119px !important;
-    height: 119px !important;
+    width: 127.5px !important;
+    height: 127.5px !important;
     opacity: 0 !important;
     cursor: pointer;
 }
@@ -361,8 +330,8 @@ div.form-group-file input {
 }
 
 .media {
-    width: 119px;
-    height: 119px;
+    width: 127.5px;
+    height: 127.5px;
     background: #FFF;
     margin: 20px 0 0 20px;
     position: relative;
@@ -372,8 +341,8 @@ div.form-group-file input {
 }
 
 .media_new {
-    width: 119px;
-    height: 119px;
+    width: 127.5px;
+    height: 127.5px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;

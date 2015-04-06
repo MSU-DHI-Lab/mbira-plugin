@@ -15,7 +15,7 @@
 		<form id="exhibitform" name="exhibitform" novalidate ng-submit="submit()" role="form">
             
             <div class="thumbnail dropzone"> 
-        		<img src="img/Default.png" height="225" width="225">
+        		<img src="img/Default.png" height="239" width="239">
         		<div class="thumbnail_title">
         			<h3>Edit Thumbnail</h3>
         		</div>
@@ -32,10 +32,10 @@
 					<textarea required class="form-control npInput" id="description" name="description" ng-model="exhibit.description"></textarea>
 			</div>
 			
-			<button type="submit" id="submit" class="btn btn-default" ng-disabled="exhibitform.$invalid" ng-class="{'btn-disabled': exhibitform.$invalid}">Update Exhibit</button>
+			<button type="submit" id="submit" class="btn btn-default" ng-disabled="exhibitform.$invalid" ng-class="{'btn-disabled': exhibitform.$invalid}">UPDATE EXHIBIT</button>
 			
 			<div id="delete" class='field-label delete'>
-						<div ng-click='delete()' class='label-name'>Delete Exhibit</div>
+						<div ng-click='delete()' class='label-name'>DELETE EXHIBIT</div>
 			</div>
 		</form
 	</div>

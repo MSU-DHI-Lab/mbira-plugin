@@ -46,9 +46,6 @@ body, html {
 
 }
 
-
-
-
 @font-face {
     font-family: 'montserratthin';
     src: url('fonts/montserrat-thin-webfont.eot');
@@ -62,7 +59,18 @@ body, html {
 
 }
 
+#right {
+    margin: 0;
+}
 
+#right_container {
+    width: 799px;
+    padding-bottom: 5px;
+}
+
+#global_error {
+    padding-bottom: 0;
+}
 
 
 /* HEADER */
