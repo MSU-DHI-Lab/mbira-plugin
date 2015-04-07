@@ -554,8 +554,8 @@ div.form-group-file input {
     color: #FFF;
     border: 2px solid #FFF;
     position:absolute; 
-    bottom:10; 
-    right:10; 
+    bottom:30px; 
+    right:206px; 
     padding:25px 50px; 
     z-index:99999; 
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
