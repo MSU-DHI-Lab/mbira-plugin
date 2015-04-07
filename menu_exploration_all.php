@@ -18,6 +18,7 @@
 					
 					</a>
 				</div>
+				<div class="odd" ng-show="!project.explorations.length">No Explorations</div>
 			</div>
 	
 		</div>
