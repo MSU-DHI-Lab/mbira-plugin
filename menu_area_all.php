@@ -18,6 +18,7 @@
 					
 					</a>
 				</div>
+				<div class="odd" ng-show="!project.areas.length">No Areas</div>
 			</div>
 	
 		</div>

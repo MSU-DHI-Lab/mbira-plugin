@@ -871,10 +871,8 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 				file: $scope.file
 			}).success(function(data) {	
-				$('.thumbnail .dropImg').css('display', 'none');
-				$('.thumbnail h5').css('display', 'none');
-				$('.thumbnail .clickAdd').css('display', 'none');
-				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+				$('.projectImg').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+				$('.projectImg').css('object-fit: contain;')
 			});
 		}
 	};
@@ -1939,8 +1937,6 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 
 });
 mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
-	$scope.marker = false;
-	$scope.places = [];
 	$scope.ID = $stateParams.project;
 	$scope.PID = $stateParams.pid;
 	$scope.param = $stateParams.project;
@@ -1950,8 +1946,6 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 		name: "",
 		descrition: "",
 		file: "",
-		latitude: '',
-		longitude: ''
 	}
 		
 	//Get file to be uploaded
@@ -1977,11 +1971,6 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 	
 	//submit new exhibit
 	$scope.submit = function() {
-		points = [];
-		for(i=0;i<exhibitPoints.length;i++){
-			points.push(exhibitPoints[i][0])
-		}
-
 		$scope.upload = $upload.upload({				
 			url: 'ajax/saveExhibit.php',
 			method: 'POST',
@@ -1992,7 +1981,6 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 					pid: $stateParams.pid,
 					name: $scope.newExhibit.name,
 					description: $scope.newExhibit.description,
-					exhibitPoints: JSON.stringify(points)
 				},
 			file: $scope.file
 		}).success(function(data) {
@@ -2001,158 +1989,6 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 		});
 	};
 	
-	//<MAP_STUFF>
-	//initialize map
-	var map = setMap.set(42.723241200224216, -84.47797000408173);
-	LatLng=[];
-	var locArray=[];
-	var areaArray=[];
-	var polyline = L.polyline(LatLng, {color: 'red'}).addTo(map);
-	var expBeginning = [];
-	var exhibitPoints = [];
-	
-	function deleteFromExhibit(idToDelete) {
-		for(m=0;m<exhibitPoints.length;m++){
-			if (exhibitPoints[m].indexOf('L'+ idToDelete) >=0){
-				exhibitPoints.splice(m, 1);
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	function addToExhibit(id, name){
-		if (!deleteFromExhibit(id)){
-			exhibitPoints.push(['L'+ id, name, 'Location']);
-		}
-		$scope.places = exhibitPoints;
-		$scope.$apply();
-	}
-	
-	
-	
-				
-	$http({
-		method: 'GET',
-		url: "ajax/getLocations.php",
-		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-	}).success(function(data){
-		for(i=0;i<data.length;i++) {
-			if (data[i]['project_id'] == $scope.param) {
-				locArray.push([data[i]['latitude'],data[i]['longitude'], data[i]['id'], data[i]['name']]);
-				L.marker([data[i]['latitude'], data[i]['longitude']]).addTo(map)
-					.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
-					.on('mouseover', function(e) {
-						//open popup;
-						this.openPopup();	
-					})
-					.on('mouseout', function(e) {
-						//close popup;
-						this.closePopup();	
-					})
-					.on('click', function(e) {
-						for (i=0; i < locArray.length; i++) {
-							//finds the id of the coordinates and checks if it has already been added to exploration.
-							if (e.latlng.lat == locArray[i][0] && e.latlng.lng == locArray[i][1]) {
-								addToExhibit(locArray[i][2], locArray[i][3]);
-							}
-						}
-						this.closePopup();	//makes sure the popup doesn't show on click.
-					})
-			}
-		}
-	});
-
-	
-	function deleteAreaFromExhibit(idToDelete){
-		for(m=0;m<exhibitPoints.length;m++){
-			if (exhibitPoints[m].indexOf(
-			idToDelete) >=0){
-				exhibitPoints.splice(m, 1);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	$http({
-		method: 'GET',
-		url: "ajax/getAreas.php",
-		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-	}).success(function(data){
-		tempArray = [];
-		for(i=0;i<data.length;i++) {
-			if (data[i]['project_id'] == $scope.param) {
-				tempArray.push(data[i].id);
-				//Put area in scope
-				$scope.area = data[i];
-				
-				//Parse string to get array  of coorinates
-				$scope.coordinates = JSON.parse(data[i].coordinates);
-				tempArray.push($scope.coordinates);
-				tempArray.push(data[i].name);
-				areaArray.push(tempArray);
-				tempArray =[];
-				
-				if(data[i].shape == 'polygon'){
-					//Create polygon from array of coordinates 
-					$scope.polygon = L.polygon($scope.coordinates).addTo(map)
-						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
-						.on('mouseover', function(e) {
-							//open popup;
-							this.openPopup();	
-						})
-						.on('mouseout', function(e) {
-							//close popup;
-							this.closePopup();	
-						})
-						.on('click', function(e) {
-							//store in exploration;		
-							for (i=0; i < areaArray.length; i++) {			
-								if (this._latlngs[0].lat == areaArray[i][1][0][0] && this._latlngs[1].lng == areaArray[i][1][1][1]) {
-									if (!deleteAreaFromExhibit('A'+ areaArray[i][0])){
-										exhibitPoints.push(['A'+ data[i]['id'], areaArray[i][2], 'Area']);
-									}
-								}
-							}
-							$scope.places = exhibitPoints;
-							$scope.$apply();
-							this.closePopup();	//makes sure the popup doesn't show on click.
-						});
-				}else if(data[i].shape == 'circle'){
-					//Create circle from coordinates
-					$scope.circle = L.circle($scope.coordinates[0], data[i].radius, {
-						color: 'red',
-						fillColor: '#f03',
-						fillOpacity: 0.5
-					}).addTo(map)
-						.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
-						.on('mouseover', function(e) {
-							//open popup;
-							this.openPopup();	
-						})
-						.on('mouseout', function(e) {
-							//close popup;
-							this.closePopup();	
-						})
-						.on('click', function(e) {
-							//store in exploration;		
-							console.log(this)
-							for (i=0; i < areaArray.length; i++) {			
-								if (this._latlng.lat == areaArray[i][1][0][0] && this._latlng.lng == areaArray[i][1][0][1]) {
-									if (!deleteAreaFromExhibit('A'+ areaArray[i][0])){
-										exhibitPoints.push(['A'+ data[i]['id'], areaArray[i][2], 'Area']);
-									}
-								}
-							}
-							$scope.places = exhibitPoints;
-							$scope.$apply();
-							this.closePopup();	//makes sure the popup doesn't show on click.
-						});
-				}
-			}
-		}
-	});
 });
 
 
