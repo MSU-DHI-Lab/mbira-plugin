@@ -1,0 +1,22 @@
+Various Styling Updates
+--This line, and those below, will be ignored--
+
+M    css/area_all.css
+M    css/area_single.css
+M    css/exhibit_all.css
+M    css/exhibit_info.css
+M    css/exploration_all.css
+M    css/exploration_single.css
+M    css/location_all.css
+M    css/location_single.css
+M    css/newarea.css
+M    css/newexhibit.css
+M    css/newexploration.css
+M    css/newlocation.css
+M    css/newproject.css
+M    css/project_info.css
+M    location_single.html
+M    menu_area_all.php
+M    menu_exhibit_all.php
+M    menu_exploration_all.php
+M    menu_location_all.php

@@ -6,6 +6,7 @@ body, html {
 .areas {
 	background-color: #18587C;
     padding-bottom: 20px;
+    min-height: 500px;
 }
 
 @font-face {
@@ -114,7 +115,7 @@ body, html {
 }
 
 .project {
-    width: 715px;
+    width: 759px;
     margin: 20px 0 0 20px;
 
 }
@@ -140,7 +141,7 @@ body, html {
 }
 
 .area {
-    width: 100%;
+    width: 759px;
     display: inline;
 }
 
@@ -152,6 +153,23 @@ body, html {
     background: rgba(255,255,255, 0.1);
 }
 
+.none {
+    width: 759px;
+    display: inline;
+}
+
+.none h3 {
+    font-family: 'montserratlight' sans-serif;
+    white-space:nowrap; 
+    text-overflow: ellipsis;
+    overflow: hidden;
+    letter-spacing: 1px;
+    font-weight: 100;
+    font-size: 20px;
+    color: rgba(255,255,255,.3);
+    margin:0;
+    padding: 20px;
+}
 
 
 .area_title {
