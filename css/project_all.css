@@ -14,7 +14,7 @@ img {
 }
 
 .projectImg {
-	object-fit: contain;
+	object-fit: cover;
 }
 
 @font-face {
