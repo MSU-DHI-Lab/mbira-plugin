@@ -1,4 +1,5 @@
-pluginName = Mbira
+[PluginName]
+Mbira
 
 [Menus]
 Projects = #/projects
