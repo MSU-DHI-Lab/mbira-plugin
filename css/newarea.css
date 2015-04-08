@@ -286,6 +286,13 @@ input.cmn-toggle-round-flat:checked + label:after {
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
+    transition: all .5s ease;
+}
+
+#submit:hover {
+    color: #3EB9FD;
+    background: #FFF;
+    border: 2px solid #3EB9FD;
 }
 
 
@@ -437,6 +444,13 @@ div.form-group-file input {
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    transition: all ease .1s;
+}
+
+.media_new:hover {
+    -moz-box-shadow: 0 0 0 1px #FFF; 
+    -webkit-box-shadow: 0 0 0 1px #FFF; 
+    box-shadow: 0 0 0 1px #FFF; 
 }
 
 .media_title {
@@ -540,8 +554,8 @@ div.form-group-file input {
     color: #FFF;
     border: 2px solid #FFF;
     position:absolute; 
-    bottom:10; 
-    right:10; 
+    bottom:30px; 
+    right:206px; 
     padding:25px 50px; 
     z-index:99999; 
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -562,3 +576,20 @@ div.form-group-file input {
     pointer-events: none;
 }
 
+#done {
+    font-size: 20px;
+    font-family: 'montserratregular', sans-serif;
+    background: #3EB9FD;
+    color: #FFF;
+    border: 2px solid #FFF;
+    position:absolute; 
+    bottom:10; 
+    right:10; 
+    padding:25px 50px; 
+    z-index:9000; 
+    display:none;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    cursor: pointer;
+}

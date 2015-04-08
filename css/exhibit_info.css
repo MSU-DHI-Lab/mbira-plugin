@@ -189,6 +189,10 @@ img {
 
 /* FORM LAYOUT */
 
+#exhibitform {
+    min-height: 500px;
+}
+
 .project_information {
     float:left;
     margin: 0 20px 0 20px;
@@ -264,6 +268,12 @@ textarea {
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
+    transition: all .5s ease;
+}
+
+#submit:hover {
+    color: #3EB9FD;
+    background: #FFF;
 }
 
 #delete {

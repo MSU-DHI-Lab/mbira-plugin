@@ -1136,6 +1136,18 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		
 		$scope.marker = L.marker(e.latlng).addTo(map);
 		$scope.$apply();
+		$('#done').fadeIn('slow');
+	});
+	
+	//Click to set marker and save location to scope
+	$("#done").on('click', function(e) {
+		e.stopPropagation()
+		$('#done').fadeOut('slow', function() {
+			$('#done').remove();
+			$('.loc_info').fadeIn('slow', function(){
+				$('html,body').animate({scrollTop: $('.loc_info').offset().top}, 1500);
+			});
+		});
 	});
 	//</MAP_STUFF>
 });
@@ -1238,30 +1250,30 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 		$scope.newArea.shape = 'polygon';
 	}
 	
-	//Create polygon out of single marker
-	$scope.createCircle = function(radius){
-		//remove any markers and shapes already there
-		$scope.markers.forEach(function(mark){
-			map.removeLayer(mark);
-		})
-		map.removeLayer($scope.polygon);
-		map.removeLayer($scope.circle);
+	// //Create polygon out of single marker
+	// $scope.createCircle = function(radius){
+		// //remove any markers and shapes already there
+		// $scope.markers.forEach(function(mark){
+			// map.removeLayer(mark);
+		// })
+		// map.removeLayer($scope.polygon);
+		// map.removeLayer($scope.circle);
 		
-		//create circle from coordinate
-		$scope.circle = L.circle($scope.newArea.coordinates[0], radius, {
-			color: 'red',
-			fillColor: '#f03',
-			fillOpacity: 0.5
-		}).addTo(map);
+		// //create circle from coordinate
+		// $scope.circle = L.circle($scope.newArea.coordinates[0], radius, {
+			// color: 'red',
+			// fillColor: '#f03',
+			// fillOpacity: 0.5
+		// }).addTo(map);
 		
-		$scope.newArea.radius = radius;
+		// $scope.newArea.radius = radius;
 		
-		//reset array of markers
-		$scope.markers = [];
+		// //reset array of markers
+		// $scope.markers = [];
 		
-		//set shape
-		$scope.newArea.shape = 'circle';
-	}
+		// //set shape
+		// $scope.newArea.shape = 'circle';
+	// }
 	
 	//<MAP_STUFF>
 	//initialize map
@@ -1278,12 +1290,29 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	}).addTo(map);
 
 	//Click to set marker and save location to scope
+	count = 0;
 	map.on('click', function(e) {
 		$scope.newArea.coordinates.push([e.latlng.lat, e.latlng.lng]);
 		var marker = L.marker(e.latlng).addTo(map);
 		marker.bindPopup(e.latlng.lat+", "+e.latlng.lng);
 		$scope.markers.push(marker);
+		$scope.createPolygon();
 		$scope.$apply(); 
+		if (count == 2){
+			$('#done').fadeIn('slow');
+		}
+		count++;
+	});
+	
+	//Click to set marker and save location to scope
+	$("#done").on('click', function(e) {
+		e.stopPropagation()
+		$('#done').fadeOut('slow', function() {
+			$('#done').remove();
+			$('.area_info').fadeIn('slow', function(){
+				$('html,body').animate({scrollTop: $('.area_info').offset().top}, 1500);
+			});
+		});
 	});
 	
 	//</MAP_STUFF>

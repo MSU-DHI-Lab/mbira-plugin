@@ -6,7 +6,7 @@ body, html {
 
 .main {
 	background-color: #18587C;
-    height: 500px;
+    min-height: 500px;
     padding-bottom: 20px;
 }
 
@@ -265,6 +265,12 @@ textarea {
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
+    transition: all .5s ease;
+}
+
+#submit:hover {
+    color: #3EB9FD;
+    background: #FFF;
 }
 
 #delete {

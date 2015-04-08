@@ -26,9 +26,10 @@
             <p>Just click or search where you would like your new location to be...</p></div>
         
 		<div id="map"> 
+			<button id="done">DONE!</button>
 		</div>
 		
-		<div class="main">
+		<div class="loc_info main" style='display:none'>
 			<div class="project_information">    
 				<form id="newlocationform" name="newlocationform" novalidate ng-submit="submit()" role="form">
 
@@ -81,7 +82,7 @@
 					
 					<img src="img/Default.png" height="127.5" width="127.5">
 					<div class="thumbnail_title">
-						<h3>{{"ADD THUMBNAIL"}}</h3>
+						<h3>{{"Location Thumbnail"}}</h3>
 					</div>
 					<div class="form-group-file">				        
 							<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">

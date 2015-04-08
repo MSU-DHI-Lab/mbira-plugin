@@ -7,8 +7,8 @@ body, html {
 .main {
 	background-color: #18587C;
     padding-bottom: 20px;
-    min-height: 500px;
 }
+
 
 img {
     border:none;
@@ -189,6 +189,7 @@ img {
 #newexhibitform {
     padding: 0 0 20px 0;
     margin-top: -10px;
+    min-height: 500px;
 }
 
 .project_information {
@@ -266,4 +267,10 @@ textarea {
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
+    transition: all .5s ease;
+}
+
+#submit:hover {
+    color: #3EB9FD;
+    background: #FFF;
 }
