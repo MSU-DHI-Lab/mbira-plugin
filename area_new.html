@@ -26,25 +26,11 @@
         <div class="help">
             <p>Click out the dimensions you’d like to use for the area, then click "SAVE AREA"</p></div>
 		
-		<div id="map"></div>
-        
-        <button type='button' class="done" ng-click='createPolygon()' ng-if='markers.length >= 1'>CREATE AREA</button>
-            
-        
-       <!--
-				<button class="done" type='button' ng-click='clearMarkers()'>START OVER</button>
-				<div ng-if='markers.length == 1'>
-					<button type='button' ng-click='createCircle(radius)'>Create Circle</button>
-					radius = <input ng-model='radius'>
-				</div>
-				<div ng-repeat='mark in markers'>
-					{{mark._latlng.lat}}, {{mark._latlng.lng}}
-					<br>
-				</div>-->
-        
-        
-		
-		<div class="area_info">    
+		<div id="map">
+			<button id="done">DONE!</button>
+		</div>
+ 		
+		<div class="area_info" style='display:none'>    
 			<form id="newareaform" name="newareaform" novalidate ng-submit="submit()" role="form">
 				
                 <div class="header2">
