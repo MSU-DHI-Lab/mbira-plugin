@@ -576,3 +576,20 @@ div.form-group-file input {
     pointer-events: none;
 }
 
+#done {
+    font-size: 20px;
+    font-family: 'montserratregular', sans-serif;
+    background: #3EB9FD;
+    color: #FFF;
+    border: 2px solid #FFF;
+    position:absolute; 
+    bottom:10; 
+    right:10; 
+    padding:25px 50px; 
+    z-index:9000; 
+    display:none;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    cursor: pointer;
+}
