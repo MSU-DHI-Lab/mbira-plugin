@@ -28,7 +28,7 @@
 	<script src="angular/angular-sortable-view.js"></script>
 	<script type="text/javascript" src="js/lodash.js"></script>
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"> -->
-	<script src="angular/angularjs-dropdown-multiselect.min.js"></script>
+	<script src="angular/isteven-multi-select.js"></script> 
 	<script src="js/controllers.js"></script> 
     
 	

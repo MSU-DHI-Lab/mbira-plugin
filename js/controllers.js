@@ -1,4 +1,4 @@
-var mbira  = angular.module('mbira', ['ui.router', 'angularFileUpload', 'angular-sortable-view', 'angularjs-dropdown-multiselect']);
+var mbira  = angular.module('mbira', ['ui.router', 'angularFileUpload', 'angular-sortable-view', 'isteven-multi-select']);
 
 mbira.config(function($stateProvider, $urlRouterProvider) {
 	
@@ -1065,7 +1065,8 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 
 	$scope.exhibits = []
 	
-	$scope.example1model = []; $scope.example1data = [ {id: 1, label: "David"}, {id: 2, label: "Jhon"}, {id: 3, label: "Danny"}];
+	$scope.exhibitsModel = []; 
+	$scope.exhibits = []
 
 	$http({
 		method: 'POST',
@@ -1076,7 +1077,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 			$scope.exhibits.push({name:'No Exhibits'})
 		}else {
 			for(i=0;i<data.length;i++){
-				$scope.exhibits.push({name:data[i].name,id:data[i].id})
+				$scope.exhibits.push({name:data[i].name,id:data[i].id, ticked:false})
 			}
 		}
 		$scope.selectedExhibit = $scope.exhibits[0];
