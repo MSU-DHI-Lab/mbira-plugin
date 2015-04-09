@@ -1,4 +1,4 @@
-var mbira  = angular.module('mbira', ['ui.router', 'angularFileUpload', 'angular-sortable-view']);
+var mbira  = angular.module('mbira', ['ui.router', 'angularFileUpload', 'angular-sortable-view', 'angularjs-dropdown-multiselect']);
 
 mbira.config(function($stateProvider, $urlRouterProvider) {
 	
@@ -1062,6 +1062,26 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		latitude: '',
 		longitude: ''
 	}
+
+	$scope.exhibits = []
+	
+	$scope.example1model = []; $scope.example1data = [ {id: 1, label: "David"}, {id: 2, label: "Jhon"}, {id: 3, label: "Danny"}];
+
+	$http({
+		method: 'POST',
+		url: "ajax/getExhibits.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		if (!data.length) {
+			$scope.exhibits.push({name:'No Exhibits'})
+		}else {
+			for(i=0;i<data.length;i++){
+				$scope.exhibits.push({name:data[i].name,id:data[i].id})
+			}
+		}
+		$scope.selectedExhibit = $scope.exhibits[0];
+	}) 
+
 	
 	//Get file to be uploaded
 	$scope.onFileSelect = function($files) {
@@ -2201,6 +2221,7 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 mbira.controller("exhibitInfoCtrl", function ($scope, $http, $upload, $stateParams, $state){
 	$scope.project = $stateParams.project;
 	$scope.pid = $stateParams.pid;
+	$scope.id = $stateParams.exhibit;
 	$scope.exhibit = {};
 	$scope.file;
 	

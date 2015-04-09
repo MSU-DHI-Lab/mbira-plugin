@@ -5,6 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
     <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
     <link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
+	<link rel="stylesheet" type="text/css" href="css/exhibitSelect.css"/>
         <link rel="stylesheet" type="text/css" href="css/newlocation.css"/>
        
 		
@@ -41,7 +42,8 @@
 			</div>
                 
                  <div class="edit-exhibit">
-			<div class="form-group">				        
+			<div class="form-group">	
+				<div ng-dropdown-multiselect="" options="example1data" selected-model="example1model"></div>			        
 				<select ng-model="selectedExhibit" id="editExhibit" ng-options="exhibit.name for exhibit in exhibits"></select>
                 </div></div>
 			
