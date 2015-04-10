@@ -70,6 +70,7 @@ function createRow($con) {
 	$idQuery = mysqli_query($con, "SELECT id FROM mbira_areas WHERE coordinates = '".$coords."'");
 	$IDrow = mysqli_fetch_array($idQuery);
 	$aid = $IDrow['id'];	
+	echo $aid;
 	
 	//Create row in mbira_exp_media
 	mysqli_query($con,"INSERT INTO mbira_area_media (area_id, file_path, isThumb) VALUES ('$aid', '$path', 'yes')");		

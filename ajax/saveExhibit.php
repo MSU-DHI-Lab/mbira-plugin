@@ -58,8 +58,7 @@ function createRow($con) {
 	$pid = $_POST['pid'];
 	$name = mysqli_real_escape_string($con, $_POST['name']);
 	$desc = mysqli_real_escape_string($con, $_POST['description']);
-	$points = json_decode($_POST['exhibitPoints']);
-		
+	
 	//Save image
 	$uploaddir = '../images/';
 	
@@ -80,19 +79,6 @@ function createRow($con) {
 	$idQuery = mysqli_query($con, "SELECT id FROM mbira_exhibits WHERE description = '".$desc."'");
 	$IDrow = mysqli_fetch_array($idQuery);
 	$id = $IDrow['id'];	
-
-	
-	//Link areas and locations to exhibit
-	foreach ($points as $point) {
-		if (strpos($point,'L') !== false) {
-			$point = str_replace('L', "", $point);
-			mysqli_query($con,"INSERT INTO mbira_locations_has_mbira_exhibits (mbira_locations_id, mbira_exhibits_id) VALUES ('$point', '$id')");
-		}
-		if (strpos($point,'A') !== false) {
-			$point = str_replace('A', "", $point);
-			mysqli_query($con,"INSERT INTO mbira_areas_has_mbira_exhibits (mbira_areas_id, mbira_exhibits_id) VALUES ('$point', '$id')");
-		}
-	}
 	
 	//Create and ingest exploration record to kora
 	// $result = mysqli_query($con, "SELECT * FROM scheme WHERE schemeName = 'Exploration' AND pid = " . $pid);
