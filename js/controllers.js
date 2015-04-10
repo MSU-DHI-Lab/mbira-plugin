@@ -218,7 +218,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			url: "ajax/getExhibits.php",
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data2){
-			//adds checkmark if the area is in an exhibit.
+			//adds checkmark if the location is in an exhibit.
 			for(i=0;i<data2.length;i++){
 				if ($.inArray(data2[i].id, ids) > -1) {
 					temp.push({name:data2[i].name,id:data2[i].id, ticked:true});

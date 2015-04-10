@@ -7,6 +7,12 @@
 # Ignore svn
 /.svn
 
+# Ignore svn
+.DS_Store
+
+# Ignore svn
+._.DS_Store
+
 # Ignore images
 /images
 
