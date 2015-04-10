@@ -1,4 +1,4 @@
-var mbira  = angular.module('mbira', ['ui.router', 'angularFileUpload', 'angular-sortable-view']);
+var mbira  = angular.module('mbira', ['ui.router', 'angularFileUpload', 'angular-sortable-view', 'isteven-multi-select']);
 
 mbira.config(function($stateProvider, $urlRouterProvider) {
 	
@@ -105,6 +105,25 @@ mbira.factory('setMap', function(){
 	
 });
 
+mbira.factory('exhibits', function(){	
+	//initialize map
+	return {
+		add: function(id, exhibits, pieceType){
+			console.log(id,exhibits,pieceType)
+			$.ajax({
+				url: "ajax/addToExhibit.php",
+				data: {'piece':id,'type':pieceType, 'exhibits':JSON.stringify(exhibits)},
+				type: "POST",
+				dataType: 'JSON',
+				success: function(data) {
+	console.log(data)
+				}
+			}); 
+		}
+	}
+	
+});
+
 mbira.factory('timeStamp', function(){	
 	return {
 		toTime: function(timeStamp){
@@ -170,7 +189,7 @@ mbira.factory('makeArray', function () {
 	}
 });
 
-mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp){
+mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp, exhibits){
 	var map;
 	$scope.newMedia = false;
 	$scope.project = $stateParams.project;
@@ -179,22 +198,36 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 	$scope.media;
 	$scope.comments = []
 	$scope.userData = []
-	$scope.exhibits = []
 	
+	$scope.exhibits = [];
+	temp=[];
+
 	$http({
 		method: 'POST',
 		url: "ajax/inExhibit.php",
 		data: $.param({'id': $stateParams.location, 'task': 'loc'}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
-		if (!data.length) {
-			$scope.exhibits.push({name:'No Exhibits'})
-		}else {
-			for(i=0;i<data.length;i++){
-				$scope.exhibits.push({name:data[i].name,id:data[i].id})
-			}
+		ids = []
+		for (a=0;a<data.length;a++){
+			ids.push(data[a].id);
 		}
-		$scope.selectedExhibit = $scope.exhibits[0];
+
+		 $http({
+			method: 'POST',
+			url: "ajax/getExhibits.php",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data2){
+			//adds checkmark if the area is in an exhibit.
+			for(i=0;i<data2.length;i++){
+				if ($.inArray(data2[i].id, ids) > -1) {
+					temp.push({name:data2[i].name,id:data2[i].id, ticked:true});
+				} else {
+					temp.push({name:data2[i].name,id:data2[i].id, ticked:false});
+				}
+			}
+			$scope.exhibits=temp;
+		})  
 	}) 
 	
 	
@@ -356,6 +389,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 					}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
+			exhibits.add($stateParams.location,$scope.outputExhibits, 'loc')
 			//Close (return to project)
 			location.href = "javascript:history.back()";
 		})
@@ -406,30 +440,44 @@ mbira.controller("viewAreasCtrl", function ($scope, $http, makeArray){
 });	
 
 
-mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp){
+mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp, exhibits){
 	$scope.project = $stateParams.project;
 	$scope.pid = $stateParams.pid;
 	$scope.previous = $stateParams.previous
 	$scope.userData = []
 	$scope.comments = []
-	$scope.exhibits = []
 	latlngArray = []
 	removed = 1000;
 	
+	$scope.exhibits = [];
+	temp=[];
+
 	$http({
 		method: 'POST',
 		url: "ajax/inExhibit.php",
 		data: $.param({'id': $stateParams.area, 'task': 'area'}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
-		if (!data.length) {
-			$scope.exhibits.push({name:'No Exhibits'})
-		}else {
-			for(i=0;i<data.length;i++){
-				$scope.exhibits.push({name:data[i].name,id:data[i].id})
-			}
+		ids = []
+		for (a=0;a<data.length;a++){
+			ids.push(data[a].id);
 		}
-		$scope.selectedExhibit = $scope.exhibits[0];
+
+		 $http({
+			method: 'POST',
+			url: "ajax/getExhibits.php",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data2){
+			//adds checkmark if the area is in an exhibit.
+			for(i=0;i<data2.length;i++){
+				if ($.inArray(data2[i].id, ids) > -1) {
+					temp.push({name:data2[i].name,id:data2[i].id, ticked:true});
+				} else {
+					temp.push({name:data2[i].name,id:data2[i].id, ticked:false});
+				}
+			}
+			$scope.exhibits=temp;
+		})  
 	}) 
     
 	function getMedia(){
@@ -702,6 +750,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 					}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
+			exhibits.add($stateParams.area,$scope.outputExhibits, 'area')
 			//Close (return to project)
 			location.href = "javascript:history.back()";
 		})
@@ -1048,7 +1097,7 @@ mbira.controller("viewLocationsCtrl", function ($scope, $http, makeArray){
 		})
 	})
 });	
-mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
+mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, exhibits){
 	$scope.marker = false;
 	$scope.ID = $stateParams.project;
 	$scope.PID = $stateParams.pid;
@@ -1062,6 +1111,27 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		latitude: '',
 		longitude: ''
 	}
+
+	$scope.exhibits = [];
+	temp=[];
+	 $http({
+		method: 'POST',
+		url: "ajax/getExhibits.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		if (!data.length) {
+			$scope.exhibits.push({name:'No Exhibits'})
+		}else {
+			for(i=0;i<data.length;i++){
+				//$scope.exhibits.push({name:data[i].name,id:data[i].id, ticked:false})
+				temp.push({name:data[i].name,id:data[i].id, ticked:false});
+				
+			}
+			$scope.exhibits=temp;
+			console.log($scope.exhibits)
+		}
+	})  
+
 	
 	//Get file to be uploaded
 	$scope.onFileSelect = function($files) {
@@ -1087,7 +1157,8 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 
 
 	//submit new location
-	$scope.submit = function() {		
+	$scope.submit = function() {	
+		//submit location
 		$scope.upload = $upload.upload({				
 			url: 'ajax/saveLocation.php',
 			method: 'POST',
@@ -1103,6 +1174,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 				},
 			file: $scope.file
 		}).success(function(data) {
+			exhibits.add(data,$scope.outputExhibits, 'loc')
 			//return to project
 			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
 		});
@@ -1134,7 +1206,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		$scope.newLocation.latitude = e.latlng.lat;
 		$scope.newLocation.longitude = e.latlng.lng;
 		
-		$scope.marker = L.marker(e.latlng).addTo(map);
+		$scope.marker = L.marker(e.latlng, {draggable:true}).addTo(map);
 		$scope.$apply();
 		$('#done').fadeIn('slow');
 	});
@@ -1152,7 +1224,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 	//</MAP_STUFF>
 });
 
-mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, setMap){
+mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, setMap, exhibits){
 	
 	$scope.marker = false;
 	$scope.mark = '';
@@ -1173,6 +1245,27 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 		radius: "",
 		coordinates: []
 	}
+
+	$scope.exhibits = [];
+	temp=[];
+
+	 $http({
+		method: 'POST',
+		url: "ajax/getExhibits.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	}).success(function(data){
+		if (!data.length) {
+			$scope.exhibits.push({name:'No Exhibits'})
+		}else {
+			for(i=0;i<data.length;i++){
+				//$scope.exhibits.push({name:data[i].name,id:data[i].id, ticked:false})
+				temp.push({name:data[i].name,id:data[i].id, ticked:false});
+				
+			}
+			$scope.exhibits=temp;
+			console.log($scope.exhibits)
+		}
+	})  
 	
 	//Get file to be uploaded
 	$scope.onFileSelect = function($files) {
@@ -1211,8 +1304,9 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 				coordinates: $scope.newArea.coordinates
 			},
 			file: $scope.file
-		}).success(function(data, status, headers, config) {
+		}).success(function(data) {
 			//return to project
+			exhibits.add(data,$scope.outputExhibits, 'area');
 			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
 		});
 	};
@@ -2201,6 +2295,7 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 mbira.controller("exhibitInfoCtrl", function ($scope, $http, $upload, $stateParams, $state){
 	$scope.project = $stateParams.project;
 	$scope.pid = $stateParams.pid;
+	$scope.id = $stateParams.exhibit;
 	$scope.exhibit = {};
 	$scope.file;
 	

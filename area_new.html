@@ -5,6 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
     <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
     <link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
+    <link rel="stylesheet" type="text/css" href="css/isteven-multi-select.css"/>
 	<link rel="stylesheet" type="text/css" href="css/newarea.css"/>
        
 		
@@ -42,7 +43,7 @@
                 
                  <div class="edit-exhibit">
 			<div class="form-group">				        
-				<select ng-model="selectedExhibit" id="editExhibit" ng-options="exhibit.name for exhibit in exhibits"></select>
+				<div bindToController='true' isteven-multi-select input-model="exhibits" helper-elements="all none" output-model="outputExhibits" button-label="icon name" item-label="icon name maker" tick-property="ticked"></div>
                 </div></div>
 			
             <div class="field">

@@ -72,6 +72,7 @@ function createRow($con) {
 	while($locRow = mysqli_fetch_array($locResult)) {
 		$lid = $locRow['id'];
 	}
+	echo $lid;
 	
 	//Create row in mbira_loc_media
 	mysqli_query($con,"INSERT INTO mbira_loc_media (location_id, file_path, isThumb) VALUES ('$lid', '$path', 'yes')");
