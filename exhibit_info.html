@@ -8,7 +8,7 @@
 
 	<div class="main" ng-controller="exhibitInfoCtrl">
 		<div class="header">
-			<div class="back"><a ui-sref="viewExhibit({project: project, pid: pid, exhibit: id, previous: 'EXHIBIT INFO'})"><img src="img/back.png"/><p>{{exhibit.name}}</p></a></div>
+			<div class="back"><a onclick="window.history.go(-1); return false;"><img src="img/back.png"/><p>{{exhibit.name}}</p></a></div>
 			<h1>EXHIBIT INFO</h1>
 		</div>
 		
