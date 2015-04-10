@@ -57,7 +57,8 @@
                     <div class="form-group">				        
 				<button type="button" ng-click='editPosition()' id="editStops" class="btn btn-default">ADD/REMOVE STOPS</button></div>
 			</div>
-				<div id='reorder' sv-root sv-part="places" sv-on-sort="onSort($part, $item, $index)"> Drag to Reorder
+				<div class="drag" >Drag to Reorder</div>
+				<div id='reorder' sv-root sv-part="places" sv-on-sort="onSort($part, $item, $index)">
                     
 					<div id='stops' ng-repeat="place in places" sv-element>
 						<div style='position:absolute; padding-left:5px;'>{{$index + 1}}</div>{{place[1]}}
