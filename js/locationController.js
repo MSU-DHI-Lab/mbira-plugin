@@ -41,7 +41,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		longitude: '',
 		toggle_comments: true,
 		toggle_media: true,
-		toggle_dig_deeper: false
+		toggle_dig_deeper: true
 	}
 
 	$scope.exhibits = [];
