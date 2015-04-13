@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<script src="js/script.js"></script> 
 	<link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
     <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
     <link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
@@ -34,7 +33,8 @@
 			<div class="project_information">    
 				<form id="newlocationform" name="newlocationform" novalidate ng-submit="submit()" role="form">
 
-                    <div class="header2">
+			<div id="scroller-anchor"></div>
+            <div id="scroller" class="header2">
 				<div class="form-group">				        
 					<input type="text" required class="form-control npInput" id="name" name="name" ng-value="search._location.Label" ng-model="newLocation.name" placeholder="Enter New Location Name">
 					<button type="submit" id="submit" class="btn btn-default" ng-disabled="newlocationform.$invalid" ng-class="{'btn-disabled': newlocationform.$invalid}">SAVE LOCATION</button>
@@ -89,17 +89,6 @@
 							<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
 					</div>
 				</div>
-                
-				<div class='media' ng-repeat='m in media'>
-					<img ng-src='images/{{m.file_path}}' height="130" width="130">
-				</div>
-				<div class="media_new"> 
-	                <div class="form-group-file">				        
-	    					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
-	    			</div>
-					<img src="img/project_new_plus_icon_small.png" height="127.5" width="127.5">
-					<div class="media_title_new"><h3>ADD MEDIA</h3></div>
-				</div>
             </div></div>
                 
                 <div class="field">
@@ -123,6 +112,7 @@
 			</div>
 		</div>
 	</div>
+	<script type='text/javascript' src='js/fixHead.js'>
 </body>
 </html>
 

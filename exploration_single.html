@@ -32,14 +32,15 @@
 
 		<form id="editexplorationform" name="editexplorationform" novalidate ng-submit="submit()" role="form">
             
-			<div class="header2">
+			<div id="scroller-anchor"></div>
+            <div id="scroller" class="header2">
 				<div class="form-group">				        
 					<input type="text" required class="form-control npInput" id="explorationName" ng-model="exploration.name" placeholder="Exploration Name">
 					<button type="submit" id="submit" class="btn btn-default" ng-disabled="editexplorationform.$invalid" ng-class="{'btn-disabled': editexplorationform.$invalid}">SAVE EXPLORATION</button>
 				</div><br>
 			</div>
 			
-			
+			<div class="edit-exhibit"></div>
             <div class="field">
 			<div class='field-label'>
 					<h1 class='label-name'>DESCRIPTION</h1>					
@@ -112,7 +113,7 @@
 			</div>
 	</div>
     
-
+	<script type='text/javascript' src='js/fixHead.js'>
 </body>
 </html>
 

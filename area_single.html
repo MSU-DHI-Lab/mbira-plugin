@@ -31,14 +31,15 @@
 		<div id="map"></div>
 		
 		<form id="editareaform" name="editareaform" novalidate ng-submit="submit()" role="form">
-			<div class="header2">
+			<div id="scroller-anchor"></div>
+            <div id="scroller" class="header2">
 				<div class="form-group">				        
 					<input type="text" required class="form-control npInput" id="areaName" ng-model="area.name" placeholder="Area Name">
 					<button type="submit" id="submit" class="btn btn-default" ng-disabled="editareaform.$invalid" ng-class="{'btn-disabled': editareaform.$invalid}">SAVE AREA</button>
 				</div>
 			</div>
 
-            <div class="edit-position">
+            <div class="edit-exhibit">
 			<div class="form-group">				        
 				<div bindToController='true' isteven-multi-select input-model="exhibits" helper-elements="all none" output-model="outputExhibits" button-label="icon name" item-label="icon name maker" tick-property="ticked"></div>
                 </div></div>
@@ -109,7 +110,7 @@
 			</div>
 	</div>
     
-
+	<script type='text/javascript' src='js/fixHead.js'>
 </body>
 </html>
 
