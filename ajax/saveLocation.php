@@ -46,8 +46,12 @@ function createRow($con) {
 	$pid = $_POST['pid'];
 	$name = mysqli_real_escape_string($con, $_POST['name']);
 	$desc = mysqli_real_escape_string($con, $_POST['description']);
+	$dig_deeper = mysqli_real_escape_string($con, $_POST['dig_deeper']);
 	$lat = $_POST['lat'];
 	$lon = $_POST['lon'];
+	$toggle_dig_deeper = $_POST['toggle_dig_deeper'];
+	$toggle_media = $_POST['toggle_media'];
+	$toggle_comments = $_POST['toggle_comments'];
 	
 	//Save image
 	$uploaddir = '../images/';
@@ -64,7 +68,7 @@ function createRow($con) {
 	}
 	
 	//Create row in mbira_locations
-	mysqli_query($con,"INSERT INTO mbira_locations (project_id, pid, name, description, latitude, longitude, thumb_path) VALUES ('$projectId', '$pid', '$name', '$desc', '$lat', '$lon', '$path')");
+	mysqli_query($con,"INSERT INTO mbira_locations (project_id, pid, name, description, dig_deeper, latitude, longitude, thumb_path, toggle_comments, toggle_dig_deeper, toggle_media) VALUES ('$projectId', '$pid', '$name', '$desc', '$dig_deeper', '$lat', '$lon', '$path', '$toggle_comments', '$toggle_dig_deeper', '$toggle_media')");
 
 	//Get location ID
 	$locResult = mysqli_query($con, "SELECT id FROM mbira_locations WHERE latitude = '$lat' AND longitude = " . $lon);
