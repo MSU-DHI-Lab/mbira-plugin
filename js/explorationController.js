@@ -35,7 +35,9 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 		descrition: "",
 		file: "",
 		latitude: '',
-		longitude: ''
+		longitude: '',
+		toggle_media: true,
+		toggle_comments: true
 	}
 	
 	//Get file to be uploaded
@@ -79,6 +81,8 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 					name: $scope.newExploration.name,
 					description: $scope.newExploration.description,
 					direction: direction,
+					toggle_media: $scope.newExploration.toggle_media,
+					toggle_comments: $scope.newExploration.toggle_comments
 				},
 			file: $scope.file
 		}).success(function(data) {
