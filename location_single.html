@@ -31,7 +31,8 @@
 		<div id="map"></div>
 
 		<form id="editlocationform" name="editlocationform" novalidate ng-submit="submit()" role="form">
-			<div class="header2">
+			<div id="scroller-anchor"></div>
+            <div id="scroller" class="header2">
 				<div class="form-group">				        
 					<input type="text" required class="form-control npInput" ng-model="location.name" placeholder="Location Name" id="locationName">
 					<button type="submit" id="submit" class="btn btn-default" ng-disabled="editlocationform.$invalid" ng-class="{'btn-disabled': editlocationform.$invalid}">SAVE LOCATION</button>
@@ -39,9 +40,10 @@
 			</div>
 			
             
-            <div class="edit-position">
-			<div class="form-group">				        
-				<div bindToController='true' isteven-multi-select input-model="exhibits" helper-elements="all none" output-model="outputExhibits" button-label="icon name" item-label="icon name maker" tick-property="ticked"></div>
+            <div class="edit-exhibit">
+				<div class="form-group">				        
+					<div bindToController='true' isteven-multi-select input-model="exhibits" helper-elements="all none" output-model="outputExhibits" button-label="icon name" item-label="icon name maker" tick-property="ticked"></div>
+				</div>
 			</div>
 			
             <div class="field">
@@ -109,7 +111,7 @@
 			</div>
 	</div>
     
-
+	<script type='text/javascript' src='js/fixHead.js'>
 </body>
 </html>
 

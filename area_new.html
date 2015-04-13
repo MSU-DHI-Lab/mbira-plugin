@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<script src="js/script.js"></script> 
 	<link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
     <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
     <link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
@@ -30,11 +29,11 @@
 		<div id="map">
 			<button id="done">DONE!</button>
 		</div>
- 		
+
 		<div class="area_info" style='display:none'>    
 			<form id="newareaform" name="newareaform" novalidate ng-submit="submit()" role="form">
-				
-                <div class="header2">
+				<div id="scroller-anchor"></div>
+                <div id="scroller" class="header2">
 				<div class="form-group">				        
 					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newArea.name" placeholder="Enter New Area Name">
 					<button type="submit" id="submit" class="btn btn-default" ng-disabled="newareaform.$invalid" ng-class="{'btn-disabled': newareaform.$invalid}">SAVE AREA</button>
@@ -59,20 +58,20 @@
 			<div class='field-label'>
 				<div class="switch">
 					<h1 class='label-name'>DIG DEEPER</h1>
-					<input ng-model='area.toggle_dig_deeper' id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<input ng-model='newArea.toggle_dig_deeper' id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
 					<label for="cmn-toggle-1"></label>
 				</div>
 			</div>
 			
 			<div class="form-group">				        
-				<textarea id="textField" ng-model="area.dig_deeper" placeholder="Enter New Area Dig Deeper"></textarea>
+				<textarea id="textField" ng-model="newArea.dig_deeper" placeholder="Enter New Area Dig Deeper"></textarea>
                 </div></div>
                 
                 <div class="field">
 			<div class='field-label'>
 				<div class="switch">
 					<h1 class='label-name'>MEDIA</h1>
-					<input ng-model='area.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<input ng-model='newArea.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
 					<label for="cmn-toggle-2"></label>
 				</div>
 			</div>
@@ -89,30 +88,19 @@
 							<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
 					</div>
 				</div>
-                
-				<div class='media' ng-repeat='m in media'>
-					<img ng-src='images/{{m.file_path}}' height="127.5" width="127.5">
-				</div>
-				<div class="media_new"> 
-	                <div class="form-group-file">				        
-	    					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
-	    			</div>
-					<img src="img/project_new_plus_icon_small.png" height="127.5" width="127.5">
-					<div class="media_title_new"><h3>ADD MEDIA</h3></div>
-				</div>
             </div></div>
                 
                 <div class="field">
 			<div class='field-label'>
 				<div class="switch">
 					<h1 class='label-name'>COMMENTS</h1>
-					<input ng-model='area.toggle_comments' id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+					<input ng-model='newArea.toggle_comments' id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
 					<label for="cmn-toggle-3"></label>
 				</div>
 			</div>
 			
 			<div class="form-group comments-all">	<p>No Comments Yet.</p>
-				<div id='comments' ng-repeat="comment in comments" ng-if="area.toggle_comments" ng-include="'replyTree'">
+				<div id='comments' ng-repeat="comment in comments" ng-if="newArea.toggle_comments" ng-include="'replyTree'">
 				</div>				
 			</div>
             </div>
@@ -122,6 +110,8 @@
 			</form>
 		</div>
 	</div>
+	
+	<script type='text/javascript' src='js/fixHead.js'>
 </body>
 </html>
 

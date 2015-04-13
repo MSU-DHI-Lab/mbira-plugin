@@ -166,13 +166,12 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 /* HEADER2 */
 .header2 {
-    width: 100%;
     background: #0A263D;
     height: 107px;
     -webkit-box-shadow: 0px 4px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    0px 4px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         0px 4px 3px 0px rgba(50, 50, 50, 0.2);
-    width:100%;
+	width: 799px;
     position:relative;
     top:0px;
     z-index: 1;   
