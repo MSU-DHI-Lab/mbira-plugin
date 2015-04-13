@@ -46,7 +46,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 		shape: "",
 		radius: "",
 		coordinates: [],
-		toggle_media: false,
+		toggle_media: true,
 		toggle_dig_deeper: true,
 		toggle_comments: true
 	}
