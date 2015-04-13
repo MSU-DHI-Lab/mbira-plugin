@@ -36,15 +36,19 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	$scope.radius = '300';
 	$scope.polygon = '';
 	$scope.circle = '';
-
+	
 	//new area model
 	$scope.newArea = {
 		name: "",
 		descrition: "",
+		dig_deeper: '',
 		file:"",
 		shape: "",
 		radius: "",
-		coordinates: []
+		coordinates: [],
+		toggle_media: false,
+		toggle_dig_deeper: true,
+		toggle_comments: true
 	}
 
 	$scope.exhibits = [];
@@ -64,7 +68,6 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 				
 			}
 			$scope.exhibits=temp;
-			console.log($scope.exhibits)
 		}
 	})  
 	
@@ -100,9 +103,13 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 				projectId: $scope.ID,
 				name: $scope.newArea.name,
 				description: $scope.newArea.description,
+				dig_deeper: $scope.newArea.dig_deeper,
 				shape: $scope.newArea.shape,
 				radius: $scope.newArea.radius,
-				coordinates: $scope.newArea.coordinates
+				coordinates: $scope.newArea.coordinates,
+				toggle_media: $scope.newArea.toggle_media,
+				toggle_dig_deeper: $scope.newArea.toggle_dig_deeper,
+				toggle_comments: $scope.newArea.toggle_comments
 			},
 			file: $scope.file
 		}).success(function(data) {
@@ -372,7 +379,6 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 					latlngArray.splice(index, 0, [e.latlng.lat, e.latlng.lng]);
 					$scope.polygon.setLatLngs(latlngArray);
 					newlatlngs = $scope.polygon._latlngs;
-					console.log(map._layers)
 					$.each(map._layers, function (ml) {
 						if (map._layers[ml]._icon && map._layers[ml].options.id === index) {
 							index++;
@@ -385,7 +391,6 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 							if ($scope.polygon._latlngs.length === 3){
 								alert("You cannot remove this point. To remove this area, scroll down to delete the area.")
 							} else {
-								console.log(currentlatlng)
 								
 								currentlatlng.splice(this.options.id,1);
 								latlngArray = []
@@ -403,7 +408,6 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 							
 								$scope.polygon.setLatLngs(currentlatlng);
 								latlngArray = [];
-								console.log(map)
 							}
 
 						})
@@ -447,7 +451,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 							
 							$scope.polygon.setLatLngs(currentlatlng);
 							latlngArray = [];
-							console.log(map)
+
 						}
 
 					})

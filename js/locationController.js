@@ -1,3 +1,4 @@
+//View all locations in the menu
 mbira.controller("viewLocationsCtrl", function ($scope, $http, makeArray){
 
 	//Get all locations
@@ -23,19 +24,24 @@ mbira.controller("viewLocationsCtrl", function ($scope, $http, makeArray){
 	})
 });	
 
+//creating a new location
 mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, exhibits){
 	$scope.marker = false;
 	$scope.ID = $stateParams.project;
 	$scope.PID = $stateParams.pid;
 	$scope.param = $stateParams.project;
-
+	
 	//new location model
 	$scope.newLocation = {
 		name: "",
 		descrition: "",
+		dig_deeper: "",
 		file: "",
 		latitude: '',
-		longitude: ''
+		longitude: '',
+		toggle_comments: true,
+		toggle_media: true,
+		toggle_dig_deeper: false
 	}
 
 	$scope.exhibits = [];
@@ -49,7 +55,6 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 			$scope.exhibits.push({name:'No Exhibits'})
 		}else {
 			for(i=0;i<data.length;i++){
-				//$scope.exhibits.push({name:data[i].name,id:data[i].id, ticked:false})
 				temp.push({name:data[i].name,id:data[i].id, ticked:false});
 				
 			}
@@ -77,9 +82,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		}
 	};
 
-	$scope.newLocation.toggle_comments = true;
-	$scope.newLocation.toggle_media = true;
-	$scope.newLocation.toggle_dig_deeper = true;
+
 
 
 	//submit new location
@@ -95,8 +98,12 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 					pid: $stateParams.pid,
 					name: $scope.newLocation.name,
 					description: $scope.newLocation.description,
+					dig_deeper: $scope.newLocation.dig_deeper,
 					lat: $scope.newLocation.latitude,
-					lon: $scope.newLocation.longitude
+					lon: $scope.newLocation.longitude,
+					toggle_media: $scope.newLocation.toggle_media,
+					toggle_dig_deeper: $scope.newLocation.toggle_dig_deeper,
+					toggle_comments: $scope.newLocation.toggle_comments
 				},
 			file: $scope.file
 		}).success(function(data) {
@@ -108,7 +115,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 	
 	//<MAP_STUFF>
 	//initialize map
-	var map = setMap.set(42.7404566603398, -84.5452880859375);
+	var map = setMap.setToCurrent();
 
 	//initialize search bar
 	$scope.search = new L.Control.GeoSearch({
@@ -150,6 +157,8 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 	//</MAP_STUFF>
 });
 
+
+//viewing a specific location
 mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp, exhibits){
 	var map;
 	$scope.newMedia = false;
