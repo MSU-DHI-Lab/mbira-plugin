@@ -43,6 +43,8 @@ function createRow($con) {
 	$name = mysqli_real_escape_string($con, $_POST['name']);
 	$desc = mysqli_real_escape_string($con, $_POST['description']);
 	$dir = $_POST['direction'];
+	$toggle_media = $_POST['toggle_media'];
+	$toggle_comments = $_POST['toggle_comments'];
 	
 	//Save image
 	$uploaddir = '../images/';
@@ -58,7 +60,7 @@ function createRow($con) {
 		$path = 'Default.png';
 	}
 	//Create row in mbira_explorations
-	mysqli_query($con,"INSERT INTO mbira_explorations (project_id, pid, name, description, direction, thumb_path) VALUES ('$projectId', '$pid', '$name', '$desc', '$dir', '$path')");
+	mysqli_query($con,"INSERT INTO mbira_explorations (project_id, pid, name, description, direction, thumb_path, toggle_comments, toggle_media) VALUES ('$projectId', '$pid', '$name', '$desc', '$dir', '$path', '$toggle_comments', '$toggle_media')");
 	
 	$idQuery = mysqli_query($con, "SELECT id FROM mbira_explorations WHERE direction = '".$dir."'");
 	$IDrow = mysqli_fetch_array($idQuery);
