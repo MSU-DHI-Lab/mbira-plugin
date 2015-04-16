@@ -26,23 +26,29 @@ function deleteRow($con){
 
 //Update area
 function updateRow($con){
+	$projectId = $_POST['projectId'];
 	$id = $_POST['id'];
 	$name = mysqli_real_escape_string($con, $_POST['name']);
 	$desc = mysqli_real_escape_string($con, $_POST['description']);
 	$dig_deeper = mysqli_real_escape_string($con, $_POST['dig_deeper']);
 	$coords = $_POST['coordinates'];
+	$json = $_POST['json'];
 	$radius = $_POST['radius'];
 	$shape = $_POST['shape'];
 	$toggle_dig_deeper = $_POST['toggle_dig_deeper'];
 	$toggle_media = $_POST['toggle_media'];
 	$toggle_comments = $_POST['toggle_comments'];
+	$geoPath = $projectId."_".$id.".geojson";
+	
+	file_put_contents("../JSON/".$geoPath ,$json);
 	
 	mysqli_query($con,"UPDATE mbira_areas SET name='$name', description='$desc', dig_deeper='$dig_deeper', toggle_comments='$toggle_comments', toggle_dig_deeper='$toggle_dig_deeper', 
-		coordinates='$coords', radius='$radius', shape='$shape', toggle_media='$toggle_media' WHERE id='$id'");
+		coordinates='$coords', radius='$radius', shape='$shape', toggle_media='$toggle_media', geoJSON_path='$geoPath' WHERE id='$id'");
 }
 
 //Add new area
 function createRow($con) {
+
 	$projectId = $_POST['projectId'];
 	$name = mysqli_real_escape_string($con, $_POST['name']);
 	$desc = mysqli_real_escape_string($con, $_POST['description']);
@@ -53,6 +59,9 @@ function createRow($con) {
 	$toggle_dig_deeper = $_POST['toggle_dig_deeper'];
 	$toggle_media = $_POST['toggle_media'];
 	$toggle_comments = $_POST['toggle_comments'];
+	$json = $_POST['json'];
+	
+	
 	
 	//Save image
 	$uploaddir = '../images/';
@@ -73,8 +82,14 @@ function createRow($con) {
 
 	$idQuery = mysqli_query($con, "SELECT id FROM mbira_areas WHERE coordinates = '".$coords."'");
 	$IDrow = mysqli_fetch_array($idQuery);
-	$aid = $IDrow['id'];	
+	$aid = $IDrow['id'];
+	$geoPath = $projectId."_".$aid.".geojson";
 	echo $aid;
+	
+	file_put_contents("../JSON/".$geoPath ,$json);
+	
+	//add geoJSON_path
+	mysqli_query($con,"UPDATE mbira_areas SET geoJSON_path='$geoPath' WHERE id='$aid'");
 	
 	//Create row in mbira_exp_media
 	mysqli_query($con,"INSERT INTO mbira_area_media (area_id, file_path, isThumb) VALUES ('$aid', '$path', 'yes')");		
