@@ -94,6 +94,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	
 	//submit new area
 	$scope.submit = function() {
+		geo = $scope.polygon.toGeoJSON()
 		$scope.upload = $upload.upload({
 			url: 'ajax/saveArea.php',
 			method: 'POST',
@@ -107,6 +108,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 				shape: $scope.newArea.shape,
 				radius: $scope.newArea.radius,
 				coordinates: $scope.newArea.coordinates,
+				json : JSON.stringify(geo),
 				toggle_media: $scope.newArea.toggle_media,
 				toggle_dig_deeper: $scope.newArea.toggle_dig_deeper,
 				toggle_comments: $scope.newArea.toggle_comments
@@ -508,6 +510,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 		for (p=0;p<currentlatlng.length;p++){
 			latlngArray.push([currentlatlng[p].lat,currentlatlng[p].lng])
 		}
+		geo = $scope.polygon.toGeoJSON()
 		$http({
 			method: 'POST',
 			//saveArea.php only creates row, doesn't update or delete yet!!!!!
@@ -515,12 +518,14 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 			data: $.param({
 						task: 'update',
 						id: $stateParams.area,
+						projectId: $stateParams.project,
 						name: $scope.area.name,
 						description: $scope.area.description,
 						dig_deeper: $scope.area.dig_deeper,
 						shape: $scope.area.shape,
 						radius: $scope.area.radius,
 						coordinates: JSON.stringify(latlngArray),
+						json : JSON.stringify(geo),
 						toggle_media: $scope.area.toggle_media,
 						toggle_comments: $scope.area.toggle_comments,
 						toggle_dig_deeper: $scope.area.toggle_dig_deeper,
