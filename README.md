@@ -19,7 +19,32 @@ Based on the metaphor of “space and landscape as museum,” mbira lets users c
  
 ###Current Development Status & Roadmap###
 
-*Coming Soon*
+The initial phase of the project has focused (and will continue to focus) on developping the mbira authoring tool for [KORA](http://kora.matrix.msu.edu).  While the ultimate master plan is to develop for a variety of other digital repository platforms and content management systems (such as Omake, WordPress, Arches, and ArchiveSpace), we're a ways off from thinking about anything but KORA for now.  The current version of the mbira authoring tool should be considered alpha software.  It isn't feature complete and its got bugs.  However, we feel that it is at the point where people can start playing and experimenting with the platform.  We are actively bug fixing and we strongly encourage people to sub issue and bug reports vit GitHub.  
+
+Here is what we have fully implemented:
+
+* Creating, editing, and Creating deleting projects
+* Creating, editing, and deleting exhibits
+* Creating, editing, and deleting areas
+* Creating, editing, and deleting locations
+* Creating, editing, and deleting explorations
+
+Here is what we've partially implemented (and are currently working to fully implement):
+
+* Connecting mbira project with a mobile front end (currenlty working to implment connectively tonative Andorid front-end template.  Mobile first responsive web template and iOS template will hopefully be fuly implemented over the summer)
+
+Here is what hasn't been implemented at all:
+
+* Notifications
+* User management
+
+Known bugs (that we're working to fix):
+
+* Popup on an area displays in the corner rather than the center
+* UI styling is broken on Safari. Chrome is optimized
+* When editing an area, the user can create a point inside the polygon but not outside. 
+* Add Media feature does not work when you are creating a new Area
+* Add Media feature does not work when you are creating a new Location
 
 ###Installation Instructions###
 
@@ -27,4 +52,9 @@ The current version of the mbira authoring tool requires [KORA 2.6.2](https://gi
 
 Once you have downloaded and installed KORA, follow these instructions for instructions to install the mbira authoring plugin:
 
-
+1. Create a folder called "mbira" (without the quotation marks) in the /plugins folder of your KORA installation
+2. Copy the mbira plugin files to the root of the new /mbira folder
+3. login to your KORA installation
+4. Click on the Plugin Settings link in the KORA sidebar
+5. Click the Activate link for the mbira plugin
+6. you should be good to go!
