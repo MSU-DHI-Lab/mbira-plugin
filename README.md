@@ -23,4 +23,8 @@ Based on the metaphor of “space and landscape as museum,” mbira lets users c
 
 ###Installation Instructions###
 
-*Coming Soon*
+The current version of the mbira authoring tool requires [KORA 2.6.2](https://github.com/matrix-msu/kora)
+
+Once you have downloaded and installed KORA, follow these instructions for instructions to install the mbira authoring plugin:
+
+
