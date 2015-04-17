@@ -58,3 +58,7 @@ Once you have downloaded and installed KORA, follow these instructions for instr
 4. Click on the Plugin Settings link in the KORA sidebar
 5. Click the Activate link for the mbira plugin
 6. you should be good to go!
+
+###mbira Sandbox###
+
+Want to play around with the current build of KORA's mbira authoring plugin (complete with all of the bugs and un-implemented features)?  Head on over to [mbira sandbox](http://mbira.matrix.msu.edu/try) to give it a test drive (username: demo & password: demodemo).
