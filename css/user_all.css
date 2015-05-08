@@ -76,16 +76,37 @@ body, html {
     width:100%;
     position:relative;
     top:0px;
-    z-index: 1;
+    z-index: 1;   
 }
 
 .header h1 {
     margin: 0;
     line-height: 75px;
     color: #FFF;
-    font-family: 'montserratlight' sans-serif;
-    letter-spacing: 1px;
-    font-weight: 100;    
+    font-family: 'montserratbold', sans-serif;
+}
+
+.header div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.back {
+    position: absolute;
+    top: 28px;
+    left: 20px;
+}
+
+.back img, p {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.back p {
+    color: #FFF;
+    font-family: 'montserratbold', sans-serif;
+    padding: 0 15px;
+    margin: 0;
 }
 
 
@@ -109,6 +130,11 @@ body, html {
 	height:60px;
 }
 
+.none {
+    width: 759px;
+    display: inline;
+}
+
 .removeUser {
 	display: inline-block;  
 	border-style:none;
@@ -127,6 +153,11 @@ body, html {
     width: 705px;
     margin: 20px 0 0 20px;
 
+}
+
+.badges {
+	display: inline-block;
+	margin-top: 2px;
 }
 
 .project_title {
@@ -152,14 +183,19 @@ body, html {
 .user {
     width: 100%;
     display: inline;
+	vertical-align: middle;
+}
+
+.user div	{
+vertical-align: middle;
 }
 
 .odd {
-    background: rgb(89,120,150);
+    background: rgba(255,255,255, 0.2);
 }
 
 .even {
-    background: rgb(71,104,138);
+    background: rgba(255,255,255, 0.1);
 }
 
 
@@ -183,7 +219,7 @@ body, html {
 
 .username {
     font-family: 'montserratlight' sans-serif;
-    width: 280px;
+    width: 220px;
     white-space:nowrap; 
     text-overflow: ellipsis;
     overflow: hidden;

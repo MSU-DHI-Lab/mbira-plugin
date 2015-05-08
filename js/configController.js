@@ -181,20 +181,6 @@ mbira.factory('makeArray', function () {
 				}
 			}
 			return theArray;
-	    },
-		user: function (project, scope, usersInProjects) {
-			theArray = [];
-			for(j=0;j<usersInProjects.length;j++){
-				if (project === usersInProjects[j].mbira_projects_id){
-					for(q=0;q<scope.data.length;q++){
-						if (usersInProjects[j].mbira_users_id === scope.data[q].id){
-							scope.data[q].isExpert = usersInProjects[j].isExpert
-							theArray.push(scope.data[q]);
-						}
-					}
-				}
-			}
-			return theArray;
 	    }
 	}
 });
