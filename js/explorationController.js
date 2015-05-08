@@ -311,7 +311,21 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	$scope.onSort = function(){
 		createNewLine();
 	};
+	
+	$("#editStops").on('click', function(e) {
+		$('html,body').animate({scrollTop: $('.header').offset().top}, 1500);
+		return false;
+	});
 
+	$scope.removeThis = function() {
+		for (i=0;i<$scope.places.length;i++) {
+			if (this.place[0] == $scope.places[i][0]) {
+				$scope.places.splice(i,1)
+				break;
+			}
+		}
+		createNewLine();
+	}
 
 });
 mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, timeStamp){
@@ -638,5 +652,12 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 		createNewLine();
 	};
 
-
+	$("#editStops").on('click', function(e) {
+		$('html,body').animate({scrollTop: $('.header').offset().top}, 1500);
+		return false;
+	});
+	
+	$scope.removeThis = function() {
+		console.log(this)
+	}
 });

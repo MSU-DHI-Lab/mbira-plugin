@@ -14,7 +14,7 @@ $user = $_POST["id"];
 $proj = $_POST["project"];
 
 //Create row in mbira_projects_has_mbira_users
-mysqli_query($con,"INSERT INTO mbira_projects_has_mbira_users (mbira_users_id, isExpert, mbira_projects_id) VALUES ('$user', '$expert', '$proj')");
+mysqli_query($con,"UPDATE mbira_projects_has_mbira_users SET isExpert='$expert' WHERE mbira_users_id='$user' AND mbira_projects_id='$proj'");
 
 mysqli_close($con);
 ?>

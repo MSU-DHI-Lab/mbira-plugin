@@ -1,84 +1,86 @@
-mbira.controller("viewUsersCtrl", function ($scope, $http, makeArray){
+mbira.controller("viewUsersCtrl", function ($scope, $upload, $http){
 	//Get all exhibits
 	$scope.users = [];
-	$scope.toggles = {}
+	$scope.toggles = {};
 
-	$scope.toggle = function(email, isExpert) {
-		console.log(this.user.isExpert);
-
-		if(this.user.email in $scope.toggles){
-			if ($scope.toggles[this.user.email]) {
-				$scope.toggles[this.user.email] = false
+	$scope.toggle = function(email, isExpert, project, id, type) {
+		if(this.user.email in $scope.toggles[project] === type){
+			if ($scope.toggles[project][this.user.email]) {
+				$scope.toggles[project][this.user.email] = 'Reg'
+				this.user.isExpert = 'Reg';
 			} else {
-				$scope.toggles[this.user.email] = true
+				$scope.toggles[project][this.user.email] = type
+				this.user.isExpert = type;
 			}
 		} else {
-			if (this.user.isExpert === 'true'){
-				$scope.toggles[email] = false
-				console.log(Boolean(this.user.isExpert))
+			if (this.user.isExpert === type){
+				$scope.toggles[project][email] = 'Reg'
+				this.user.isExpert = 'Reg';
 			}else {
-				$scope.toggles[email] = true
+				$scope.toggles[project][email] = type
+				this.user.isExpert = type;
 			}
 		}
+		
+		$.ajax({
+			url: "ajax/editExpertise.php",
+			method: 'POST',
+			data: {isExpert: this.user.isExpert, project: project, id: id}
+		}).success(function(data){
+		})
 		console.log($scope.toggles)
 	}
 	
-	$scope.addUser = function(user) {
-		if (!$scope.toggles[user.email]){			//prevents sending undefined in ajax call.
-			$scope.toggles[user.email] = false;
-		}
-		
+	$scope.deleteUser = function(user) {
+		console.log($(this).parent())
+		parent = $(this).parent()
+		$(parent).fadeOut('slow');
 		$scope.upload = $upload.upload({
-			url: 'ajax/project_add_user.php',
+			url: 'ajax/projectEditUser.php',
 			method: 'POST',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-			data: {isExpert: $scope.toggles[user.email], project: $stateParams.project, id: user.id}
-		}).success(function() {	
-			for (i=0;i<$scope.users.length;i++) {
-				if ($scope.users[i].id === user.id) {
-					$scope.users.splice(i,1);
+			data: {id: user.id, project: user.project, type: 'del'}
+		}).success(function() {
+			for (i=0;i<$scope.projects.length;i++) {
+				if ($scope.projects[i].id == user.project) {
+					for (j=0;j<$scope.projects[i].users.length;j++) {
+						if ($scope.projects[i].users[j].id == user.id) {
+							$scope.projects[i].users.splice(j,1);
+							break;
+						}
+					}
+					break;
 				}
 			}
+			
 		});
 	}
 	
 	$http({
 		method: 'GET',
-		url: "ajax/getUsers.php",
+		url: "ajax/expertise.php",
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
-		$scope.data = data;
-		$http({
-			method: 'GET',
-			url: "ajax/getUsersInProjects.php",
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).success(function(data2){
-			//Get all projects
-			$http({
-				method: 'GET',
-				url: "ajax/getProjects.php",
-				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-			}).success(function(data3){
-				for(i=0;i<data3.length;i++){
-					userArray = makeArray.user(data3[i].id, $scope, data2);
-					data3[i].users = userArray;
-				}
-				$scope.projects = data3;
-			})
-		})
+		$scope.projects = data;
+		for (i=0;i<data.length;i++) {
+			$scope.toggles[data[i].id] = {};		
+		}
+		console.log($scope.toggles)
 	})
 });	
 
-mbira.controller("usersToProjectCtrl", function ($scope, $http, $upload, $stateParams, makeArray){
+mbira.controller("usersToProjectCtrl", function ($scope, $http, $upload, $stateParams){
 	//Get all exhibits
 	$scope.users = [];
 	$scope.toggles = {}
 	
-	$scope.toggle = function(email) {
-		if($scope.toggles[email]){
-			$scope.toggles[email] = false
+	$scope.toggle = function(email, type) {
+		if($scope.toggles[email] == type){
+			$scope.toggles[email] = 'Reg'
+			this.user.isExpert = 'Reg';
 		} else {
-			$scope.toggles[email] = true
+			$scope.toggles[email] = type
+			this.user.isExpert = type;
 		}
 		console.log($scope.toggles)
 	}
@@ -89,10 +91,10 @@ mbira.controller("usersToProjectCtrl", function ($scope, $http, $upload, $stateP
 		}
 		
 		$scope.upload = $upload.upload({
-			url: 'ajax/project_add_user.php',
+			url: 'ajax/projectEditUser.php',
 			method: 'POST',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-			data: {isExpert: $scope.toggles[user.email], project: $stateParams.project, id: user.id}
+			data: {isExpert: $scope.toggles[user.email], project: $stateParams.project, id: user.id, type: 'insert'}
 		}).success(function() {	
 			for (i=0;i<$scope.users.length;i++) {
 				if ($scope.users[i].id === user.id) {
