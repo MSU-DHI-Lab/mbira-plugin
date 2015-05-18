@@ -92,22 +92,78 @@ mbira.factory('setMap', function(){
 	return {
 		set: function(lat, lon){
 			var map = L.map('map').setView([lat, lon], 14);
+            
+            var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+                maxZoom: 18
+            });
 
-			L.tileLayer('https://{s}.tiles.mapbox.com/v3/austintruchan.jb1pjhel/{z}/{x}/{y}.png', {
-				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-				maxZoom: 18
-			}).addTo(map);
+            var mqosm = L.tileLayer('http://otile1.mqcdn.com//tiles/1.0.0/map/{z}/{x}/{y}.jpg', {
+                attribution: 'Map data &copy; <a href="http://developer.mapquest.com/web/products/open/map">MapQuest-OSM</a>',
+                maxZoom: 18
+            });
+
+            var mqoa = L.tileLayer('http://otile1.mqcdn.com//tiles/1.0.0/sat/{z}/{x}/{y}.jpg', {
+                attribution: 'Map data &copy; <a href="http://developer.mapquest.com/web/products/open/map">MapQuest Open Aerial</a>',
+                maxZoom: 18
+            });
+                        
+            var mbsat = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery Â© <a href="http://mapbox.com">Mapbox</a>',
+                maxZoom: 18,
+                id: 'matrix-msu.m7d03jfe',
+                accessToken: 'pk.eyJ1IjoibWF0cml4LW1zdSIsImEiOiJmU1NPbUFjIn0.MWCWCMSJ8Ar-6KZtNPzy4w'
+            });
+                        
+            var baseMaps = {
+                'OpenStreetMap': osm,
+                'MapQuest OpenStreetMap': mqosm,
+                'MapQuest Open Aerial': mqoa,
+                'Mapbox Satellite': mbsat
+            };
+            
+            osm.addTo(map);
+            
+            L.control.layers(baseMaps).addTo(map);
 			
 			map.invalidateSize(false);
 			return map;
 		},
 		setToCurrent: function(){
 			var map = L.map('map').locate({setView: true, maxZoom: 14});
+            
+            var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+                maxZoom: 18
+            });
 
-			L.tileLayer('https://{s}.tiles.mapbox.com/v3/austintruchan.jb1pjhel/{z}/{x}/{y}.png', {
-				attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-				maxZoom: 18
-			}).addTo(map);
+            var mqosm = L.tileLayer('http://otile1.mqcdn.com//tiles/1.0.0/map/{z}/{x}/{y}.jpg', {
+                attribution: 'Map data &copy; <a href="http://developer.mapquest.com/web/products/open/map">MapQuest-OSM</a>',
+                maxZoom: 18
+            });
+
+            var mqoa = L.tileLayer('http://otile1.mqcdn.com//tiles/1.0.0/sat/{z}/{x}/{y}.jpg', {
+                attribution: 'Map data &copy; <a href="http://developer.mapquest.com/web/products/open/map">MapQuest Open Aerial</a>',
+                maxZoom: 18
+            });
+            
+            var mbsat = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery Â© <a href="http://mapbox.com">Mapbox</a>',
+                maxZoom: 18,
+                id: 'matrix-msu.m7d03jfe',
+                accessToken: 'pk.eyJ1IjoibWF0cml4LW1zdSIsImEiOiJmU1NPbUFjIn0.MWCWCMSJ8Ar-6KZtNPzy4w'
+            });
+                                    
+            var baseMaps = {
+                'OpenStreetMap': osm,
+                'MapQuest OpenStreetMap': mqosm,
+                'MapQuest Open Aerial': mqoa,
+                'Mapbox Satellite': mbsat
+            };
+            
+            osm.addTo(map);
+            
+            L.control.layers(baseMaps).addTo(map);
 			
 			map.invalidateSize(false);
 			return map;

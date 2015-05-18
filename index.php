@@ -26,8 +26,8 @@
 	<script src="angular/fileUpload/angular-file-upload-shim.min.js"></script> 
 	<script src="angular/fileUpload/angular-file-upload.min.js"></script> 
 	<script src="angular/angular-sortable-view.js"></script>
-	<script src="angular/isteven-multi-select.js"></script> 
-	
+	<script src="angular/isteven-multi-select.js"></script>
+
 	<script src="js/configController.js"></script> 
 	<script src="js/userController.js"></script> 
 	<script src="js/projectController.js"></script> 
@@ -35,8 +35,7 @@
 	<script src="js/areaController.js"></script> 
 	<script src="js/explorationController.js"></script> 
 	<script src="js/exhibitController.js"></script> 
-	<script src="js/notificationController.js"></script> 
-    
+	<script src="js/notificationController.js"></script>
 	
 </head>
 <body ng-app="mbira">
