@@ -21,6 +21,16 @@
     					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
     			</div>
             </div>
+			
+			<div class="thumbnail dropzone"> 
+        		<img class="logoImg" src="img/Default.png">
+        		<div class="thumbnail_title">
+        			<h3>{{"Drop/Add Logo"}}</h3>
+        		</div>
+                <div class="form-group-file">				        
+    					<input type="file" id="fileSelect" name="file" ng-file-select="onLogoSelect($files)">
+    			</div>
+            </div>
             
 			<div class="form-group">				        
 					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newProject.name" placeholder="Project Name">
