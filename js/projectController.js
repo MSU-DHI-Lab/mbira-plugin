@@ -16,7 +16,8 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 	$scope.newProject = {
 	    name: "",
 		descrition: "",
-		file: ""
+		file: "",
+		logo: ""
 	}
 	
 	//Get file to be uploaded
@@ -38,17 +39,49 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 		}
 	};
 	
+	//Get Logo 
+	$scope.onLogoSelect = function($files) {
+		if($files.length > 1) {
+			alert("Only upload one image for the thumbnail.");
+		}else{
+			$scope.logo = $files[0];
+
+			$scope.uploadFile = $upload.upload({
+				url:'ajax/tempLogoImg.php',
+				method:"POST",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				file: $scope.logo
+			}).success(function(data) {	
+				$('.logoImg').attr('src', 'images/tempLogo.jpg?' + (new Date).getTime()) // forces img refresh	
+				$('.logoImg').css('object-fit: contain;')
+			});
+		}
+	};
+	
 	//Submit new project
 	$scope.submit = function() {
+		//$files1 = [$scope.file, $scope.logo];
 		$scope.upload = $upload.upload({
 			url: 'ajax/saveProject.php',
 			method: 'POST',
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 			data: {task: 'create', name: $scope.newProject.name, description: $scope.newProject.description},
-			file: $scope.file
+			file:  $scope.file
+
 		}).success(function(data) {	
-			//return to all projects page
-			$state.go("projects");
+			//upload logo
+			projID = data;
+			$scope.upload = $upload.upload({
+				url: 'ajax/saveProject.php',
+				method: 'POST',
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				data: {task: 'uploadLogo', id:projID},
+				file:  $scope.logo
+
+			}).success(function(data) {	
+				//return to all projects page
+				$state.go("projects");
+			});
 		});
 	}
 });
