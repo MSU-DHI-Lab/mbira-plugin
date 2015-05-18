@@ -1,6 +1,5 @@
 <?php
 require_once('../../pluginsInclude.php');
-require_once('../../pluginsConfig.php');
 
 $con=mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
@@ -50,13 +49,34 @@ function updateRow($con){
 	mysqli_query($con,"UPDATE mbira_projects SET name='$name', description='$desc', image_path='$path' WHERE id='$id'");
 }
 
+function uploadLogo($con) {
+	$uploaddir = '../images/';
+	$id = $_POST['id'];
+	var_dump($id);
+
+	
+	//Use default image if no file provided
+	if(isset($_FILES['file']['name'])){
+		$filename = explode('.', basename($_FILES['file']['name']));
+		
+
+		$uploadfile = $uploaddir . $filename[0].time().'.'.$filename[count($filename)-1];
+		move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+		$path = $filename[0].time().'.'.$filename[count($filename)-1];
+	}else{
+		$path = 'Default.png';
+	}
+	$string = "UPDATE mbira_projects SET logo_path='$path' WHERE id='$id'";
+	echo $string;
+	mysqli_query($con,"UPDATE mbira_projects SET logo_path='$path' WHERE id='$id'");
+}
+
 function createRow($con) {
 	//Create new row
 	$title = $_POST['name'];
 	$desc = $_POST['description'];
 
 	$uploaddir = '../images/';
-
 	//Use default image if no file provided
 	if(isset($_FILES['file']['name'])){
 		$filename = explode('.', basename($_FILES['file']['name']));
@@ -193,7 +213,7 @@ function createRow($con) {
 	$query = "INSERT INTO p".$pid."Control (schemeid, collid, type, name, description, required, searchable, advSearchable, showInResults, publicEntry, options, sequence) ";
 	$query .= "VALUES ('$sid', '0', 'TextControl', 'recordowner', '', '0', '1', '1', '0', '1', '<options><regex></regex><rows>1</rows><columns>25</columns><defaultValue /><textEditor>plain</textEditor></options>', '2')";
 	$result = $db->query($query);
-	echo $result;
+	//echo $result;
 
 	//Add location name TextControl
 	$tempReq = $_REQUEST;
@@ -203,7 +223,7 @@ function createRow($con) {
 	$_REQUEST['submit'] = true;
 	$_REQUEST['collectionid'] = $cid;
 	$_REQUEST['publicentry'] = "on";
-	$newscheme->CreateControl(true);
+	//$newscheme->CreateControl(true);
 	$_REQUEST = $tempReq;
 
 	//Add location description TextControl
@@ -216,7 +236,7 @@ function createRow($con) {
 	$_REQUEST['advanced'] = "on";
 	$_REQUEST['collectionid'] = $cid;
 	$_REQUEST['publicentry'] = "on";
-	$newscheme->CreateControl(true);
+	//$newscheme->CreateControl(true);
 	$_REQUEST = $tempReq;
 
 	//Add location longitude TextControl
@@ -229,7 +249,7 @@ function createRow($con) {
 	$_REQUEST['advanced'] = "on";
 	$_REQUEST['collectionid'] = $cid;
 	$_REQUEST['publicentry'] = "on";
-	$newscheme->CreateControl(true);
+	//$newscheme->CreateControl(true);
 	$_REQUEST = $tempReq;
 
 	//Add location latitude TextControl
@@ -242,13 +262,17 @@ function createRow($con) {
 	$_REQUEST['advanced'] = "on";
 	$_REQUEST['collectionid'] = $cid;
 	$_REQUEST['publicentry'] = "on";
-	$newscheme->CreateControl(true);
+	//$newscheme->CreateControl(true);
 	$_REQUEST = $tempReq;
 			
 	//Add pid to mbira_projects row
 	$sql = "UPDATE mbira_projects SET pid='".$pid."' WHERE id=".$id;
 	mysqli_query($con, $sql);
+
+	echo $id;
 }
+
+
 
 
 if($_POST['task'] == 'create'){
@@ -257,6 +281,8 @@ if($_POST['task'] == 'create'){
 	updateRow($con);
 }else if($_POST['task'] == 'delete'){
 	deleteRow($con);
+}else if($_POST['task'] == 'uploadLogo'){
+	uploadLogo($con);
 }
 
 mysqli_close($con);
