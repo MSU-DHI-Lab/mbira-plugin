@@ -97,6 +97,7 @@
     margin: 0 20px 0 20px;
     display: none !important;  
     outline: none;
+    transition: all 1s ease;
 }
 
 /* container of helper elements */
@@ -187,6 +188,10 @@
 }
 
 /* ! to show / hide the checkbox layer above */
+.show {
+    transition: all 1s ease;
+}
+
 .multiSelect .show {
     display: block !important;
 }
