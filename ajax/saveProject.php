@@ -25,6 +25,7 @@ function deleteRow($con){
 function updateRow($con){
 	$id = $_POST['id'];
 	$name = mysqli_real_escape_string($con, $_POST['name']);
+	$sdesc = mysqli_real_escape_string($con, $_POST['shortDescription']);
 	$desc = mysqli_real_escape_string($con, $_POST['description']);
 	$path = $_POST['path'];
 	
@@ -46,7 +47,7 @@ function updateRow($con){
 		$path = $filename[0].time().'.'.$filename[count($filename)-1];
 	}
 	
-	mysqli_query($con,"UPDATE mbira_projects SET name='$name', description='$desc', image_path='$path' WHERE id='$id'");
+	mysqli_query($con,"UPDATE mbira_projects SET name='$name', shortDescription='$sdesc', description='$desc', image_path='$path' WHERE id='$id'");
 }
 
 function uploadLogo($con) {
@@ -74,6 +75,7 @@ function uploadLogo($con) {
 function createRow($con) {
 	//Create new row
 	$title = $_POST['name'];
+	$sdesc = $_POST['shortDescription'];
 	$desc = $_POST['description'];
 
 	$uploaddir = '../images/';
@@ -90,7 +92,7 @@ function createRow($con) {
 	}
 
 
-	mysqli_query($con,"INSERT INTO mbira_projects (name, description, image_path) VALUES ('$title', '$desc', '$path')");
+	mysqli_query($con,"INSERT INTO mbira_projects (name, shortDescription, description, image_path) VALUES ('$title', '$sdesc', '$desc', '$path')");
 		
 	$result = mysqli_query($con, "SELECT * FROM mbira_projects ORDER BY id DESC LIMIT 1;");
 	while($row = mysqli_fetch_array($result)) {

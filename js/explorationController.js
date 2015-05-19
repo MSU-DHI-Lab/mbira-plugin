@@ -21,12 +21,17 @@ mbira.controller("viewExplorationsCtrl", function ($scope, $http, makeArray){
 	})
 
 });	
-mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
+mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, getProject){
 	$scope.marker = false;
 	$scope.places = [];
 	$scope.ID = $stateParams.project;
 	$scope.PID = $stateParams.pid;
 	$scope.param = $stateParams.project;
+	
+	var success = function(data, status) {
+        $scope.project = data[0][2];
+    };
+	getProject.name($stateParams.project).success(success);
 	
 
 	//new location model
@@ -328,7 +333,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	}
 
 });
-mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, timeStamp){
+mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, timeStamp, getProject){
 	$scope.newMedia = false;
 	$scope.project = $stateParams.project;
 	$scope.pid = $stateParams.pid;
@@ -346,6 +351,11 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 	
 	var map;
 	var polyline;
+	
+	var success = function(data, status) {
+        $scope.project = data[0][2];
+    };
+	getProject.name($stateParams.project).success(success);
 	
 	$scope.exploration = {
 		name: "",

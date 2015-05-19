@@ -210,6 +210,22 @@ img {
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
 }
 
+#short {
+    width: 500px;
+    height: 155px;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 16px;
+    background: rgba(255,255,255, 0.3);
+    color: #FFF;
+    box-shadow: none;
+    border:none;
+    padding: 20px 20px 20px 20px;
+    margin: 0 0 20px 20px; 
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
 #description {
     width: 500px;
     height: 155px;
@@ -244,7 +260,7 @@ textarea {
    opacity:  1;
 }
 
-#name:focus, #description:focus {
+#name:focus, #description:focus, #short:focus {
     outline: none !important;
     border: inset 2px solid rgba(255,255,255, .5);
     box-shadow: inset 0px 0 5px #FFF;

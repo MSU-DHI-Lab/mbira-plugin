@@ -25,7 +25,7 @@ mbira.controller("viewAreasCtrl", function ($scope, $http, makeArray){
 	})
 });	
 
-mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, setMap, exhibits){
+mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, setMap, exhibits, getProject){
 	
 	$scope.marker = false;
 	$scope.mark = '';
@@ -36,6 +36,11 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	$scope.radius = '300';
 	$scope.polygon = '';
 	$scope.circle = '';
+	
+	var success = function(data, status) {
+        $scope.project = data[0][2];
+    };
+	getProject.name($stateParams.project).success(success);
 	
 	//new area model
 	$scope.newArea = {
@@ -192,12 +197,18 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 		location: $scope.mark,
 		map: map
 	}).addTo(map);
+	
+	var circleIcon = L.icon({
+		iconUrl: 'js/images/marker-icon-circle.png',
+		iconSize:     [25, 25], // size of the icon
+		iconAnchor:   [13, 13], // point of the icon which will correspond to marker's location
+	});
 
 	//Click to set marker and save location to scope
 	count = 0;
 	map.on('click', function(e) {
 		$scope.newArea.coordinates.push([e.latlng.lat, e.latlng.lng]);
-		var marker = L.marker(e.latlng).addTo(map);
+		var marker = L.marker(e.latlng, {icon: circleIcon, draggable:'true'}).addTo(map);
 		marker.bindPopup(e.latlng.lat+", "+e.latlng.lng);
 		$scope.markers.push(marker);
 		$scope.createPolygon();
@@ -222,7 +233,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	//</MAP_STUFF>
 });
 
-mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp, exhibits){
+mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp, exhibits, getProject){
 	$scope.project = $stateParams.project;
 	$scope.pid = $stateParams.pid;
 	$scope.previous = $stateParams.previous
@@ -230,6 +241,11 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 	$scope.comments = []
 	latlngArray = []
 	removed = 1000;
+	
+	var success = function(data, status) {
+        $scope.project = data[0][2];
+    };
+	getProject.name($stateParams.project).success(success);
 	
 	$scope.exhibits = [];
 	temp=[];
@@ -327,7 +343,11 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 		})
 	}
 	
-
+	var circleIcon = L.icon({
+		iconUrl: 'js/images/marker-icon-circle.png',
+		iconSize:     [25, 25], // size of the icon
+		iconAnchor:   [13, 13], // point of the icon which will correspond to marker's location
+	});
 	
 	$http({
 		method: 'POST',
@@ -387,7 +407,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 							this.options.id = index;
 						}
 					})
-					$scope.marker = L.marker([e.latlng.lat, e.latlng.lng],{id:newMarkerID, draggable:'true'}).addTo(map)
+					$scope.marker = L.marker([e.latlng.lat, e.latlng.lng],{icon: circleIcon, id:newMarkerID, draggable:'true'}).addTo(map)
 						.on('click', function(e) {
 							currentlatlng = $scope.polygon._latlngs;
 							if ($scope.polygon._latlngs.length === 3){
@@ -431,7 +451,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 					latlngArray = []
 				});
 			for (m=0;m<$scope.polygon._latlngs.length;m++) {
-				$scope.marker = L.marker([$scope.polygon._latlngs[m].lat, $scope.polygon._latlngs[m].lng],{id:m, draggable:'true'}).addTo(map)
+				$scope.marker = L.marker([$scope.polygon._latlngs[m].lat, $scope.polygon._latlngs[m].lng],{icon: circleIcon, id:m, draggable:'true'}).addTo(map)
 					.on('click', function(e) {
 						currentlatlng = $scope.polygon._latlngs;
 						if ($scope.polygon._latlngs.length === 3){

@@ -24,7 +24,7 @@
 				<div class="back">
 					<a onclick="window.history.go(-1); return false;">
 						<img src="img/back.png"/>
-						<p>TO {{previous}}</p>
+						<p>{{project}}</p>
 					</a>
 				</div>
 				<h1>{{exploration.name}}</h1>
@@ -63,7 +63,7 @@
 							<div id='stops' ng-repeat="place in places" sv-element>
 								<div style='position:absolute; padding-left:5px;'>{{$index + 1}}</div>
 								{{place[1]}}
-								<div ng-click='removeThis()' style='float:right;'>X</div>
+								<div ng-click='removeThis()' style='float:right; cursor:pointer'>X</div>
 							</div>
 						</div>
 					</div>

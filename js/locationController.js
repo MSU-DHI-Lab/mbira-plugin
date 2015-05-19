@@ -25,11 +25,16 @@ mbira.controller("viewLocationsCtrl", function ($scope, $http, makeArray){
 });	
 
 //creating a new location
-mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, exhibits){
+mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, exhibits, getProject){
 	$scope.marker = false;
 	$scope.ID = $stateParams.project;
 	$scope.PID = $stateParams.pid;
 	$scope.param = $stateParams.project;
+	
+	var success = function(data, status) {
+        $scope.project = data[0][2];
+    };
+	getProject.name($stateParams.project).success(success);
 	
 	//new location model
 	$scope.newLocation = {
@@ -59,7 +64,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 				
 			}
 			$scope.exhibits=temp;
-			console.log($scope.exhibits)
+			// console.log($scope.exhibits)
 		}
 	})  
 
@@ -159,7 +164,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 
 
 //viewing a specific location
-mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp, exhibits){
+mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp, exhibits, getProject){
 	var map;
 	$scope.newMedia = false;
 	$scope.project = $stateParams.project;
@@ -168,6 +173,11 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 	$scope.media;
 	$scope.comments = []
 	$scope.userData = []
+	
+	var success = function(data, status) {
+        $scope.project = data[0][2];
+    };
+	getProject.name($stateParams.project).success(success);
 	
 	$scope.exhibits = [];
 	temp=[];

@@ -23,10 +23,15 @@ mbira.controller("viewExhibitsCtrl", function ($scope, $http, makeArray){
 	})
 });	
 
-mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
+mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, getProject){
 	$scope.ID = $stateParams.project;
 	$scope.PID = $stateParams.pid;
 	$scope.param = $stateParams.project;
+	
+	var success = function(data, status) {
+        $scope.project = data[0][2];
+    };
+	getProject.name($stateParams.project).success(success);
 
 	//new location model
 	$scope.newExhibit = {
@@ -78,7 +83,7 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 	
 });
 
-mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state){
+mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, getProject){
 	$scope.newMedia = false;
 	$scope.ID = $stateParams.project;
 	$scope.PID = $stateParams.pid;
@@ -86,6 +91,11 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 	$scope.exhibit = {};
 	$scope.previous = $stateParams.previous
 	$scope.locations;
+	
+	var success = function(data, status) {
+        $scope.project = data[0][2];
+    };
+	getProject.name($stateParams.project).success(success);
 
 	$scope.marker = false;
 

@@ -16,7 +16,7 @@
 				<div class="back">
 					<a ui-sref='viewProject({project: ID, pid: PID})'>
 						<img src="img/back.png"/>
-						<p>PROJECT</p>
+						<p>{{project}}</p>
 					</a>
 				</div>
 				<div class="title">
@@ -62,7 +62,7 @@
 								<div id='stops' ng-repeat="place in places" sv-element>
 									<div style='position:absolute; padding-left:5px;'>{{$index + 1}}</div>
 									{{place[1]}}
-									<div ng-click='removeThis()' style='float:right;'>X</div>
+									<div ng-click='removeThis()' style='float:right; cursor:pointer'>X</div>
 								</div>
 							</div>
 						</div>

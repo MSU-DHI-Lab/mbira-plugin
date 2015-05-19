@@ -171,6 +171,21 @@ mbira.factory('setMap', function(){
 	}
 });
 
+mbira.factory('getProject', function ($http) {
+	return {
+		name: function (id) {
+			return $http({
+				method: 'POST',
+				url: "ajax/getProjectInfo.php",
+				data: $.param({
+						id: id
+					}),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+		}
+	}
+});
+
 mbira.factory('exhibits', function(){	
 	//initialize map
 	return {

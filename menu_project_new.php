@@ -6,7 +6,7 @@
 <body ng-app="mbira">
 
     <div class="header">
-		<div class="back"><a onclick="window.history.go(-1); return false;"><img src="img/back.png"/><p>TO PROJECTS</p></a></div>
+		<div class="back"><a onclick="window.history.go(-1); return false;"><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
         <h1>NEW PROJECT</h1>
 	</div>
 	<div class="main" ng-controller="newProjectCtrl">
@@ -36,8 +36,15 @@
 					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newProject.name" placeholder="Project Name">
 			</div>
 			
+			Characters: {{newProject.shortDescription.length}}/150
+			
+			
 			<div class="form-group">				        
-					<textarea required class="form-control npInput" id="description" name="description" ng-model="newProject.description" placeholder="Project Description"></textarea>
+					<textarea required class="form-control npInput" id="short" name="short" maxlength="150" ng-model="newProject.shortDescription" placeholder="Short Project Description"></textarea>
+			</div>
+			
+			<div class="form-group">				        
+					<textarea required class="form-control npInput" id="description" name="description" ng-model="newProject.description" placeholder="About the Project"></textarea>
 			</div>
 			
 			<button type="submit" id="submit" class="btn btn-default" ng-disabled="newprojectform.$invalid" ng-class="{'btn-disabled': newprojectform.$invalid}">CREATE PROJECT</button>
