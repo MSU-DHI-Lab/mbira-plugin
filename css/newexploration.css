@@ -524,6 +524,55 @@ div.form-group-file input {
     font-family: 'montserratregular', sans-serif;
 }
 
+.error {
+    color: #9F6000;
+	background-color: #FEEFB3;
+    padding: 20px;
+    z-index: 1;
+   /*  border-bottom: 2px solid #3EB9FD; */
+    -webkit-box-shadow: 0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+.error p {
+    font-size: 14px;
+    font-family: 'montserratregular', sans-serif;
+}
+
+.errorModal {
+	position: absolute;
+	width: 799px;
+	height: 500px;
+	z-index: 5000;
+}
+
+.dim {
+	background-color: black;
+	width: 100%;
+	height: 100%;
+	opacity: 0.83;
+}
+
+.message {
+	position: absolute;
+	width: 50%;
+	height: 100px;
+	z-index: 5001;
+	opacity: 1.0;
+	left: 180px;
+	top: 25%;
+}
+
+.modalOk {
+	position: relative;
+	width: 60px;
+	height: 30px;
+	top: 20px;
+	float: right;
+	cursor: pointer;
+}
+
 
 /* STOPS */
 

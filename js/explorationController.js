@@ -27,7 +27,9 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	$scope.ID = $stateParams.project;
 	$scope.PID = $stateParams.pid;
 	$scope.param = $stateParams.project;
+	$scope.total = 0;
 	
+	//get name of parent project
 	var success = function(data, status) {
         $scope.project = data[0][2];
     };
@@ -67,7 +69,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	};
 	
 	//submit new exploration
-	$scope.submit = function() {		
+	$scope.submit = function() {	console.log	
 		var direction = '';
 		for (i=0;i<$scope.places.length; i++){
 			direction += $scope.places[i][0] + ",";
@@ -172,10 +174,12 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	}
 
 	$http({
-		method: 'GET',
-		url: "ajax/getLocations.php",
-		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		method: 'POST',
+		url: "ajax/getLocationsByProjectId.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		data: $.param({'id': $scope.param})
 	}).success(function(data){
+		$scope.total += data.length;
 		for(i=0;i<data.length;i++) {
 		  	if (data[i]['project_id'] == $scope.param) {
 		  		locArray.push([data[i]['latitude'],data[i]['longitude'], data[i]['id'], data[i]['name']]);
@@ -200,7 +204,12 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 					  			expArray.push([locArray[i][2],locArray[i][3]]);
 							 	$scope.places = expArray;
 								$scope.$apply();
-								$('#done').css('display', 'block');
+								console.log($scope.places.length);
+								if($scope.places.length >= 2) {
+									$('#done').css('display', 'block');
+								} else {
+									$('#done').css('display', 'none');
+								}
 					  		}
 					  	}
 						this.closePopup();	//makes sure the popup doesn't show on click.
@@ -211,16 +220,17 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	});
 	
 	$http({
-		method: 'GET',
-		url: "ajax/getAreas.php",
-		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		method: 'POST',
+		url: "ajax/getAreasByProjectId.php",
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+		data: $.param({'id': $scope.param})
 	}).success(function(data){
+		$scope.total += data.length;
 		for(i=0;i<data.length;i++) {
 			if (data[i]['project_id'] == $scope.param) {
 				areaArray.push([data[i]['coordinates'], data[i]['id'], data[i]['name']]);
 				//Put area in scope
 				$scope.area = data[i];
-				
 				
 				//Parse string to get array  of coorinates
 				coordinates = JSON.parse(data[i].coordinates);
@@ -248,7 +258,12 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 									expArray.push(['A'+areaArray[i][1],areaArray[i][2]]);
 									$scope.places = expArray;
 									$scope.$apply();
-									$('#done').css('display', 'block');
+									console.log($scope.places.length);
+									if($scope.places.length >= 2) {
+										$('#done').css('display', 'block');
+									} else {
+										$('#done').css('display', 'none');
+									}
 								}
 							}
 							this.closePopup();	
@@ -289,8 +304,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 			}
 		}
 		map.fitBounds($scope.coordinates)
-	});
-	
+	});	
 
 	//initialize search bar
 	$scope.search = new L.Control.GeoSearch({
@@ -303,14 +317,19 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	}).addTo(map);
 	
 	//Click to set marker and save location to scope
-	$("#done").on('click', function(e) {
+	$scope.done = function() {
 		$('#done').fadeOut('slow', function() {
 			$('#done').remove();
 			$('.exp_info').fadeIn('slow', function(){
 				$('html,body').animate({scrollTop: $('.exp_info').offset().top}, 1500);
 			});
 		});
-	});
+	};
+	
+	$scope.modalOk = function() {
+		$state.go('viewProject',{"project": $scope.ID, "pid":$scope.PID});
+	}
+
 	//</MAP_STUFF>
 
 	$scope.onSort = function(){

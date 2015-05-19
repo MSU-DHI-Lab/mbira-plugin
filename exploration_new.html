@@ -23,13 +23,24 @@
 					<h1>New Exploration</h1>
 				</div>
 			</div>
-			<div class="help">
+			<div class="help" ng-if="total >= 2">
 				<p>Select and connect the locations you would like to use within your new exploration, then click “DONE!”</p>
 			</div>
+			
+			<div class="errorModal" ng-if="total < 2">
+				<div class="dim">
+					<div class="message error">	
+						<p>This project doesn't have enough locations or areas yet. You need to create at least 2 locations or areas before you can create an exploration.</p>
+						<button class="modalOk" ng-click="modalOk()">OK</button>
+					</div>
+				</div>
+			</div>
+			
 			<!--PROJECT INFORMATION-->       
 			<div id="map"> 
-				<button id="done">DONE!</button>
+				<button id="done" ng-if="total >= 2" ng-click="done()">DONE!</button>
 			</div>
+			
 			<div class="exp_info" style='display:none'>
 				<form id="newexplorationform" name="newexplorationform" novalidate ng-submit="submit()" role="form">
 					<div id="scroller-anchor"></div>
