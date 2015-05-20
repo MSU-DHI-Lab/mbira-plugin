@@ -6,12 +6,23 @@ body, html {
 
 .main {
 	background-color: #18587C;
+    padding-bottom: 20px !important; 
     min-height: 500px;
-    padding-bottom: 20px;
 }
 
 img {
     border:none;
+}
+
+.projectImg {
+	height:239px; 
+	width:239px;
+	object-fit: cover;
+}
+.logoImg {
+	height:239px; 
+	width:239px;
+	object-fit: cover;
 }
 
 @font-face {
@@ -38,6 +49,32 @@ img {
 
 }
 
+@font-face {
+    font-family: 'montserratthin';
+    src: url('fonts/montserrat-thin-webfont.eot');
+    src: url('fonts/montserrat-thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/montserrat-thin-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-thin-webfont.woff') format('woff'),
+         url('fonts/montserrat-thin-webfont.ttf') format('truetype'),
+         url('fonts/montserrat-thin-webfont.svg#montserratthin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'montserratlight';
+    src: url('fonts/montserrat-light-webfont.eot');
+    src: url('fonts/montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('montserrat-light-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-light-webfont.woff') format('woff'),
+         url('fonts/montserrat-light-webfont.ttf') format('truetype'),
+         url('fonts/montserrat-light-webfont.svg#montserratlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 #right {
     margin: 0;
 }
@@ -52,7 +89,6 @@ img {
 }
 
 
-
 /* HEADER */
 
 .header {
@@ -64,7 +100,7 @@ img {
     box-shadow:         0px 4px 3px 0px rgba(50, 50, 50, 0.2);
     width:100%;
     position: relative;
-    top:-20px;
+    top:0px;
     z-index: 1;
     
 }
@@ -74,7 +110,9 @@ img {
     line-height: 75px;
     color: #FFF;
     font-size: 26px;
-    font-family: 'montserratregular', sans-serif;
+    font-family: 'montserratlight', sans-serif;
+    letter-spacing: 1px;
+    font-weight: 100; 
     
 }
 
@@ -108,7 +146,6 @@ img {
 /* THUMBNAIL */
 
 .main {
-    padding-top: 20px;
     z-index: 2;
 }
 
@@ -117,12 +154,13 @@ img {
     width: 239px;
     height: 239px;
     background: rgba(255,255,255,.3);
-    margin: 0 0 0 20px;
+    margin: 0 0 20px 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     float:left;
+	clear: both;
 }
 
 .thumbnail_title {
@@ -135,7 +173,7 @@ img {
 
 .thumbnail_title h3 {
     font-family: 'montserratregular', sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     color: #fff;
     margin:0;
     padding: 20px 0px;
@@ -224,11 +262,27 @@ img {
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    position: relative;
+}
+
+.short {
+    position: relative;
+}
+
+.counter {
+    color: #FFF;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 12px;
+    position: absolute;
+    z-index: 999999;
+    left: 300px;
+    top: 120px;
+  
 }
 
 #description {
     width: 500px;
-    height: 155px;
+    height: 239px;
     font-family: 'montserratregular', sans-serif;
     font-size: 16px;
     background: rgba(255,255,255, 0.3);
@@ -273,7 +327,6 @@ textarea {
     text-align: center;
     background: #3EB9FD;
     color: #FFF;
-    box-shadow: none;
     border:none;
     padding: 20px;
     margin: 0 50px 0 279px;
@@ -282,12 +335,14 @@ textarea {
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
     transition: all .5s ease;
+	display: block;
 }
 
 #submit:hover {
     color: #3EB9FD;
     background: #FFF;
 }
+
 
 #delete {
      width: 200px;
@@ -308,3 +363,6 @@ textarea {
     cursor: pointer;
 }
 
+#projectform {
+    padding: 20px 0 0 0;
+}

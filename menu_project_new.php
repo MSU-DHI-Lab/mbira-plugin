@@ -36,11 +36,11 @@
 					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newProject.name" placeholder="Project Name">
 			</div>
 			
-			Characters: {{newProject.shortDescription.length}}/150
 			
 			
-			<div class="form-group">				        
-					<textarea required class="form-control npInput" id="short" name="short" maxlength="150" ng-model="newProject.shortDescription" placeholder="Short Project Description"></textarea>
+			
+			<div class="form-group short">				        
+					<textarea required class="form-control npInput" id="short" name="short" maxlength="150" ng-model="newProject.shortDescription" placeholder="Short Project Description"></textarea><div class="counter">{{newProject.shortDescription.length}}/150</div>
 			</div>
 			
 			<div class="form-group">				        
