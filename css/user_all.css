@@ -5,7 +5,16 @@ body, html {
 
 .users {
 	background-color: #18587C;
-	padding-top: 21px;
+    padding-bottom: 20px;
+    min-height: 500px;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    border:none;
 }
 
 @font-face {
@@ -62,6 +71,20 @@ body, html {
 }
 
 
+#right {
+    margin: 0;
+}
+
+#right_container {
+    width: 799px;
+    padding-bottom: 5px;
+}
+
+#global_error {
+    padding-bottom: 0;
+}
+
+
 
 
 /* HEADER */
@@ -83,7 +106,10 @@ body, html {
     margin: 0;
     line-height: 75px;
     color: #FFF;
-    font-family: 'montserratbold', sans-serif;
+    font-family: 'montserratthin', sans-serif;
+     font-family: 'montserratlight' sans-serif;
+    letter-spacing: 1px;
+    font-weight: 100; 
 }
 
 .header div {
@@ -104,7 +130,7 @@ body, html {
 
 .back p {
     color: #FFF;
-    font-family: 'montserratbold', sans-serif;
+    font-family: 'montserratregular', sans-serif;
     padding: 0 15px;
     margin: 0;
 }
@@ -116,7 +142,6 @@ body, html {
 /* USERS */
 
 .users {
-    margin-top: -20px;
     z-index: 2;
 }
 
@@ -130,10 +155,22 @@ body, html {
 	height:60px;
 }
 
+.addUser2 {
+	display: inline-block; 
+	border-style:none;
+	margin-top: 4px;
+	margin-right: -3px;
+	float: right;
+	width:60px;
+	height:60px;
+}
+
 .none {
     width: 759px;
     display: inline;
 }
+
+
 
 .removeUser {
 	display: inline-block;  
@@ -150,7 +187,7 @@ body, html {
 }
 
 .project {
-    width: 705px;
+    width: 759px;
     margin: 20px 0 0 20px;
 
 }
@@ -160,10 +197,16 @@ body, html {
 	margin-top: 2px;
 }
 
+.badges img {
+	padding: 0 5px 0 0;
+    width: 50%;
+}
+
+
 .project_title {
     width: 100%;
     bottom: 0;
-    background: rgb(128,153,176);
+    background: rgba(255,255,255, 0.4);
     -webkit-box-shadow: 3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2); 
@@ -181,7 +224,7 @@ body, html {
 }
 
 .user {
-    width: 100%;
+    width: 759px;
     display: inline;
 	vertical-align: middle;
 }
@@ -189,6 +232,7 @@ body, html {
 .user div	{
 vertical-align: middle;
 }
+ 
 
 .odd {
     background: rgba(255,255,255, 0.2);

@@ -21,26 +21,28 @@
 						<div class="username">{{user.username}}</div>
 					</a>
 					<div class="badges">
-					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "projExp")' ng-if="user.isExpert == 'projExp'">
-						  <img src='img/projectExpert.png' width='25' height='25'>
+					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "citExp")' ng-if="user.isExpert == 'citExp'">
+						  <img src='img/citizenExpert.png'>
+					    </div>
+					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "citExp")' ng-if="user.isExpert != 'citExp'">
+						  <img src='img/citizenExpert.png' style='opacity:.5'>
+					    </div>
+                        
+                        <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "projExp")' ng-if="user.isExpert == 'projExp'">
+						  <img src='img/projectExpert.png'>
 					    </div>
 					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "projExp")' ng-if="user.isExpert != 'projExp'">
-						  <img src='img/projectExpert.png' width='25' height='25' style='opacity:.5'>
+						  <img src='img/projectExpert.png' style='opacity:.5'>
 					    </div>
 
 					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "projMem")' ng-if="user.isExpert == 'projMem'">
-						  <img src='img/projectPerson.png' width='25' height='25'>
+						  <img src='img/projectPerson.png'>
 					    </div>
 					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "projMem")' ng-if="user.isExpert != 'projMem'">
-						  <img src='img/projectPerson.png' width='25' height='25' style='opacity:.5'>
+						  <img src='img/projectPerson.png' style='opacity:.5'>
 					    </div>
 
-					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "citExp")' ng-if="user.isExpert == 'citExp'">
-						  <img src='img/citizenExpert.png' width='25' height='25'>
-					    </div>
-					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "citExp")' ng-if="user.isExpert != 'citExp'">
-						  <img src='img/citizenExpert.png' width='25' height='25' style='opacity:.5'>
-					    </div>
+					    
 					</div>
 				</div>
 			</div>
