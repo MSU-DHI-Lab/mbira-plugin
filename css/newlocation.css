@@ -580,3 +580,7 @@ div.form-group-file input {
     cursor: pointer;
 }
 
+#done:active {
+    outline:none;
+}
+
