@@ -104,6 +104,7 @@ function createRow($con) {
 	// truncate field lengths
 	$name = mb_substr($title, 0, 255);
 	$description = mb_substr($_POST['description'], 0, 255);
+	$shortDescription = mb_substr($_POST['shortDescription'], 0, 255);
 	//grab quota
 	$quota = 0;
 	// check for the active flag.  1 = enabled, anything else = inactive
@@ -112,12 +113,13 @@ function createRow($con) {
 	$styleid = (isset($_POST['style']) ? (int)$_POST['style'] : 0);
 
 	// Insert the initial information
-	$query  = 'INSERT INTO project (name, description, active, styleid, quota) VALUES (';
+	$query  = 'INSERT INTO project (name, description, active, styleid, quota, shortDescription) VALUES (';
 	$query .= escape($name).', ';
 	$query .= escape($description).', ';
 	$query .= escape($active).',';
 	$query .= $styleid.',';
-	$query .= escape($quota).')';
+	$query .= escape($quota).', ';
+	$query .= escape($shortDescription).')';
 
 	$result = $db->query($query);
 	$pid = $db->insert_id;
@@ -225,7 +227,7 @@ function createRow($con) {
 	$_REQUEST['submit'] = true;
 	$_REQUEST['collectionid'] = $cid;
 	$_REQUEST['publicentry'] = "on";
-	//$newscheme->CreateControl(true);
+	$newscheme->CreateControl(true);
 	$_REQUEST = $tempReq;
 
 	//Add location description TextControl
@@ -238,7 +240,7 @@ function createRow($con) {
 	$_REQUEST['advanced'] = "on";
 	$_REQUEST['collectionid'] = $cid;
 	$_REQUEST['publicentry'] = "on";
-	//$newscheme->CreateControl(true);
+	$newscheme->CreateControl(true);
 	$_REQUEST = $tempReq;
 
 	//Add location longitude TextControl
@@ -251,7 +253,7 @@ function createRow($con) {
 	$_REQUEST['advanced'] = "on";
 	$_REQUEST['collectionid'] = $cid;
 	$_REQUEST['publicentry'] = "on";
-	//$newscheme->CreateControl(true);
+	$newscheme->CreateControl(true);
 	$_REQUEST = $tempReq;
 
 	//Add location latitude TextControl
@@ -264,7 +266,7 @@ function createRow($con) {
 	$_REQUEST['advanced'] = "on";
 	$_REQUEST['collectionid'] = $cid;
 	$_REQUEST['publicentry'] = "on";
-	//$newscheme->CreateControl(true);
+	$newscheme->CreateControl(true);
 	$_REQUEST = $tempReq;
 			
 	//Add pid to mbira_projects row

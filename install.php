@@ -397,6 +397,10 @@
 		ENGINE = InnoDB";
 	mysqli_query($con, $sql);
 	
+	$sql = "ALTER TABLE project
+		ADD shortDescription varchar(255)";
+	mysqli_query($con, $sql);
+	
 	mysqli_close($con);
 ?>
 

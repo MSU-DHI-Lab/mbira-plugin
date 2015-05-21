@@ -90,7 +90,7 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 				url: 'ajax/saveProject.php',
 				method: 'POST',
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-				data: {task: 'uploadLogo', id:projID},
+				data: {task: 'uploadLogo', id: projID},
 				file:  $scope.logo
 
 			}).success(function(data) {	

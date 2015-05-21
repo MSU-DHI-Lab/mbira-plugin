@@ -36,6 +36,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	$scope.radius = '300';
 	$scope.polygon = '';
 	$scope.circle = '';
+	var newlatlngs;
 	
 	var success = function(data, status) {
         $scope.project = data[0][2];
@@ -143,22 +144,25 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	//Create polygon out of multiple markers
 	$scope.createPolygon = function(){
 		//remove any markers and shapes already there
-		$scope.markers.forEach(function(mark){
-			map.removeLayer(mark);
-		})
+		// $scope.markers.forEach(function(mark){
+			// map.removeLayer(mark);
+		// })
 		map.removeLayer($scope.polygon);
-		map.removeLayer($scope.circle);
-		
+		// map.removeLayer($scope.circle);
+		// console.log($scope.newArea.coordinates);
 		//Create polygon from array of coordinates 
 		$scope.polygon = L.polygon($scope.newArea.coordinates).addTo(map);
-		
+		$scope.polygon.setStyle({fillColor: '#445963'});
+		$scope.polygon.setStyle({color: '#253137'});
+		$scope.polygon.setStyle({opacity: '.8'});
+		newlatlngs = $scope.polygon._latlngs;
 		//reset array of markers
 		$scope.markers = [];
 		
 		//set shape
 		$scope.newArea.shape = 'polygon';
 	}
-	
+	/* 
 	// //Create polygon out of single marker
 	// $scope.createCircle = function(radius){
 		// //remove any markers and shapes already there
@@ -183,7 +187,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 		// //set shape
 		// $scope.newArea.shape = 'circle';
 	// }
-	
+	 */
 	//<MAP_STUFF>
 	//initialize map
 	var map = setMap.set(42.7404566603398, -84.5452880859375);
@@ -206,17 +210,62 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 
 	//Click to set marker and save location to scope
 	count = 0;
+	var id = 0;
 	map.on('click', function(e) {
-		$scope.newArea.coordinates.push([e.latlng.lat, e.latlng.lng]);
-		var marker = L.marker(e.latlng, {icon: circleIcon, draggable:'true'}).addTo(map);
-		marker.bindPopup(e.latlng.lat+", "+e.latlng.lng);
+		$scope.newArea.coordinates.push([e.latlng.lat, e.latlng.lng]);	
+		var marker = L.marker(e.latlng, {icon: circleIcon, id: id++, draggable: 'true'}).addTo(map)
+			.on('drag', function(event){
+				var marker = event.target;
+				var position = marker.getLatLng();
+				newLatLngs = $scope.polygon.getLatLngs();
+				newLatLngs[marker.options.id].lat = position.lat;
+				newLatLngs[marker.options.id].lng = position.lng;
+				latlngArray = []
+				for (p=0;p<newLatLngs.length;p++){
+					latlngArray.push([newLatLngs[p].lat,newLatLngs[p].lng])
+				}
+				$scope.polygon.setLatLngs(latlngArray);
+				$scope.newArea.coordinates = $scope.polygon.getLatLngs();
+				latlngArray = [];
+			})
+			.on('click', function(e) {
+				currentlatlng = $scope.polygon._latlngs;
+				currentlatlng.splice(this.options.id,1);
+				latlngArray = [];
+				$scope.newArea.coordinates = [];
+				for (p=0; p<currentlatlng.length; p++){
+					latlngArray.push([currentlatlng[p].lat,currentlatlng[p].lng]);
+				}
+				removedEdge = this.options.id;
+				map.removeLayer(this);
+				
+				var highest = 1;
+				$.each(map._layers, function (ml) {
+					if (map._layers[ml]._icon && map._layers[ml].options.id > removedEdge) {
+						this.options.id -= 1;
+						id = this.options.id + 1;
+						highest = 0;
+					}
+				})
+				
+				if (highest) {
+					id = id - 1;
+				}
+			
+				$scope.polygon.setLatLngs(currentlatlng);
+				$scope.newArea.coordinates = $scope.polygon.getLatLngs();
+				latlngArray = [];	
+
+				if (id < 3){
+					$('#done').fadeOut('fast');
+				}				
+			});
 		$scope.markers.push(marker);
 		$scope.createPolygon();
 		$scope.$apply(); 
-		if (count == 2){
+		if (id >= 3){
 			$('#done').fadeIn('slow');
 		}
-		count++;
 	});
 	
 	//Click to set marker and save location to scope
@@ -450,6 +499,11 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 						
 					latlngArray = []
 				});
+				
+				$scope.polygon.setStyle({fillColor: '#445963'});
+				$scope.polygon.setStyle({color: '#253137'});
+				$scope.polygon.setStyle({opacity: '.8'});
+				
 			for (m=0;m<$scope.polygon._latlngs.length;m++) {
 				$scope.marker = L.marker([$scope.polygon._latlngs[m].lat, $scope.polygon._latlngs[m].lng],{icon: circleIcon, id:m, draggable:'true'}).addTo(map)
 					.on('click', function(e) {
