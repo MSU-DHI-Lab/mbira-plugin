@@ -126,7 +126,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 	$scope.search = new L.Control.GeoSearch({
 		provider: new L.GeoSearch.Provider.OpenStreetMap(),
 		position: 'topcenter',
-		showMarker: true,
+		showMarker: false,
 		scope: $scope,
 		location: $scope.newLocation,
 		map: map
