@@ -69,26 +69,41 @@
 			</div></div>
 			
             <div class="field">
-			<div class='field-label'>
-				<div class="switch">
-					<h1 class='label-name'>MEDIA</h1>
-					<input ng-model='location.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-					<label for="cmn-toggle-2"></label>
+				<div class='field-label'>
+					<div class="switch">
+						<h1 class='label-name'>MEDIA</h1>
+						<input ng-model='location.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+						<label for="cmn-toggle-2"></label>
+					</div>
 				</div>
-			</div>
 			
-			<div class="medias">	
-				<div class='media' ng-repeat='m in media'>
-					<img ng-src='images/{{m.file_path}}' height="127.5" width="127.5">
-				</div>
-				<div class="media_new"> 
-	                <div class="form-group-file">				        
-	    					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
-	    			</div>
-					<img src="img/project_new_plus_icon_small.png" height="127.5" width="127.5">
-					<div class="media_title_new"><h3>ADD MEDIA</h3></div>
-				</div>
-                </div></div>
+				<div class="medias">	
+					<!-- <div class="thumbnail dropzone"> 				
+						<img ng-src='images/{{thumb.file_path}}' height="127.5" width="127.5">
+						<div class="thumbnail_title">
+							<h3>{{"Location Thumbnail"}}</h3>
+						</div>
+						<div class="form-group-file">				        
+								<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
+						</div>
+					</div> -->
+				
+				
+					<div class='media'>
+						<img ng-src='images/{{thumb.file_path}}' height="127.5" width="127.5">
+					</div>
+					<div class='media' ng-repeat='m in media'>
+						<img ng-src='images/{{m.file_path}}' height="127.5" width="127.5">
+					</div>
+					<div class="media_new"> 
+						<div class="form-group-file">				        
+								<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
+						</div>
+						<img src="img/project_new_plus_icon_small.png" height="127.5" width="127.5">
+						<div class="media_title_new"><h3>ADD MEDIA</h3></div>
+					</div>
+                </div>
+			</div>
 			
             <div class="field">
 			<div class='field-label'>

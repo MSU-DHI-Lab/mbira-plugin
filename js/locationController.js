@@ -30,6 +30,9 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 	$scope.ID = $stateParams.project;
 	$scope.PID = $stateParams.pid;
 	$scope.param = $stateParams.project;
+	$scope.tmpID = 0;
+	$scope.media = [];
+	$scope.images = [];
 	
 	var success = function(data, status) {
         $scope.project = data[0][2];
@@ -82,16 +85,46 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 				file: $scope.file
 			}).success(function(data) {	
+				// $scope.images.unshift($scope.file);
 				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
 			});
 		}
 	};
-
-
-
+	
+	// function getMedia(){
+		// $http({
+			// method: 'POST',
+			// url: "ajax/getMedia.php",
+			// data: $.param({'id': $stateParams.location, 'type': 'loc'}),
+			// headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		// }).success(function(data){
+			// $scope.media = data;
+		// })
+    // }
+	
+	$scope.submitMedia = function($files) {
+		console.log($files[0].name);
+		if($files.length > 1) {
+			alert("Only upload one image at a time.");
+		}else{
+			$scope.mediaFile = $files[0];
+			$scope.upload = $upload.upload({
+					// url: 'ajax/saveMedia.php',
+					url: 'ajax/tempImg.php',
+					method: 'POST',
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					data: {id: $scope.tmpID},
+					file: $scope.mediaFile
+			}).success(function(data, status, headers, config) {
+				$scope.media.push("images/temp"+$scope.tmpID+".jpg");
+				$scope.images.push($scope.mediaFile);
+				$scope.tmpID++;
+			});  
+		}
+	}
 
 	//submit new location
-	$scope.submit = function() {	
+	$scope.submit = function() {
 		//submit location
 		$scope.upload = $upload.upload({				
 			url: 'ajax/saveLocation.php',
@@ -112,7 +145,21 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 				},
 			file: $scope.file
 		}).success(function(data) {
-			exhibits.add(data,$scope.outputExhibits, 'loc')
+			//Save media
+			for(var i = 0; i < $scope.images.length; i++) {
+				$scope.uploadMedia = $upload.upload({				
+					url: 'ajax/saveMedia.php',
+					method: 'POST',
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					data: { 
+							type: 'loc',
+							id: data
+						},
+					file: $scope.images[i]
+				})
+			}
+				
+			exhibits.add(data,$scope.outputExhibits, 'loc');
 			//return to project
 			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
 		});
@@ -219,7 +266,9 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			data: $.param({'id': $stateParams.location, 'type': 'loc'}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
+			$scope.thumb = data.shift();
 			$scope.media = data;
+			console.log($scope.thumb);
 		})
     }
 	
