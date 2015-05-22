@@ -137,21 +137,6 @@ mbira.controller("newUserCtrl", function ($scope, $http, $upload, $stateParams){
 	$scope.user = {};
 	$scope.passwordError = false;
 	
-	$scope.options = [{
-	   name: 'None',
-	   value: 'none'
-	}, {
-	   name: 'Project Expert',
-	   value: 'projExp'
-	}, {
-	   name: 'Citizen Expert',
-	   value: 'citExp'
-	}, {
-	   name: 'Project Member',
-	   value: 'projMem'
-	}];
-	
-	
 	$scope.submit = function() {
 		$http({
 			method: 'POST',
