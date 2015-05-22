@@ -10,6 +10,7 @@
 		</div>
 		
 		<div class="users" ng-controller='viewUsersCtrl'>
+			<a ui-sref="newUser">New User</a><br>
 			<div class="project" ng-repeat='project in projects'>
 				<div class="project_title"><a ui-sref="viewProject({project: project.id, pid: project.pid})"><div><h3>{{project.name}}</h3></div></a>
 				<a ui-sref="addUsers({project: project.id, pid: project.pid})"><img class="addUser" src='img/project_new_plus_icon.png'></a>

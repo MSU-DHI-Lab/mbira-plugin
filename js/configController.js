@@ -29,6 +29,10 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    url: "/addUser?project&pid&previous",
 	    templateUrl: "project_add_users.html"
 	  })
+	  .state('newUser', {
+	    url: "/newUser",
+	    templateUrl: "new_user.html"
+	  })
 	   .state('exhibits', {
 	    url: "/exhibits",
 	    templateUrl: "menu_exhibit_all.php"
@@ -85,6 +89,26 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    url: "/notifications",
 	    templateUrl: "menu_notification_all.php"
 	  })
+});
+
+mbira.directive('matchPassword', function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, elm, attrs, ctrl) {
+            // ctrl.$parsers.unshift(function (viewValue, $scope) {
+                // var noMatch = viewValue != scope.newUserForm.pass1.$viewValue
+                // ctrl.$setValidity('noMatch', !noMatch)
+            // });
+			
+			ctrl.$parsers.push(function (value) {
+				if(value == scope.newUserForm.pass1.$viewValue) {
+					return value;
+				}
+				
+                return undefined;
+            });
+        }
+    }
 });
 
 mbira.factory('setMap', function(){	

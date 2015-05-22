@@ -132,3 +132,41 @@ mbira.controller("usersToProjectCtrl", function ($scope, $http, $upload, $stateP
 		})
 	})
 });	
+
+mbira.controller("newUserCtrl", function ($scope, $http, $upload, $stateParams){
+	$scope.user = {};
+	$scope.passwordError = false;
+	
+	$scope.options = [{
+	   name: 'None',
+	   value: 'none'
+	}, {
+	   name: 'Project Expert',
+	   value: 'projExp'
+	}, {
+	   name: 'Citizen Expert',
+	   value: 'citExp'
+	}, {
+	   name: 'Project Member',
+	   value: 'projMem'
+	}];
+	
+	
+	$scope.submit = function() {
+		$http({
+			method: 'POST',
+			url: "ajax/projectEditUser.php",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: $.param({
+				user: $scope.user,
+				type: 'add'
+			})
+		}).success(function(data) {
+			if(data.error && data.error.includes("Duplicate entry")) {
+				$scope.usernameTaken = true;
+			} else {
+				$scope.usernameTaken = false;
+			}
+		});		
+	}
+});

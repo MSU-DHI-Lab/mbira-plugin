@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<link rel="stylesheet" type="text/css" href="css/user_all.css"/>
+    </head>
+	<body ng-app="mbira">
+
+		<div class="header">
+			<div class="back">
+				<a onclick="window.history.go(-1); return false;">
+					<img src="img/back.png"/>
+					<p>USERS</p>
+				</a>
+			</div>
+			<h1>NEW USER</h1>
+		</div>
+		<div class="users" ng-controller='newUserCtrl'>
+			<form name="newUserForm" ng-submit='newUserForm.$valid && submit()' novalidate>
+				User Name:<br>
+				<input type="text" name="username" required ng-model="user.username">
+				<br>
+				<span ng-show="newUserForm.username.$error.required && newUserForm.username.$dirty">Field Required</span><br>
+				<span ng-show="usernameTaken">Username is already taken</span>
+				<br>
+				First Name:<br>
+				<input type="text" name="fname" required ng-model="user.fName">
+				<br>
+				<span ng-show="newUserForm.fname.$error.required && newUserForm.fname.$dirty">Field Required</span>
+				<br>
+				Last Name:<br>
+				<input type="text" name="lname" required ng-model="user.lName">
+				<br>
+				<span ng-show="newUserForm.lname.$error.required && newUserForm.lname.$dirty">Field Required</span>
+				<br>
+				Email:<br>
+				<input type="email" name="email" required ng-model="user.email">
+				<br>
+				<span ng-show="newUserForm.email.$error.required && newUserForm.email.$dirty">Field Required</span>
+				<span ng-show="!newUserForm.email.$error.required && newUserForm.email.$error.email && newUserForm.email.$dirty">Invalid email</span>
+				<br>
+				Expertise:<br>
+				<select ng-init="user.expertise = options[0]" name="exp" ng-model="user.expertise" ng-options="option.name for option in options"></select><br><br>
+				Password:<br>
+				<input type="password" name="pass1" required ng-model="user.pass1"><br>
+				<span ng-show="newUserForm.pass1.$error.required && newUserForm.pass1.$dirty">Field Required</span><br>
+				Confirm Password:<br>
+				<input type="password" name="pass2" required ng-model="user.pass2" match-password><br>
+				<span ng-show="!newUserForm.pass2.$error.required && newUserForm.pass2.$error.parse && newUserForm.pass2.$dirty">Passwords do not match.</span>
+				<span ng-show="newUserForm.pass2.$error.required && newUserForm.pass2.$dirty">Field Required</span><br>
+				<br>
+				<button type="submit">Add User</button>	
+				<br><br>
+			</form>
+        </div>
+
+	</body>
+</html>
