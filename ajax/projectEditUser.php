@@ -40,7 +40,7 @@
 		$lname = $con->real_escape_string($user['lName']);
 		$email = $con->real_escape_string($user['email']);
 		$pass = $con->real_escape_string($user['pass1']);
-		$exp = $con->real_escape_string($user['expertise']['value']);
+		$exp = $con->real_escape_string($user['expertise']);
 
 		mysqli_query($con,"INSERT INTO mbira_users (username, firstName, lastName, email, password, isExpert, salt) VALUES ('$username', '$fname', '$lname', '$email', '$pass', '$exp', 1)");
 		
