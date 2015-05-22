@@ -39,7 +39,32 @@
 				<span ng-show="!newUserForm.email.$error.required && newUserForm.email.$error.email && newUserForm.email.$dirty">Invalid email</span>
 				<br>
 				Expertise:<br>
-				<select ng-init="user.expertise = options[0]" name="exp" ng-model="user.expertise" ng-options="option.name for option in options"></select><br><br>
+				<!-- <select ng-init="user.expertise = options[0]" name="exp" ng-model="user.expertise" ng-options="option.name for option in options"></select><br><br> -->
+				
+				<div class="badges">
+					<div ng-click="user.expertise = 'citExp'" ng-show="user.expertise != 'citExp'">
+					  <img src='img/citizenExpert.png' style='opacity:.5'>
+					</div>
+					<div ng-click="user.expertise = 'none'" ng-show="user.expertise == 'citExp'">
+					  <img src='img/citizenExpert.png'>
+					</div>
+					
+					<div ng-click="user.expertise = 'projExp'" ng-if="user.expertise != 'projExp'">
+					  <img src='img/projectExpert.png' style='opacity:.5'>
+					</div>
+					<div ng-click="user.expertise = 'none'" ng-if="user.expertise == 'projExp'">
+					  <img src='img/projectExpert.png'>
+					</div>
+
+					<div ng-click="user.expertise = 'projMem'" ng-if="user.expertise != 'projMem'">
+					  <img src='img/projectPerson.png' style='opacity:.5'>
+					</div>
+					<div ng-click="user.expertise = 'none'" ng-if="user.expertise == 'projMem'">
+					  <img src='img/projectPerson.png'>
+					</div>					
+				</div>
+				<br><br>
+				
 				Password:<br>
 				<input type="password" name="pass1" required ng-model="user.pass1"><br>
 				<span ng-show="newUserForm.pass1.$error.required && newUserForm.pass1.$dirty">Field Required</span><br>
