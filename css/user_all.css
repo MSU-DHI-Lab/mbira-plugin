@@ -7,6 +7,7 @@ body, html {
 	background-color: #18587C;
     padding-bottom: 20px;
     min-height: 500px;
+    position: relative;
 }
 
 a {
@@ -135,6 +136,11 @@ img {
     margin: 0;
 }
 
+.newUser {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+}
 
 
 
@@ -148,29 +154,30 @@ img {
 .addUser {
 	display: inline-block; 
 	border-style:none;
-	margin-top: 8px;
-	margin-right: -3px;
+	padding: 30px 20px;
 	float: right;
-	width:60px;
-	height:60px;
+    cursor: pointer;
 }
 
 .addUser2 {
 	display: inline-block; 
 	border-style:none;
-	margin-top: 4px;
-	margin-right: -3px;
 	float: right;
-	width:60px;
-	height:60px;
+	padding: 25px 20px;
+    cursor: pointer;
 }
 
-.none {
+.odd.none {
     width: 759px;
     display: inline;
+    background: rgba (255,255,255,0);
 }
 
-
+.odd.none h3{
+    padding: 0 0 0 20px;
+         color: #FFF;
+    font-family: 'montserratregular', sans-serif;
+}
 
 .removeUser {
 	display: inline-block;  
@@ -192,6 +199,24 @@ img {
 
 }
 
+.newUserField {
+     width: 370px;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 16px;
+    background: rgba(255,255,255, 0.3);
+    color: #FFF;
+    box-shadow: none;
+    border:none;
+    padding: 20px;
+    margin: 20px 0 0 20px;
+    float: left;
+    position: relative;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+
 .badges {
 	display: inline-block;
 	margin-top: 2px;
@@ -200,8 +225,66 @@ img {
 .badges img {
 	padding: 0 5px 0 0;
     width: 50%;
+    cursor: pointer;
 }
 
+.badgesNewUser {
+    text-align: center;
+    margin: 20px 0 0 22px;
+    border: 3px solid rgba(255,255,255, 0.3);
+    width: 360px;
+    padding: 20px 0;
+    float: left;
+	display: inline-block;
+	
+}
+
+.badgesNewUser h3{
+    font-family: 'montserratregular', sans-serif;
+    font-size: 16px;
+    color: #FFF;
+    margin-top: 0;
+}
+
+.badgesNewUser img {
+	padding: 0;
+    width: 30px;
+    cursor: pointer;
+}
+
+.badgeSingle {
+    padding: 0 5px;
+    text-align: center;
+}
+
+.badgeSingle p {
+    padding: 5px 5px 0 5px;
+    font-family: 'montserratlight', sans-serif;
+    font-size: 10px;
+    color: #FFF;
+    cursor: pointer;
+}
+
+.singleField {
+    position: relative;
+}
+
+.error {
+    position: absolute;
+   right: 0;
+    top: 20px;
+    bottom: 0;
+    color: #FF7878;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 10px;
+    margin:0;
+    background: #FFF;
+    padding: 23px 20px 20px 20px;
+}
+
+.passwords {
+    float: left;
+}
 
 .project_title {
     width: 100%;
@@ -346,4 +429,52 @@ input.cmn-toggle-round-flat:checked + label {
 input.cmn-toggle-round-flat:checked + label:after {
   margin-left: 20px;
   background-color: #3EB9FD;
+}
+
+textarea {
+    resize: none;
+}
+
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #FFF;
+    top: 0;
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    #FFF;
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    #FFF;
+   opacity:  1;
+}
+
+.newUserField:focus {
+    outline: none !important;
+    border: inset 2px solid rgba(255,255,255, .5);
+    box-shadow: inset 0px 0 5px #FFF;
+}
+
+#submit {
+     width: 368px;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    background: #3EB9FD;
+    color: #FFF;
+    box-shadow: none;
+    border:none;
+    padding: 20px;
+    margin: 20px 20px 20px 20px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    cursor: pointer;
+    transition: all .5s ease;
+    float: right;
+}
+
+#submit:hover {
+    color: #3EB9FD;
+    background: #FFF;
 }

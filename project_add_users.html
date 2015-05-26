@@ -17,7 +17,7 @@
 		<div class="users" ng-controller='usersToProjectCtrl'>
 			<div class="project">
             <div class="user" ng-repeat='user in users' ng-class-odd="'odd'" ng-class-even="'even'">
-				<img ng-click='addUser(user)' class="addUser2" src='img/project_new_plus_icon.png'>
+				<img ng-click='addUser(user)' class="addUser2" src="img/plusicon.png" width="15px"/></a>
 				<a ui-sref="viewUser({user: user.id, pid: user.pid, project: user.project_id, previous: 'ALL USERS'})"> 
 					<div class="user_title"><h3>{{user.firstName}} {{user.lastName}}</h3></div>
 					<div class="username">{{user.username}}</div>
