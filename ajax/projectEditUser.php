@@ -41,8 +41,11 @@
 		$email = $con->real_escape_string($user['email']);
 		$pass = $con->real_escape_string($user['pass1']);
 		$exp = $con->real_escape_string($user['expertise']);
+		
+		$salt = random_salt();
+		$password = hash("sha256", $passwordOne . $salt);
 
-		mysqli_query($con,"INSERT INTO mbira_users (username, firstName, lastName, email, password, isExpert, salt) VALUES ('$username', '$fname', '$lname', '$email', '$pass', '$exp', 1)");
+		mysqli_query($con,"INSERT INTO mbira_users (username, firstName, lastName, email, password, isExpert, salt) VALUES ('$username', '$fname', '$lname', '$email', '$password', '$exp', '$salt')");
 		
 		if(mysqli_error($con)) {
 			$error = array(
@@ -52,6 +55,16 @@
 		
 		echo json_encode($error);
 	}
+	
+function random_salt($len = 16) {
+	$chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`~!@#$%^&*()-=_+';
+	$l = strlen($chars) - 1;
+	$str = '';
+	for ($i = 0; $i < $len; ++$i) {
+		$str .= $chars[rand(0, $l)];
+	}
+	return $str;
+}
 
 
 	if($_POST['type'] == 'del'){

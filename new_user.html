@@ -66,15 +66,15 @@
 				<br><br>
 				
 				Password:<br>
-				<input type="password" name="pass1" required ng-model="user.pass1"><br>
+				<input type="password" name="pass1" required ng-model="user.pass1" ng-pattern="/.{8,}/"><br>
 				<span ng-show="newUserForm.pass1.$error.required && newUserForm.pass1.$dirty">Field Required</span><br>
+				<span ng-show="!newUserForm.pass1.$error.required && newUserForm.$submitted && newUserForm.pass1.$error.pattern">Password must be at least 8 characters long</span>
 				Confirm Password:<br>
 				<input type="password" name="pass2" required ng-model="user.pass2" match-password><br>
-				<span ng-show="!newUserForm.pass2.$error.required && newUserForm.pass2.$error.parse && newUserForm.pass2.$dirty">Passwords do not match.</span>
+				<span ng-show="!newUserForm.pass2.$error.required && newUserForm.pass2.$error.parse && newUserForm.pass2.$dirty">Passwords do not match</span>
 				<span ng-show="newUserForm.pass2.$error.required && newUserForm.pass2.$dirty">Field Required</span><br>
 				<br>
 				<button type="submit">Add User</button>	
-				<br><br>
 			</form>
         </div>
 

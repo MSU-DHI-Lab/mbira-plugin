@@ -104,8 +104,6 @@ mbira.controller("usersToProjectCtrl", function ($scope, $http, $upload, $stateP
 		});
 	}
 	
-	
-	
 	$http({
 		method: 'GET',
 		url: "ajax/getUsers.php",
@@ -133,7 +131,7 @@ mbira.controller("usersToProjectCtrl", function ($scope, $http, $upload, $stateP
 	})
 });	
 
-mbira.controller("newUserCtrl", function ($scope, $http, $upload, $stateParams){
+mbira.controller("newUserCtrl", function ($scope, $http, $upload, $stateParams, $state){
 	$scope.user = {};
 	$scope.passwordError = false;
 	
@@ -151,6 +149,7 @@ mbira.controller("newUserCtrl", function ($scope, $http, $upload, $stateParams){
 				$scope.usernameTaken = true;
 			} else {
 				$scope.usernameTaken = false;
+				$state.go('users');
 			}
 		});		
 	}
