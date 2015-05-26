@@ -6,6 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
         <link rel="stylesheet" type="text/css" href="css/leaflet.css"/>
 		<link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
+		<link rel="stylesheet" type="text/css" href="css/exhibit_info.css"/>
 		
 		<script src="js/leaflet.js"></script> 
 		<script src="js/l.control.geosearch.js"></script> 
@@ -17,27 +18,52 @@
 		<div class="header">
 			<div class="back"><a onclick="window.history.go(-1); return false;"><img src="img/back.png"/><p>{{project}}</p></a></div>
 			<h1>{{exhibit.name}}</h1>
-			<div class="info"><a ui-sref='exhibitInfo({project: ID, pid: PID, exhibit: EXHIBITID})'><img src="img/info.png"/></a></div>
+			<!-- <div class="info"><a ui-sref='exhibitInfo({project: ID, pid: PID, exhibit: EXHIBITID})'><img src="img/info.png"/></a></div> -->
 		</div>
-		
-        
-        
-		 <div id="map">
-            
-             
+      
+		<div id="map">
 			<ul class="toolbar">
 				<li class="tool_location"><a ui-sref='newLocation({project: ID, pid: PID})'><h3>ADD LOCATION</h3><img src="img/add_location.png"/></a></li>
 				<li class="tool_area"><a ui-sref='newArea({project: ID, pid: PID})'><h3>ADD AREA</h3><img src="img/add_area.png"/></a></li>
 				<li class="tool_filter"><a href="#"><h3>FILTER BY</h3><img src="img/filter_by.png"/></a>
-                <ul class="dropdown"><form>
-                    <li><input type="checkbox" id="checkbox-3-1" checked /><label for="checkbox-3-1"></label>LOCATIONS</li> 
-                    <li><input type="checkbox" id="checkbox-3-2" checked /><label for="checkbox-3-2"></label>AREAS</li>
-                    
-                </form></ul>
-        
-                </li></ul>
+					<ul class="dropdown">
+						<form>
+							<li><input type="checkbox" id="checkbox-3-1" checked /><label for="checkbox-3-1"></label>LOCATIONS</li> 
+							<li><input type="checkbox" id="checkbox-3-2" checked /><label for="checkbox-3-2"></label>AREAS</li>						
+						</form>
+					</ul>      
+				</li>
+			</ul>
+		</div>
+	 </div>
+	 
+	 <div class="main" ng-controller="exhibitInfoCtrl">
+		<form id="exhibitform" name="exhibitform" novalidate ng-submit="submit()" role="form">
+            
+            <div class="thumbnail dropzone"> 
+        		<img src="img/Default.png" height="239" width="239">
+        		<div class="thumbnail_title">
+        			<h3>Edit Thumbnail</h3>
+        		</div>
+                <div class="form-group-file">				        
+    					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
+    			</div>
+            </div>
+            
+			<div class="form-group">				        
+					<input type="text" required class="form-control npInput" id="name" name="name" ng-model="exhibit.name">
 			</div>
-		 </div>
+			
+			<div class="form-group">				        
+					<textarea required class="form-control npInput" id="description" name="description" ng-model="exhibit.description"></textarea>
+			</div>
+			
+			<button type="submit" id="submit" class="btn btn-default" ng-disabled="exhibitform.$invalid" ng-class="{'btn-disabled': exhibitform.$invalid}">UPDATE EXHIBIT</button>
+			
+			<div id="delete" class='field-label delete'>
+						<div ng-click='delete()' class='label-name'>DELETE EXHIBIT</div>
+			</div>
+		</form>
 	</div>
 
 </body>
