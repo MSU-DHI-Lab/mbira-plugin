@@ -91,17 +91,6 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		}
 	};
 	
-	// function getMedia(){
-		// $http({
-			// method: 'POST',
-			// url: "ajax/getMedia.php",
-			// data: $.param({'id': $stateParams.location, 'type': 'loc'}),
-			// headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		// }).success(function(data){
-			// $scope.media = data;
-		// })
-    // }
-	
 	$scope.submitMedia = function($files) {
 		console.log($files[0].name);
 		if($files.length > 1) {

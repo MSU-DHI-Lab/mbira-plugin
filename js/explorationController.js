@@ -28,6 +28,9 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	$scope.PID = $stateParams.pid;
 	$scope.param = $stateParams.project;
 	$scope.total = 0;
+	$scope.tmpID = 0;
+	$scope.media = [];
+	$scope.images = [];
 	
 	//get name of parent project
 	var success = function(data, status) {
@@ -68,6 +71,26 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 		}
 	};
 	
+	$scope.submitMedia = function($files) {
+		console.log($files[0].name);
+		if($files.length > 1) {
+			alert("Only upload one image at a time.");
+		}else{
+			$scope.mediaFile = $files[0];
+			$scope.upload = $upload.upload({
+					url: 'ajax/tempImg.php',
+					method: 'POST',
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					data: {id: $scope.tmpID},
+					file: $scope.mediaFile
+			}).success(function(data, status, headers, config) {
+				$scope.media.push("images/temp"+$scope.tmpID+".jpg");
+				$scope.images.push($scope.mediaFile);
+				$scope.tmpID++;
+			});  
+		}
+	}
+	
 	//submit new exploration
 	$scope.submit = function() {	console.log	
 		var direction = '';
@@ -93,6 +116,20 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 				},
 			file: $scope.file
 		}).success(function(data) {
+			//Save media
+			for(var i = 0; i < $scope.images.length; i++) {
+				$scope.uploadMedia = $upload.upload({				
+					url: 'ajax/saveMedia.php',
+					method: 'POST',
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					data: { 
+							type: 'exp',
+							id: data
+						},
+					file: $scope.images[i]
+				})
+			}
+			
 			//return to project
 			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
 		});

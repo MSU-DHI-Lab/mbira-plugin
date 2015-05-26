@@ -80,6 +80,8 @@ function createRow($con) {
 	//Create row in mbira_exp_media
 	mysqli_query($con,"INSERT INTO mbira_exp_media (exploration_id, file_path, isThumb) VALUES ('$eid', '$path', 'yes')");	
 	
+	echo $eid;
+	
 	//Create and ingest exploration record to kora
 	// $result = mysqli_query($con, "SELECT * FROM scheme WHERE schemeName = 'Exploration' AND pid = " . $pid);
 	

@@ -162,7 +162,7 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 		}
 
 		$scope.areas = data[1];
-		console.log(data[1])
+		// console.log(data[1])
 		for(i=0;i<$scope.areas.length;i++) {
 				//Put area in scope
 				
