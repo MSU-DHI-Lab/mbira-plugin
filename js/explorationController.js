@@ -72,7 +72,6 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	};
 	
 	$scope.submitMedia = function($files) {
-		console.log($files[0].name);
 		if($files.length > 1) {
 			alert("Only upload one image at a time.");
 		}else{
@@ -84,11 +83,26 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 					data: {id: $scope.tmpID},
 					file: $scope.mediaFile
 			}).success(function(data, status, headers, config) {
-				$scope.media.push("images/temp"+$scope.tmpID+".jpg");
+				$scope.media.push({
+					originalName: $scope.mediaFile.name,
+					tempName: "images/temp"+$scope.tmpID+".jpg"
+				});
 				$scope.images.push($scope.mediaFile);
 				$scope.tmpID++;
 			});  
 		}
+	}
+	
+	function findByName (array, test) {
+        for (var x = 0; x < array.length; x++) {
+            if (array[x].name == test) return x;
+        }
+        return -1;
+    }
+	
+	$scope.deleteMedia = function(m) {
+		$scope.media.splice($scope.media.indexOf(m), 1);
+		$scope.images.splice(findByName($scope.images, m.originalName), 1);
 	}
 	
 	//submit new exploration
@@ -430,6 +444,7 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 			data: $.param({'id': $stateParams.exploration, 'type': 'exp'}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
+			$scope.thumb = data.shift();
 			$scope.media = data;
 		})
     }
@@ -631,6 +646,21 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 			});  
 		}
 	};
+	
+	$scope.deleteMedia = function(m) {
+		$http({
+		method: 'POST',
+		url: "ajax/deleteMedia.php",
+		data: $.param({			
+				id: m.id,
+				type: "exp",
+				path: "images/"+m.file_path
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			getMedia();
+		})
+	}
 
 	//Allow stops to be changed
 	$scope.editPosition = function(){

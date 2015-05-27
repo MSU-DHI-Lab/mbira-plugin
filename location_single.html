@@ -91,9 +91,13 @@
 				
 					<div class='media'>
 						<img ng-src='images/{{thumb.file_path}}' height="127.5" width="127.5">
+						<div class="thumbnail_title">
+							<h3>{{"Location Thumbnail"}}</h3>
+						</div>
 					</div>
 					<div class='media' ng-repeat='m in media'>
 						<img ng-src='images/{{m.file_path}}' height="127.5" width="127.5">
+						<div class="deleteMedia" ng-click="deleteMedia(m)">X</div>
 					</div>
 					<div class="media_new"> 
 						<div class="form-group-file">				        

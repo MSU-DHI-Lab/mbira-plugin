@@ -115,11 +115,26 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 					data: {id: $scope.tmpID},
 					file: $scope.mediaFile
 			}).success(function(data, status, headers, config) {
-				$scope.media.push("images/temp"+$scope.tmpID+".jpg");
+				$scope.media.push({
+					originalName: $scope.mediaFile.name,
+					tempName: "images/temp"+$scope.tmpID+".jpg"
+				});
 				$scope.images.push($scope.mediaFile);
 				$scope.tmpID++;
 			});  
 		}
+	}
+	
+	function findByName (array, test) {
+        for (var x = 0; x < array.length; x++) {
+            if (array[x].name == test) return x;
+        }
+        return -1;
+    }
+	
+	$scope.deleteMedia = function(m) {
+		$scope.media.splice($scope.media.indexOf(m), 1);
+		$scope.images.splice(findByName($scope.images, m.originalName), 1);
 	}
 	
 	//submit new area
@@ -372,7 +387,9 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 			data: $.param({'id': $stateParams.area, 'type': 'area'}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
+			$scope.thumb = data.shift();
 			$scope.media = data;
+			console.log($scope.media);
 		})
     }
 	
@@ -667,6 +684,21 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 			});  
 		}
 	};
+	
+	$scope.deleteMedia = function(m) {
+		$http({
+		method: 'POST',
+		url: "ajax/deleteMedia.php",
+		data: $.param({			
+				id: m.id,
+				type: "area",
+				path: "images/"+m.file_path
+			}),
+		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+		}).success(function(data){
+			getMedia();
+		})
+	}
 
 	//Delete area
 	$scope.delete = function(){
