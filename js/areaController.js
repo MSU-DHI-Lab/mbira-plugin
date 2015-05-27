@@ -176,7 +176,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 			
 			//return to project
 			exhibits.add(data,$scope.outputExhibits, 'area');
-			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
+			// location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
 		});
 	};
 	

@@ -20,31 +20,34 @@
 				
 				<div class="singleField">
 				<input type="text" class="newUserField" name="fname" placeholder="First Name" required ng-model="user.fName">
-				<span class="error" ng-show="newUserForm.fname.$error.required && newUserForm.fname.$dirty">Field Required</span></div>
+				<span class="error" ng-show="newUserForm.fname.$error.required && newUserForm.fname.$dirty">FIELD REQUIRED</span></div>
                 
                 <div class="singleField">
 				<input type="text" class="newUserField" name="lname" placeholder="Last Name" required ng-model="user.lName">
-				<span class="error" ng-show="newUserForm.lname.$error.required && newUserForm.lname.$dirty">Field Required</span></div>
+				<span class="error" ng-show="newUserForm.lname.$error.required && newUserForm.lname.$dirty">FIELD REQUIRED</span></div>
                 
                 <div class="singleField">
                 <input type="text" class="newUserField" name="username" placeholder="Username" required ng-model="user.username">
-				<span class="error" ng-show="newUserForm.username.$error.required && newUserForm.username.$dirty">Field Required</span></div>
+				<span class="error" ng-show="newUserForm.username.$error.required && newUserForm.username.$dirty">FIELD REQUIRED</span>
+				<span class="error" ng-show="!newUserForm.username.$error.required && newUserForm.username.$dirty && usernameTaken">THIS USERNAME IS ALREADY TAKEN</span>
+				</div>
+				
             
                 <div class="singleField">
 				<input type="email" class="newUserField" name="email" placeholder="Email" required ng-model="user.email">
-				<span class="error" ng-show="newUserForm.email.$error.required && newUserForm.email.$dirty">Field Required</span>
+				<span class="error" ng-show="newUserForm.email.$error.required && newUserForm.email.$dirty">FIELD REQUIRED</span>
 				<span class="error" ng-show="!newUserForm.email.$error.required && newUserForm.email.$error.email && newUserForm.email.$dirty">INVALID EMAIL</span></div>
 				
 				<!-- <select ng-init="user.expertise = options[0]" name="exp" ng-model="user.expertise" ng-options="option.name for option in options"></select><br><br> -->
 				<div class="passwords">
                 <div class="singleField">
                 <input type="password" class="newUserField" name="pass1" placeholder="Password" required ng-model="user.pass1" ng-pattern="/.{8,}/">
-				<span class="error" ng-show="newUserForm.pass1.$error.required && newUserForm.pass1.$dirty">Field Required</span>
+				<span class="error" ng-show="newUserForm.pass1.$error.required && newUserForm.pass1.$dirty">FIELD REQUIRED</span>
 				<span class="error" ng-show="!newUserForm.pass1.$error.required && newUserForm.$submitted && newUserForm.pass1.$error.pattern">PASSWORD MUST BE AT LEAST 8 CHARACTERS</span></div>
 			    <div class="singleField">
 				<input type="password" class="newUserField" name="pass2" placeholder="Confirm Password" required ng-model="user.pass2" match-password> 
 				<span class="error" ng-show="!newUserForm.pass2.$error.required && newUserForm.pass2.$error.parse && newUserForm.pass2.$dirty">PASSWORDS DO NO MATCH</span>
-                    <span class="error" ng-show="newUserForm.pass2.$error.required && newUserForm.pass2.$dirty">Field Required</span></div></div>
+                    <span class="error" ng-show="newUserForm.pass2.$error.required && newUserForm.pass2.$dirty">FIELD REQUIRED</span></div></div>
                 
 				<!-- <div class="badgesNewUser">
                     

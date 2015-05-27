@@ -40,12 +40,11 @@
 		$lname = $con->real_escape_string($user['lName']);
 		$email = $con->real_escape_string($user['email']);
 		$pass = $con->real_escape_string($user['pass1']);
-		$exp = $con->real_escape_string($user['expertise']);
 		
 		$salt = random_salt();
-		$password = hash("sha256", $passwordOne . $salt);
+		$password = hash("sha256", $pass . $salt);
 
-		mysqli_query($con,"INSERT INTO mbira_users (username, firstName, lastName, email, password, isExpert, salt) VALUES ('$username', '$fname', '$lname', '$email', '$password', '$exp', '$salt')");
+		mysqli_query($con,"INSERT INTO mbira_users (username, firstName, lastName, email, password, salt) VALUES ('$username', '$fname', '$lname', '$email', '$password', '$salt')");
 		
 		if(mysqli_error($con)) {
 			$error = array(
