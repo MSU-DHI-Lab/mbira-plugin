@@ -304,6 +304,23 @@ textarea {
 
 /* ADD MEDIA */
 
+.thumbnail_title {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    background: rgba(2,20,38, .8);
+}
+
+.thumbnail_title h3 {
+    font-family: 'montserratregular', sans-serif;
+    font-size: 10px;
+    color: #fff;
+    margin:0;
+    padding: 10px 10px;
+}
+
+
 div.form-group-file {
     position: absolute;
     top: 0;
@@ -345,6 +362,16 @@ div.form-group-file input {
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
 }
+
+.deleteMedia {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    background: #3EB9FD;
+    cursor: pointer;
+}
+
 
 .media_new {
     width: 130px;

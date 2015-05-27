@@ -63,7 +63,7 @@
 							<div id='stops' ng-repeat="place in places" sv-element>
 								<div style='position:absolute; padding-left:5px;'>{{$index + 1}}</div>
 								{{place[1]}}
-								<div ng-click='removeThis()' style='float:right; cursor:pointer'>X</div>
+								<div ng-click='removeThis()' style='float:right; cursor:pointer; margin-top: 4px;'><img src="img/remove_x.png" width="10px" height="10px"/></div>
 							</div>
 						</div>
 					</div>
@@ -80,12 +80,12 @@
 						<div class='media'>
 							<img ng-src='images/{{thumb.file_path}}' height="127.5" width="127.5">
 							<div class="thumbnail_title">
-							<h3>{{"Exploration Thumbnail"}}</h3>
+							<h3>{{"EDIT THUMBNAIL"}}</h3>
 						</div>
 						</div>
 						<div class='media' ng-repeat='m in media'>
 							<img ng-src='images/{{m.file_path}}' height="127.5" width="127.5">
-							<div class="deleteMedia" ng-click="deleteMedia(m)">X</div>
+							<div class="deleteMedia" ng-click="deleteMedia(m)"><img src="img/remove_x.png" width="10px" height="10px"/></div>
 						</div>
 						<div class="media_new">
 							<div class="form-group-file">				        

@@ -169,7 +169,7 @@ body, html {
 }
 
 .exhibits div {
-    display: inline-flex;
+    display: inline-block;
 }
 
 .exhibit {

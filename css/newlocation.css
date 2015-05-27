@@ -451,6 +451,15 @@ div.form-group-file input {
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
 }
 
+.deleteMedia {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    background: #3EB9FD;
+    cursor: pointer;
+}
+
 .media_new {
     width: 127.5px;
     height: 127.5px;

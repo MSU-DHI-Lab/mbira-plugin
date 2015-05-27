@@ -304,6 +304,22 @@ textarea {
 
 /* ADD MEDIA */
 
+.thumbnail_title {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    background: rgba(2,20,38, .8);
+}
+
+.thumbnail_title h3 {
+    font-family: 'montserratregular', sans-serif;
+    font-size: 10px;
+    color: #fff;
+    margin:0;
+    padding: 10px 10px;
+}
+
 div.form-group-file {
     position: absolute;
     top: 0;
@@ -344,6 +360,15 @@ div.form-group-file input {
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+.deleteMedia {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    background: #3EB9FD;
+    cursor: pointer;
 }
 
 .media_new {
@@ -398,88 +423,6 @@ div.form-group-file input {
 .media_title_new img {
    text-align: center;
 }
-
-/* THUMBNAIL */
-/* 
-.main {
-    z-index: 2;
-}
-
-
-.thumbnail {
-    width: 127.5px;
-    height: 127.5px;
-    background: rgba(255,255,255,.3);
-    position: relative;
-    margin: 20px 0 0 20px;
-    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
-    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
-    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
-    
-}
-
-.thumbnail_title {
-    width: 100%;
-    text-align: center;
-    position: absolute;
-    bottom: 0;
-    background: rgba(2,20,38, .8);
-}
-
-.thumbnail_title h3 {
-    font-family: 'montserratregular', sans-serif;
-    font-size: 10px;
-    color: #fff;
-    margin:0;
-    padding: 10px 10px;
-}
-
-.thumbnail .dropImg {
-    position: absolute;
-    top: 10px;
-    left: 38px;
-    background: transparent;
-    font-family: 'montserratregular', sans-serif;
-    font-size: 20px;
-    color: #fff;
-}
-
-.thumbnail h5 {
-    position: absolute;
-    top: 35px;
-    left: 107.5px;
-    font-size: 15px;
-    background: transparent;
-    font-family: 'montserratregular', sans-serif;
-    color: #fff;
-}
-
-.thumbnail .clickAdd {
-    position: absolute;
-    bottom: 65px;
-    left: 51px;
-    background: transparent;
-    font-family: 'montserratregular', sans-serif;
-    font-size: 20px;
-    color: #fff;
-}
-  
-.form-group-file {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 227.5px;
-    height: 227.5px;
-}
-
-.form-group-file input {
-    width: 227.5px !important;
-    height: 227.5px !important;
-    opacity: 0 !important;
-    cursor: pointer;
-} */
 
 
 
