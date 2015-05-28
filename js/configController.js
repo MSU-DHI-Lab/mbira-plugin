@@ -85,9 +85,13 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    url: "/newExploration/?project&pid",
 	    templateUrl: "exploration_new.html"
 	  })
-	   .state('notifications', {
+	  .state('notifications', {
 	    url: "/notifications",
 	    templateUrl: "menu_notification_all.php"
+	  })
+	  .state('deviceSettings', {
+	    url: "/settings",
+	    templateUrl: "device_settings.html"
 	  })
 });
 

@@ -36,6 +36,7 @@
 	<script src="js/explorationController.js"></script> 
 	<script src="js/exhibitController.js"></script> 
 	<script src="js/notificationController.js"></script>
+	<script src="js/settingsController.js"></script>
 	
 </head>
 <body ng-app="mbira">

@@ -28,7 +28,7 @@ mbira.controller("viewUsersCtrl", function ($scope, $upload, $http){
 			data: {isExpert: this.user.isExpert, project: project, id: id}
 		}).success(function(data){
 		})
-		console.log($scope.toggles)
+		// console.log($scope.toggles)
 	}
 	
 	$scope.deleteUser = function(user) {
