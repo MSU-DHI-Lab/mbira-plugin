@@ -36,7 +36,7 @@ mbira.controller("newExhibitCtrl", function ($scope, $http, $upload, $stateParam
 	//new location model
 	$scope.newExhibit = {
 		name: "",
-		descrition: "",
+		description: "",
 		file: "",
 	}
 		
@@ -123,6 +123,13 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 		$scope.exhibit = data;
 	})
 	
+	var newIcon = L.icon({
+		iconUrl: 'js/images/LocationMarker.png',
+		iconSize:     [27, 43], // size of the icon
+		iconAnchor:   [13, 40], // point of the icon which will correspond to marker's location
+		popupAnchor:  [1, -40]
+	});
+	
 	//Set up map
 	map = setMap.set(42.7404566603398, -84.5452880859375);
 
@@ -139,7 +146,7 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 		for(i=0;i<$scope.locations.length;i++) {
 			mapPoint = [$scope.locations[i]['latitude'], $scope.locations[i]['longitude']];
 			mapPoints.push(mapPoint)
-			L.marker(mapPoint).addTo(map)
+			L.marker(mapPoint, {icon: newIcon}).addTo(map)
 				.bindPopup('<img style="width:50px;height:50px;" src="images/'+$scope.locations[i]['thumb_path']+'"></br>' + $scope.locations[i]['name'])
 				.on('mouseover', function(e) {
 					//open popup;

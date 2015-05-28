@@ -42,7 +42,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 	//new location model
 	$scope.newLocation = {
 		name: "",
-		descrition: "",
+		description: "",
 		dig_deeper: "",
 		file: "",
 		latitude: '',
@@ -181,22 +181,49 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 		location: $scope.newLocation,
 		map: map
 	}).addTo(map);
+	
+	var newIcon = L.icon({
+		iconUrl: 'js/images/LocationMarker.png',
+		iconSize:     [27, 43], // size of the icon
+		iconAnchor:   [13, 40], // point of the icon which will correspond to marker's location
+	});
+		
+	var tooltip = L.icon({
+		iconUrl: 'js/images/tooltip.jpg',
+		iconSize:     [150, 70], // size of the icon
+		iconAnchor:   [-20, 40], // point of the icon which will correspond to marker's location
+	});
 
 	//Click to set marker and save location to scope
 	map.on('click', function(e) {
+		$scope.selected = true;
+		map.removeLayer($scope.ghostMarker);
+		map.removeLayer($scope.tooltip);
 		if($scope.marker != false){
 			map.removeLayer($scope.marker);
 			$scope.marker = false;
 		}
-		if($scope.search._positionMarker){
-			map.removeLayer($scope.search._positionMarker);
-		}
+		// if($scope.search._positionMarker){
+			// map.removeLayer($scope.search._positionMarker);
+		// }
 		$scope.newLocation.latitude = e.latlng.lat;
 		$scope.newLocation.longitude = e.latlng.lng;
 		
-		$scope.marker = L.marker(e.latlng, {draggable:true}).addTo(map);
+		$scope.marker = L.marker(e.latlng, {icon: newIcon, draggable:true}).addTo(map);
 		$scope.$apply();
 		$('#done').fadeIn('slow');
+	});
+	
+	map.on('mousemove', function(e) {
+		if ($scope.marker == false) {
+			if($scope.ghostMarker){
+				map.removeLayer($scope.tooltip);
+				map.removeLayer($scope.ghostMarker);
+			}	
+			$scope.tooltip = L.marker(e.latlng, {icon: tooltip, opacity: .85}).addTo(map);
+			$scope.ghostMarker = L.marker(e.latlng, {icon: newIcon, opacity: .5}).addTo(map);
+			$scope.$apply();
+		}
 	});
 	
 	//Click to set marker and save location to scope
@@ -352,9 +379,15 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 		//Put location in scope
 		$scope.location = data;
 		
+		var newIcon = L.icon({
+			iconUrl: 'js/images/LocationMarker.png',
+			iconSize:     [27, 43], // size of the icon
+			iconAnchor:   [13, 40], // point of the icon which will correspond to marker's location
+		});
+		
 		//Set up map
 		map = setMap.set(data.latitude, data.longitude);
-		$scope.marker = L.marker([data.latitude, data.longitude],{draggable:'true'}).addTo(map);
+		$scope.marker = L.marker([data.latitude, data.longitude],{icon: newIcon, draggable:'true'}).addTo(map);
 		$scope.marker.on('dragend', function(event){
 				var marker = event.target;
 				var position = marker.getLatLng();

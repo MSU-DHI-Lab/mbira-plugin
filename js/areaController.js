@@ -49,7 +49,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	//new area model
 	$scope.newArea = {
 		name: "",
-		descrition: "",
+		description: "",
 		dig_deeper: '',
 		file:"",
 		shape: "",

@@ -16,7 +16,7 @@ mbira.controller("newProjectCtrl", function ($scope, $http, $upload, $state){
 	$scope.newProject = {
 	    name: "",
 		shortDescription: "",
-		descrition: "",
+		description: "",
 		file: "",
 		logo: ""
 	}

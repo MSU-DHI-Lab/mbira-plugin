@@ -42,7 +42,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	//new location model
 	$scope.newExploration = {
 		name: "",
-		descrition: "",
+		description: "",
 		file: "",
 		latitude: '',
 		longitude: '',
@@ -159,6 +159,20 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	$scope.coordinates = []
 	var polyline = L.polyline(LatLng, {color: 'red'}).addTo(map);
 	
+	var newIcon = L.icon({
+		iconUrl: 'js/images/LocationMarker.png',
+		iconSize:     [27, 43], // size of the icon
+		iconAnchor:   [13, 40], // point of the icon which will correspond to marker's location
+		popupAnchor:  [1, -40]
+	});
+	
+	var selectedIcon = L.icon({
+		iconUrl: 'js/images/LocationMarker-Selected.png',
+		iconSize:     [27, 43], // size of the icon
+		iconAnchor:   [13, 40], // point of the icon which will correspond to marker's location
+		popupAnchor:  [1, -40]
+	});
+	
 	function removeFromLine(passedArray, objectToCheck) {
 		var latslngs=polyline.getLatLngs();
 		for(q=0;q<latslngs.length;q++){  																						//for every latitude longitude pair
@@ -236,7 +250,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 		  		locArray.push([data[i]['latitude'],data[i]['longitude'], data[i]['id'], data[i]['name']]);
 				$scope.coordinates.push([data[i]['latitude'],data[i]['longitude']])
 				
-				L.marker([data[i]['latitude'], data[i]['longitude']]).addTo(map)
+				L.marker([data[i]['latitude'], data[i]['longitude']], {icon: newIcon}).addTo(map)
 					.bindPopup('<img style="width:50px;height:50px;" src="images/'+data[i]['thumb_path']+'"></br>' + data[i]['name'])
 					.on('mouseover', function(e) {
 					  	//open popup;
@@ -247,15 +261,23 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 						this.closePopup();	
 					})
 					.on('click', function(e) {
+					console.log(this.options.icon.options.iconUrl);
+					
+						if(this.options.icon.options.iconUrl == "js/images/LocationMarker.png") {
+							this.setIcon(selectedIcon);
+						} else {
+							this.setIcon(newIcon);
+						}
+						
 					  	//store in exploration;
 					  	for (i=0; i < locArray.length; i++) {
 					  		//finds the id of the coordinates and checks if it has already been added to exploration..
 					  		if (e.latlng.lat == locArray[i][0] && e.latlng.lng == locArray[i][1] && inExpCheck(locArray[i], this)) {
+								
 								polyline.addLatLng([parseFloat(locArray[i][0]),parseFloat(locArray[i][1])]);
 					  			expArray.push([locArray[i][2],locArray[i][3]]);
 							 	$scope.places = expArray;
 								$scope.$apply();
-								console.log($scope.places.length);
 								if($scope.places.length >= 2) {
 									$('#done').css('display', 'block');
 								} else {
@@ -503,6 +525,13 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 		})
 	}
 	
+	var newIcon = L.icon({
+		iconUrl: 'js/images/LocationMarker.png',
+		iconSize:     [27, 43], // size of the icon
+		iconAnchor:   [13, 40], // point of the icon which will correspond to marker's location
+		popupAnchor:  [1, -40]
+	});
+	
 	$http({
 		method: 'POST',
 		url: "ajax/getUsers.php",
@@ -592,7 +621,7 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 										}
 										polyline.addLatLng([parseFloat(data2[j]['latitude']),parseFloat(data2[j]['longitude'])])
 										$scope.coordinates.push([parseFloat(data2[j]['latitude']),parseFloat(data2[j]['longitude'])])
-										L.marker([data2[j]['latitude'], data2[j]['longitude']]).addTo(map)
+										L.marker([data2[j]['latitude'], data2[j]['longitude']], {icon: newIcon}).addTo(map)
 											.bindPopup('<img style="width:50px;height:50px;" src="images/'+data2[j]['thumb_path']+'"></br>' + data2[j]['name'])
 											.on('mouseover', function(e) {
 												//open popup;
