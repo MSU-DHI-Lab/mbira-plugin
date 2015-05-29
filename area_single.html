@@ -77,16 +77,21 @@
 			</div>
 			
 			<div class="medias">	
-				<div class='media'>
-					<img ng-src='images/{{thumb.file_path}}' height="127.5" width="127.5">
+				<div class="media thumbnail dropzone"> 
+					<img ng-src='images/{{area.thumb_path}}' height="127.5" width="127.5">
 					<div class="thumbnail_title">
 						<h3>{{"EDIT THUMBNAIL"}}</h3>
 					</div>
+					<div class="form-group-file">				        
+							<input type="file" id="fileSelect" name="file" ng-file-select="onThumbSelect($files)">
+					</div>
 				</div>
-				<div class='media' ng-repeat='m in media'>
+
+				<div class='media' ng-repeat='m in media' ng-show="(m.file_path != area.thumb_path || showImg) && m.file_path != 'Default.png'">
 					<img ng-src='images/{{m.file_path}}' height="127.5" width="127.5">
 					<div class="deleteMedia" ng-click="deleteMedia(m)"><img src="img/remove_x.png" width="10px" height="10px"/></div>
 				</div>
+				
 				<div class="media_new"> 
 	                <div class="form-group-file">				        
 	    					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">

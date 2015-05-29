@@ -184,14 +184,14 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 	
 	var newIcon = L.icon({
 		iconUrl: 'js/images/LocationMarker.png',
-		iconSize:     [27, 43], // size of the icon
-		iconAnchor:   [13, 40], // point of the icon which will correspond to marker's location
+		iconSize:     [27, 40], // size of the icon
+		iconAnchor:   [13, 38], // point of the icon which will correspond to marker's location
 	});
 		
 	var tooltip = L.icon({
-		iconUrl: 'js/images/tooltip.jpg',
-		iconSize:     [150, 70], // size of the icon
-		iconAnchor:   [-20, 40], // point of the icon which will correspond to marker's location
+		iconUrl: 'js/images/marker-tooltip.png',
+		iconSize:     [196, 40], // size of the icon
+		iconAnchor:   [-10, 20], // point of the icon which will correspond to marker's location
 	});
 
 	//Click to set marker and save location to scope
@@ -220,7 +220,7 @@ mbira.controller("newLocationCtrl", function ($scope, $http, $upload, $statePara
 				map.removeLayer($scope.tooltip);
 				map.removeLayer($scope.ghostMarker);
 			}	
-			$scope.tooltip = L.marker(e.latlng, {icon: tooltip, opacity: .85}).addTo(map);
+			$scope.tooltip = L.marker(e.latlng, {icon: tooltip, opacity: 1}).addTo(map);
 			$scope.ghostMarker = L.marker(e.latlng, {icon: newIcon, opacity: .5}).addTo(map);
 			$scope.$apply();
 		}
@@ -296,9 +296,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			data: $.param({'id': $stateParams.location, 'type': 'loc'}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
-			$scope.thumb = data.shift();
 			$scope.media = data;
-			// console.log($scope.thumb);
 		})
     }
 	
@@ -381,8 +379,8 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 		
 		var newIcon = L.icon({
 			iconUrl: 'js/images/LocationMarker.png',
-			iconSize:     [27, 43], // size of the icon
-			iconAnchor:   [13, 40], // point of the icon which will correspond to marker's location
+			iconSize:     [27, 40], // size of the icon
+			iconAnchor:   [13, 38], // point of the icon which will correspond to marker's location
 		});
 		
 		//Set up map
@@ -449,10 +447,57 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 		})
 	}
 	
+	//Save thumbnail
+	$scope.onThumbSelect = function($files) {
+		if($files.length > 1) {
+			alert("Only upload one image for the thumbnail.");
+		}else{
+			$scope.newThumb = $files[0];
+			$scope.uploadFile = $upload.upload({
+				url:'ajax/tempImg.php',
+				method:"POST",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				file: $scope.newThumb
+			}).success(function(data) {	
+				// $('.thumbnail .dropImg').css('display', 'none');
+				// $('.thumbnail h5').css('display', 'none');
+				// $('.thumbnail .clickAdd').css('display', 'none');
+				$scope.showImg = true;
+				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+			});
+		}
+	};
+	
 	//Handle "save and close"
 	$scope.submit = function(){
 		//Save
-		$http({
+		
+		$scope.uploadFile = $upload.upload({
+			url: "ajax/saveLocation.php",
+			method:"POST",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: {
+				task: 'update',
+				lid: $stateParams.location,
+				name: $scope.location.name,
+				description: $scope.location.description,
+				dig_deeper: $scope.location.dig_deeper,
+				latitude: $scope.location.latitude,
+				longitude: $scope.location.longitude,
+				toggle_media: $scope.location.toggle_media,
+				toggle_dig_deeper: $scope.location.toggle_dig_deeper,
+				toggle_comments: $scope.location.toggle_comments
+			},
+			file: $scope.newThumb
+		}).success(function(data){
+			exhibits.add($stateParams.location,$scope.outputExhibits, 'loc')
+			//Close (return to project)
+			location.href = "javascript:history.back()";
+		})
+		
+		
+		
+/* 		$http({
 			method: 'POST',
 			url: "ajax/saveLocation.php",
 			data: $.param({
@@ -472,7 +517,7 @@ mbira.controller("singleLocationCtrl", function ($scope, $http, $state, $upload,
 			exhibits.add($stateParams.location,$scope.outputExhibits, 'loc')
 			//Close (return to project)
 			location.href = "javascript:history.back()";
-		})
+		}) */
 	}
 	
 	//Delete location

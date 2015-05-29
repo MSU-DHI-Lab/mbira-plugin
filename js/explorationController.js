@@ -161,8 +161,8 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	
 	var newIcon = L.icon({
 		iconUrl: 'js/images/LocationMarker.png',
-		iconSize:     [27, 43], // size of the icon
-		iconAnchor:   [13, 40], // point of the icon which will correspond to marker's location
+		iconSize:     [27, 40], // size of the icon
+		iconAnchor:   [13, 38], // point of the icon which will correspond to marker's location
 		popupAnchor:  [1, -40]
 	});
 	
@@ -466,7 +466,6 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 			data: $.param({'id': $stateParams.exploration, 'type': 'exp'}),
 			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 		}).success(function(data){
-			$scope.thumb = data.shift();
 			$scope.media = data;
 		})
     }
@@ -527,8 +526,8 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 	
 	var newIcon = L.icon({
 		iconUrl: 'js/images/LocationMarker.png',
-		iconSize:     [27, 43], // size of the icon
-		iconAnchor:   [13, 40], // point of the icon which will correspond to marker's location
+		iconSize:     [27, 40], // size of the icon
+		iconAnchor:   [13, 38], // point of the icon which will correspond to marker's location
 		popupAnchor:  [1, -40]
 	});
 	
@@ -658,6 +657,27 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 		getMedia();
 	})
 	
+	//Save thumbnail
+	$scope.onThumbSelect = function($files) {
+		if($files.length > 1) {
+			alert("Only upload one image for the thumbnail.");
+		}else{
+			$scope.newThumb = $files[0];
+			$scope.uploadFile = $upload.upload({
+				url:'ajax/tempImg.php',
+				method:"POST",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				file: $scope.newThumb
+			}).success(function(data) {	
+				// $('.thumbnail .dropImg').css('display', 'none');
+				// $('.thumbnail h5').css('display', 'none');
+				// $('.thumbnail .clickAdd').css('display', 'none');
+				$scope.showImg = true;
+				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+			});
+		}
+	};
+	
 	//Submit Media
 	$scope.onFileSelect = function($files) {
 		if($files.length > 1) {
@@ -717,21 +737,22 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 			}
 		}
 		//Save
-		$http({
-			method: 'POST',
+		
+		$scope.uploadFile = $upload.upload({
 			url: "ajax/saveExploration.php",
-			data: $.param({
-						task: 'update',
-						eid: $stateParams.exploration,
-						name: $scope.exploration.name,
-						description: $scope.exploration.description,
-						direction: direction,
-						toggle_media: $scope.exploration.toggle_media,
-						toggle_comments: $scope.exploration.toggle_comments
-					}),
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			method:"POST",
+			headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+			data: {
+				task: 'update',
+					eid: $stateParams.exploration,
+					name: $scope.exploration.name,
+					description: $scope.exploration.description,
+					direction: direction,
+					toggle_media: $scope.exploration.toggle_media,
+					toggle_comments: $scope.exploration.toggle_comments
+				},
+			file: $scope.newThumb
 		}).success(function(data){
-			//Close (return to project)
 			location.href = "javascript:history.back()";
 		})
 	}

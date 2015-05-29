@@ -34,6 +34,25 @@ function updateRow($con){
 	$toggle_comments = $_POST['toggle_comments'];
 	
 	mysqli_query($con,"UPDATE mbira_explorations SET name='$name', description='$desc', toggle_comments='$toggle_comments', toggle_media='$toggle_media', direction='$dir' WHERE id='$eid'");
+	
+	if (isset($_FILES['file'])) {
+		//Save image
+		$uploaddir = '../images/';
+		
+		//Use default image if no file provided
+		if(isset($_FILES['file']['name'])){
+			$filename = explode('.', basename($_FILES['file']['name']));
+
+			$uploadfile = $uploaddir . $filename[0].time().'.'.$filename[count($filename)-1];
+			move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+			$path = $filename[0].time().'.'.$filename[count($filename)-1];
+			
+			mysqli_query($con, "UPDATE mbira_exp_media SET isThumb='no' WHERE exploration_id='$eid' AND isThumb='yes'");
+			mysqli_query($con, "UPDATE mbira_explorations SET thumb_path='$path' WHERE id='$eid'");
+			mysqli_query($con,"INSERT INTO mbira_exp_media (exploration_id, file_path, isThumb) VALUES ('$eid', '$path', 'yes')");
+			mysqli_query($con,"DELETE FROM mbira_exp_media WHERE exploration_id='$eid' AND file_path='Default.png'");
+		}
+	}
 }
 
 //Add new exploration

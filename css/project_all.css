@@ -121,6 +121,7 @@ img {
 
 .projects div {
     display: inline-block;
+    width: 239px;
 }
 
 .project {
@@ -133,6 +134,7 @@ img {
     -moz-box-shadow:    3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2); 
     transition: all ease .1s;
+    
 }
 
 .project:hover {
@@ -164,6 +166,8 @@ img {
     text-align: center;
     position: absolute;
     bottom: 0;
+    left: 0;
+    right: 0;
     background: rgba(2,20,38,.8);
 }
     
@@ -182,6 +186,8 @@ img {
     text-align: center;
     position: absolute;
     bottom: 0;
+    left: 0;
+    right: 0;
 }
     
 .project_title_new h3 {

@@ -185,6 +185,8 @@ input.cmn-toggle-round-flat:checked + label:after {
     text-align: center;
     position: absolute;
     bottom: 0;
+    left: 0;
+    right: 0;
     background: rgba(2,20,38, .8);
 }
 
@@ -443,12 +445,15 @@ div.form-group-file input {
 .media {
     width: 127.5px;
     height: 127.5px;
-    background: #ccc;
     margin: 20px 0 0 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+img {
+    object-fit: cover;
 }
 
 .deleteMedia {
@@ -483,6 +488,8 @@ div.form-group-file input {
     text-align: center;
     position: absolute;
     bottom: 0;
+    left: 0;
+    right: 0;
     background: rgba(2,20,38,.7);
 }
     
@@ -499,6 +506,8 @@ div.form-group-file input {
     text-align: center;
     position: absolute;
     bottom: 0;
+    left: 0;
+    right: 0;
 }
     
 .media_title_new h3 {

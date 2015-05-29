@@ -157,6 +157,17 @@ h3 {
 	display: inline-block;
 }
 
+h4 {
+    font-family: 'montserratlight' sans-serif;
+    letter-spacing: 1px;
+    font-weight: 100;
+    font-size: 20px;
+    color: #fff;
+    margin:0;
+    padding: 20px;
+	display: inline-block;
+}
+
 .project_settings {
 	padding: 20px;
 	padding-bottom: 0px;
@@ -193,6 +204,11 @@ h3 {
     -webkit-transition: -webkit-filter .5s;
 }
 
+.info_label, .info_id, .info_url {
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .info_label {
 	width: 127px;
     bottom: 0;
@@ -201,7 +217,6 @@ h3 {
 	text-align: center;
 	margin-left: 20px;
 	margin-bottom: 20px;
-	display: inline-block;
 }
 
 .info_id {
@@ -212,7 +227,6 @@ h3 {
 	text-align: center;
 	/* margin-left: 20px; */
 	margin-bottom: 20px;
-	display: inline-block;
 }
 
 .info_url {
@@ -223,7 +237,20 @@ h3 {
 	text-align: center;
 	/* margin-left: 20px; */
 	margin-bottom: 20px;
-	display: inline-block;
+    overflow: scroll;
+}
+
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 5px;
+    position: absolute;
+}
+ 
+ 
+::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,.2);
+    width: 1px;
 }
 
 .info_label h3 {
@@ -237,8 +264,8 @@ h3 {
 }
 
 .info_url h3 {
-    font-size: 13px;
-	padding-top: 15px;
+    font-size: 10px;
+	padding-top: 14px;
 	padding-bottom: 15px;
 	
 }

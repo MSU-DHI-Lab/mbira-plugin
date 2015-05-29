@@ -125,8 +125,8 @@ mbira.controller("singleExhibitCtrl", function ($scope, $http, $upload, $statePa
 	
 	var newIcon = L.icon({
 		iconUrl: 'js/images/LocationMarker.png',
-		iconSize:     [27, 43], // size of the icon
-		iconAnchor:   [13, 40], // point of the icon which will correspond to marker's location
+		iconSize:     [27, 40], // size of the icon
+		iconAnchor:   [13, 38], // point of the icon which will correspond to marker's location
 		popupAnchor:  [1, -40]
 	});
 	

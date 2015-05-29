@@ -38,6 +38,25 @@ function updateRow($con){
 	
 	mysqli_query($con,"UPDATE mbira_locations SET name='$name', description='$desc', dig_deeper='$dig_deeper', toggle_comments='$toggle_comments', toggle_dig_deeper='$toggle_dig_deeper', 
 		latitude='$lat', longitude='$lon', toggle_media='$toggle_media' WHERE id='$lid'");
+		
+	if (isset($_FILES['file'])) {
+		//Save image
+		$uploaddir = '../images/';
+		
+		//Use default image if no file provided
+		if(isset($_FILES['file']['name'])){
+			$filename = explode('.', basename($_FILES['file']['name']));
+
+			$uploadfile = $uploaddir . $filename[0].time().'.'.$filename[count($filename)-1];
+			move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+			$path = $filename[0].time().'.'.$filename[count($filename)-1];
+			
+			mysqli_query($con, "UPDATE mbira_loc_media SET isThumb='no' WHERE location_id='$lid' AND isThumb='yes'");
+			mysqli_query($con, "UPDATE mbira_locations SET thumb_path='$path' WHERE id='$lid'");
+			mysqli_query($con,"INSERT INTO mbira_loc_media (location_id, file_path, isThumb) VALUES ('$lid', '$path', 'yes')");
+			mysqli_query($con,"DELETE FROM mbira_loc_media WHERE location_id='$lid' AND file_path='Default.png'");
+		}
+	}
 }
 
 //Add new location

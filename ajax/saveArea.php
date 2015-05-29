@@ -44,6 +44,25 @@ function updateRow($con){
 	
 	mysqli_query($con,"UPDATE mbira_areas SET name='$name', description='$desc', dig_deeper='$dig_deeper', toggle_comments='$toggle_comments', toggle_dig_deeper='$toggle_dig_deeper', 
 		coordinates='$coords', radius='$radius', shape='$shape', toggle_media='$toggle_media', geoJSON_path='$geoPath' WHERE id='$id'");
+	
+	if (isset($_FILES['file'])) {
+		//Save image
+		$uploaddir = '../images/';
+		
+		//Use default image if no file provided
+		if(isset($_FILES['file']['name'])){
+			$filename = explode('.', basename($_FILES['file']['name']));
+
+			$uploadfile = $uploaddir . $filename[0].time().'.'.$filename[count($filename)-1];
+			move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+			$path = $filename[0].time().'.'.$filename[count($filename)-1];
+			
+			mysqli_query($con, "UPDATE mbira_area_media SET isThumb='no' WHERE area_id='$id' AND isThumb='yes'");
+			mysqli_query($con, "UPDATE mbira_areas SET thumb_path='$path' WHERE id='$id'");
+			mysqli_query($con,"INSERT INTO mbira_area_media (area_id, file_path, isThumb) VALUES ('$id', '$path', 'yes')");
+			mysqli_query($con,"DELETE FROM mbira_area_media WHERE area_id='$id' AND file_path='Default.png'");
+		}
+	}
 }
 
 //Add new area
