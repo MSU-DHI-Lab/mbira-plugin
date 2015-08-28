@@ -21,7 +21,7 @@ Based on the metaphor of “space and landscape as museum,” mbira lets users c
 
 The initial phase of the project has focused (and will continue to focus) on developping the mbira authoring tool for [KORA](http://kora.matrix.msu.edu).  While the ultimate master plan is to develop for a variety of other digital repository platforms and content management systems (such as Omake, WordPress, Arches, and ArchiveSpace), we're a ways off from thinking about anything but KORA for now.  The current version of the mbira authoring tool should be considered alpha software.  It isn't feature complete and its got bugs.  However, we feel that it is at the point where people can start playing and experimenting with the platform.  **We are actively bug fixing and we strongly encourage people to sub issue and bug reports vit GitHub.**  
 
-Here is what we have fully implemented:
+Here is what we have fully implemented for the mbira authoring plugin:
 
 * Creating, editing, and Creating deleting projects
 * Creating, editing, and deleting exhibits
