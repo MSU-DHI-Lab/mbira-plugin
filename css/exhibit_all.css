@@ -122,6 +122,14 @@ body, html {
 }
 
 .project_title {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex !important;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+    align-items: center;
+    -webkit-align-items: center;
     width: 100%;
     bottom: 0;
     background: rgba(255,255,255, 0.4);
@@ -131,6 +139,22 @@ body, html {
     -webkit-transition: -webkit-filter .5s;
     z-index: 5;
 }
+
+.link-wrapper {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex !important;
+    align-items: center;
+    -webkit-align-items: center;
+    margin-right: 7px;
+}
+
+img {
+    border: none;
+    margin-left: 7px;
+    margin-right: 14px;
+}
     
 .project_title h3 {
     font-family: 'montserratlight' sans-serif;
@@ -139,12 +163,35 @@ body, html {
     font-size: 30px;
     color: #fff;
     margin:0;
+    width: 50%;
     padding: 20px;
 }
 
 .exhibit {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex !important;
+    align-items: center;
+    -webkit-align-items: center;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
     width: 759px;
+    height: 64px;
     display: inline;
+}
+
+.exhibit-wrapper {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex !important;
+    align-items: center;
+    -webkit-align-items: center; 
+}
+
+.forward-wrapper {
+    margin-right: 7px;
 }
 
 .odd {
@@ -189,7 +236,7 @@ body, html {
     font-size: 20px;
     color: #fff;
     margin:0;
-    padding: 20px;
+    padding-left: 20px;
 }
 
 .description {
@@ -203,5 +250,4 @@ body, html {
     font-size: 14px;
     color: #fff;
     margin:0;
-    padding: 20 20 20 0;
 }

@@ -276,6 +276,8 @@
 .leaflet-control-layers {
 	box-shadow: 0 1px 5px rgba(0,0,0,0.4);
 	background: #fff;
+	margin-top: 5px !important;
+	margin-right: 5px !important;
 	border-radius: 5px;
 	}
 .leaflet-control-layers-toggle {
