@@ -25,23 +25,23 @@
 				</div>
 
                 <div class="location" ng-repeat='location in project.locations' ng-class-odd="'odd'" ng-class-even="'even'">
- 
-					<div class="location-wrapper">
-						<div class="location_title">
-							<h3>
-								{{location.name}}
-							</h3>
+					<a ui-sref="viewLocation({location: location.id, pid: location.pid, project: location.project_id, previous: 'ALL LOCATIONS'})"> 
+						<div class="location-wrapper">
+							<div class="location_title">
+								<h3>
+									{{location.name}}
+								</h3>
+							</div>
+							<div class="description">
+								{{location.description}}
+							</div>
 						</div>
-						<div class="description">
-							{{location.description}}
-						</div>
-					</div>
-					<div class="forward-wrapper">
-						<a ui-sref="viewLocation({location: location.id, pid: location.pid, project: location.project_id, previous: 'ALL LOCATIONS'})"> 
-							<img src="img/forward.png">
-						</a>
-					</div>
-
+<!-- 						<div class="forward-wrapper">
+					 
+								<img src="img/forward.png">
+							
+						</div> -->
+					</a>
                 </div>
                 <div class="odd none" ng-show="!project.locations.length">
                     <h3>No Locations</h3>

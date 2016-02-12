@@ -20,6 +20,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">  	
 	
 	<script src="js/jquery/jquery-1.11.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/tipped/4.0.10/js/tipped/tipped.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/tipped/4.0.10/css/tipped/tipped.css">
  
 	<script src="angular/angular.min.js"></script>
 	<script src="angular/angular-ui-router.min.js"></script>

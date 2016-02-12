@@ -26,22 +26,21 @@
 					</div>
 				</div>
 				<div class="exhibit" ng-repeat='exhibit in project.exhibits' ng-class-odd="'odd'" ng-class-even="'even'">
-					
-					<div class="exhibit-wrapper">
-						<div class="exhibit_title">
-							<h3>
-								{{exhibit.name}}
-							</h3>
+					<a ui-sref="viewExhibit({exhibit: exhibit.id, pid: exhibit.pid, project: exhibit.project_id, previous: 'ALL EXHIBITS'})"> 
+						<div class="exhibit-wrapper">
+							<div class="exhibit_title">
+								<h3>
+									{{exhibit.name}}
+								</h3>
+							</div>
+							<div class="description">
+								{{exhibit.description}}
+							</div>
 						</div>
-						<div class="description">
-							{{exhibit.description}}
-						</div>
-					</div>
-					<div class="forward-wrapper">
-						<a ui-sref="viewExhibit({exhibit: exhibit.id, pid: exhibit.pid, project: exhibit.project_id, previous: 'ALL EXHIBITS'})"> 
-							<img src="img/forward.png">
-						</a>
-					</div>
+<!-- 						<div class="forward-wrapper">
+								<img src="img/forward.png">
+						</div> -->
+					</a>
 					
 				</div>
 				<div class="odd none" ng-show="!project.exhibits.length">

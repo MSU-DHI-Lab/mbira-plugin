@@ -24,23 +24,23 @@
 				</div>
 
                 <div class="area" ng-repeat='area in project.areas' ng-class-odd="'odd'" ng-class-even="'even'">
-
-					<div class="area-wrapper">
-						<div class="area_title">
-							<h3>
-								{{area.name}}
-							</h3>
+                	<a ui-sref="viewArea({area: area.id, pid: area.pid, project: area.project_id, previous: 'ALL AREAS'})"> 
+						<div class="area-wrapper">
+							<div class="area_title">
+								<h3>
+									{{area.name}}
+								</h3>
+							</div>
+							<div class="description">
+								{{area.description}}
+							</div>
 						</div>
-						<div class="description">
-							{{area.description}}
-						</div>
-					</div>
-					<div class="forward-wrapper">
-						<a ui-sref="viewArea({area: area.id, pid: area.pid, project: area.project_id, previous: 'ALL AREAS'})"> 
-							<img src="img/forward.png">
-						</a>
-					</div>
-
+<!-- 						<div class="forward-wrapper">
+							
+								<img src="img/forward.png">
+							
+						</div> -->
+					</a>
                 </div>
                 <div class="odd none" ng-show="!project.areas.length">
                     <h3>No Areas</h3>

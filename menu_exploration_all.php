@@ -26,23 +26,23 @@
 
 
                 <div class="exploration" ng-repeat='exploration in project.explorations' ng-class-odd="'odd'" ng-class-even="'even'">
-
-					<div class="exploration-wrapper">
-						<div class="exploration_title">
-							<h3>
-								{{exploration.name}}
-							</h3>
+                	<a ui-sref="viewExploration({exploration: exploration.id, pid: exploration.pid, project: project.id, previous: 'ALL EXPLORATIONS'})">
+						<div class="exploration-wrapper">
+							<div class="exploration_title">
+								<h3>
+									{{exploration.name}}
+								</h3>
+							</div>
+							<div class="description">
+								{{exploration.description}}
+							</div>
 						</div>
-						<div class="description">
-							{{exploration.description}}
-						</div>
-					</div>
-					<div class="forward-wrapper">
-						<a ui-sref="viewExploration({exploration: exploration.id, pid: exploration.pid, project: project.id, previous: 'ALL EXPLORATIONS'})"> 
-							<img src="img/forward.png">
-						</a>
-					</div>
-
+			<!-- 			<div class="forward-wrapper">
+							 
+								<img src="img/forward.png">
+							
+						</div> -->
+					</a>
 
                 </div>
                 <div class="odd none" ng-show="!project.explorations.length">

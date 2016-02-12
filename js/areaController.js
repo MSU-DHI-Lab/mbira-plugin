@@ -286,8 +286,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 				$scope.polygon.setLatLngs(latlngArray);
 				$scope.newArea.coordinates = $scope.polygon.getLatLngs();
 				latlngArray = [];
-			})
-			.on('click', function(e) {
+			}).on('click', function(e) {
 				if(!$scope.done && id >= 3 && this._latlng.lat == $scope.polygon.getLatLngs()[0].lat && this._latlng.lng == $scope.polygon.getLatLngs()[0].lng) {
 					$scope.done = true;
 					$scope.polygon.setStyle({opacity: '.8'});
@@ -331,6 +330,8 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 				}
 			})
 			.on('mouseover', function(e) {
+				
+				marker.bindPopup('HI', {'offset': L.point(0,-10)}).openPopup();
 				if($scope.ghostMarker){
 					$scope.onPin = true;
 					// map.removeLayer($scope.tooltip);
@@ -338,11 +339,11 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 				}	
 			})
 			.on('mouseout', function(e) {
+				marker.closePopup();
 				if($scope.ghostMarker){
 					$scope.onPin = false;
 				}	
 			});
-			
 		$scope.markers.push(marker);
 		$scope.createPolygon();
 		$scope.$apply(); 
