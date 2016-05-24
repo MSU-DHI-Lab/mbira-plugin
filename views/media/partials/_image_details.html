@@ -1,0 +1,40 @@
+<div class="flex wrap-row space-between">
+	<img id="details-thumbnail" src="">
+	<div id="details-form-wrap" class="flex wrap-column space-between">
+		<div class="flex wrap-row">
+			<div class="details-input-wrap">
+				<input name="title" class="details-input remove-outline"></input>
+				<label for="title">Title</label>
+			</div>
+		</div>
+		<div class="flex wrap-row">
+			<div class="details-input-wrap">
+				<input type="text" name="alt" class="details-input remove-outline"></input>
+				<label for="alt">Alt Description <a>?</a></label>
+			</div>
+		</div>
+		<div class="flex wrap-row">
+			<div id="details-textarea-wrap">
+				<textarea name="desc" class="details-textarea remove-outline"></textarea>
+				<label for="desc">Description</label>
+			</div>
+		</div>
+	</div>
+	
+</div>
+<div class="flex wrap-row space-between">
+	<button id="step-back" class="step-back-details remove-outline modal-button" ng-click="$parent.stepBack()">BACK</button>
+	<button id="details-submit" class="remove-outline modal-button" ng-click="$parent.saveDetails()">
+		COMPLETE DETAILS & SAVE MEDIA
+	</button>
+</div>
+
+<script type="text/javascript">
+	$(".details-input-wrap input, #details-textarea-wrap textarea").on('change', function() {
+	  if ($(this).val() != "") {
+	    $(this).addClass('filled');
+	  } else {
+	    $(this).removeClass('filled');
+	  }
+	})
+</script>

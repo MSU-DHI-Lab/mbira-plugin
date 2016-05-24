@@ -1,0 +1,99 @@
+#details-thumbnail {
+    width: 250px;
+    height: 250px;
+}
+
+.details-input-wrap, 
+#details-textarea-wrap {
+    background: rgba(40, 65, 85, .98); 
+}
+
+.details-input-wrap {
+  position: relative;
+  width: 437px;
+  height: 40px;
+}
+
+.details-input {
+  background-color: transparent;
+  border: none;
+  height: 40px;
+  color: white;
+  font-family: 'montserratlight', sans-serif;
+}
+
+#details-form-wrap, #details-textarea-wrap {
+  width: 437px;
+}
+
+#details-textarea-wrap {
+  position: relative;
+  height: 144px; 
+  color: #677987;
+
+  .details-textarea {
+    background-color: transparent;
+    border: none;
+    height: 144px; 
+    color: white;
+    font-family: 'montserratlight', sans-serif;
+  }
+
+}
+
+.details-input-wrap input,
+#details-textarea-wrap label,
+#details-textarea-wrap textarea,
+.details-input-wrap label {
+  cursor: text;
+  position: absolute;
+  transition: all 0.45s ease;
+  width: 437px;
+
+}
+
+.details-input-wrap input,
+#details-textarea-wrap label,
+.details-input-wrap label {
+  padding: 0.6em 1% 0.15em 10px;
+}
+
+#details-textarea-wrap textarea {
+  padding: 1.4em 1% 0.15em 10px;
+
+}
+.details-input-wrap input, #details-textarea-wrap textarea {
+  z-index: 1;
+}
+
+.details-input-wrap label, 
+#details-textarea-wrap label {
+  color: #677987;
+  padding: 0 10px;
+  top: 12;
+}
+
+.details-input-wrap label {
+  a:hover {
+    background-color: blue;
+  }
+}
+
+.details-input-wrap input.filled ~ label,
+#details-textarea-wrap textarea.filled ~ label,
+.details-input-wrap input:focus ~ label,
+#details-textarea-wrap textarea:focus ~ label {
+  font-size: 10px;
+  position: absolute;
+  top: 0;
+}
+
+.details-input-wrap input.filled ~label:after,
+#details-textarea-wrap textarea.filled ~label:after{
+  color: #007932;
+  font-size: 10px;
+  position: absolute;
+  top: 0.3em;
+  right: 0.3em;
+  transform: translate(0, 0);
+}
