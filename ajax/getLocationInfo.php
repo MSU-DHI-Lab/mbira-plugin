@@ -13,7 +13,6 @@
 	while($row = mysqli_fetch_array($results)) {
 		array_push($locationArray, $row);
 	}
-	
 	echo json_encode($locationArray[0]);
 	
 ?>

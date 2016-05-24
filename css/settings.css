@@ -46,7 +46,7 @@ img {
     font-family: 'montserratlight';
     src: url('fonts/montserrat-light-webfont.eot');
     src: url('fonts/montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('montserrat-light-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-light-webfont.woff2') format('woff2'),
          url('fonts/montserrat-light-webfont.woff') format('woff'),
          url('fonts/montserrat-light-webfont.ttf') format('truetype'),
          url('fonts/montserrat-light-webfont.svg#montserratlight') format('svg');
@@ -54,9 +54,6 @@ img {
     font-style: normal;
 
 }
-
-
-
 
 @font-face {
     font-family: 'montserratthin';
@@ -184,7 +181,7 @@ h4 {
 	display: inline-block;
 }
 
-.android {
+.android, .database {
 	width: 100%;
     bottom: 0;
     background: rgba(255,255,255, 0.2);
@@ -192,6 +189,11 @@ h4 {
     -moz-box-shadow:    3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2); 
     -webkit-transition: -webkit-filter .5s;
+}
+
+.database {
+    width: 759px;
+    margin: 0px 20px 0 20px;
 }
 
 .ios {
@@ -210,7 +212,7 @@ h4 {
 }
 
 .info_label {
-	width: 127px;
+	width: 226px;
     bottom: 0;
     background: rgba(255,255,255, 0.2);
     -webkit-transition: -webkit-filter .5s;
@@ -220,7 +222,7 @@ h4 {
 }
 
 .info_id {
-	width: 60px;
+	width: 493px;
     bottom: 0;
     background: rgba(255,255,255, 0.12);
     -webkit-transition: -webkit-filter .5s;
@@ -229,8 +231,17 @@ h4 {
 	margin-bottom: 20px;
 }
 
+.info_id input {
+    border:none;
+    color: white;
+    background-color: transparent;
+    height: 46px;
+    width: 493px;
+    padding-left: 15px;
+}
+
 .info_url {
-	width: 375px;
+	width: 493px;
     bottom: 0;
     background: rgba(255,255,255, 0.12);
     -webkit-transition: -webkit-filter .5s;
@@ -256,18 +267,21 @@ h4 {
 .info_label h3 {
     font-size: 13px;
 	padding: 15px;
+    float: left;
 }
 
 .info_id h3 {
     font-size: 13px;
 	padding: 15px;
+    float: left;
 }
 
 .info_url h3 {
     font-size: 10px;
-	padding-top: 14px;
-	padding-bottom: 15px;
-	
+	margin-top: 15px;
+	margin-bottom: 14px;
+	padding: 0 0 0 15px;
+    float: left;
 }
 
 
@@ -304,11 +318,52 @@ textarea {
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
-    transition: all .5s ease;
+    /*transition: all .5s ease;*/
     float: right;
 }
 
 #submit:hover {
     color: #3EB9FD;
     background: #FFF;
+}
+
+
+::-ms-reveal,
+::-ms-clear {
+  display: none !important;
+}
+
+.hideShowPassword-toggle {
+  background-color: transparent;
+  background-image: url('../img/wink.png'); /* fallback */
+  background-image: url('../img/wink.svg');
+  background-position: 0 center;
+  background-repeat: no-repeat;
+  border: 2px solid transparent;
+  border-radius: 0.25em;
+  cursor: pointer;
+  font-size: 100%;
+  height: 44px;
+  margin-top: 1px !important;
+  top: 0px !important;
+  max-height: 100%;
+  padding: 0;
+  overflow: 'hidden';
+  text-indent: -999em;
+  width: 46px;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+
+.hideShowPassword-toggle-hide {
+}
+
+.hideShowPassword-toggle:hover,
+.hideShowPassword-toggle:focus {
+  border-color: #0088cc;
+  outline: transparent;
+}
+
+.hideShowPassword-wrapper {
+    border:none;
 }

@@ -72,33 +72,26 @@
 					<div class='field-label'>
 						<div class="switch">
 							<h1 class='label-name'>MEDIA</h1>
-							<input ng-model='exploration.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
-							<label for="cmn-toggle-2"></label>
 						</div>
 					</div>
 					<div class="medias">
-						<div class="media thumbnail dropzone"> 
-							<img ng-src='images/{{exploration.thumb_path}}' height="127.5" width="127.5">
+		                <div class="thumbnail dropzone"> 				
+							<img src="{{exploration.thumb_path}}" height="131" width="131">
 							<div class="thumbnail_title">
-								<h3>{{"EDIT THUMBNAIL"}}</h3>
+								<h3>{{"ADD THUMBNAIL"}}</h3>
 							</div>
 							<div class="form-group-file">				        
-									<input type="file" id="fileSelect" name="file" ng-file-select="onThumbSelect($files)">
+									<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
 							</div>
 						</div>
 
-						<div class='media' ng-repeat='m in media' ng-show="(m.file_path != exploration.thumb_path || showImg) && m.file_path != 'Default.png'">
-							<img ng-src='images/{{m.file_path}}' height="127.5" width="127.5">
-							<div class="deleteMedia" ng-click="deleteMedia(m)"><img src="img/remove_x.png" width="10px" height="10px"/></div>
-						</div>
-						
-						<div class="media_new">
-							<div class="form-group-file">				        
-								<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
+		                <div class="thumbnail-header dropzone">
+							<img src="{{exploration.header_image_path}}" height="131">
+							<div class="thumbnail_title">
+								<h3>{{"ADD HEADER"}}</h3>
 							</div>
-							<img src="img/project_new_plus_icon_small.png" height="127.5" width="127.5">
-							<div class="media_title_new">
-								<h3>ADD MEDIA</h3>
+							<div class="form-group-file-header">				        
+									<input type="file" id="HeaderSelect" name="file" ng-file-select="onHeaderSelect($files)">
 							</div>
 						</div>
 					</div>
@@ -122,6 +115,6 @@
 				<h1 ng-click='delete()' class='label-name'>DELETE EXPLORATION</h1>
 			</div>
 		</div>
-		<script type='text/javascript' src='js/fixHead.js'>
+		<script type='text/javascript' src='js/fixHead.js'></script>
 	</body>
 </html>

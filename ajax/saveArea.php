@@ -30,6 +30,7 @@ function updateRow($con){
 	$id = $_POST['id'];
 	$name = mysqli_real_escape_string($con, $_POST['name']);
 	$desc = mysqli_real_escape_string($con, $_POST['description']);
+	$short_desc = mysqli_real_escape_string($con, $_POST['shortDescription']);
 	$dig_deeper = mysqli_real_escape_string($con, $_POST['dig_deeper']);
 	$coords = $_POST['coordinates'];
 	$json = $_POST['json'];
@@ -42,7 +43,7 @@ function updateRow($con){
 	
 	file_put_contents("../JSON/".$geoPath ,$json);
 	
-	mysqli_query($con,"UPDATE mbira_areas SET name='$name', description='$desc', dig_deeper='$dig_deeper', toggle_comments='$toggle_comments', toggle_dig_deeper='$toggle_dig_deeper', 
+	mysqli_query($con,"UPDATE mbira_areas SET name='$name', description='$desc', short_description='$short_desc', dig_deeper='$dig_deeper', toggle_comments='$toggle_comments', toggle_dig_deeper='$toggle_dig_deeper', 
 		coordinates='$coords', radius='$radius', shape='$shape', toggle_media='$toggle_media', geoJSON_path='$geoPath' WHERE id='$id'");
 	
 	if (isset($_FILES['file'])) {
@@ -71,6 +72,7 @@ function createRow($con) {
 	$projectId = $_POST['projectId'];
 	$name = mysqli_real_escape_string($con, $_POST['name']);
 	$desc = mysqli_real_escape_string($con, $_POST['description']);
+	$short_desc = mysqli_real_escape_string($con, $_POST['shortDescription']);
 	$dig_deeper = mysqli_real_escape_string($con, $_POST['dig_deeper']);
 	$coords = $_POST['coordinates'];
 	$radius = $_POST['radius'];
@@ -97,7 +99,7 @@ function createRow($con) {
 	}
 	
 	//Create row in mbira_areas
-	mysqli_query($con,"INSERT INTO mbira_areas (project_id, name, description, dig_deeper, coordinates, radius, shape, thumb_path, toggle_comments, toggle_media, toggle_dig_deeper) VALUES ('$projectId', '$name', '$desc', '$dig_deeper', '$coords', '$radius', '$shape', '$path', '$toggle_comments', '$toggle_media', '$toggle_dig_deeper')");
+	mysqli_query($con,"INSERT INTO mbira_areas (project_id, name, description, short_description, dig_deeper, coordinates, radius, shape, thumb_path, toggle_comments, toggle_media, toggle_dig_deeper) VALUES ('$projectId', '$name', '$desc', '$short_desc', '$dig_deeper', '$coords', '$radius', '$shape', '$path', '$toggle_comments', '$toggle_media', '$toggle_dig_deeper')");
 
 	$idQuery = mysqli_query($con, "SELECT id FROM mbira_areas WHERE coordinates = '".$coords."'");
 	$IDrow = mysqli_fetch_array($idQuery);

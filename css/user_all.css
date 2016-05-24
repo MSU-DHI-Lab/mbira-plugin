@@ -1,6 +1,6 @@
 body, html {
     margin: 0;
-    padding: 0; 
+    padding: 0;
 }
 
 .users {
@@ -100,7 +100,7 @@ img {
     width:100%;
     position:relative;
     top:0px;
-    z-index: 1;   
+    z-index: 1;
 }
 
 .header h1 {
@@ -110,7 +110,7 @@ img {
     font-family: 'montserratthin', sans-serif;
      font-family: 'montserratlight' sans-serif;
     letter-spacing: 1px;
-    font-weight: 100; 
+    font-weight: 100;
 }
 
 .header div {
@@ -152,7 +152,7 @@ img {
 }
 
 .addUser {
-	display: inline-block; 
+	display: inline-block;
 	border-style:none;
 	padding: 30px 20px;
 	float: right;
@@ -160,7 +160,7 @@ img {
 }
 
 .addUser2 {
-	display: inline-block; 
+	display: inline-block;
 	border-style:none;
 	float: right;
 	padding: 25px 20px;
@@ -180,7 +180,7 @@ img {
 }
 
 .removeUser {
-	display: inline-block;  
+	display: inline-block;
 	border-style:none;
 	margin-top: 27.5px;
 	float: right;
@@ -201,7 +201,7 @@ img {
 
 .newUserField {
      width: 370px;
-    font-family: 'montserratregular', sans-serif;
+    font-family: 'montserratlight', sans-serif;
     font-size: 16px;
     background: rgba(255,255,255, 0.3);
     color: #FFF;
@@ -236,7 +236,7 @@ img {
     padding: 20px 0;
     float: left;
 	display: inline-block;
-	
+
 }
 
 .badgesNewUser h3{
@@ -292,12 +292,12 @@ img {
     background: rgba(255,255,255, 0.4);
     -webkit-box-shadow: 3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 2px 0px rgba(50, 50, 50, 0.2);
-    box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2); 
+    box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     -webkit-transition: -webkit-filter .5s;
 }
-    
+
 .project_title h3 {
-    font-family: 'montserratlight' sans-serif;
+    font-family: 'montserratregular' sans-serif;
     letter-spacing: 1px;
     font-weight: 100;
     font-size: 30px;
@@ -315,7 +315,7 @@ img {
 .user div	{
 vertical-align: middle;
 }
- 
+
 
 .odd {
     background: rgba(255,255,255, 0.2);
@@ -332,8 +332,8 @@ vertical-align: middle;
     bottom: 0;
 }
 .user_title h3 {
-    font-family: 'montserratlight' sans-serif;
-    white-space:nowrap; 
+    font-family: 'montserratregular' sans-serif;
+    white-space:nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     letter-spacing: 1px;
@@ -347,12 +347,12 @@ vertical-align: middle;
 .username {
     font-family: 'montserratlight' sans-serif;
     width: 220px;
-    white-space:nowrap; 
+    white-space:nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     letter-spacing: 1px;
     font-weight: 100;
-    font-size: 14px;
+    font-size: 12px;
     color: #fff;
     margin:0;
     padding: 20 20 20 0;
@@ -361,7 +361,7 @@ vertical-align: middle;
 .usernameAddUser {
     font-family: 'montserratlight' sans-serif;
     width: 320px;
-    white-space:nowrap; 
+    white-space:nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     letter-spacing: 1px;
@@ -470,7 +470,7 @@ textarea {
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
-    transition: all .5s ease;
+    /*transition: all .5s ease;*/
     float: right;
 }
 

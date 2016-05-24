@@ -16,7 +16,7 @@
     <div  ng-controller="newExhibitCtrl">
          <!--HEADER-->
         <div class="header">
-            <div class="back"><a ui-sref='viewProject({project: ID, pid: PID})'><img src="img/back.png"/><p>{{project}}</p></a></div>
+            <div class="back"><a ui-sref='viewProject({project: projectId, pid: PID})'><img src="img/back.png"/><p>{{project}}</p></a></div>
                 <div class="title"><h1>NEW EXHIBIT</h1>
             </div>
         </div>
@@ -26,7 +26,16 @@
 			<form id="newexhibitform" name="newexhibitform" novalidate ng-submit="submit()" role="form">                    
 				
 				<br><br>
-				
+	            <div class="thumbnail-header dropzone exhibitHeader"> 
+	        		<img class="headerImg" src="img/Default-Header.png">
+	        		<div class="thumbnail_title">
+	        			<h3>{{"EDIT EXHIBIT HEADER"}}</h3>
+	        		</div>
+	                <div class="form-group-file-header">				        
+	    				<input type="file" id="fileHeaderSelect" name="file" ng-file-select="onHeaderSelect($files)">
+	    			</div>
+	            </div>	
+	            			
 				<div class="thumbnail dropzone"> 
 					<img src="img/Default.png" height="239" width="239">
 					<div class="thumbnail_title">

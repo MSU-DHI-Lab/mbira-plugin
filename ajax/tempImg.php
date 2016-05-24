@@ -3,7 +3,11 @@
 	if(isset($_POST['id'])) {
 		$id = $_POST['id'];
 	}
-	$uploadfile = "../images/temp".$id.".jpg";
-	move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
 
+	if (!file_exists('../tmp')) {
+	    mkdir('../tmp', 0775, true);
+	}
+
+	$uploadfile = "../tmp/temp".$id.".jpg";
+	move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
 ?>

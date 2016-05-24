@@ -17,12 +17,13 @@
 						<a ui-sref="projectInfo({project: project.id, pid: pid, previous: 'ALL AREAS'})" >
 							<img src="img/info.png">
 						</a>
-						<a ui-sref="viewProject({project: project.id, pid: project.pid, previous: 'ALL AREAS'})"> 
-							<img src="img/forward.png">
+						<a ui-sref="viewProject({project: project.id, pid: project.pid, previous: 'ALL AREAS'})">
+							<img class="viewProject" src="img/ProjectOptions.svg" height="25px">
 						</a>
 					</div>
 				</div>
 
+				
                 <div class="area" ng-repeat='area in project.areas' ng-class-odd="'odd'" ng-class-even="'even'">
                 	<a ui-sref="viewArea({area: area.id, pid: area.pid, project: area.project_id, previous: 'ALL AREAS'})"> 
 						<div class="area-wrapper">

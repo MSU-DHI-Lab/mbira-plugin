@@ -1,7 +1,7 @@
 body, html {
     margin: 0;
     padding: 0;
-  
+
 }
 
 .main {
@@ -37,6 +37,32 @@ img {
 
 }
 
+@font-face {
+    font-family: 'montserratlight';
+    src: url('fonts/montserrat-light-webfont.eot');
+    src: url('fonts/montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/montserrat-light-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-light-webfont.woff') format('woff'),
+         url('fonts/montserrat-light-webfont.ttf') format('truetype'),
+         url('fonts/montserrat-light-webfont.svg#montserratlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'montserratthin';
+    src: url('fonts/montserrat-thin-webfont.eot');
+    src: url('fonts/montserrat-thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/montserrat-thin-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-thin-webfont.woff') format('woff'),
+         url('fonts/montserrat-thin-webfont.ttf') format('truetype'),
+         url('fonts/montserrat-thin-webfont.svg#montserratthin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 #right {
     margin: 0;
 }
@@ -64,7 +90,7 @@ img {
     position: relative;
     top:-20px;
     z-index: 1;
-    
+
 }
 
 .header h1 {
@@ -73,7 +99,7 @@ img {
     color: #FFF;
     font-size: 26px;
     font-family: 'montserratregular', sans-serif;
-    
+
 }
 
 .header div {
@@ -169,7 +195,7 @@ img {
     font-size: 20px;
     color: #fff;
 }
-  
+
 .form-group-file {
     position: absolute;
     top: 0;
@@ -200,7 +226,7 @@ img {
 
 #name {
     width: 500px;
-    font-family: 'montserratregular', sans-serif;
+    font-family: 'montserratlight', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
     color: #FFF;
@@ -268,7 +294,6 @@ textarea {
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
-    transition: all .5s ease;
 }
 
 #submit:hover {
@@ -293,4 +318,3 @@ textarea {
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
 }
-

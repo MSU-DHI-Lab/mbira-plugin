@@ -5,11 +5,11 @@ body, html {
 
 @font-face {
     font-family: 'montserratregular';
-    src: url('Montserrat-Regular-webfont.eot');
-    src: url('Montserrat-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('Montserrat-Regular-webfont.woff') format('woff'),
-         url('Montserrat-Regular-webfont.ttf') format('truetype'),
-         url('Montserrat-Regular-webfont.svg#montserratregular') format('svg');
+    src: url('fonts/Montserrat-Regular-webfont.eot');
+    src: url('fonts/Montserrat-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Montserrat-Regular-webfont.woff') format('woff'),
+         url('fonts/Montserrat-Regular-webfont.ttf') format('truetype'),
+         url('fonts/Montserrat-Regular-webfont.svg#montserratregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -17,15 +17,42 @@ body, html {
 
 @font-face {
     font-family: 'montserratbold';
-    src: url('Montserrat-Bold-webfont.eot');
-    src: url('Montserrat-Bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('Montserrat-Bold-webfont.woff') format('woff'),
-         url('Montserrat-Bold-webfont.ttf') format('truetype'),
-         url('Montserrat-Bold-webfont.svg#montserratbold') format('svg');
+    src: url('fonts/Montserrat-Bold-webfont.eot');
+    src: url('fonts/Montserrat-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Montserrat-Bold-webfont.woff') format('woff'),
+         url('fonts/Montserrat-Bold-webfont.ttf') format('truetype'),
+         url('fonts/Montserrat-Bold-webfont.svg#montserratbold') format('svg');
     font-weight: normal;
     font-style: normal;
 
 }
+
+@font-face {
+    font-family: 'montserratlight';
+    src: url('fonts/montserrat-light-webfont.eot');
+    src: url('fonts/montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/montserrat-light-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-light-webfont.woff') format('woff'),
+         url('fonts/montserrat-light-webfont.ttf') format('truetype'),
+         url('fonts/montserrat-light-webfont.svg#montserratlight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'montserratthin';
+    src: url('fonts/montserrat-thin-webfont.eot');
+    src: url('fonts/montserrat-thin-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/montserrat-thin-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-thin-webfont.woff') format('woff'),
+         url('fonts/montserrat-thin-webfont.ttf') format('truetype'),
+         url('fonts/montserrat-thin-webfont.svg#montserratthin') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 
 #right {
     margin: 0;
@@ -125,7 +152,7 @@ input.cmn-toggle-round-flat:checked + label:after {
     width:100%;
     position:relative;
     top:0px;
-    z-index: 1;   
+    z-index: 1;
 }
 
 .header h1 {
@@ -179,7 +206,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 #areaName {
     width: 490px;
-    font-family: 'montserratregular', sans-serif;
+    font-family: 'montserratlight', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
     color: #FFF;
@@ -205,7 +232,7 @@ input.cmn-toggle-round-flat:checked + label:after {
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
-    transition: all .5s ease;
+    /*transition: all .5s ease;*/
 }
 
 #submit:hover {
@@ -261,7 +288,7 @@ input.cmn-toggle-round-flat:checked + label:after {
 #textField {
     width: 100%;
     height: 140px;
-    font-family: 'montserratregular', sans-serif;
+    font-family: 'montserratlight', sans-serif;
     font-size: 16px;
     background: rgba(255,255,255, 0.2);
     color: #FFF;
@@ -304,6 +331,30 @@ textarea {
 
 /* ADD MEDIA */
 
+.thumbnail {
+    width: 131px;
+    height: 131px;
+    background: rgba(255,255,255,.3);
+    position: relative;
+    margin: 20px 0 0 20px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+
+}
+
+.thumbnail-header {
+    width: 405px;
+    height: 131px;
+    background: rgba(255,255,255,.3);
+    position: relative;
+    margin: 20px 0 0 20px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    overflow:hidden;
+}
+
 .thumbnail_title {
     width: 100%;
     text-align: center;
@@ -322,26 +373,56 @@ textarea {
     padding: 10px 10px;
 }
 
+.thumbnail .dropImg, .thumbnail-header .dropImg {
+    position: absolute;
+    top: 10px;
+    left: 38px;
+    background: transparent;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 20px;
+    color: #fff;
+}
 
-div.form-group-file {
+.thumbnail-header img {
+    width: 405px;
+}
+
+.form-group-file {
     position: absolute;
     top: 0;
     left: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 127.5px;
-    height: 127.5px;
+    width: 131px;
+    height: 131px;
 }
 
-div.form-group-file input {
-    width: 127.5px !important;
-    height: 127.5px !important;
+.form-group-file-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 405px;
+    height: 131px;
+}
+
+.form-group-file input {
+    width: 131px !important;
+    height: 131px !important;
+    opacity: 0 !important;
+    cursor: pointer;
+}
+
+.form-group-file-header input {
+    width: 405px !important;
+    height: 131px !important;
     opacity: 0 !important;
     cursor: pointer;
 }
 
 .medias {
-     margin: 0;
+    margin: 0;
     padding-bottom: 20px;
     z-index: 2;
     background: rgba(255,255,255, 0.2);
@@ -355,8 +436,8 @@ div.form-group-file input {
 }
 
 .media {
-    width: 127.5px;
-    height: 127.5px;
+    width: 131px;
+    height: 131px;
     margin: 20px 0 0 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -377,23 +458,22 @@ img {
     cursor: pointer;
 }
 
-
 .media_new {
-    width: 130px;
-    height: 130px;
+    width: 127.5px;
+    height: 127.5px;
     background: #3EB9FD;
     margin: 20px 0 0 20px;
     position: relative;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
-    transition: all ease .1s;
+   transition: all ease .1s;
 }
 
 .media_new:hover {
-    -moz-box-shadow: 0 0 0 1px #FFF; 
-    -webkit-box-shadow: 0 0 0 1px #FFF; 
-    box-shadow: 0 0 0 1px #FFF; 
+    -moz-box-shadow: 0 0 0 1px #FFF;
+    -webkit-box-shadow: 0 0 0 1px #FFF;
+    box-shadow: 0 0 0 1px #FFF;
 }
 
 .media_title {
@@ -405,7 +485,7 @@ img {
     right: 0;
     background: rgba(2,20,38,.7);
 }
-    
+
 .media_title h3 {
     font-family: 'montserratregular', sans-serif;
     font-size: 11px;
@@ -413,7 +493,7 @@ img {
     padding: 10px;
     margin: 0;
 }
-    
+
 .media_title_new {
     width: 100%;
     text-align: center;
@@ -422,7 +502,7 @@ img {
     left: 0;
     right: 0;
 }
-    
+
 .media_title_new h3 {
     font-family: 'montserratregular', sans-serif;
     font-size: 11px;
@@ -430,7 +510,7 @@ img {
     margin: 0;
     color: #fff;
 }
-    
+
 .media_title_new img {
    text-align: center;
 }
@@ -438,7 +518,7 @@ img {
 
 /* COMMENTS */
 
-.comments-all { 
+.comments-all {
     background: rgba(255,255,255, 0.2);
     box-shadow: none;
     border:none;
@@ -487,4 +567,28 @@ img {
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
 }
 
+.short {
+    position: relative;
+}
 
+.flex-align {
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    flex-direction: row;
+    -webkit-flex-direction: row;
+    align-content: center;
+    -webkit-align-content: center;
+    justify-content: space-between;
+    -webkit-justify-content: space-between;
+}
+
+.counter {
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
+    font-size: 16px;
+    vertical-align: center;
+}

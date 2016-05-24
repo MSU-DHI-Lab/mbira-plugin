@@ -1,7 +1,7 @@
 body, html {
     margin: 0;
     padding: 0;
-  
+
 }
 
 .main {
@@ -15,14 +15,21 @@ img {
 }
 
 .projectImg {
-	height:239px; 
+	height:239px;
 	width:239px;
 	object-fit: contain;
 }
+
 .logoImg {
-	height:239px; 
+	height:239px;
 	width:239px;
 	object-fit: contain;
+}
+
+.headerImg {
+    height:239px;
+    width:759px;
+    object-fit: cover;
 }
 
 @font-face {
@@ -39,11 +46,24 @@ img {
 
 @font-face {
     font-family: 'montserratbold';
-    src: url('Montserrat-Bold-webfont.eot');
-    src: url('Montserrat-Bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('Montserrat-Bold-webfont.woff') format('woff'),
-         url('Montserrat-Bold-webfont.ttf') format('truetype'),
-         url('Montserrat-Bold-webfont.svg#montserratbold') format('svg');
+    src: url('fonts/Montserrat-Bold-webfont.eot');
+    src: url('fonts/Montserrat-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Montserrat-Bold-webfont.woff') format('woff'),
+         url('fonts/Montserrat-Bold-webfont.ttf') format('truetype'),
+         url('fonts/Montserrat-Bold-webfont.svg#montserratbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'montserratlight';
+    src: url('fonts/montserrat-light-webfont.eot');
+    src: url('fonts/montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/montserrat-light-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-light-webfont.woff') format('woff'),
+         url('fonts/montserrat-light-webfont.ttf') format('truetype'),
+         url('fonts/montserrat-light-webfont.svg#montserratlight') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -57,19 +77,6 @@ img {
          url('fonts/montserrat-thin-webfont.woff') format('woff'),
          url('fonts/montserrat-thin-webfont.ttf') format('truetype'),
          url('fonts/montserrat-thin-webfont.svg#montserratthin') format('svg');
-    font-weight: normal;
-    font-style: normal;
-
-}
-
-@font-face {
-    font-family: 'montserratlight';
-    src: url('fonts/montserrat-light-webfont.eot');
-    src: url('fonts/montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('montserrat-light-webfont.woff2') format('woff2'),
-         url('fonts/montserrat-light-webfont.woff') format('woff'),
-         url('fonts/montserrat-light-webfont.ttf') format('truetype'),
-         url('fonts/montserrat-light-webfont.svg#montserratlight') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -102,7 +109,7 @@ img {
     position: relative;
     top:0px;
     z-index: 1;
-    
+
 }
 
 .header h1 {
@@ -112,8 +119,8 @@ img {
     font-size: 26px;
     font-family: 'montserratlight', sans-serif;
     letter-spacing: 1px;
-    font-weight: 100; 
-    
+    font-weight: 100;
+
 }
 
 .header div {
@@ -152,6 +159,7 @@ img {
 
 
 .thumbnail {
+    z-index: 999;
     width: 239px;
     height: 239px;
     background: rgba(255,255,255,.3);
@@ -161,8 +169,21 @@ img {
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     float:left;
-	clear: both;
-    z-index: 9;
+    clear: both;
+
+}
+
+.thumbnail-header {
+    width: 759px;
+    height: 239px;
+    background: rgba(255,255,255,.3);
+    margin: 0 0 20px 20px;
+    position: relative;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    float:left;
+    clear: both;
 }
 
 .thumbnail_title {
@@ -181,7 +202,7 @@ img {
     padding: 20px 0px;
 }
 
-.thumbnail .dropImg {
+.thumbnail .dropImg, .thumbnail-header .dropImg {
     position: absolute;
     top: 10px;
     left: 38px;
@@ -191,7 +212,7 @@ img {
     color: #fff;
 }
 
-.thumbnail h5 {
+.thumbnail h5, .thumbnail-header h5 {
     position: absolute;
     top: 35px;
     left: 107.5px;
@@ -201,7 +222,7 @@ img {
     color: #fff;
 }
 
-.thumbnail .clickAdd {
+.thumbnail .clickAdd, .thumbnail-header .clickAdd {
     position: absolute;
     bottom: 65px;
     left: 51px;
@@ -210,7 +231,7 @@ img {
     font-size: 20px;
     color: #fff;
 }
-  
+
 .form-group-file {
     position: absolute;
     top: 0;
@@ -221,8 +242,25 @@ img {
     height: 239px;
 }
 
+.form-group-file-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 759px;
+    height: 239px;
+}
+
 .form-group-file input {
     width: 239px !important;
+    height: 239px !important;
+    opacity: 0 !important;
+    cursor: pointer;
+}
+
+.form-group-file-header input {
+    width: 759px !important;
     height: 239px !important;
     opacity: 0 !important;
     cursor: pointer;
@@ -237,7 +275,7 @@ img {
 
 #name {
     width: 500px;
-    font-family: 'montserratregular', sans-serif;
+    font-family: 'montserratlight', sans-serif;
     font-size: 20px;
     background: rgba(255,255,255, 0.3);
     color: #FFF;
@@ -253,14 +291,14 @@ img {
 #short {
     width: 500px;
     height: 155px;
-    font-family: 'montserratregular', sans-serif;
+    font-family: 'montserratlight', sans-serif;
     font-size: 16px;
     background: rgba(255,255,255, 0.3);
     color: #FFF;
     box-shadow: none;
     border:none;
     padding: 20px 20px 20px 20px;
-    margin: 0 0 20px 20px; 
+    margin: 0 0 20px 20px;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -280,13 +318,13 @@ img {
     z-index: 999999;
     left: 300px;
     top: 120px;
-  
+
 }
 
 #description {
     width: 500px;
     height: 155px;
-    font-family: 'montserratregular', sans-serif;
+    font-family: 'montserratlight', sans-serif;
     font-size: 16px;
     background: rgba(255,255,255, 0.3);
     color: #FFF;
@@ -337,7 +375,6 @@ textarea {
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
-    transition: all .5s ease;
 	display: block;
 }
 

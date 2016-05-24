@@ -1,6 +1,6 @@
 body, html {
     margin: 0;
-    padding: 0; 
+    padding: 0;
 }
 
 .explorations {
@@ -37,7 +37,7 @@ body, html {
     font-family: 'montserratlight';
     src: url('fonts/montserrat-light-webfont.eot');
     src: url('fonts/montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('montserrat-light-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-light-webfont.woff2') format('woff2'),
          url('fonts/montserrat-light-webfont.woff') format('woff'),
          url('fonts/montserrat-light-webfont.ttf') format('truetype'),
          url('fonts/montserrat-light-webfont.svg#montserratlight') format('svg');
@@ -45,9 +45,6 @@ body, html {
     font-style: normal;
 
 }
-
-
-
 
 @font-face {
     font-family: 'montserratthin';
@@ -97,7 +94,7 @@ body, html {
     color: #FFF;
     font-family: 'montserratlight' sans-serif;
     letter-spacing: 1px;
-    font-weight: 100;    
+    font-weight: 100;
 }
 
 
@@ -134,10 +131,35 @@ body, html {
     background: rgba(255,255,255, 0.4);
     -webkit-box-shadow: 3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 2px 0px rgba(50, 50, 50, 0.2);
-    box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2); 
+    box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     -webkit-transition: -webkit-filter .5s;
 }
-    
+
+img.viewProject {
+  opacity: 1;
+  /*transition: all .5s ease;*/
+}
+
+img.viewProject:hover {
+  opacity: .5;
+}
+
+.link-wrapper {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex !important;
+    align-items: center;
+    -webkit-align-items: center;
+    margin-right: 7px;
+}
+
+img {
+    border: none;
+    margin-left: 7px;
+    margin-right: 14px;
+}
+
 .link-wrapper {
     display: -webkit-box;
     display: -moz-box;
@@ -155,7 +177,7 @@ img {
 }
 
 .project_title h3 {
-    font-family: 'montserratlight' sans-serif;
+    font-family: 'montserratregular' sans-serif;
     letter-spacing: 1px;
     font-weight: 100;
     font-size: 30px;
@@ -165,26 +187,16 @@ img {
 }
 
 .exploration {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex !important;
-    align-items: center;
-    -webkit-align-items: center;
-    justify-content: space-between;
-    -webkit-justify-content: space-between;
     width: 759px;
-    height: 64px;
-    display: inline;
+}
+
+a {
+    text-decoration: none;
 }
 
 .exploration-wrapper {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex !important;
-    align-items: center;
-    -webkit-align-items: center; 
+    display: block !important;
+    padding: 20px;
 }
 
 .forward-wrapper {
@@ -205,8 +217,8 @@ img {
 }
 
 .none h3 {
-    font-family: 'montserratlight' sans-serif;
-    white-space:nowrap; 
+    font-family: 'montserratregular' sans-serif;
+    white-space:nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     letter-spacing: 1px;
@@ -219,12 +231,12 @@ img {
 
 
 .exploration_title {
-    width: 200px;
+    display: block !important;
     bottom: 0;
 }
 .exploration_title h3 {
-    font-family: 'montserratlight' sans-serif;
-    white-space:nowrap; 
+    font-family: 'montserratregular' sans-serif;
+    white-space:nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     letter-spacing: 1px;
@@ -232,18 +244,19 @@ img {
     font-size: 20px;
     color: #fff;
     margin:0;
-    padding-left: 20px;
+    text-overflow: ellipsis;
 }
 
 .description {
     font-family: 'montserratlight' sans-serif;
-    width: 480px;
-    white-space:nowrap; 
+    width:717px;
+    white-space:nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     letter-spacing: 1px;
     font-weight: 100;
-    font-size: 14px;
+    font-size: 12px;
     color: #fff;
     margin:0;
+    padding-top: 5px;
 }

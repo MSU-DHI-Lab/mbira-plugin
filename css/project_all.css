@@ -45,7 +45,7 @@ img {
     font-family: 'montserratlight';
     src: url('fonts/montserrat-light-webfont.eot');
     src: url('fonts/montserrat-light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('montserrat-light-webfont.woff2') format('woff2'),
+         url('fonts/montserrat-light-webfont.woff2') format('woff2'),
          url('fonts/montserrat-light-webfont.woff') format('woff'),
          url('fonts/montserrat-light-webfont.ttf') format('truetype'),
          url('fonts/montserrat-light-webfont.svg#montserratlight') format('svg');
@@ -53,9 +53,6 @@ img {
     font-style: normal;
 
 }
-
-
-
 
 @font-face {
     font-family: 'montserratthin';
@@ -133,7 +130,7 @@ img {
     -webkit-box-shadow: 3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2); 
-    transition: all ease .1s;
+/*    transition: all ease .1s;*/
     
 }
 
@@ -152,7 +149,7 @@ img {
     -webkit-box-shadow: 3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 2px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 2px 0px rgba(50, 50, 50, 0.2);
-    transition: all ease .1s;
+    /*transition: all ease .1s;*/
 }
 
 .project_new:hover {

@@ -1,21 +1,12 @@
-mbira.controller("viewAreasCtrl", function ($scope, $http, makeArray){
+mbira.controller("viewAreasCtrl", function ($scope, $http, makeArray, areas, projects){
 	$scope.project
 	$scope.pid
 	$scope
 	//Get all areas
-	$http({
-		method: 'GET',
-		url: "ajax/getAreas.php",
-		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-	}).success(function(data){
+	areas.getAll().success(function(data){
 		$scope.data = data;
-		
 		//Get all projects
-		$http({
-			method: 'GET',
-			url: "ajax/getProjects.php",
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).success(function(data2){
+		projects.getAll().success(function(data2){
 			for(i=0;i<data2.length;i++){
 			  	areaArray = makeArray.make(data2[i].id, $scope);
 			  	data2[i].areas = areaArray;
@@ -23,10 +14,9 @@ mbira.controller("viewAreasCtrl", function ($scope, $http, makeArray){
 			$scope.projects = data2;
 		})
 	})
-});	
+});
 
-mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, setMap, exhibits, getProject){
-	
+mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, setMap, exhibits, projects, exhibits, temporary, areas){
 	$scope.marker = false;
 	$scope.mark = '';
 	$scope.file;
@@ -35,22 +25,21 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	$scope.markers = [];
 	$scope.radius = '300';
 	$scope.polygon = '';
-	$scope.circle = '';
 	var newlatlngs;
 	$scope.tmpID = 0;
 	$scope.media = [];
 	$scope.images = [];
 	$scope.done = false;
-	
-	var success = function(data, status) {
+
+	projects.get($stateParams.project).success(function(data) {
         $scope.project = data[0][2];
-    };
-	getProject.name($stateParams.project).success(success);
-	
+    });
+
 	//new area model
 	$scope.newArea = {
 		name: "",
 		description: "",
+		shortDescription: "",
 		dig_deeper: '',
 		file:"",
 		shape: "",
@@ -64,44 +53,36 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 	$scope.exhibits = [];
 	temp=[];
 
-	 $http({
-		method: 'POST',
-		url: "ajax/getExhibits.php",
-		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-	}).success(function(data){
+	exhibits.getAll().success(function(data){
 		if (!data.length) {
 			$scope.exhibits.push({name:'No Exhibits'})
 		}else {
 			for(i=0;i<data.length;i++){
-				//$scope.exhibits.push({name:data[i].name,id:data[i].id, ticked:false})
 				temp.push({name:data[i].name,id:data[i].id, ticked:false});
-				
+
 			}
 			$scope.exhibits=temp;
 		}
-	})  
-	
-	//Get file to be uploaded
-	$scope.onFileSelect = function($files) {
-		if($files.length > 1) {
-			alert("Only upload one image for the thumbnail.");
-		}else{
-			$scope.file = $files[0];
+	})
 
-			$scope.uploadFile = $upload.upload({
-				url:'ajax/tempImg.php',
-				method:"POST",
-				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-				file: $scope.file
-			}).success(function(data) {	
-				$('.thumbnail .dropImg').css('display', 'none');
-				$('.thumbnail h5').css('display', 'none');
-				$('.thumbnail .clickAdd').css('display', 'none');
-				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
-			});
-		}
+	//Get file to be uploaded
+	$scope.onFileSelect = function($files) { 
+		$scope.file = $files[0];
+		temporary.thumbnail($files).success(function(data) {
+			// $scope.images.unshift($scope.file);
+			$('.thumbnail img').attr('src', 'tmp/temp.jpg?' + (new Date).getTime()) // forces img refresh
+		});
 	};
-	
+
+	//Get header to be uploaded
+	$scope.onHeaderSelect = function($files) {
+		$scope.header = $files[0];
+		temporary.header($files).success(function(data) {
+			// $scope.images.unshift($scope.file);
+			$('.thumbnail-header img').attr('src', 'tmp/temp_header.jpg?' + (new Date).getTime()) // forces img refresh
+		});
+	};
+
 	$scope.submitMedia = function($files) {
 		console.log($files[0].name);
 		if($files.length > 1) {
@@ -122,22 +103,22 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 				});
 				$scope.images.push($scope.mediaFile);
 				$scope.tmpID++;
-			});  
+			});
 		}
 	}
-	
+
 	function findByName (array, test) {
         for (var x = 0; x < array.length; x++) {
             if (array[x].name == test) return x;
         }
         return -1;
     }
-	
+
 	$scope.deleteMedia = function(m) {
 		$scope.media.splice($scope.media.indexOf(m), 1);
 		$scope.images.splice(findByName($scope.images, m.originalName), 1);
 	}
-	
+
 	//submit new area
 	$scope.submit = function() {
 		geo = $scope.polygon.toGeoJSON()
@@ -150,6 +131,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 				projectId: $scope.ID,
 				name: $scope.newArea.name,
 				description: $scope.newArea.description,
+				shortDescription: $scope.newArea.shortDescription,
 				dig_deeper: $scope.newArea.dig_deeper,
 				shape: $scope.newArea.shape,
 				radius: $scope.newArea.radius,
@@ -163,24 +145,24 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 		}).success(function(data) {
 			//Save media
 			for(var i = 0; i < $scope.images.length; i++) {
-				$scope.uploadMedia = $upload.upload({				
+				$scope.uploadMedia = $upload.upload({
 					url: 'ajax/saveMedia.php',
 					method: 'POST',
 					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-					data: { 
+					data: {
 							type: 'area',
 							id: data
 						},
 					file: $scope.images[i]
 				})
 			}
-			
+
 			//return to project
 			exhibits.add(data,$scope.outputExhibits, 'area');
 			location.href = "#/viewProject/?project="+$scope.ID+'&pid='+$scope.PID;
 		});
 	};
-	
+
 	//Reset markers on map
 	$scope.clearMarkers = function(){
 		$scope.markers.forEach(function(mark){
@@ -188,13 +170,12 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 		})
 		$scope.newArea.coordinates = [];
 		$scope.markers = [];
-		
+
 		$scope.newArea.shape = '';
-		
+
 		map.removeLayer($scope.polygon);
-		map.removeLayer($scope.circle);
 	}
-	
+
 	//Create polygon out of multiple markers
 	$scope.createPolygon = function(){
 		//remove any markers and shapes already there
@@ -202,54 +183,27 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 			// map.removeLayer(mark);
 		// })
 		map.removeLayer($scope.polygon);
-		// map.removeLayer($scope.circle);
-		// console.log($scope.newArea.coordinates);
-		//Create polygon from array of coordinates 
+		//Create polygon from array of coordinates
 		$scope.polygon = L.polygon($scope.newArea.coordinates).addTo(map);
-		$scope.polygon.setStyle({fillColor: '#445963'});
-		$scope.polygon.setStyle({color: '#253137'});
+		$scope.polygon.setStyle({fillColor: '#0A263D'});
+		$scope.polygon.setStyle({color: '#FFF'});
 		if(!$scope.done){
-			$scope.polygon.setStyle({opacity: '.2'});
+			$scope.polygon.setStyle({opacity: '1'});
 		} else {
-			$scope.polygon.setStyle({opacity: '.8'});
+			$scope.polygon.setStyle({opacity: '1'});
 		}
 		// $scope.polygon.setStyle({stroke: false});
 		newlatlngs = $scope.polygon._latlngs;
 		//reset array of markers
 		$scope.markers = [];
-		
+
 		//set shape
 		$scope.newArea.shape = 'polygon';
 	}
-	/* 
-	// //Create polygon out of single marker
-	// $scope.createCircle = function(radius){
-		// //remove any markers and shapes already there
-		// $scope.markers.forEach(function(mark){
-			// map.removeLayer(mark);
-		// })
-		// map.removeLayer($scope.polygon);
-		// map.removeLayer($scope.circle);
-		
-		// //create circle from coordinate
-		// $scope.circle = L.circle($scope.newArea.coordinates[0], radius, {
-			// color: 'red',
-			// fillColor: '#f03',
-			// fillOpacity: 0.5
-		// }).addTo(map);
-		
-		// $scope.newArea.radius = radius;
-		
-		// //reset array of markers
-		// $scope.markers = [];
-		
-		// //set shape
-		// $scope.newArea.shape = 'circle';
-	// }
-	 */
+
 	//<MAP_STUFF>
 	//initialize map
-	var map = setMap.set(42.7404566603398, -84.5452880859375);
+	var map = setMap.set(42.7404566603398, -84.54528808595);
 
 	//initialize search bar
 	$scope.search = new L.Control.GeoSearch({
@@ -260,18 +214,18 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 		location: $scope.mark,
 		map: map
 	}).addTo(map);
-	
+
 	var circleIcon = L.icon({
-		iconUrl: 'js/images/marker-icon-circle.png',
-		iconSize:     [15, 15], // size of the icon
-		iconAnchor:   [8, 8], // point of the icon which will correspond to marker's location
+		iconUrl: 'js/images/marker-icon-circle.svg',
+		iconSize:     [20, 20], // size of the icon
+		iconAnchor:   [10, 10], // point of the icon which will correspond to marker's location
 	});
 
 	//Click to set marker and save location to scope
 	count = 0;
 	var id = 0;
 	map.on('click', function(e) {
-		$scope.newArea.coordinates.push([e.latlng.lat, e.latlng.lng]);	
+		$scope.newArea.coordinates.push([e.latlng.lat, e.latlng.lng]);
 		var marker = L.marker(e.latlng, {icon: circleIcon, id: id++, draggable: 'true'}).addTo(map)
 			.on('drag', function(event){
 				var marker = event.target;
@@ -289,16 +243,16 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 			}).on('click', function(e) {
 				if(!$scope.done && id >= 3 && this._latlng.lat == $scope.polygon.getLatLngs()[0].lat && this._latlng.lng == $scope.polygon.getLatLngs()[0].lng) {
 					$scope.done = true;
-					$scope.polygon.setStyle({opacity: '.8'});
+					$scope.polygon.setStyle({opacity: '1'});
 					$scope.polygon.setStyle({dashArray: null});
 					if($scope.ghostMarker){
 						// map.removeLayer($scope.tooltip);
 						map.removeLayer($scope.ghostMarker);
-					}	
+					}
 					if($scope.ghostLine1){
 						map.removeLayer($scope.ghostLine1);
 						map.removeLayer($scope.ghostLine2);
-					}	
+					}
 					$('#done').fadeIn('slow');
 				} else {
 					currentlatlng = $scope.polygon._latlngs;
@@ -310,7 +264,7 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 					}
 					removedEdge = this.options.id;
 					map.removeLayer(this);
-					
+
 					var highest = 1;
 					$.each(map._layers, function (ml) {
 						if (map._layers[ml]._icon && map._layers[ml].options.id > removedEdge) {
@@ -319,77 +273,77 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 							highest = 0;
 						}
 					})
-					
+
 					if (highest) {
 						id = id - 1;
 					}
-				
+
 					$scope.polygon.setLatLngs(currentlatlng);
 					$scope.newArea.coordinates = $scope.polygon.getLatLngs();
-					latlngArray = [];	
+					latlngArray = [];
 				}
 			})
 			.on('mouseover', function(e) {
-				
+
 				marker.bindPopup('HI', {'offset': L.point(0,-10)}).openPopup();
 				if($scope.ghostMarker){
 					$scope.onPin = true;
 					// map.removeLayer($scope.tooltip);
 					map.removeLayer($scope.ghostMarker);
-				}	
+				}
 			})
 			.on('mouseout', function(e) {
 				marker.closePopup();
 				if($scope.ghostMarker){
 					$scope.onPin = false;
-				}	
+				}
 			});
 		$scope.markers.push(marker);
 		$scope.createPolygon();
-		$scope.$apply(); 
+		$scope.$apply();
 		// if (id >= 3){
 			// $('#done').fadeIn('slow');
 		// }
 	});
-	
+
 	var coords;
 	map.on('mousemove', function(e) {
 		if(!$scope.done) {
 			if ($scope.polygon) {
-			
+
 				if($scope.onPin) {
 					if($scope.ghostMarker){
 						// map.removeLayer($scope.tooltip);
 						map.removeLayer($scope.ghostMarker);
-					}	
+					}
 				} else {
 					coords = $scope.polygon.getLatLngs();
 					if($scope.ghostMarker){
 						// map.removeLayer($scope.tooltip);
 						map.removeLayer($scope.ghostMarker);
-					}	
+					}
 					if($scope.ghostLine1){
 						map.removeLayer($scope.ghostLine1);
 						map.removeLayer($scope.ghostLine2);
-					}	
+					}
 					// $scope.tooltip = L.marker(e.latlng, {icon: tooltip, opacity: .85}).addTo(map);
 					$scope.ghostMarker = L.marker(e.latlng, {icon: circleIcon, opacity: '.5'}).addTo(map);
 					$($scope.ghostMarker._icon).addClass('ghost');
-					$scope.ghostLine1 = L.polyline([coords[coords.length-1], e.latlng], {dashArray: "5, 10", color: "#253137"}).addTo(map);
-					$scope.ghostLine2 = L.polyline([coords[0], e.latlng], {dashArray: "5, 10", color: "#253137"}).addTo(map);
+					$scope.ghostLine1 = L.polyline([coords[coords.length-1], e.latlng], {dashArray: "5, 10", color: "#0A263D"}).addTo(map);
+					$scope.ghostLine2 = L.polyline([coords[0], e.latlng], {dashArray: "5, 10", color: "#0A263D"}).addTo(map);
 				}
-				
+
 				if($scope.ghostLine1){
 					map.removeLayer($scope.ghostLine1);
 					map.removeLayer($scope.ghostLine2);
-				}	
+				}
 				// $scope.tooltip = L.marker(e.latlng, {icon: tooltip, opacity: .85}).addTo(map);
-				$scope.ghostLine1 = L.polyline([coords[coords.length-1], e.latlng], {dashArray: "5, 10", color: "#253137"}).addTo(map);
-				$scope.ghostLine2 = L.polyline([coords[0], e.latlng], {dashArray: "5, 10", color: "#253137"}).addTo(map);
+				$scope.ghostLine1 = L.polyline([coords[coords.length-1], e.latlng], {dashArray: "5, 10", color: "#0A263D"}).addTo(map);
+				$scope.ghostLine2 = L.polyline([coords[0], e.latlng], {dashArray: "5, 10", color: "#0A263D"}).addTo(map);
 			}
-		}		
+		}
 	});
-	
+
 	//Click to set marker and save location to scope
 	$("#done").on('click', function(e) {
 		e.stopPropagation()
@@ -401,11 +355,11 @@ mbira.controller("newAreaCtrl", function ($scope, $http, $upload, $stateParams, 
 			});
 		});
 	});
-	
+
 	//</MAP_STUFF>
 });
 
-mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp, exhibits, getProject){
+mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $stateParams, setMap, timeStamp, exhibits, projects){
 	$scope.project = $stateParams.project;
 	$scope.pid = $stateParams.pid;
 	$scope.previous = $stateParams.previous
@@ -413,12 +367,11 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 	$scope.comments = []
 	latlngArray = []
 	removed = 1000;
-	
-	var success = function(data, status) {
+
+	project.get($stateParams.project).success(function(data) {
         $scope.project = data[0][2];
-    };
-	getProject.name($stateParams.project).success(success);
-	
+    });
+
 	$scope.exhibits = [];
 	temp=[];
 
@@ -428,6 +381,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 		data: $.param({'id': $stateParams.area, 'task': 'area'}),
 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 	}).success(function(data){
+		console.log(data)
 		ids = []
 		for (a=0;a<data.length;a++){
 			ids.push(data[a].id);
@@ -447,9 +401,9 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 				}
 			}
 			$scope.exhibits=temp;
-		})  
-	}) 
-    
+		})
+	})
+
 	function getMedia(){
 		$http({
 			method: 'POST',
@@ -460,7 +414,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 			$scope.media = data;
 		})
     }
-	
+
 	function checkIfHasReply(objToPushTo, idToCheck,data){
 		for(j=0;j<data.length;j++){
 			if (idToCheck == data[j].replyTo) {
@@ -474,7 +428,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 			checkIfHasReply(objToPushTo.replies[h],objToPushTo.replies[h].comment_id,data);
 		}
 	}
-	
+
 	function idToUser(commentData){
 		for(q=0;q<$scope.userData.length;q++){					//match user_id of comment or reply to name
 			if ($scope.userData[q].id === commentData.user_id){
@@ -482,45 +436,45 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 			}
 		}
 	}
-	
-	function loadComments(userData) {//load comments
-		$http({
-			method: 'POST',
-			url: "ajax/getComments.php",
-			data: $.param({
-					id: $stateParams.area,
-					type: 'area'
-				}),
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).success(function(data){
-			data.sort(function(x, y){
-				if ( x.replyTo - y.replyTo === 0){
-					return y.timeStamp - x.timeStamp
-				} else {
-					return y.replyTo - x.replyTo;
-				}
-			})
-			for(i=0;i<data.length;i++){
-				if (data[i].replyTo == 0){
-					name = idToUser(data[i]);
-					date = timeStamp.toDate(data[i].timeStamp) + " | " + timeStamp.toTime(data[i].timeStamp)
-					tempObj = {comment_id:data[i].id, user:name, date:date,comment:data[i].comment, replies:[]}
-					$scope.comments.push(tempObj)
-				}
-			}
-			for(i=0;i<$scope.comments.length;i++){
-				checkIfHasReply($scope.comments[i], $scope.comments[i].comment_id, data)
-			}
-			
-		})
-	}
-	
+
+	// function loadComments(userData) {//load comments
+	// 	$http({
+	// 		method: 'POST',
+	// 		url: "ajax/getComments.php",
+	// 		data: $.param({
+	// 				id: $stateParams.area,
+	// 				type: 'area'
+	// 			}),
+	// 		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+	// 	}).success(function(data){
+	// 		data.sort(function(x, y){
+	// 			if ( x.replyTo - y.replyTo === 0){
+	// 				return y.timeStamp - x.timeStamp
+	// 			} else {
+	// 				return y.replyTo - x.replyTo;
+	// 			}
+	// 		})
+	// 		for(i=0;i<data.length;i++){
+	// 			if (data[i].replyTo == 0){
+	// 				name = idToUser(data[i]);
+	// 				date = timeStamp.toDate(data[i].timeStamp) + " | " + timeStamp.toTime(data[i].timeStamp)
+	// 				tempObj = {comment_id:data[i].id, user:name, date:date,comment:data[i].comment, replies:[]}
+	// 				$scope.comments.push(tempObj)
+	// 			}
+	// 		}
+	// 		for(i=0;i<$scope.comments.length;i++){
+	// 			checkIfHasReply($scope.comments[i], $scope.comments[i].comment_id, data)
+	// 		}
+
+	// 	})
+	// }
+
 	var circleIcon = L.icon({
-		iconUrl: 'js/images/marker-icon-circle.png',
-		iconSize:     [15, 15], // size of the icon
-		iconAnchor:   [8, 8], // point of the icon which will correspond to marker's location
+		iconUrl: 'js/images/marker-icon-circle.svg',
+		iconSize:     [20, 20], // size of the icon
+		iconAnchor:   [10, 10], // point of the icon which will correspond to marker's location
 	});
-	
+
 	$http({
 		method: 'POST',
 		url: "ajax/getUsers.php",
@@ -528,8 +482,8 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 	}).success(function(data){
 		$scope.userData = data;
 		loadComments(data);
-	})	
-	
+	})
+
 	//load area info
 	$http({
 		method: 'POST',
@@ -541,16 +495,16 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 	}).success(function(data){
 		//Put area in scope
 		$scope.area = data;
-		
+
 		//Parse string to get array  of coorinates
 		$scope.coordinates = JSON.parse(data.coordinates);
-		
+
 		//Set up map
 		map = setMap.set($scope.coordinates[0][0], $scope.coordinates[0][1]);
 		map.fitBounds($scope.coordinates)
-		
+
 		if(data.shape == 'polygon'){
-			//Create polygon from array of coordinates 
+			//Create polygon from array of coordinates
 			$scope.polygon = L.polygon($scope.coordinates).addTo(map)
 				.on('click', function(e) {
 					areaMarkers = []
@@ -585,7 +539,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 							if ($scope.polygon._latlngs.length === 3){
 								alert("You cannot remove this point. To remove this area, scroll down to delete the area.")
 							} else {
-								
+
 								currentlatlng.splice(this.options.id,1);
 								latlngArray = []
 								for (p=0;p<currentlatlng.length;p++){
@@ -593,19 +547,19 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 								}
 								removedEdge = this.options.id
 								map.removeLayer(this);
-								
+
 								$.each(map._layers, function (ml) {
 									if (map._layers[ml]._icon && map._layers[ml].options.id > removedEdge) {
 										this.options.id -= 1;
 									}
 								})
-							
+
 								$scope.polygon.setLatLngs(currentlatlng);
 								latlngArray = [];
 							}
 
 						})
-						
+
 						.on('drag', function(event){
 							var marker = event.target;
 							var position = marker.getLatLng();
@@ -619,14 +573,14 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 							$scope.polygon.setLatLngs(latlngArray);
 							latlngArray = [];
 						});
-						
+
 					latlngArray = []
 				});
-				
-				$scope.polygon.setStyle({fillColor: '#445963'});
-				$scope.polygon.setStyle({color: '#253137'});
-				$scope.polygon.setStyle({opacity: '.8'});
-				
+
+				$scope.polygon.setStyle({fillColor: '#0A263D'});
+				$scope.polygon.setStyle({color: '#FFF'});
+				$scope.polygon.setStyle({opacity: '1'});
+
 			for (m=0;m<$scope.polygon._latlngs.length;m++) {
 				$scope.marker = L.marker([$scope.polygon._latlngs[m].lat, $scope.polygon._latlngs[m].lng],{icon: circleIcon, id:m, draggable:'true'}).addTo(map)
 					.on('click', function(e) {
@@ -641,13 +595,13 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 							}
 							removedEdge = this.options.id
 							map.removeLayer(this);
-							
+
 							$.each(map._layers, function (ml) {
 								if (map._layers[ml]._icon && map._layers[ml].options.id > removedEdge) {
 									this.options.id -= 1;
 								}
 							})
-							
+
 							$scope.polygon.setLatLngs(currentlatlng);
 							latlngArray = [];
 
@@ -669,16 +623,8 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 					});
 
 			}
-			
-		}// else if(data.shape == 'circle'){
-			// //Create circle from coordinates
-			// $scope.circle = L.circle($scope.coordinates[0], data.radius, {
-				// color: 'red',
-				// fillColor: '#f03',
-				// fillOpacity: 0.5
-			// }).addTo(map);
-		// }
-		
+
+		}
 
 		//Set switches
 		if($scope.area.toggle_comments == 'true'){
@@ -698,7 +644,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 		}
 		getMedia();
 	})
-	
+
 	//Handle "save and close"
 	$scope.submit = function(){
 		//Save
@@ -708,7 +654,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 			latlngArray.push([currentlatlng[p].lat,currentlatlng[p].lng])
 		}
 		geo = $scope.polygon.toGeoJSON();
-		
+
 		$scope.uploadFile = $upload.upload({
 			url: "ajax/saveArea.php",
 			method:"POST",
@@ -719,6 +665,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 				projectId: $stateParams.project,
 				name: $scope.area.name,
 				description: $scope.area.description,
+				shortDescription: $scope.area.short_description,
 				dig_deeper: $scope.area.dig_deeper,
 				shape: $scope.area.shape,
 				radius: $scope.area.radius,
@@ -736,7 +683,7 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 		})
 
 	}
-	
+
 	//Save thumbnail
 	$scope.onThumbSelect = function($files) {
 		if($files.length > 1) {
@@ -748,16 +695,16 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 				method:"POST",
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 				file: $scope.newThumb
-			}).success(function(data) {	
+			}).success(function(data) {
 				// $('.thumbnail .dropImg').css('display', 'none');
 				// $('.thumbnail h5').css('display', 'none');
 				// $('.thumbnail .clickAdd').css('display', 'none');
 				$scope.showImg = true;
-				$('.dropzone img').attr('src', 'images/temp.jpg?' + (new Date).getTime()) // forces img refresh	
+				$('.dropzone img').attr('src', 'tmp/temp.jpg?' + (new Date).getTime()) // forces img refresh
 			});
 		}
 	};
-	
+
 	//Submit Media
 	$scope.onFileSelect = function($files) {
 		if($files.length > 1) {
@@ -772,15 +719,15 @@ mbira.controller("singleAreaCtrl", function ($scope, $http, $state, $upload, $st
 					file: $scope.file
 			}).success(function(data, status, headers, config) {
 				getMedia();
-			});  
+			});
 		}
 	};
-	
+
 	$scope.deleteMedia = function(m) {
 		$http({
 		method: 'POST',
 		url: "ajax/deleteMedia.php",
-		data: $.param({			
+		data: $.param({
 				id: m.id,
 				type: "area",
 				path: "images/"+m.file_path

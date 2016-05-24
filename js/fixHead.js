@@ -7,6 +7,8 @@ function fixScroller() {
 				top: "0px"
 			});
 			$(".edit-exhibit").css('padding-top', '108px')
+			$(".proj-header-offset").css('padding-top', '95px')
+			$(".dev-setting-header-offset").css('padding-top', '95px')
 		} else {
 			if($(window).scrollTop() <= ot) {
 				$("#scroller").css({
@@ -14,6 +16,8 @@ function fixScroller() {
 					top: ""
 				});
 				$(".edit-exhibit").css('padding-top', '0px')
+				$(".proj-header-offset").css('padding-top', '20px')
+				$(".dev-setting-header-offset").css('padding-top', '20px')
 			}
 		}
 	};

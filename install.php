@@ -12,7 +12,9 @@
 		`name` VARCHAR(5000) NULL DEFAULT NULL,
 		`shortDescription` VARCHAR(150) NULL DEFAULT NULL,
 		`description` VARCHAR(5000) NULL DEFAULT NULL,
-		`image_path` VARCHAR(300) NULL DEFAULT NULL,
+		`image_path` VARCHAR(10000) NULL DEFAULT NULL,
+		`logo_image_path` VARCHAR(10000) NULL DEFAULT NULL,
+		`header_image_path` VARCHAR(10000) NULL DEFAULT NULL,
 		PRIMARY KEY (`id`))
 		ENGINE = InnoDB
 		AUTO_INCREMENT = 30
@@ -28,6 +30,7 @@
 		`project_id` INT(11) UNSIGNED NULL,
 		`name` VARCHAR(500) NULL DEFAULT NULL,
 		`description` VARCHAR(10000) NULL DEFAULT NULL,
+		`short_description` VARCHAR(10000) NULL DEFAULT NULL,
 		`dig_deeper` VARCHAR(10000) NULL DEFAULT NULL,
 		`coordinates` VARCHAR(10000) NULL DEFAULT NULL,
 		`geoJSON_path` varchar(500) DEFAULT NULL,
@@ -60,8 +63,8 @@
 		`description` VARCHAR(10000) NULL DEFAULT NULL,
 		`direction` VARCHAR(200) NULL DEFAULT NULL,
 		`thumb_path` varchar(500) DEFAULT NULL,
+		`header_image_path` varchar(500) DEFAULT NULL,
 		`toggle_comments` varchar(45) DEFAULT 'true',
-		`toggle_media` varchar(45) DEFAULT 'true',
 		PRIMARY KEY (`id`),
 		INDEX `FK_project_exploration_idx` (`project_id` ASC),
 		CONSTRAINT `FK_project_exploration`
@@ -84,10 +87,12 @@
 		`sid` INT(11) NULL DEFAULT NULL,
 		`name` VARCHAR(200) NOT NULL,
 		`description` VARCHAR(10000) NULL DEFAULT NULL,
+		`short_description` VARCHAR(10000) NULL DEFAULT NULL,
 		`dig_deeper` VARCHAR(10000) NULL DEFAULT NULL,
 		`latitude` VARCHAR(100) NULL DEFAULT NULL,
 		`longitude` VARCHAR(100) NULL DEFAULT NULL,
 		`thumb_path` VARCHAR(500) NULL DEFAULT NULL,
+		`header_image_path` VARCHAR(500) NULL DEFAULT NULL,
 		`toggle_dig_deeper` VARCHAR(45) NULL DEFAULT 'true',
 		`toggle_media` VARCHAR(45) NULL DEFAULT 'true',
 		`toggle_comments` VARCHAR(45) NULL DEFAULT 'true',
@@ -136,6 +141,7 @@
 		`location_id` INT(11) UNSIGNED NOT NULL,
 		`file_path` VARCHAR(500) NULL DEFAULT NULL,
 		`isThumb` VARCHAR(45) NOT NULL DEFAULT 'NO',
+		`isHeader` VARCHAR(45) NOT NULL DEFAULT 'NO',
 		`isPending` VARCHAR(45) NULL DEFAULT 'yes',
 		PRIMARY KEY (`id`),
 		INDEX `fk_mbira_loc_media_mbira_locations1_idx` (`location_id` ASC),
@@ -174,26 +180,6 @@
 	mysqli_query($con, $sql);
 
 // -- -----------------------------------------------------
-// -- Table `$dbname`.`mbira_exp_media`
-// -- -----------------------------------------------------
-	$sql = "CREATE TABLE IF NOT EXISTS `$dbname`.`mbira_exp_media` (
-		`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-		`exploration_id` INT(11) UNSIGNED NOT NULL,
-		`file_path` VARCHAR(500) NULL DEFAULT NULL,
-		`isThumb` VARCHAR(45) NOT NULL DEFAULT 'NO',
-		`isPending` VARCHAR(45) NULL DEFAULT 'yes',
-		PRIMARY KEY (`id`),
-		INDEX `fk_mbira_exp_media_mbira_explorations1_idx` (`exploration_id` ASC),
-		CONSTRAINT `fk_mbira_exp_media_mbira_explorations1`
-		FOREIGN KEY (`exploration_id`)
-		REFERENCES `mbira_explorations` (`id`)
-		ON DELETE Cascade
-		ON UPDATE NO ACTION)
-		ENGINE = InnoDB
-		AUTO_INCREMENT = 1";
-	mysqli_query($con, $sql);	
-
-// -- -----------------------------------------------------
 // -- Table `$dbname`.`mbira_area_media`
 // -- -----------------------------------------------------
 	$sql = "CREATE TABLE IF NOT EXISTS `$dbname`.`mbira_area_media` (
@@ -222,6 +208,7 @@
 		`name` VARCHAR(200) NOT NULL,
 		`description` VARCHAR(10000) NULL,
 		`thumb_path` VARCHAR(500) NULL,
+		`header_image_path` VARCHAR(500) NULL DEFAULT NULL,
 		PRIMARY KEY (`id`),
 		INDEX `fk_mbira_exhibits_mbira_projects1_idx` (`project_id` ASC),
 		CONSTRAINT `fk_mbira_exhibits_mbira_projects1`
@@ -287,7 +274,7 @@
 		`salt` char(16) NOT NULL,
 		`firstName` VARCHAR(45) NULL,
 		`lastName` VARCHAR(45) NULL,
-		`isExpert` VARCHAR(45) NULL,
+		`isPending` INT DEFAULT 1,
 		PRIMARY KEY (`id`),
 		UNIQUE INDEX `username_UNIQUE` (`username` ASC))
 		ENGINE = InnoDB";

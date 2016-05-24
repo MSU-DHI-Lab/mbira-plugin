@@ -38,6 +38,15 @@
 	 
 	 <div class="main" ng-controller="exhibitInfoCtrl">
 		<form id="exhibitform" name="exhibitform" novalidate ng-submit="submit()" role="form">
+            <div class="thumbnail-header dropzone exhibitHeader"> 
+        		<img class="headerImg" src="img/Default-Header.png">
+        		<div class="thumbnail_title">
+        			<h3>{{"EDIT EXHIBIT HEADER"}}</h3>
+        		</div>
+                <div class="form-group-file-header">				        
+    				<input type="file" id="fileHeaderSelect" name="file" ng-file-select="onHeaderSelect($files)">
+    			</div>
+            </div>
             
             <div class="thumbnail dropzone"> 
         		<img src="img/Default.png" height="239" width="239">
@@ -45,7 +54,7 @@
         			<h3>Edit Thumbnail</h3>
         		</div>
                 <div class="form-group-file">				        
-    					<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
+    				<input type="file" id="fileSelect" name="file" ng-file-select="onFileSelect($files)">
     			</div>
             </div>
             
@@ -59,8 +68,8 @@
 			
 			<button type="submit" id="submit" class="btn btn-default" ng-disabled="exhibitform.$invalid" ng-class="{'btn-disabled': exhibitform.$invalid}">UPDATE EXHIBIT</button>
 			
-			<div id="delete" class='field-label delete'>
-						<div ng-click='delete()' class='label-name'>DELETE EXHIBIT</div>
+			<div id="delete" ng-click='delete()'class='field-label delete'>
+				<div class='label-name'>DELETE EXHIBIT</div>
 			</div>
 		</form>
 	</div>

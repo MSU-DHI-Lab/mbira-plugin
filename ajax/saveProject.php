@@ -1,5 +1,7 @@
 <?php
-require_once('../../pluginsInclude.php');
+error_reporting(E_ALL & ~E_NOTICE);
+require_once('mbiraPluginsInclude.php');
+require_once('../utils/removeFolders.php');
 
 $con=mysqli_connect($dbhost, $dbuser, $dbpass, $dbname);
 
@@ -11,14 +13,19 @@ if (mysqli_connect_errno()) {
 //Delete project
 function deleteRow($con){
 	$id = $_POST['id'];
-	
-	//Get media to delete
-	$mediaResult = mysqli_query($con, "SELECT image_path FROM mbira_projects WHERE id = '$id'");
-	
-	while($mediaRow = mysqli_fetch_array($mediaResult)) {
-		unlink('../images/' .$mediaRow['image_path']);
-	}
+
+	Delete('../media/images/project'.$id.'/');
+
+	$pidResult = mysqli_query($con, "SELECT pid FROM mbira_projects WHERE id = '$id'");
+	$pidRow = mysqli_fetch_array($pidResult);
+	$pid = $pidRow["pid"];
+
 	mysqli_query($con,"DELETE FROM mbira_projects WHERE id='$id'");
+	mysqli_query($con,'DROP TABLE p'.$pid.'Control');
+	mysqli_query($con,'DROP TABLE p'.$pid.'Data');
+	mysqli_query($con,'DROP TABLE p'.$pid.'PublicData');
+
+
 }
 
 //Update project
@@ -30,46 +37,72 @@ function updateRow($con){
 	$path = $_POST['path'];
 	
 	//Save image
-	$uploaddir = '../images/';
-
+	$uploaddir = '../media/images/project'.$id.'/';
 	//Use default image if no file provided
 	if(isset($_FILES['file']['name'])){
 
 		$mediaResult = mysqli_query($con, "SELECT image_path FROM mbira_projects WHERE id = '$id'");
 		
 		while($mediaRow = mysqli_fetch_array($mediaResult)) {
-			unlink('../images/' .$mediaRow['image_path']);
+			unlink('../' .$mediaRow['image_path']);
 		}
 		$filename = explode('.', basename($_FILES['file']['name']));
 
-		$uploadfile = $uploaddir . $filename[0].time().'.'.$filename[count($filename)-1];
+		$uniqid = uniqid();
+		$uploadfile = $uploaddir .$uniqid.'.'.$filename[count($filename)-1];
 		move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
-		$path = $filename[0].time().'.'.$filename[count($filename)-1];
+		$path = 'media/images/project'.$id.'/'.$uniqid.'.'.$filename[count($filename)-1];
 	}
 	
 	mysqli_query($con,"UPDATE mbira_projects SET name='$name', shortDescription='$sdesc', description='$desc', image_path='$path' WHERE id='$id'");
 }
 
 function uploadLogo($con) {
-	$uploaddir = '../images/';
 	$id = $_POST['id'];
-	var_dump($id);
+	$uploaddir = '../media/images/project'.$id.'/';
 
-	
 	//Use default image if no file provided
 	if(isset($_FILES['file']['name'])){
+		$mediaResult = mysqli_query($con, "SELECT logo_image_path FROM mbira_projects WHERE id = '$id'");
+		
+		while($mediaRow = mysqli_fetch_array($mediaResult)) {
+			unlink('../' .$mediaRow['logo_image_path']);
+		}
+		
 		$filename = explode('.', basename($_FILES['file']['name']));
 		
-
-		$uploadfile = $uploaddir . $filename[0].time().'.'.$filename[count($filename)-1];
+		$uniqid = uniqid();
+		$uploadfile = $uploaddir .$uniqid.'.'.$filename[count($filename)-1];
 		move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
-		$path = $filename[0].time().'.'.$filename[count($filename)-1];
+		$path = 'media/images/project'.$id.'/'.$uniqid.'.'.$filename[count($filename)-1];
 	}else{
-		$path = 'Default.png';
+		$path = 'img/Default.png';
 	}
-	$string = "UPDATE mbira_projects SET logo_path='$path' WHERE id='$id'";
-	echo $string;
-	mysqli_query($con,"UPDATE mbira_projects SET logo_path='$path' WHERE id='$id'");
+	mysqli_query($con,"UPDATE mbira_projects SET logo_image_path='$path' WHERE id='$id'");
+}
+
+function uploadHeader($con) {
+	$id = $_POST['id'];
+	$uploaddir = '../media/images/project'.$id.'/';
+		
+	//Use default image if no file provided
+	if(isset($_FILES['file']['name'])){
+		$mediaResult = mysqli_query($con, "SELECT header_image_path FROM mbira_projects WHERE id = '$id'");
+		
+		while($mediaRow = mysqli_fetch_array($mediaResult)) {
+			unlink('../' .$mediaRow['header_image_path']);
+		}
+
+		$filename = explode('.', basename($_FILES['file']['name']));
+		
+		$uniqid = uniqid();
+		$uploadfile = $uploaddir .$uniqid.'.'.$filename[count($filename)-1];
+		move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+		$path = 'media/images/project'.$id.'/'.$uniqid.'.'.$filename[count($filename)-1];
+	}else{
+		$path = 'img/Default-Header.png';
+	}
+	mysqli_query($con,"UPDATE mbira_projects SET header_image_path='$path' WHERE id='$id'");
 }
 
 function createRow($con) {
@@ -78,26 +111,34 @@ function createRow($con) {
 	$sdesc = $_POST['shortDescription'];
 	$desc = $_POST['description'];
 
-	$uploaddir = '../images/';
-	//Use default image if no file provided
-	if(isset($_FILES['file']['name'])){
-		$filename = explode('.', basename($_FILES['file']['name']));
-		
+	mysqli_query($con,"INSERT INTO mbira_projects (name, shortDescription, description) VALUES ('$title', '$sdesc', '$desc')");
 
-		$uploadfile = $uploaddir . $filename[0].time().'.'.$filename[count($filename)-1];
-		move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
-		$path = $filename[0].time().'.'.$filename[count($filename)-1];
-	}else{
-		$path = 'Default.png';
-	}
-
-
-	mysqli_query($con,"INSERT INTO mbira_projects (name, shortDescription, description, image_path) VALUES ('$title', '$sdesc', '$desc', '$path')");
-		
 	$result = mysqli_query($con, "SELECT * FROM mbira_projects ORDER BY id DESC LIMIT 1;");
 	while($row = mysqli_fetch_array($result)) {
 		$id = $row['id'];
 	}
+
+	$uploaddir = '../media/images/project'.$id.'/';
+
+	if (!file_exists($uploaddir)) {
+	    mkdir($uploaddir, 0775, true);
+	}
+
+	//Use default image if no file provided
+	if(isset($_FILES['file']['name'])){
+		$filename = explode('.', basename($_FILES['file']['name']));
+		
+		$uniqid = uniqid();
+		$uploadfile = $uploaddir .$uniqid.'.'.$filename[count($filename)-1];
+		move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+		$path = 'media/images/project'.$id.'/'.$uniqid.'.'.$filename[count($filename)-1];
+	}else{
+		$path = 'img/Default.png';
+	}
+
+	//Add path to mbira_projects row
+	$sql = "UPDATE mbira_projects SET image_path='".$path."' WHERE id=".$id;
+	mysqli_query($con, $sql);
 		
 	//Create project in kora
 	global $db;
@@ -287,6 +328,8 @@ if($_POST['task'] == 'create'){
 	deleteRow($con);
 }else if($_POST['task'] == 'uploadLogo'){
 	uploadLogo($con);
+}else if($_POST['task'] == 'uploadHeader'){
+	uploadHeader($con);
 }
 
 mysqli_close($con);

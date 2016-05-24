@@ -8,14 +8,15 @@
 <body ng-app='mbira'>
     <div class="wrap" ng-controller='singleProjectCtrl'>
     <!--HEADER-->
-    <div class="header">
+        <div id="scroller-anchor"></div>
+        <div id="scroller" class="header" style="width: 799px;">
         <div class="back"><a ui-sref="projects"><img src="img/back.png"/><p>ALL PROJECTS</p></a></div>
         <div class="title"><h1>{{project.name}}</h1></div>
         <div class="info"><a  ui-sref="projectInfo({project: project.id, pid: pid})"><img src="img/info.png"/></a></div></div>
     
     
     <!--PROJECT DESCRIPTION-->
-    <p class="project_description">{{project.description}}</p>
+    <p class="project_description proj-header-offset">{{project.description}}</p>
     
     
     <!--PROJECT EXHIBITS-->
@@ -25,7 +26,7 @@
         
         <div class="exhibit" ng-repeat='exhibit in exhibits'}> 
             <a ui-sref="viewExhibit({project: project.id, pid: pid, exhibit: exhibit.id, previous: 'PROJECT'})"> 
-                <img class="projectImg" ng-src="images/{{exhibit.thumb_path}}" height="135.5" width="135.5">
+                <img class="projectImg" ng-src="{{exhibit.thumb_path}}" height="135.5" width="135.5">
                 <div class="exhibit_title"><h3>{{exhibit.name}}</h3></div>
             </a>
         </div>
@@ -47,7 +48,7 @@
         
         <div class="location" ng-repeat='location in locations'}> 
 			<a ui-sref="viewLocation({project: project.id, pid: pid, location: location.id, previous: 'PROJECT'})"> 
-				<img class="projectImg" ng-src="images/{{location.thumb_path}}" height="135.5" width="135.5">
+				<img class="projectImg" ng-src="{{location.thumb_path}}" height="135.5" width="135.5">
 				<div class="location_title"><h3>{{location.name}}</h3></div>
 			</a>
 		</div>
@@ -68,7 +69,7 @@
         
 		<div class="area" ng-repeat='area in areas'}> 
 			<a ui-sref="viewArea({project: project.id, pid: pid, area: area.id, previous: 'PROJECT'})"> 
-				<img class="projectImg" ng-src="images/{{area.thumb_path}}" height="135.5" width="135.5">
+				<img class="projectImg" ng-src="{{area.thumb_path}}" height="135.5" width="135.5">
 				<div class="area_title"><h3>{{area.name}}</h3></div>
 			</a>
 		</div>
@@ -89,7 +90,7 @@
 
         <div class="exploration" ng-repeat='exploration in explorations'}> 
             <a ui-sref="viewExploration({project: project.id, exploration: exploration.id, pid: pid, previous: 'PROJECT'})"> 
-                <img class="projectImg" ng-src="images/{{exploration.thumb_path}}" height="135.5" width="135.5">
+                <img class="projectImg" ng-src="{{exploration.thumb_path}}" height="135.5" width="135.5">
                 <div class="exploration_title"><h3>{{exploration.name}}</h3></div>
             </a>
         </div>
@@ -102,7 +103,7 @@
         </div>
     
     </div>
-
+    <script type='text/javascript' src='js/fixHead.js'></script>
 </body>
     
     </html>

@@ -9,7 +9,7 @@
         </div>
         <div class="explorations" ng-controller='viewExplorationsCtrl'>
             <div class="project" ng-repeat='project in projects'>
-                
+
 				<div class="project_title">
 					<h3>
 						{{project.name}}
@@ -18,13 +18,14 @@
 						<a ui-sref="projectInfo({project: project.id, pid: pid, previous: 'ALL EXPLORATIONS'})" >
 							<img src="img/info.png">
 						</a>
-						<a ui-sref="viewProject({project: project.id, pid: project.pid, previous: 'ALL EXPLORATIONS'})"> 
-							<img src="img/forward.png">
+						<a ui-sref="viewProject({project: project.id, pid: project.pid, previous: 'ALL EXPLORATIONS'})">
+							<img class="viewProject" src="img/ProjectOptions.svg" height="25px">
 						</a>
 					</div>
 				</div>
 
 
+				
                 <div class="exploration" ng-repeat='exploration in project.explorations' ng-class-odd="'odd'" ng-class-even="'even'">
                 	<a ui-sref="viewExploration({exploration: exploration.id, pid: exploration.pid, project: project.id, previous: 'ALL EXPLORATIONS'})">
 						<div class="exploration-wrapper">
@@ -43,7 +44,6 @@
 							
 						</div> -->
 					</a>
-
                 </div>
                 <div class="odd none" ng-show="!project.explorations.length">
                     <h3>No Explorations</h3>

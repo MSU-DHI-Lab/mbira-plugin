@@ -10,6 +10,7 @@
 	function getAll($con) {
 		$exhibit = $_POST['exhibit'];
 
+
 		$results = mysqli_query($con, "SELECT mbira_areas_id FROM mbira_areas_has_mbira_exhibits WHERE mbira_exhibits_id='$exhibit'");
 		$areaArray = Array();
 		while($row = mysqli_fetch_array($results)) {

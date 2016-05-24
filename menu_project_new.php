@@ -11,6 +11,15 @@
 	</div>
 	<div class="main" ng-controller="newProjectCtrl">
 		<form id="newprojectform" name="newprojectform" novalidate ng-submit="submit()" role="form">
+            <div class="thumbnail-header dropzone projHeader"> 
+        		<img class="headerImg" src="img/Default-Header.png">
+        		<div class="thumbnail_title">
+        			<h3>{{"EDIT PROJECT HEADER"}}</h3>
+        		</div>
+                <div class="form-group-file-header">				        
+    					<input type="file" id="fileHeaderSelect" name="file" ng-file-select="onHeaderSelect($files)">
+    			</div>
+            </div>
             
             <div class="thumbnail dropzone"> 
         		<img class="projectImg" src="img/Default.png">

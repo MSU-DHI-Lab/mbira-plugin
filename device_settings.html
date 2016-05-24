@@ -2,28 +2,79 @@
 <html>
     <head>
     	<link rel="stylesheet" type="text/css" href="css/settings.css"/>
+
     </head>
 	<body ng-app="mbira">
 
-		<div class="header">
+		<div id="scroller-anchor"></div>
+        <div id="scroller" class="header" style="width: 799px;">
 			<h1>DEVICE SETTINGS</h1>
 		</div>
-		<div class="settings" ng-controller='settingsCtrl'>
-			<div class="project_settings" ng-repeat="project in projects">
+		<div class="settings dev-setting-header-offset" ng-controller='settingsCtrl'>
+			<div class="database">
+				<h4>Database Config</h4>
+				<div class="info">This is required for each project's website template config.php file.</div><br>
+				<div class="info_label"><h3>Database Name</h3></div><div class="info_id"><input value="{{db[3]}}" data-clipboard-text="{{db[3]}}"></div><br>
+				<div class="info_label"><h3>Username</h3></div><div class="info_id"><input value="{{db[1]}}" data-clipboard-text="{{db[1]}}"></div><br>
+				<div class="info_label"><h3>Password</h3></div><div class="info_id"><input id="password" value="{{db[2]}}" data-clipboard-text="{{db[2]}}"></div><br>
+				<div class="info_label"><h3>Host</h3></div><div class="info_id"><input value="{{db[0]}}" data-clipboard-text="{{db[0]}}"></div>
+			</div>
+			<div class="project_settings" ng-repeat="project in projects" repeat-end="ngRepeatFinished">
 				<div class="project_title"><h3>{{project.name}}</h3></div>
 				<div class="android">
-					<h4>Android</h4>
-					<div class="info">Plug the following ID and URL into the Android template config.xml file.</div><br>
-					<div class="info_label"><h3>Project ID</h3></div><div class="info_id"><h3>{{project.id}}</h3></div>
-					<div class="info_label"><h3>Project URL</h3></div><div class="info_url"><h3>{{url}}</h3></div>
+					<h4>Android/iOS</h4>
+					<div class="info">Plug the following ID and URL into the Android/iOS template config.xml file.</div><br>
+					<div class="info_label"><h3>Project ID</h3></div><div class="info_id"><input value="{{project.id}}" data-clipboard-text="{{project.id}}"></div><br>
+					<div class="info_label"><h3>Project URL</h3></div><div class="info_id"><input value="{{url}}" data-clipboard-text="{{url}}"></div>
 				</div>
 				<div class="ios">
-					<h4>iOS</h4>
-					<div class="info">Plug the following ID and URL into the iOS template config.xml file.</div><br>
-					<div class="info_label"><h3>Project ID</h3></div><div class="info_id"><h3>{{project.id}}</h3></div>
-					<div class="info_label"><h3>Project URL</h3></div><div class="info_url"><h3>{{url}}</h3></div>
+					<h4>Website</h4>
+					<div class="info">Plug the database info and the following ID and URL into the website template config.php file.</div><br>
+					<div class="info_label"><h3>Project ID</h3></div><div class="info_id"><input value="{{project.id}}" data-clipboard-text="{{project.id}}"></div>
+					<div class="info_label"><h3>Project Image Source URL</h3></div><div class="info_id"><input value="{{url}}images/" data-clipboard-text="{{url}}images/"></div>
 				</div>
 			</div>
         </div>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
+        <script type="text/javascript">
+
+
+			$(document).ready(function() {
+
+	        	$('#password').hidePassword(true);
+	        	input = new Clipboard('input');
+	        	input.on('success', function(e) {
+				    e.clearSelection();
+				    console.info('Action:', e.action);
+				    console.info('Text:', e.text);
+				    console.info('Trigger:', e.trigger);
+				    showTooltip(e.trigger, 'Copied!');
+				})
+				input.on('error', function(e) {
+				    console.error('Action:', e.action);
+				    console.error('Trigger:', e.trigger);
+				    showTooltip(e.trigger, fallbackMessage(e.action));
+				});
+
+				function showTooltip(elem, msg) {
+				    elem.parentElement.className += ' hint--right';
+				    elem.parentElement.setAttribute('data-hint', msg);
+				}
+
+				function fallbackMessage(action) {
+				    var actionMsg = '';
+				    var actionKey = (action === 'cut' ? 'X' : 'C');
+				    if (/iPhone|iPad/i.test(navigator.userAgent)) {
+				        actionMsg = 'No support :(';
+				    } else if (/Mac/i.test(navigator.userAgent)) {
+				        actionMsg = 'Press ⌘-' + actionKey + ' to ' + action;
+				    } else {
+				        actionMsg = 'Press Ctrl-' + actionKey + ' to ' + action;
+				    }
+				    return actionMsg;
+				}
+			})
+        </script>
+         <script type='text/javascript' src='js/fixHead.js'>
 	</body>
 </html>
