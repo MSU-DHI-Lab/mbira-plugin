@@ -1,8 +1,10 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
 .flex {
-  display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
-  display: -ms-flexbox;  /* TWEENER - IE 10 */
-  display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
-  display: flex;         /* NEW, Spec - Firefox, Chrome, Opera */
+  display: flex;
 }
 
 .wrap-row {
@@ -22,12 +24,52 @@
   -webkit-justify-content: space-between;
 }
 
+.center {
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+
 .align-center {
     align-content: center;
-    -webkit-align-content: center;
+    align-items: center;
 }
 
 /* Removes glowing outline on button focus */
 .remove-outline {
     outline:0;
+}
+
+.header {
+    background: rgba(15,42,65,.98);
+    height: 75px;
+    text-align: center;
+    -webkit-box-shadow: 0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    width:100%;
+    position:relative;
+    top:0px;
+    z-index: 1;
+
+    h1 {
+        margin: 0;
+        line-height: 75px;
+        color: #FFF;
+        font-family: 'montserratlight' sans-serif;
+        letter-spacing: 1px;
+        font-weight: 100;
+    }
+}
+
+#right {
+    margin: 0;
+}
+
+#right_container {
+    width: 799px;
+    padding-bottom: 5px;
+}
+
+#global_error {
+    padding-bottom: 0;
 }

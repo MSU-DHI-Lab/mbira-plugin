@@ -82,6 +82,7 @@
 
 #skip-forward {
   background: $mbiraLightBlue;
+  visibility: hidden;
   width: 0px;
   border: none;
 }
@@ -94,6 +95,7 @@
 
 .step-back-details {
   width: 340px !important;
+  visibility: visible !important;
 }
 
 

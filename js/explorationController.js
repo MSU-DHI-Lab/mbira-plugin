@@ -315,7 +315,7 @@ mbira.controller("newExplorationCtrl", function ($scope, $http, $upload, $stateP
 	}
 
 });
-mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, timeStamp, projects, temporary, explorations){
+mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $stateParams, setMap, $state, timeStamp, projects, temporary, explorations, locations){
 	$scope.projectId = $stateParams.project;
 	$scope.pid = $stateParams.pid;
 	$scope.previous = $stateParams.previous
@@ -428,11 +428,7 @@ mbira.controller("singleExplorationCtrl", function ($scope, $http, $upload, $sta
 		// Caution: The following lines of code are gross
 		$scope.exploration = data;
 		areaLocArray = data['direction'].split(',');
-		$http({
-			method: 'GET',
-			url: "ajax/getLocations.php",
-			headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-		}).success(function(data2){
+		locations.getAll().success(function(data2){
 			locArray = data2;
 			$http({
 					method: 'GET',

@@ -9,7 +9,8 @@ mbira.controller("singleLocationCtrl", function ($timeout, $scope, $http, $state
 	$scope.media;
 	$scope.comments = [];
 	$scope.userData = [];
-	$scope.modal = {current: ""};
+	$scope.modal = {current: "", type: "", mode: 'new', details: {} };
+	$scope.mediaImage;
 
 	projects.get($stateParams.project).success(function(data, status) {
         $scope.project = data[0][2];
@@ -40,7 +41,7 @@ mbira.controller("singleLocationCtrl", function ($timeout, $scope, $http, $state
 
 
     function getMedia(){
-  		media.get($stateParams.location, 'loc').success(function(data){$scope.media = data;});
+  		media.get($stateParams.location, 'loc').success(function(data){$scope.media = data});
     }
 
 
@@ -152,8 +153,23 @@ mbira.controller("singleLocationCtrl", function ($timeout, $scope, $http, $state
 	})
 
 	$scope.onMediaSelect = function($files) {
+		$scope.modal.mode = 'new';
+		mediaCreation.reset($scope, 'media');
 		$scope.mediaFile = $files[0];
-		mediaData = media.save($files[0], $stateParams.location, 'loc', $scope.projectId).success(getMedia);
+
+		imgCallback = function(){
+			$scope.cropper.setAspectRatio(1/1);
+			document.getElementById('editable').removeEventListener('built', imgCallback);
+		}
+		document.getElementById('editable').addEventListener('built', imgCallback)
+
+		if ($scope.cropper) {
+			$scope.cropper.replace(URL.createObjectURL($files[0])) 
+		} else {
+			$('#editable').attr('src', URL.createObjectURL($files[0]))
+			$scope.cropper = mediaCreation.initializeCropper('editable');
+		}
+		$(".overlay").fadeIn('slow');
 	}
 
 	$scope.deleteMedia = function(m) {
@@ -164,104 +180,199 @@ mbira.controller("singleLocationCtrl", function ($timeout, $scope, $http, $state
 
 	//Save thumbnail
 	$scope.onThumbSelect = function($files) { 
-		mediaCreation.stepInto($scope, "Thumbnail")
-		$('#modalCheckboxInput').removeAttr('checked');
-		$scope.mediaCheckBox = false
-
+		$scope.modal.mode = 'new';
+		mediaCreation.reset($scope);
 		$scope.file = $files[0];
-		console.log($files)
-		temporary.thumbnail($files).success(function(data) {
-			// $scope.images.unshift($scope.file);
-			$("#editable").attr('src', 'tmp/temp.jpg?' + (new Date).getTime()) // forces img refresh
-			$(".overlay").fadeIn('slow');
 
-			cropper ? cropper.destroy(): null;
-			cropper = mediaCreation.initializeCropper('editable');
-		});
+		imgCallback = function(){
+			$scope.cropper.setAspectRatio(1/1);
+			document.getElementById('editable').removeEventListener('built', imgCallback);
+		}
+		document.getElementById('editable').addEventListener('built', imgCallback)
+
+		if ($scope.cropper) {
+			$scope.cropper.replace(URL.createObjectURL($files[0])) 
+		} else {
+			$('#editable').attr('src', URL.createObjectURL($files[0]))
+			$scope.cropper = mediaCreation.initializeCropper('editable');
+		}
+		$(".overlay").fadeIn('slow');
 	};
 
-	function setCropper(type) {
+	function setCropper(type) {	
+		// $scope.modal.type == 'media' ? mediaCreation.srcFromFile($scope.mediaFile) : mediaCreation.srcFromFile($scope.file);
 		if (type == 'media') {
-			cropper.setCanvasData($scope.thumbnailImageCanvasData);
-			cropper.setCropBoxData($scope.thumbnailImageCropData);
+			$scope.cropper.setCanvasData($scope.modal.type == 'media' ? $scope.mediaCanvasData : $scope.thumbnailImageCanvasData);
+			$scope.cropper.setCropBoxData($scope.modal.type == 'media' ? $scope.mediaCropData : $scope.thumbnailImageCropData);
 		} else {
-			console.log("hellos")
-			cropper.setCanvasData($scope.thumbnailCanvasData);
-			cropper.setCropBoxData($scope.thumbnailCropData);
+			$scope.cropper.setCanvasData($scope.modal.type == 'media' ? $scope.mediaThumbnailCanvasData : $scope.thumbnailCanvasData);
+			$scope.cropper.setCropBoxData($scope.modal.type == 'media' ? $scope.mediaThumbnailCropData : $scope.thumbnailCropData);
 		}
 
 	}
 
 	$scope.saveThumbnail = function(command) {
-		$scope.thumbnailCanvasData = cropper.getCanvasData();
-		$scope.thumbnailCropData = cropper.getCropBoxData();
-		blob = mediaCreation.dataURLtoBlob( cropper.getCroppedCanvas().toDataURL() );
-		$scope.file_thumbnail = blob;
+		blob = mediaCreation.dataURLtoBlob( $scope.cropper.getCroppedCanvas().toDataURL() );
 		imgSrc = URL.createObjectURL(blob);
-		$(".thumbnail-img img").remove();
-		$('.thumbnail-img').append("<img src='"+ imgSrc + "'>");
+
+		if ($scope.modal.type == 'media') {
+			$scope.mediaThumbnailCanvasData = $scope.cropper.getCanvasData();
+			$scope.mediaThumbnailCropData = $scope.cropper.getCropBoxData();
+			$scope.mediaThumbnail = blob;
+		} else {
+			$scope.thumbnailCanvasData = $scope.cropper.getCanvasData();
+			$scope.thumbnailCropData = $scope.cropper.getCropBoxData();
+			$scope.fileThumbnail = blob;
+			$(".thumbnail-img img").remove();
+			$('.thumbnail-img').append("<img src='"+ imgSrc + "'>");
+			// var formData = new FormData();
+			// formData.append('croppedImage', blob);
+
+		}
+
 		$("#details-thumbnail").attr('src',imgSrc);
-		// var formData = new FormData();
-		// formData.append('croppedImage', blob);
 
 		if (command == 'finish') {
 			$(".overlay").fadeOut('slow');
 		} else {
-			mediaCreation.stepInto($scope, "Crop")
+			mediaCreation.stepInto($scope, "Crop");
 			$('.modalCheckbox').slideUp('slow');
-			$('.popup').css({height: '533px'});
+			$('.media-modal').css({height: '533px'});
 			$timeout(function(){
-				$('#crop-submit').animate({width:'220px'}, 500);
-				$('#skip-forward, #step-back').animate({width:'220px'}, 500)
+				$('#crop-submit').animate({width:'0px'}, 500, function() {
+					$('#crop-submit').css({display:'none', visibility:'hidden'});
+				});
+				$('#skip-forward, #step-back').css({visibility:'visible'});
+				$('#skip-forward, #step-back').animate({width:'220px'}, 500);
 			}, 500)
 
-			cropper.setAspectRatio(NaN)
+			$scope.cropper.setAspectRatio(NaN)
+			setCropper('media');
 		}
 	}
 
-	$scope.cropImage = function() {
-		$scope.thumbnailMediaCanvasData = cropper.getCanvasData();
-		$scope.thumbnailMediaCropData = cropper.getCropBoxData();
-		blob = mediaCreation.dataURLtoBlob( cropper.getCroppedCanvas().toDataURL() );
-		$scope.file_thumbnail_image = blob;
+	$scope.cropImage = function(type) {
+		blob = mediaCreation.dataURLtoBlob( $scope.cropper.getCroppedCanvas().toDataURL() );
+		if ($scope.modal.type == 'media') {
+			$scope.mediaCanvasData = $scope.cropper.getCanvasData();
+			$scope.mediaCropData = $scope.cropper.getCropBoxData();
+			$scope.mediaImage = blob;
+		} else {
+			$scope.thumbnailMediaCanvasData = $scope.cropper.getCanvasData();
+			$scope.thumbnailMediaCropData = $scope.cropper.getCropBoxData();
+			$scope.fileThumbnailImage = blob;
+		}
 
 		$("#details").fadeOut(600, function(){
 			mediaCreation.stepInto($scope, "Details")
 		})
 		
-		$timeout(function(){$('.popup').css({height: '350px'});},500)
+		$timeout(function(){$('.media-modal').css({height: '350px'});},500)
 	}
 
 	$scope.editThumbnail = function() {
+		$scope.modal.type = 'thumbnail'
 		mediaCreation.stepInto($scope, "Thumbnail")
-		$('#skip-forward, #step-back').css({width:'0px'});
+		$('#skip-forward, #step-back').css({width:'0px', visibility: 'hidden'});
 		$('#crop-submit').css({width:'698px'});
 		$('.modalCheckbox').slideDown('fast');
-		$('.popup').css({height: '571px'});
+		$('.media-modal').css({height: '571px'});
 		mediaCreation.stepInto($scope, "Thumbnail")
-		cropper.setAspectRatio(1/1);
+		$scope.cropper.setAspectRatio(1/1);
 		setCropper();
 		$(".overlay").fadeIn('slow');
 
 	}
 
+	$scope.editMedia = function(m) {
+		mediaCreation.reset($scope, 'media')
+		$scope.modal.mode = 'edit';
+		$('#skip-forward, #step-back').css({width:'0px', visibility: 'hidden'});
+
+		$scope.mediaCheckBox == true;
+		$scope.mediaThumbnailCanvasData = JSON.parse(m.thumbCanvasData);
+		$scope.mediaThumbnailCropData = JSON.parse(m.thumbCropData);
+		$scope.mediaId = m.id;
+		$scope.modal.details.title = m.title;
+		$scope.modal.details.alt = m.alt_desc;
+		$scope.modal.details.desc = m.description;
+		$("#details-thumbnail").attr('src',m.thumb_path);
+		console.log(m)
+
+		if (m.cropped_image_path) {
+			$scope.mediaCanvasData = JSON.parse(m.imageCanvasData);
+			$scope.mediaCropData = JSON.parse(m.imageCropData);
+		}
+		imgCallback = function(){
+			$scope.cropper.setAspectRatio(1/1);
+			$scope.cropper.setCanvasData($scope.mediaThumbnailCanvasData);
+			$scope.cropper.setCropBoxData($scope.mediaThumbnailCropData);
+			document.getElementById('editable').removeEventListener('built', imgCallback);
+		}
+		document.getElementById('editable').addEventListener('built', imgCallback)
+
+		if ($scope.cropper) {
+			$scope.cropper.replace(m.file_path) 
+		} else {
+			$('#editable').attr('src', m.file_path)
+			$scope.cropper = mediaCreation.initializeCropper('editable');
+		}
+		$(".overlay").fadeIn('slow');
+	}
+
+	$scope.viewMedia = function(m) {
+		mediaCreation.stepInto($scope, 'ViewImage');
+		if (m.cropped_image_path) {
+			$('#viewImage').attr("src", m.cropped_image_path);
+		} else {
+			$('#viewImage').attr("src", m.file_path);
+		}
+		$('.media-modal').css({height: '533px'});
+		$(".overlayViewImage").fadeIn('fast');
+
+	}
+
 	$scope.stepBack = function() {
 		if ($scope.modal.current == 'Crop') {
-			$('.popup').css({height: '571px'});
+			$scope.modal.type =='media' ? $('.media-modal').css({height: '533px'}) : $('.media-modal').css({height: '571px'});
 			setTimeout(function() {
-				$('#skip-forward, #step-back').animate({width:'0px'}, 500);
+				$('#skip-forward, #step-back').animate({width:'0px', visibility: 'hidden'}, 500, function(){
+					$('#skip-forward, #step-back').css({visibility: 'hidden'});
+				});
+				$('#crop-submit').css({display:'block', visibility:'visible'});
 				$('#crop-submit').animate({width:'698px'}, 500);
 			}, 500);
-			$('.modalCheckbox').slideDown('slow', function(){
-				cropper.setAspectRatio(1/1);
-				setCropper();
-			});
-			mediaCreation.stepInto($scope, "Thumbnail")
+			$('.modalCheckbox').slideDown('slow');
+			mediaCreation.stepInto($scope, "Thumbnail");
+			$scope.cropper.setAspectRatio(1/1);
+			setCropper();
 		} else {
 			setCropper('media');
-			$('.popup').css({height: '533px'});
+			$('.media-modal').css({height: '533px'});
+			$('#crop-submit').css({width: '0px', visibility:'visible'});
 			$timeout(function(){mediaCreation.stepInto($scope, 'Crop')}, 700)
 		}
+	}
+
+	$scope.stepInto = function(command, height) {
+		if (command == 'Crop') {
+			$('#crop-submit').animate({width:'0px'}, 500, function() {
+				$('#crop-submit').css({display:'none', visibility:'hidden'});
+			});
+			$('#skip-forward, #step-back').css({visibility:'visible'})
+			$('#skip-forward, #step-back').animate({width:'220px'}, 500)	
+			$scope.cropper.setAspectRatio(NaN)
+			setCropper('media');		
+		} else if (command == 'Thumbnail') {
+			$scope.stepBack();
+		}
+
+		if ($('.media-modal').height() >= height) {
+			mediaCreation.stepInto($scope, command);
+		} else {
+			$timeout(function(){mediaCreation.stepInto($scope, command);},700);
+		}
+		$('.media-modal').height(height);
 	}
 
 	$scope.skipForward = function() {
@@ -271,7 +382,32 @@ mbira.controller("singleLocationCtrl", function ($timeout, $scope, $http, $state
 			mediaCreation.stepInto($scope, "Details")
 		})
 		
-		$timeout(function(){$('.popup').css({height: '350px'});},500)
+		$timeout(function(){$('.media-modal').css({height: '350px'});},500)
+	}
+
+	$scope.saveDetails = function(isEdit) {
+		if ($scope.modal.type == 'media') {
+			detailsData = { id: $stateParams.location,
+				type: 'loc',
+				project: $scope.projectId,
+				croppedImage: $scope.mediaImage,
+				imageCanvasData: $scope.mediaCanvasData,
+				imageCropData: $scope.mediaCropData,
+				croppedThumbnail: $scope.mediaThumbnail,
+				thumbCanvasData: $scope.mediaThumbnailCanvasData,
+				thumbCropData: $scope.mediaThumbnailCropData,
+				title: $("#details-title").val(),
+				altDesc: $("#details-alt").val(),
+				description: $("#details-desc").val()
+			}
+			if( isEdit) {
+				detailsData.task = 'update'; 
+				detailsData.mid = $scope.mediaId; 
+			} else { 
+				detailsData.task = 'create'
+			}
+			media.save($scope.mediaFile, detailsData).success(getMedia);
+		}
 	}
 
 	$scope.resetCropper = function() {
@@ -279,7 +415,7 @@ mbira.controller("singleLocationCtrl", function ($timeout, $scope, $http, $state
 			if ($scope.thumbnailCanvasData) {  
 				setCropper();
 			} else {
-				cropper.reset();
+				$scope.cropper.reset();
 			}
 		});
 	}

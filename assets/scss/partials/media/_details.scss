@@ -97,3 +97,12 @@
   right: 0.3em;
   transform: translate(0, 0);
 }
+
+#viewImage {
+  display: block;
+  max-height: 100%;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}

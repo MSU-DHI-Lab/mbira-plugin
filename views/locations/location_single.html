@@ -27,24 +27,22 @@
 <body ng-app='mbira'>
     <div class="wrap" ng-controller='singleLocationCtrl'>  
 
-	<div id="media-modal1" class="overlay" ng-click="resetCropper()">
+	<div id="media-modal-1" class="overlay" ng-click="resetCropper()">
 		<div class="media-modal">
 			<div class="media-modal-header">
 				<div ng-show="mediaCheckBox" class="crop-steps animate-show flex wrap-row space-between">
-					<span class="modal-step" ng-class="{'current-step': modal.current == 'Thumbnail'}">1. Thumbnail</span> 
-					<span class="modal-step" ng-class="{'current-step': modal.current == 'Crop'}">2. Crop</span> 
-					<span class="modal-step" ng-class="{'current-step': modal.current == 'Details'}">3. Details</span>
+					<span class="modal-step" ng-class="{'current-step': modal.current == 'Thumbnail', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Thumbnail', 533) : null">1. Thumbnail</span> 
+					<span class="modal-step" ng-class="{'current-step': modal.current == 'Crop', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Crop', 533) : null">2. Crop</span> 
+					<span class="modal-step" ng-class="{'current-step': modal.current == 'Details', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Details', 350) : null">3. Details</span>
 				</div>
 				<div class="close" ng-click="resetCropper()">&times;</div>
 			</div>
-
 			<div ng-show="modal.current == 'Thumbnail' || modal.current == 'Crop'" ng-include src="'views/media/partials/_thumbnail_image_crop.html'"></div>
 			<div class="animate-hide" id="details" ng-show="modal.current == 'Details'" ng-include src="'views/media/partials/_image_details.html'"></div>
 		</div>
 	</div> 
 
-
-
+	<div ng-show="modal.current == 'ViewImage'" ng-include src="'views/media/partials/_view_image.html'"></div>
 
 
 		<div class="header">
@@ -136,8 +134,10 @@
 					</div>
 
 					<div class='media' ng-repeat='m in media' ng-if="(m.file_path != location.thumb_path || showImg) && m.file_path != 'img/Default.png'">
-						<img ng-src='{{m.file_path}}' height="131" width="131">
-						<div class="deleteMedia" ng-click="deleteMedia(m)"><i class="fa fa-times fa-1" aria-hidden="true"></i></div>
+						<img ng-src='{{m.thumb_path}}' height="131" width="131">
+						<div class="deleteMedia" ng-click="deleteMedia(m)"><i class="fa fa-trash-o fa-1" aria-hidden="true"></i></div>
+						<div class="editMedia" ng-click="editMedia(m)"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></div>
+						<div class="viewMedia" ng-click="viewMedia(m)"><i class="fa fa-arrows-alt fa-1" aria-hidden="true"></i></div>
 					</div>
 					
 					<div class="media_new"> 

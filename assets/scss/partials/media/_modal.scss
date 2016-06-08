@@ -1,4 +1,4 @@
-.overlay {
+.overlay, .overlayViewImage {
   position: fixed;
   display:none;
   top: 0;
@@ -8,7 +8,13 @@
   z-index: 9990;
 }
 
-.media-modal {
+.overlayViewImage {
+  background-color: rgba( $mbiraDarkBlue, .38);
+  cursor: hand;
+  cursor: pointer;
+}
+
+.media-modal, .viewImage {
   position: fixed;
   z-index: 10000;
   top: 50%;
@@ -16,7 +22,6 @@
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   padding: 20px;
-  background: rgba(15,42,65,.98);
   width: 700px;
   height: 571px;
 
@@ -25,6 +30,10 @@
   -o-transition: 0.7s;
   -webkit-transition: 0.7s;
   transition: 0.7s;
+}
+
+.media-modal {
+  background: rgba(15,42,65,.98);
 
   .content {
     overflow: auto;
@@ -39,7 +48,6 @@
     -webkit-transition: height 2s; /* For Safari 3.1 to 6.0 */
     transition: height 2s;
   }
-
 }
 
 .media-modal-header {
@@ -68,4 +76,9 @@
 #editable {
     max-width: 549px;
     max-height: 432.88px;
+}
+
+.pointer {
+  cursor: hand;
+  cursor: pointer;
 }

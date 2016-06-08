@@ -301,17 +301,21 @@ mbira.factory('locations', function($http, $upload){
 	return {
 		getAll: function(){
 			return 	$http({
-				method: 'GET',
-				url: "ajax/getLocations.php",
+				method: 'POST',
+				url: "models/location.php",
+				data: $.param({
+						task: 'all'
+					}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			})
 		},
 		get: function(id) {
 			return $http({
 				method: 'POST',
-				url: "ajax/getLocationInfo.php",
+				url: "models/location.php",
 				data: $.param({
-						id: id
+						id: id,
+						task: 'info'
 					}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			})
@@ -319,18 +323,18 @@ mbira.factory('locations', function($http, $upload){
 	    delete: function(id, proj) {
 	    	return $http({
 				method: 'POST',
-				url: "ajax/saveLocation.php",
+				url: "models/location.php",
 				data: $.param({
 						task: "delete",
 						id: id,
-						project: proj
+						project: proj,
 					}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			})
 	    },
 	    save: function(newThumb, data) {
 	    	return 	$upload.upload({
-				url: "ajax/saveLocation.php",
+				url: "models/location.php",
 				method:"POST",
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
 				data: data,
@@ -460,13 +464,41 @@ mbira.factory('mediaCreation', function ($upload, $http) {
 		    return new Blob([uInt8Array], {type: contentType});
 		},
 		initializeCropper: function(elementId) {
-			var image = document.getElementById(elementId);
-			return new Cropper(image, {
+			opts = {
 				aspectRatio: 1 / 1,
 				preview: '.img-preview',
+				minContainerHeight: 433,
+				minContainerWidth: 549,
 				crop: function(e) {
 				}
-			});
+			}
+			var image = document.getElementById(elementId);
+			return new Cropper(image, opts);
+		},
+		srcFromFile: function(file, $scope) {
+	        var fr = new FileReader();
+	        var self = this;
+	        fr.onload = function () {
+	            document.getElementById('editable').src = fr.result;
+				$scope.cropper = self.initializeCropper('editable');
+	        }
+	        fr.readAsDataURL(file);
+		},
+		reset: function($scope, type) {
+			$('#skip-forward, #step-back').css({width:'0px', visibility: 'hidden'});
+			$('#crop-submit').css({width:'698px', display:'block', visibility:'visible'});
+			$scope.modal.details = {};
+			if (type == 'media') {
+				$scope.modal.type = 'media'
+				$('.media-modal').css({height: '533px'});
+				$scope.mediaCheckBox = true;
+			} else {
+				$scope.modal.type = 'thumbnail'
+				$('.media-modal').css({height: '571px'});
+				$('#modalCheckboxInput').removeAttr('checked');
+				$scope.mediaCheckBox = false;
+			}
+			this.stepInto($scope, "Thumbnail")
 		}
 	}
 });
@@ -474,28 +506,25 @@ mbira.factory('mediaCreation', function ($upload, $http) {
 
 mbira.factory('media', function ($upload, $http) {
 	return {
-		save: function ($files, id, type, proj) {
-			if($files.length > 1) {
-				alert("Only upload one image at a time.");
-			}else{
-				return $upload.upload({
-						url: 'ajax/saveMedia.php',
-						method: 'POST',
-						headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-						data: {'id': id, 'type': type, 'project': proj},
-						file: $files
-					})
-			}
+		save: function (file, data) {
+			return $upload.upload({
+					url: 'models/media.php',
+					method: 'POST',
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+					data: data,
+					file: file
+				})
 
 	    },
 	    delete: function(m) {
 	    	return $http({
 				method: 'POST',
-				url: "ajax/deleteMedia.php",
+				url: "models/media.php",
 				data: $.param({
 						id: m.id,
 						type: "loc",
-						path: "images/"+m.file_path
+						path: m.file_path,
+						task: 'delete'
 					}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 				})
@@ -503,8 +532,16 @@ mbira.factory('media', function ($upload, $http) {
 	    get: function(id, type) {
 			return $http({
 				method: 'POST',
-				url: "ajax/getMedia.php",
-				data: $.param({'id': id, 'type': type}),
+				url: "models/media.php",
+				data: $.param({'id': id, 'type': type, 'task': 'get'}),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			})
+	    },
+	    getAll: function() {
+			return $http({
+				method: 'POST',
+				url: "models/media.php",
+				data: $.param({'task': 'all'}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			})
 	    }

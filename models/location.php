@@ -170,6 +170,26 @@ function uploadHeader($con) {
 	mysqli_query($con,"INSERT INTO mbira_loc_media (location_id, file_path, isHeader) VALUES ('$lid', '$path', 'yes')");	
 }
 
+function getAll($con) {		
+	$results = mysqli_query($con, "SELECT * FROM mbira_locations");
+	$resultsArray = Array();
+	while($row = mysqli_fetch_array($results)) {
+		array_push($resultsArray, $row);
+	}
+	echo json_encode($resultsArray);
+}
+
+
+function getInfo($con) {
+	$id = $_POST['id'];
+	$results = mysqli_query($con, "SELECT * FROM mbira_locations WHERE id = ".$id);
+	$locationArray = Array();
+	while($row = mysqli_fetch_array($results)) {
+		array_push($locationArray, $row);
+	}
+	echo json_encode($locationArray[0]);
+}
+
 
 if ($_POST['task'] == 'create'){
 	createRow($con);
@@ -179,6 +199,10 @@ if ($_POST['task'] == 'create'){
 	deleteRow($con);
 } else if($_POST['task'] == 'uploadHeader'){
 	uploadHeader($con);
+}else if($_POST['task'] == 'all'){
+	getAll($con);
+}else if($_POST['task'] == 'info'){
+	getInfo($con);
 }
 
 mysqli_close($con);
