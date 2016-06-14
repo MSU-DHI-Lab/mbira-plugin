@@ -17,8 +17,11 @@
 				<a ui-sref="addUsers({project: project.id, pid: project.pid})"><img class="addUser" src="img/plusicon.png" width="15px"/></a>
 				</div>
 				<div class="user" ng-repeat='user in project.users' ng-class-odd="'odd'" ng-class-even="'even'">
-					<a><img ng-click='deleteUser(user)' class="removeUser" src='img/remove_x.png'></a>
-					<a ui-sref="viewUser({user: user.id, previous: 'ALL USERS'})"> 
+					<div class="modUser">
+						<a class="editUser" ui-sref="editUser({user: user.id, previous: 'ALL USERS'})"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></a>
+						<a class="removeUser"><i ng-click='deleteUser(user)' class="fa fa-times fa-1" aria-hidden="true"></i></a>
+					</div>
+					<a ui-sref="editUser({user: user.id, previous: 'ALL USERS'})"> 
 						<div class="user_title"><h3>{{user.firstName}} {{user.lastName}}</h3></div>
 						<div class="username">{{user.username}}</div>
 					</a>

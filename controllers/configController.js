@@ -37,6 +37,10 @@ mbira.config(function($stateProvider, $urlRouterProvider) {
 	    url: "/newUser",
 	    templateUrl: "new_user.html"
 	  })
+	  .state('editUser', {
+	    url: "/editUser/?user&previous",
+	    templateUrl: "views/users/edit_user.html"
+	  })
 	   .state('exhibits', {
 	    url: "/exhibits",
 	    templateUrl: "menu_exhibit_all.php"
@@ -544,6 +548,54 @@ mbira.factory('media', function ($upload, $http) {
 				data: $.param({'task': 'all'}),
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			})
+	    }
+	}
+});
+
+mbira.factory('users', function ($upload, $http) {
+	return {
+		save: function (data) {
+	    	data.task = 'create';
+			return $http({
+				method: 'POST',
+				url: "models/user.php",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				data: $.param(data)
+			})
+
+	    },
+	    edit: function(data) {
+	    	data.task = 'edit';
+			return $http({
+				method: 'POST',
+				url: "models/user.php",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				data: $.param(data)
+			})
+	    },
+	    delete: function(id) {
+			return $http({
+				method: 'POST',
+				url: "models/user.php",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				data: $.param({user: id, task: 'delete'})
+			})
+	    },
+	    get: function(id) {
+			return $http({
+				method: 'POST',
+				url: "models/user.php",
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+				data: $.param({user: id, task: 'get'})
+			})
+	    },
+	    getAll: function() {
+			// return $http({
+			// 	method: 'POST',
+			// 	url: "models/media.php",
+			// 	data: $.param({'task': 'all'}),
+			// 	headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			// })
 	    }
 	}
 });

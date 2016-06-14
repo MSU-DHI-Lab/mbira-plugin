@@ -3,7 +3,7 @@ body, html {
     padding: 0;
 }
 
-.users {
+.users, .usersEdit {
 	background-color: #18587C;
     padding-bottom: 20px;
     min-height: 500px;
@@ -147,7 +147,7 @@ img {
 
 /* USERS */
 
-.users {
+.users, .usersEdit {
     z-index: 2;
 }
 
@@ -179,19 +179,33 @@ img {
     font-family: 'montserratregular', sans-serif;
 }
 
-.removeUser {
+.modUser {
 	display: inline-block;
 	border-style:none;
 	margin-top: 27.5px;
 	float: right;
 	margin-right: 20px;
-	width:12px;
+	width:36px;
 	height:12px;
 }
 
-.users div {
+.modUser > a >i {
+  color: white;
+}
+
+.editUser {
+  float: left;
+}
+
+.removeUser {
+  float: right;
+}
+
+.users div, .usersEdit form div {
     display: inline-block;
 }
+
+
 
 .project {
     width: 759px;
@@ -455,8 +469,7 @@ textarea {
     box-shadow: inset 0px 0 5px #FFF;
 }
 
-#submit {
-     width: 368px;
+#submit, #submit-delete {
     font-family: 'montserratregular', sans-serif;
     font-size: 20px;
     text-align: center;
@@ -464,17 +477,124 @@ textarea {
     color: #FFF;
     box-shadow: none;
     border:none;
-    padding: 20px;
-    margin: 20px 20px 20px 20px;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     cursor: pointer;
     /*transition: all .5s ease;*/
-    float: right;
 }
 
-#submit:hover {
+#submit, #delete {
+  width: 370px;
+}
+
+#submit {
+  padding: 20px;
+  margin: 20px 0px 20px 5px;
+}
+#delete {
+  padding: 20px 0 20px 20px;
+  margin: 20px 20px 20px 20px;
+}
+
+#submit-delete, #cancel {
+  width: 340px;
+}
+
+#submit-delete {
+  padding: 20px;
+  margin: 20px 0px 20px 0px;
+}
+
+#cancel {
+  padding: 20px 0 20px 20px;
+  margin: 20px 20px 20px 0px;
+} 
+
+#submit:hover, #delete:hover, #submit-delete:hover, #cancel:hover {
     color: #3EB9FD;
     background: #FFF;
+}
+
+#delete, #cancel {
+  font-family: 'montserratregular', sans-serif;
+  font-size: 20px;
+  text-align: center;
+  background: #CE6A6C;
+  color: #FFF;
+  box-shadow: none;
+  border:none;
+  -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+  -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+  box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+  cursor: pointer;
+  /*transition: all .5s ease;*/
+  float: left;
+}
+
+strong {
+  color: #CE6A6C;
+}
+
+.overlay {
+  position: fixed;
+  display:none;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9990;
+}
+
+.modal {
+  position: fixed;
+  z-index: 10000;
+  top: 50%;
+  left: 50%;
+  background: rgba(15,42,65,.98);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  width: 700px;
+  height: auto;
+  font-family: montserratthin;
+  font-size: 18px;
+  color: white;
+
+  -moz-transition: 0.7s;
+  -ms-transition: 0.7s;
+  -o-transition: 0.7s;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+}
+
+.modal h2 {
+  margin-top: 0;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+  -webkit-transition: height 2s; /* For Safari 3.1 to 6.0 */
+  transition: height 2s;
+}
+
+.modal-header {
+  width: 700px;
+  padding-bottom: 30px;
+}
+
+.modal-header .close {
+    float: right;
+    transition: all 200ms;
+    font-family: montserratthin;
+    font-size: 40px;
+    font-weight: 100;
+    text-decoration: none;
+    line-height: 0px;
+    margin-top: 2px;
+    color: white;
+}
+
+.modal-header .close:hover {
+    color: #3EB9FD;
+    cursor: pointer; 
+    cursor: hand;
 }

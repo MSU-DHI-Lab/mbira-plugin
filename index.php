@@ -45,6 +45,10 @@
 	<script src="controllers/locations/newLocationController.js"></script> 
 	<script src="controllers/locations/singleLocationController.js"></script> 
 	<script src="controllers/locations/viewLocationsController.js"></script> 
+	<script src="controllers/users/newUserController.js"></script> 
+	<script src="controllers/users/editUserController.js"></script> 
+	<script src="controllers/users/usersToProjectController.js"></script> 
+	<script src="controllers/users/viewUsersController.js"></script> 
 	<script src="js/areaController.js"></script> 
 	<script src="js/explorationController.js"></script> 
 	<script src="js/exhibitController.js"></script> 
