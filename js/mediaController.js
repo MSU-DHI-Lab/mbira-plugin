@@ -1,4 +1,4 @@
-mbira.controller("mediaLibrary", function ($scope, $http, media, mediaCreation){
+mbira.controller("mediaLibrary", function ($scope, $http, media, mediaCreation, $timeout){
 	$scope.modal = {current: "", type: "", mode: 'new', details: {} };
 	$scope.mediaImage;
 
@@ -99,6 +99,9 @@ mbira.controller("mediaLibrary", function ($scope, $http, media, mediaCreation){
 
 	$scope.editMedia = function(m) {
 		mediaCreation.reset($scope, 'media')
+		$scope.location = m.location_id;
+		$scope.mid = m.mid;
+		$scope.projectId = m.project_id;
 		$scope.modal.mode = 'edit';
 		$('#skip-forward, #step-back').css({width:'0px', visibility: 'hidden'});
 
@@ -110,7 +113,6 @@ mbira.controller("mediaLibrary", function ($scope, $http, media, mediaCreation){
 		$scope.modal.details.alt = m.alt_desc;
 		$scope.modal.details.desc = m.description;
 		$("#details-thumbnail").attr('src',m.thumb_path);
-		console.log(m)
 
 		if (m.cropped_image_path) {
 			$scope.mediaCanvasData = JSON.parse(m.imageCanvasData);
@@ -200,7 +202,7 @@ mbira.controller("mediaLibrary", function ($scope, $http, media, mediaCreation){
 
 	$scope.saveDetails = function(isEdit) {
 		if ($scope.modal.type == 'media') {
-			detailsData = { id: $stateParams.location,
+			detailsData = { id: $scope.location,
 				type: 'loc',
 				project: $scope.projectId,
 				croppedImage: $scope.mediaImage,
@@ -215,7 +217,7 @@ mbira.controller("mediaLibrary", function ($scope, $http, media, mediaCreation){
 			}
 			if( isEdit) {
 				detailsData.task = 'update'; 
-				detailsData.mid = $scope.mediaId; 
+				detailsData.mid = $scope.mid; 
 			} else { 
 				detailsData.task = 'create'
 			}

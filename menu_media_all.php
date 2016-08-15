@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-    	<link rel="stylesheet" type="text/css" href="assets/stylesheets/media.css"/>
+    	<link rel="stylesheet" type="text/css" href="app/assets/stylesheets/media.css"/>
     </head>
 	<body ng-app="mbira">		
 		<div class="library" ng-controller='mediaLibrary'>
@@ -15,12 +15,12 @@
 						</div>
 						<div class="close" ng-click="resetCropper()">&times;</div>
 					</div>
-					<div ng-show="modal.current == 'Thumbnail' || modal.current == 'Crop'" ng-include src="'views/media/partials/_thumbnail_image_crop.html'"></div>
-					<div class="animate-hide" id="details" ng-show="modal.current == 'Details'" ng-include src="'views/media/partials/_image_details.html'"></div>
+					<div ng-show="modal.current == 'Thumbnail' || modal.current == 'Crop'" ng-include src="'app/views/media/partials/_thumbnail_image_crop.html'"></div>
+					<div class="animate-hide" id="details" ng-show="modal.current == 'Details'" ng-include src="'app/views/media/partials/_image_details.html'"></div>
 				</div>
 			</div> 
 
-			<div ng-show="modal.current == 'ViewImage'" ng-include src="'views/media/partials/_view_image.html'"></div>
+			<div ng-show="modal.current == 'ViewImage'" ng-include src="'app/views/media/partials/_view_image.html'"></div>
 
 			<div class="header">
 				<h1>MEDIA LIBRARY</h1>
@@ -35,7 +35,7 @@
 				<div id="select" ng-click="multiselect()">SELECT</div>
 			</div>
 			<div class="medias">	
-				<div class='media' ng-repeat='m in media' ng-if="(m.file_path != location.thumb_path || showImg) && m.file_path != 'img/Default.png'" ng-click="multiselect == true ? addToMultiselect(m, $event) : null">
+				<div class='media' ng-repeat='m in media' ng-if="(m.description != null) && m.file_path != 'app/assets/images/Default.png'" ng-click="multiselect == true ? addToMultiselect(m, $event) : null">
 					<img ng-src='{{m.thumb_path}}' height="127" width="127">
 					<div class="deleteMedia" ng-click="deleteMedia(m)"><i class="fa fa-trash-o fa-1" aria-hidden="true"></i></div>
 					<div class="editMedia" ng-click="editMedia(m)"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></div>

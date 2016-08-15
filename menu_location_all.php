@@ -16,10 +16,10 @@
                     </h3>
                     <div class="link-wrapper">
                         <a ui-sref="projectInfo({project: project.id, pid: pid, previous: 'ALL LOCATIONS'})" >
-                            <img src="img/info.png">
+                            <img src="app/assets/images/info.png">
                         </a>
                         <a ui-sref="viewProject({project: project.id, pid: project.pid, previous: 'ALL LOCATIONS'})">
-                            <img class="viewProject" src="img/ProjectOptions.svg" height="25px">
+                            <img class="viewProject" src="app/assets/images/ProjectOptions.svg" height="25px">
                         </a>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     </div>
 <!--                         <div class="forward-wrapper">
 
-                            <img src="img/forward.png">
+                            <img src="app/assets/images/forward.png">
 
                     </div> -->
                   </a>

@@ -5,10 +5,10 @@ require 'autoprefixer-rails'
 # Set this to the root of your project when deployed:
 preferred_syntax = :scss
 http_path = '/'
-css_dir = 'assets/stylesheets'
-sass_dir = 'assets/scss'
-images_dir = 'assets/images'
-javascripts_dir = 'assets/javascripts'
+css_dir = 'app/assets/stylesheets'
+sass_dir = 'app/assets/scss'
+images_dir = 'app/assets/images'
+javascripts_dir = 'app/assets/javascripts'
 relative_assets = true
 line_comments = false
 #output_style = :compressed

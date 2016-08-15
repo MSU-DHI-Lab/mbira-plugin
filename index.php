@@ -25,6 +25,7 @@
 	<link rel="stylesheet" href="vendor/css/hint.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css">
 	<link rel="stylesheet" href="vendor/css/cropper.min.css">
+	<link rel="stylesheet" href="vendor/css/loaders.min.css">
  
 	<script src="vendor/js/jquery-1.11.1.min.js"></script>
 	<script src="vendor/js/hideShowPassword.min.js"></script>
@@ -39,19 +40,28 @@
 	<script src="vendor/js/angular/angular-sortable-view.js"></script>
 	<script src="vendor/js/angular/isteven-multi-select.js"></script>
 
-	<script src="controllers/configController.js"></script> 
-	<script src="js/userController.js"></script> 
-	<script src="js/projectController.js"></script> 
-	<script src="controllers/locations/newLocationController.js"></script> 
-	<script src="controllers/locations/singleLocationController.js"></script> 
-	<script src="controllers/locations/viewLocationsController.js"></script> 
-	<script src="controllers/users/newUserController.js"></script> 
-	<script src="controllers/users/editUserController.js"></script> 
-	<script src="controllers/users/usersToProjectController.js"></script> 
-	<script src="controllers/users/viewUsersController.js"></script> 
-	<script src="js/areaController.js"></script> 
-	<script src="js/explorationController.js"></script> 
-	<script src="js/exhibitController.js"></script> 
+	<script src="app/controllers/configController.js"></script> 
+	<script src="app/controllers/projects/newProjectController.js"></script> 
+	<script src="app/controllers/projects/singleProjectController.js"></script> 
+	<script src="app/controllers/projects/viewProjectsController.js"></script> 
+	<script src="app/controllers/projects/projectInfoController.js"></script> 
+	<script src="app/controllers/areas/newAreaController.js"></script> 
+	<script src="app/controllers/areas/singleAreaController.js"></script> 
+	<script src="app/controllers/areas/viewAreasController.js"></script>  
+	<script src="app/controllers/locations/newLocationController.js"></script> 
+	<script src="app/controllers/locations/singleLocationController.js"></script> 
+	<script src="app/controllers/locations/viewLocationsController.js"></script> 
+	<script src="app/controllers/users/newUserController.js"></script> 
+	<script src="app/controllers/users/editUserController.js"></script> 
+	<script src="app/controllers/users/usersToProjectController.js"></script> 
+	<script src="app/controllers/users/viewUsersController.js"></script> 
+	<script src="app/controllers/explorations/newExplorationController.js"></script> 
+	<script src="app/controllers/explorations/singleExplorationController.js"></script> 
+	<script src="app/controllers/explorations/viewExplorationsController.js"></script> 
+	<script src="app/controllers/exhibits/newExhibitController.js"></script> 
+	<script src="app/controllers/exhibits/singleExhibitController.js"></script> 
+	<script src="app/controllers/exhibits/viewExhibitsController.js"></script> 
+	<script src="app/controllers/exhibits/exhibitInfoController.js"></script> 
 	<script src="js/mediaController.js"></script>
 	<script src="js/notificationController.js"></script>
 	<script src="js/settingsController.js"></script>

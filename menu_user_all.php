@@ -7,14 +7,14 @@
 
 		<div class="header">
 			<h1>USERS</h1>
-            <div class="newUser"><a ui-sref="newUser"><img src="img/plusicon.png" width="20px"/></a></div>
+            <div class="newUser"><a ui-sref="newUser"><img src="app/assets/images/plusicon.png" width="20px"/></a></div>
 		</div>
 		
 		<div class="users" ng-controller='viewUsersCtrl'>
 			
 			<div class="project" ng-repeat='project in projects'>
 				<div class="project_title"><a ui-sref="viewProject({project: project.id, pid: project.pid})"><div><h3>{{project.name}}</h3></div></a>
-				<a ui-sref="addUsers({project: project.id, pid: project.pid})"><img class="addUser" src="img/plusicon.png" width="15px"/></a>
+				<a ui-sref="addUsers({project: project.id, pid: project.pid})"><img class="addUser" src="app/assets/images/plusicon.png" width="15px"/></a>
 				</div>
 				<div class="user" ng-repeat='user in project.users' ng-class-odd="'odd'" ng-class-even="'even'">
 					<div class="modUser">
@@ -27,24 +27,24 @@
 					</a>
 					<div class="badges">
 					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "citExp")' ng-if="user.isExpert == 'citExp'">
-						  <img src='img/citizenExpert.png'>
+						  <img src='app/assets/images/citizenExpert.png'>
 					    </div>
 					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "citExp")' ng-if="user.isExpert != 'citExp'">
-						  <img src='img/citizenExpert.png' style='opacity:.5'>
+						  <img src='app/assets/images/citizenExpert.png' style='opacity:.5'>
 					    </div>
                         
                         <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "projExp")' ng-if="user.isExpert == 'projExp'">
-						  <img src='img/projectExpert.png'>
+						  <img src='app/assets/images/projectExpert.png'>
 					    </div>
 					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "projExp")' ng-if="user.isExpert != 'projExp'">
-						  <img src='img/projectExpert.png' style='opacity:.5'>
+						  <img src='app/assets/images/projectExpert.png' style='opacity:.5'>
 					    </div>
 
 					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "projMem")' ng-if="user.isExpert == 'projMem'">
-						  <img src='img/projectPerson.png'>
+						  <img src='app/assets/images/projectPerson.png'>
 					    </div>
 					    <div ng-click='toggle(user.email, user.isExpert, user.project, user.id, "projMem")' ng-if="user.isExpert != 'projMem'">
-						  <img src='img/projectPerson.png' style='opacity:.5'>
+						  <img src='app/assets/images/projectPerson.png' style='opacity:.5'>
 					    </div>
 
 					    

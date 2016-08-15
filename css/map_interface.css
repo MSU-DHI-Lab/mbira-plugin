@@ -309,6 +309,12 @@ input[type="checkbox"] {
 
 /* MAP */
 
+#map-wrap {
+    position: relative;
+    height: 500px;
+    width: 799;
+}
+
 #map { 
     height: 500px; 
 }

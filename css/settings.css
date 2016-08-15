@@ -335,8 +335,8 @@ textarea {
 
 .hideShowPassword-toggle {
   background-color: transparent;
-  background-image: url('../img/wink.png'); /* fallback */
-  background-image: url('../img/wink.svg');
+  background-image: url('../app/assets/images/wink.png'); /* fallback */
+  background-image: url('../app/assets/images/wink.svg');
   background-position: 0 center;
   background-repeat: no-repeat;
   border: 2px solid transparent;

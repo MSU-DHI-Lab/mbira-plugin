@@ -152,6 +152,11 @@ img {
     float:left;
 }
 
+.thumbnail-img, .thumbnail-img img {
+    width: 239px;
+    height: 239px;
+}
+
 .thumbnail-header {
     width: 759px;
     height: 239px;

@@ -206,6 +206,11 @@ input.cmn-toggle-round-flat:checked + label:after {
 
 }
 
+.thumbnail-img, .thumbnail-img img {
+    width: 131px;
+    height: 131px;
+}
+
 .thumbnail-header {
     width: 405px;
     height: 131px;
@@ -325,7 +330,7 @@ input.cmn-toggle-round-flat:checked + label:after {
     background: rgba(255,255,255, 0.3);
     color: #FFF;
     border:none;
-    padding: 22px;
+    padding: 22px 80px 22px 22px;
     margin: 0;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
@@ -685,4 +690,20 @@ img {
     padding: 0px;
     font-size: 16px;
     vertical-align: center;
+}
+
+.counter-name {
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    text-align: right;
+    top: 24px;
+    left: 425px;
+    color: white;
+    font-size: 16px;
+    vertical-align: center;
+}
+
+.form-group {
+    position: relative;
 }
