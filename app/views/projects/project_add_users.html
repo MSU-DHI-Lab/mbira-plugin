@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<link rel="stylesheet" type="text/css" href="css/user_all.css"/>
+    </head>
+	<body ng-app="mbira">
+
+		<div class="header">
+			<div class="back">
+				<a onclick="window.history.go(-1); return false;">
+					<img src="app/assets/images/back.png"/>
+					<p>TO ALL USERS</p>
+				</a>
+			</div>
+			<h1>USERS</h1>
+		</div>
+		<div class="users" ng-controller='usersToProjectCtrl'>
+			<div class="project">
+            <div class="user" ng-repeat='user in users' ng-class-odd="'odd'" ng-class-even="'even'">
+				<img ng-click='addUser(user)' class="addUser2" src="app/assets/images/plusicon.png" width="15px"/></a>
+				<a ui-sref="viewUser({user: user.id, pid: user.pid, project: user.project_id, previous: 'ALL USERS'})"> 
+					<div class="user_title"><h3>{{user.firstName}} {{user.lastName}}</h3></div>
+					<div class="username">{{user.username}}</div>
+				</a>
+				<div class="badges">
+					<div ng-click='toggle(user.email, "citExp")' ng-if="user.isExpert == 'citExp'">
+					  <img src='app/assets/images/citizenExpert.png'>
+					</div>
+					<div ng-click='toggle(user.email, "citExp")' ng-if="user.isExpert != 'citExp'">
+					  <img src='app/assets/images/citizenExpert.png' style='opacity:.5'>
+					</div>
+                    
+                    <div ng-click='toggle(user.email, "projExp")' ng-if="user.isExpert == 'projExp'">
+					  <img src='app/assets/images/projectExpert.png'>
+					</div>
+					<div ng-click='toggle(user.email, "projExp")' ng-if="user.isExpert != 'projExp'">
+					  <img src='app/assets/images/projectExpert.png' style='opacity:.5'>
+					</div>
+
+					<div ng-click='toggle(user.email, "projMem")' ng-if="user.isExpert == 'projMem'">
+					  <img src='app/assets/images/projectPerson.png'>
+					</div>
+					<div ng-click='toggle(user.email, "projMem")' ng-if="user.isExpert != 'projMem'">
+					  <img src='app/assets/images/projectPerson.png' style='opacity:.5'>
+					</div>
+
+					
+				</div>
+			</div>
+			<div class="odd none" ng-show="!users.length"><h3>No Users To Add</h3></div>
+			
+		</div>
+            </div>
+
+	</body>
+</html>

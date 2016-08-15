@@ -1,0 +1,132 @@
+/* COMMENTS */
+
+.comments-all {
+    background: rgba(255,255,255, 0.2);
+    box-shadow: none;
+    border:none;
+    padding: 20px 20px 20px 20px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+#comments {
+    margin: 0 20px 0 0;
+    padding: 0 20px 0 0;
+    width: 100%;
+}
+
+.deleteComment, .reinstateComment {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 6px 5px 6px;
+    background: #3EB9FD;
+    cursor: pointer;
+
+    &:hover {
+        color: #3EB9FD;
+        background: #FFF;
+    }   
+}
+
+.comments-all p {
+    color: #FFF;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 14px;
+}
+
+.comment {
+    width: calc( 100% - 60px );
+    position: relative;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 16px;
+    background: rgba(255,255,255, 0.2);
+    color: #FFF;
+    box-shadow: none;
+    border:none;
+    padding: 20px 40px 20px 20px;
+    margin-bottom: 20px;
+    
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+.wrap-pending, .wrap-deleted {
+    width: 100%;
+}
+
+.comment-approve {
+    width: 200px;
+    line-height: 14px;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 12px;
+    text-align: center;
+    background: #3EB9FD;
+    color: #FFF;
+    padding: 5px;
+    float: right;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    cursor: pointer;
+    /*transition: all .5s ease;*/
+
+    &:hover {
+        color: #3EB9FD;
+        background: #FFF;
+    }
+}
+
+
+.comment-pending, .comment-deleted {
+    position: relative;
+    width: calc( 100% - 116px );
+    font-family: 'montserratregular', sans-serif;
+    font-size: 16px;
+    background: #2E6487;
+    color: #FFF;
+    box-shadow: none;
+    border:none;
+    padding: 20px 40px 20px 20px;
+    margin-bottom: 20px;
+    margin-left: -11px;
+
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+
+.pending, .deleted {
+    width: 58px;
+    height: 15px;
+    font-family: 'montserratregular', sans-serif;
+    font-size: 12px;
+    text-align: center;
+    color: #FFF;
+    border:none;
+    padding: 20px 10px 20px 10px;
+    margin-bottom: 20px;
+    margin-left: -11px;
+
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+
+    -webkit-box-shadow: -4px 5px 10px -2px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    -4px 5px 10px -2px rgba(50, 50, 50, 0.2);
+    box-shadow:         -4px 5px 10px -2px rgba(50, 50, 50, 0.2);
+}
+
+.pending {
+    background: #4184AA;
+}
+
+.deleted {
+    background: #CE6A6C;
+}

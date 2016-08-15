@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="app/assets/stylesheets/locations.css"/>
+        <link rel="stylesheet" type="text/css" href="css/location_single.css"/>
+        <!--remove eventually-->
+        <link rel="stylesheet" type="text/css" href="css/project_all.css"/>
+        <!--remove eventually-->
+        <link rel="stylesheet" type="text/css" href="vendor/css/leaflet.css"/>
+        <link rel="stylesheet" type="text/css" href="vendor/css/isteven-multi-select.css"/>
+        <script src="vendor/js/leaflet.js"></script> 
+        <script src="vendor/js/l.control.geosearch.js"></script> 
+        <script src="vendor/js/l.geosearch.provider.openstreetmap.js"></script> 
+        <script type="text/ng-template" id="replyTree">
+            <div class="wrap-pending flex wrap-row align-center" ng-if="comment.pending == 'yes' && comment.deleted == 'no'">
+            	<div class="pending" >Pending</div>
+            	<div class='comment-pending' style='display:inline-block;'>{{comment.user}}
+            		<div class="deleteComment" ng-click="deleteComment(comment.comment_id); $event.preventDefault()"><i class="fa fa-times fa-1"></i></div>
+            		<div style='display:inline-block; float: right; font-size:12px;'>{{comment.date}}</div><br>{{comment.comment}}<br>
+            	</div> 	
+            </div>
+            <div class="wrap-deleted flex wrap-row align-center" ng-if="comment.deleted == 'yes'">
+            	<div class="deleted" >Deleted</div>
+            	<div class='comment-deleted' style='display:inline-block;'>Removed
+            		<div class="deleteComment" ng-click="reinstateComment(comment.comment_id); $event.preventDefault()"><i class="fa fa-undo fa-1"></i></div>
+            		<div style='display:inline-block; float: right; font-size:12px;'>{{comment.date}}</div><br>This comment has been removed by an admin.<br>
+            	</div> 	
+            </div>
+            <button class="comment-approve" ng-if="comment.pending == 'yes'" ng-click="approveComment(comment.comment_id); $event.preventDefault()">APPROVE COMMENT</button>
+            
+            <div ng-if="comment.pending == 'no' && comment.deleted == 'no'" class='comment' style='display:inline-block;'>{{comment.user}}
+            	<div class="deleteComment" ng-click="deleteComment(comment.comment_id); $event.preventDefault()"><i class="fa fa-times fa-1"></i></div>
+            	<div style='display:inline-block; float: right; font-size:12px;'>{{comment.date}}</div><br>{{comment.comment}}<br>
+            </div> 
+            <div ng-if="comment.replies">
+            	<div style='margin-left:50px;' ng-repeat="comment in comment.replies" ng-include="'replyTree'">
+            	</div>
+            </div>
+        </script>
+    </head>
+    <body ng-app='mbira'>
+        <div class="wrap" ng-controller='singleLocationCtrl'>
+            <div id="loading" class="loading">
+                <div class="flex center wrap-column align-center" style="height:100%">
+                    <div class="loader-inner ball-pulse">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div class="loading-text"></div>
+                </div>
+            </div>
+            <div id="media-modal-1" class="overlay" ng-click="resetCropper()">
+                <div class="media-modal">
+                    <div class="media-modal-header">
+                        <div ng-show="mediaCheckBox" class="crop-steps animate-show flex wrap-row space-between">
+                            <span class="modal-step" ng-class="{'current-step': modal.current == 'Thumbnail', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Thumbnail', 533) : null">1. Thumbnail</span> 
+                            <span class="modal-step" ng-class="{'current-step': modal.current == 'Crop', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Crop', 533) : null">2. Crop</span> 
+                            <span class="modal-step" ng-class="{'current-step': modal.current == 'Details', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Details', 350) : null">3. Details</span>
+                        </div>
+                        <div class="close" ng-click="resetCropper()">&times;</div>
+                    </div>
+                    <div ng-show="modal.current == 'Thumbnail' || modal.current == 'Crop'" ng-include src="'app/views/media/partials/_thumbnail_image_crop.html'"></div>
+                    <div class="animate-hide" id="details" ng-show="modal.current == 'Details'" ng-include src="'app/views/media/partials/_image_details.html'"></div>
+                </div>
+            </div>
+            <div ng-show="modal.current == 'ViewImage'" ng-include src="'app/views/media/partials/_view_image.html'"></div>
+            <div class="header">
+                <div class="back">
+                    <a onclick="window.history.go(-1); return false;">
+                        <img src="app/assets/images/back.png"/>
+                        <p>{{project}}</p>
+                    </a>
+                </div>
+                <h1 id="title-name">{{location.name}}</h1>
+            </div>
+            <div id="map"></div>
+            <form id="editlocationform" name="editlocationform" novalidate ng-submit="submit()" role="form">
+                <div id="scroller-anchor"></div>
+                <div id="scroller" class="header2">
+                    <div class="form-group">
+                        <input type="text" required class="form-control npInput" ng-model="location.name" maxlength="50" placeholder="Location Name" id="locationName">
+                        <div class="counter-name">{{location.name.length || 0}}/50</div>
+                        <button type="submit" id="submit" class="btn btn-default" ng-disabled="editlocationform.$invalid" ng-class="{'btn-disabled': editlocationform.$invalid}">SAVE LOCATION</button>
+                    </div>
+                    <br>
+                </div>
+                <div class="edit-exhibit">
+                    <div class="form-group">
+                        <div bindToController='true' isteven-multi-select input-model="exhibits" helper-elements="all none" output-model="outputExhibits" button-label="icon name" item-label="icon name maker" tick-property="ticked"></div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class='field-label flex wrap-row space-between align-center'>
+                        <h1 class='label-name'>LOCATION TAGLINE</h1>
+                        <div class="counter">{{location.short_description.length}}/400</div>
+                    </div>
+                    <div class="form-group short">				        
+                        <textarea class="form-control npInput short" id="textField" name="short" maxlength="400" ng-model="location.short_description" placeholder="Short Location Description"></textarea>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class='field-label'>
+                        <h1 class='label-name'>LOCATION DESCRIPTION</h1>
+                    </div>
+                    <div class="form-group">			
+                        <textarea id="textField" ng-model="location.description" placeholder="Enter Location Description"></textarea>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class='field-label'>
+                        <div class="switch">
+                            <h1 class='label-name'>DIG DEEPER</h1>
+                            <input ng-model='location.toggle_dig_deeper' id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                            <label for="cmn-toggle-1"></label>
+                        </div>
+                    </div>
+                    <div class="form-group">				        
+                        <textarea id="textField" ng-model="location.dig_deeper" placeholder="Enter Location Dig Deeper"></textarea>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class='field-label'>
+                        <div class="switch">
+                            <h1 class='label-name'>MEDIA</h1>
+                            <input ng-model='location.toggle_media' id="cmn-toggle-2" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                            <label for="cmn-toggle-2"></label>
+                        </div>
+                    </div>
+                    <div class="medias">
+                        <div class="media thumbnail dropzone" ng-repeat='m in media' ng-if="m.isThumb == 'yes'">
+                            <div class="thumbnail-img">
+                                <img ng-src='{{m.thumb_path ? m.thumb_path : m.file_path}}'>
+                            </div>
+                            <div class="editMedia" ng-click="editThumbnail(m)"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></div>
+                            <div class="viewMedia" ng-if="m.description != null" ng-click="viewMedia(m)"><i class="fa fa-arrows-alt fa-1" aria-hidden="true"></i></div>
+                            <div class="thumbnail_title">
+                                <h3>{{"THUMBNAIL"}}</h3>
+                            </div>
+                            <div class="form-group-file">				        
+                                <input type="file" id="fileSelect" name="file" ng-file-select="onThumbSelect($files)">
+                            </div>
+                        </div>
+                        <div class="thumbnail-header dropzone" >
+                            <img ng-src='{{location.header_image_path}}' height="131">
+                            <div class="thumbnail_title">
+                                <h3>{{"EDIT HEADER"}}</h3>
+                            </div>
+                            <div class="form-group-file-header">				        
+                                <input type="file" id="HeaderSelect" name="file" ng-file-select="onHeaderSelect($files)">
+                            </div>
+                        </div>
+                        <div class='media' ng-repeat='m in media' ng-if="(m.isThumb != 'yes') && (m.isHeader != 'yes') && m.file_path != 'app/assets/images/Default.png'">
+                            <img ng-src='{{m.thumb_path}}' height="131" width="131">
+                            <div class="deleteMedia" ng-click="deleteMedia(m)"><i class="fa fa-trash-o fa-1" aria-hidden="true"></i></div>
+                            <div class="editMedia" ng-click="editMedia(m)"><i class="fa fa-pencil fa-1" aria-hidden="true"></i></div>
+                            <div class="viewMedia" ng-click="viewMedia(m)"><i class="fa fa-arrows-alt fa-1" aria-hidden="true"></i></div>
+                        </div>
+                        <div class="media_new">
+                            <div class="form-group-file">				        
+                                <input type="file" id="fileSelect" name="file" ng-file-select="onMediaSelect($files)">
+                            </div>
+                            <img src="app/assets/images/project_new_plus_icon_small.png" height="131" width="131">
+                            <div class="media_title_new">
+                                <h3>ADD MEDIA</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class='field-label'>
+                        <div class="switch">
+                            <h1 class='label-name'>COMMENTS</h1>
+                            <input ng-model='location.toggle_comments' ng-init="checked=true" id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+                            <label for="cmn-toggle-3"></label>
+                        </div>
+                    </div>
+                    <div class="form-group comments-all">
+                        <p ng-if='!comments' >No Comments Yet.</p>
+                        <div id='comments' ng-repeat="comment in comments" ng-if="location.toggle_comments" ng-include="'replyTree'">
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class='field-label delete' ng-click='delete()'>
+                <h1 class='label-name'>DELETE LOCATION</h1>
+            </div>
+        </div>
+        <script type='text/javascript' src='js/fixHead.js'></script>
+        <script type='text/javascript'>
+            $(".overlay *").click(function(e) {
+                e.stopPropagation();
+            });
+            
+            var cropper;
+            
+            var vtoggle = -1
+            var htoggle = -1
+            
+            function toggleFlip(type) {
+            	if (type == "vertical") {
+            		cropper.scaleY(vtoggle)
+            		vtoggle == -1 ? vtoggle = 1 : vtoggle = -1;
+            	} else {
+            		cropper.scaleX(htoggle)
+            		htoggle == -1 ? htoggle = 1 : htoggle = -1;
+            	}
+            }
+            
+        </script>
+    </body>
+</html>

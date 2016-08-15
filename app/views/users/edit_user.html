@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<link rel="stylesheet" type="text/css" href="css/user_all.css"/>
+    </head>
+	<body ng-app="mbira">
+
+		<div class="header">
+			<div class="back">
+				<a onclick="window.history.go(-1); return false;">
+					<img src="app/assets/images/back.png"/>
+					<p>USERS</p>
+				</a>
+			</div>
+			<h1>EDIT USER</h1>
+		</div>
+		<div class="usersEdit" ng-controller='editUserCtrl'>
+
+			<div id="modal-1" class="overlay" ng-click="cancel()">
+				<div class="modal">
+					<div class="modal-header">
+						<div class="close" ng-click="cancel()">&times;</div>
+					</div>
+					Are you sure you want to delete this user? They will be removed from <strong>all projects</strong> and all their <strong>conversation comments</strong> will be removed.
+					<div>
+						<button id="cancel" ng-click="cancel(); $event.preventDefault();">CANCEL</button>	
+						<button id="submit-delete" ng-click="confirmDelete(userInfo.id)">CONFIRM</button>	
+					</div>
+				</div>
+			</div> 
+
+			<form name="newUserForm" ng-submit='newUserForm.$valid && submit()' novalidate>
+				
+				
+				<div class="singleField">
+				<input type="text" class="newUserField" name="fname" placeholder="First Name" required ng-model="userInfo.firstName">
+				<span class="error" ng-show="newUserForm.fname.$error.required && newUserForm.fname.$dirty">FIELD REQUIRED</span></div>
+                
+                <div class="singleField">
+				<input type="text" class="newUserField" name="lname" placeholder="Last Name" required ng-model="userInfo.lastName">
+				<span class="error" ng-show="newUserForm.lname.$error.required && newUserForm.lname.$dirty">FIELD REQUIRED</span></div>
+                
+                <div class="singleField">
+	                <input type="text" class="newUserField" name="username" placeholder="Username" required ng-model="userInfo.username">
+					<span class="error" ng-show="newUserForm.username.$error.required && newUserForm.username.$dirty">FIELD REQUIRED</span>
+					<span class="error" ng-show="!newUserForm.username.$error.required && newUserForm.username.$dirty && usernameTaken">THIS USERNAME IS ALREADY TAKEN</span>
+				</div>
+				
+            
+                <div class="singleField">
+				<input type="email" class="newUserField" name="email" placeholder="Email" required ng-model="userInfo.email">
+				<span class="error" ng-show="newUserForm.email.$error.required && newUserForm.email.$dirty">FIELD REQUIRED</span>
+				<span class="error" ng-show="!newUserForm.email.$error.required && newUserForm.email.$error.email && newUserForm.email.$dirty">INVALID EMAIL</span></div>
+				
+				<!-- <select ng-init="user.expertise = options[0]" name="exp" ng-model="user.expertise" ng-options="option.name for option in options"></select><br><br> -->
+				<div class="passwords">
+                <div class="singleField">
+                <input type="password" class="newUserField" name="pass1" placeholder="New Password"  ng-model="userInfo.pass1" ng-pattern="/.{8,}/">
+				<span class="error" ng-show="newUserForm.pass1.$error.required && newUserForm.pass1.$dirty">FIELD REQUIRED</span>
+				<span class="error" ng-show="!newUserForm.pass1.$error.required && newUserForm.$submitted && newUserForm.pass1.$error.pattern">PASSWORD MUST BE AT LEAST 8 CHARACTERS</span></div>
+			    <div class="singleField">
+				<input type="password" class="newUserField" name="pass2" placeholder="Confirm New Password"  ng-required="newUserForm.pass1.$dirty" ng-model="userInfo.pass2" match-password> 
+				<span class="error" ng-show="userInfo.pass1 != userInfo.pass2 && newUserForm.pass2.$dirty">PASSWORDS DO NO MATCH</span>
+					<span class="error" ng-show="false">FIELD REQUIRED</span></div></div>
+     
+				<button id="delete" ng-click="deletePopup(); $event.preventDefault();">DELETE USER</button>	
+				<button id="submit" type="submit">SAVE DETAILS</button>	
+			</form>
+        </div>
+
+	</body>
+</html>

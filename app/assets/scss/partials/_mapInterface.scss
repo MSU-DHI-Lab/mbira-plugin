@@ -1,0 +1,249 @@
+.toolbar {
+    background: rgba(255,255,255,.6);
+    text-align: center;
+    position: absolute;
+	top:0;
+	left:0;
+    z-index: 2;
+    width: 100%;
+}
+ 
+
+.toolbar h3, .toolbar img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.toolbar li {
+    display: inline-block;
+    padding: 10px 0;
+    width: 199px;
+    margin: 0;
+}
+
+[class^="tool_"]{
+    transition: background .5s;
+}
+
+[class^="tool_"]:hover {
+    background: #FFF;
+}
+
+.toolbar h3, .toolbar img {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.toolbar h3 {
+    color: #021426;
+    margin:0;
+    padding: 0 10px 0 0;
+    font-family: 'montserratbold', sans-serif;
+    font-size: 12px;
+}
+
+/* DROPDOWN FILTER MENU */
+
+ul li ul {
+    position: absolute;
+    top: 45px;
+    right: 97px;
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility .5s;
+    width: 201px;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown li {
+    padding: 15px 0;
+}
+
+ul li ul li { 
+  background: rgba(255,255,255,.6);; 
+  display: block; 
+  color: #021426;
+    font-family: 'montserratbold', sans-serif;
+    font-size: 10px;
+    padding: 10px 0;
+    margin: 0;
+    vertical-align: middle;
+}
+
+ul li:hover ul {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* CHECKBOXES WITHIN DROPDOWN FILTER MENU */
+
+[id^="checkbox-3-"] + label {
+	background-color: #FFF;
+	border: 1px solid #CCC;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+	padding: 5px;
+	border-radius: 1000px;
+	display: inline-block;
+	position: absolute;
+	left: 20px;
+}
+
+[id^="checkbox-3-"] + label:active {
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.2);
+}
+
+[id^="checkbox-3-"]:checked + label {
+	background-color: #ECF2F7;
+	border: 1px solid #CCC;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1);
+	color: #243441;
+}
+
+[id^="checkbox-3-"]:checked + label:before {
+	content: ' ';
+	border-radius: 100px;
+	position: absolute;
+	background: #021426;
+	opacity: 0.8;
+	display: none;
+	box-shadow: inset 0 15px 23px -10px rgba(187, 230, 240, 0.3), 0 2px 2px rgba(0, 0, 0, 0.1);
+	top: 3px;
+	left: 3px;
+	width: 8px;
+	height: 8px;
+}
+
+[id^="checkbox-3-"]:checked + label:before {
+	content: ' ';
+	display: block;
+}
+
+#checkbox-3-1:checked + label:before {
+	top: 2px;
+	left: 2px;
+	width: 16px;
+	height: 16px;
+}
+
+#checkbox-3-2:checked + label:before {
+	top: 2px;
+	left: 2px;
+	width: 16px;
+	height: 16px;
+}
+
+#checkbox-3-3:checked + label:before {
+   top: 2px;
+	left: 2px;
+	width: 16px;
+	height: 16px;
+}
+
+#checkbox-3-1 + label {
+	width: 10px;
+	height: 10px;
+    top: 9px;
+}
+
+#checkbox-3-2 + label {
+	width: 10px;
+	height: 10px;
+    top: 54px;
+}
+
+#checkbox-3-3 + label {
+    width: 10px;
+	height: 10px;
+    top: 100px;
+}
+
+#checkbox-3-1 + label {
+	width: 10px;
+	height: 10px;
+}
+
+#checkbox-3-2 + label {
+	width: 10px;
+	height: 10px;
+}
+
+#checkbox-3-3 + label {
+width: 10px;
+	height: 10px;
+}
+
+
+input[type="checkbox"] {
+	display: none;
+}
+
+/* MAP */
+
+#map { 
+    height: 500px; 
+}
+
+.leaflet-control-zoom.leaflet-bar.leaflet-control{
+    margin-top: 20px;
+}
+
+.leaflet-center {
+	width: 25%;
+	margin-left: auto;
+	margin-right: auto;
+	position: absolute;
+	top: 0px;
+    left: 0px;
+}
+.leaflet-control-geosearch, .leaflet-control-geosearch ul {
+	margin: 0;
+    padding: 0;
+	width: 100%;
+	height: auto;
+    -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
+}
+.leaflet-control-geosearch-msg ul {
+	list-style: none;
+	display: none;
+	height: auto;
+	background: none;
+	padding: 10px;
+}
+.leaflet-control-geosearch ul li {
+	background: none repeat scroll 0 0 rgba(255, 255, 255, 0.75);
+    margin: 2px 0;
+    padding: 10px;
+    font: 11px "montserratregular" #0A263D;
+    text-indent: 10px;
+}
+.leaflet-container .leaflet-control-geosearch input {
+	width: 100%;
+	height: 28px;
+	padding: 10px;
+	text-indent: 8px;
+	background: rgba(255, 255, 255, 0.75);			
+	border: none;
+}
+
+.leaflet-control-geosearch input[type="text"] {
+  display: block;
+  margin: 0;
+  width: 100%;
+  font-family: "montserratregular" sans-serif;
+  font-size: 11px;
+  border-radius: none;
+}
+
+.leaflet-control-geosearch input[type="text"]:focus {
+  outline: none;
+}
+
+#leaflet-control-geosearch-qry::-webkit-input-placeholder { color:#0A263D; }
+#leaflet-control-geosearch-qry::-moz-placeholder { color:#0A263D; } /* firefox 19+ */
+#leaflet-control-geosearch-qry:-ms-input-placeholder { color:#0A263D; } /* ie */
+#leaflet-control-geosearch-qry input:-moz-placeholder { color:#0A263D; }

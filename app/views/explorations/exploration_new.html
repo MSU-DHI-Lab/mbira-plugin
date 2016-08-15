@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/newexploration.css"/>
+		<link rel="stylesheet" type="text/css" href="app/assets/stylesheets/explorations.css"/> 
+
+		<link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
+		<link rel="stylesheet" type="text/css" href="vendor/css/leaflet.css"/>
+		<link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
+
+		<script src="vendor/js/leaflet.js"></script>
+		<script src="vendor/js/l.control.geosearch.js"></script> 
+		<script src="vendor/js/l.geosearch.provider.openstreetmap.js"></script> 
+	</head>
+	<body ng-app="mbira">
+		<div  ng-controller="newExplorationCtrl">
+			<!--HEADER-->
+            <div id="loading" class="loading">
+                <div class="flex center wrap-column align-center" style="height:100%">
+                    <div class="loader-inner ball-pulse">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div class="loading-text"></div>
+                </div>
+            </div>
+            <div id="media-modal-1" class="overlay" ng-click="resetCropper()">
+                <div class="media-modal">
+                    <div class="media-modal-header">
+                        <div ng-show="mediaCheckBox" class="crop-steps animate-show flex wrap-row space-between">
+                            <span class="modal-step" ng-class="{'current-step': modal.current == 'Thumbnail', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Thumbnail', 533) : null">1. Thumbnail</span> 
+                            <span class="modal-step" ng-class="{'current-step': modal.current == 'Crop', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Crop', 533) : null">2. Crop</span> 
+                            <span class="modal-step" ng-class="{'current-step': modal.current == 'Details', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Details', 350) : null">3. Details</span>
+                        </div>
+                        <div class="close" ng-click="resetCropper()">&times;</div>
+                    </div>
+                    <div ng-show="modal.current == 'Thumbnail' || modal.current == 'Crop'" ng-include src="'app/views/media/partials/_thumbnail_image_crop.html'"></div>
+                    <div class="animate-hide" id="details" ng-show="modal.current == 'Details'" ng-include src="'app/views/media/partials/_image_details.html'"></div>
+                </div>
+            </div>
+			<div class="header">
+				<div class="back">
+					<a ui-sref='viewProject({project: projectId, pid: PID})'>
+						<img src="app/assets/images/back.png"/>
+						<p>{{project}}</p>
+					</a>
+				</div>
+				<div class="title">
+					<h1>New Exploration</h1>
+				</div>
+			</div>
+			<div class="help" ng-if="total >= 2">
+				<p>Select and connect the locations you would like to use within your new exploration, then click “DONE!”</p>
+			</div>
+			
+			<div class="errorModal" ng-if="total < 2">
+				<div class="dim">
+					<div class="message error">	
+						<p>This project doesn't have enough locations or areas yet. You need to create at least 2 locations or areas before you can create an exploration.</p>
+						<button class="modalOk" ng-click="modalOk()">OK</button>
+					</div>
+				</div>
+			</div>
+			
+			<!--PROJECT INFORMATION-->       
+			<div id="map"> 
+				<button id="done" ng-if="total >= 2" ng-click="done()">DONE!</button>
+			</div>
+			
+			<div class="exp_info" style='display:none'>
+				<form id="newexplorationform" name="newexplorationform" novalidate ng-submit="submit()" role="form">
+					<div id="scroller-anchor"></div>
+					<div id="scroller" class="header2">
+						<div class="form-group">				        
+							<input type="text" required class="form-control npInput" id="name" name="name" ng-model="newExploration.name" placeholder="Enter Exploration Name">
+							<div class="counter-name">{{newExploration.name.length || 0}}/50</div>
+							<button type="submit" id="submit" class="btn btn-default" ng-disabled="newexplorationform.$invalid" ng-class="{'btn-disabled': newexplorationform.$invalid}">SAVE EXPLORATION</button>
+						</div>
+					</div>
+					<div class="edit-exhibit"></div>
+					<div class="field">
+						<div class='field-label'>
+							<h1 class='label-name'>DESCRIPTION</h1>
+						</div>
+						<div class="form-group">			
+							<textarea id="textField" ng-model="newExploration.description" placeholder="Enter New Exploration Description"></textarea>
+						</div>
+					</div>
+					<div class="form-group" >
+						<!--ng-if='active'-->
+						<div class="field">
+							<div class='field-label stops'>
+								<h1 class='label-name'>STOPS</h1>
+								<div class="form-group edit">				        
+									<button id="editStops">ADD/REMOVE STOPS</button>
+								</div>
+							</div>
+							<div class="drag" >Drag to Reorder</div>
+							<div id='reorder' sv-root sv-part="places" sv-on-sort="onSort($part, $item, $index)">
+								<div id='stops' ng-repeat="place in places" sv-element>
+									<div style='position:absolute; padding-left:5px;'>{{$index + 1}}</div>
+									{{place[1]}}
+									<div ng-click='removeThis()' style='float:right; cursor:pointer; margin-top:4px;'><img src="app/assets/images/remove_x.png" width="10px" height="10px"/></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="field">
+						<div class='field-label'>
+							<div class="switch">
+								<h1 class='label-name'>MEDIA</h1>
+							</div>
+						</div>
+						<div class="medias">
+			                <div class="thumbnail dropzone">
+				                	<div class="thumbnail-img">
+										<img src="app/assets/images/Default.png" height="131" width="131">
+									</div>
+									<div class="thumbnail_title">
+										<h3>{{"ADD THUMBNAIL"}}</h3>
+									</div>
+									<div class="form-group-file">
+											<input type="file" id="fileSelect" name="file" ng-file-select="onThumbSelect($files)">
+									</div>
+								</div>
+
+			                <div class="thumbnail-header dropzone">
+								<img src="app/assets/images/Default-Header.png" height="131">
+								<div class="thumbnail_title">
+									<h3>{{"ADD HEADER"}}</h3>
+								</div>
+								<div class="form-group-file-header">				        
+										<input type="file" id="HeaderSelect" name="file" ng-file-select="onHeaderSelect($files)">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="field">
+						<div class='field-label'>
+							<div class="switch">
+								<h1 class='label-name'>COMMENTS</h1>
+								<input ng-model='newExploration.toggle_comments' id="cmn-toggle-3" class="cmn-toggle cmn-toggle-round-flat" type="checkbox">
+								<label for="cmn-toggle-3"></label>
+							</div>
+						</div>
+						<div class="form-group comments-all">
+							<p ng-show='!comments.length'>No Comments Yet.</p>
+							<div id='comments' ng-repeat="comment in comments" ng-if="area.toggle_comments" ng-include="'replyTree'"> 
+							</div>
+						</div>
+					</div>
+					<br>
+				</form>
+			</div>
+		</div>
+		<script type='text/javascript' src='js/fixHead.js'></script>
+        <script type='text/javascript'>
+            $(".overlay *").click(function(e) {
+                e.stopPropagation();
+            });
+            
+            var cropper;
+            
+            var vtoggle = -1
+            var htoggle = -1
+            
+            function toggleFlip(type) {
+            	if (type == "vertical") {
+            		cropper.scaleY(vtoggle)
+            		vtoggle == -1 ? vtoggle = 1 : vtoggle = -1;
+            	} else {
+            		cropper.scaleX(htoggle)
+            		htoggle == -1 ? htoggle = 1 : htoggle = -1;
+            	}
+            }
+            
+        </script>
+	</body>
+</html>

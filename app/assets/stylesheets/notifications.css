@@ -1,0 +1,251 @@
+@font-face {
+  font-family: 'montserratregular';
+  src: url("../fonts/Montserrat-Regular-webfont.eot");
+  src: url("../fonts/Montserrat-Regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Montserrat-Regular-webfont.woff") format("woff"), url("../fonts/Montserrat-Regular-webfont.ttf") format("truetype"), url("../fonts/Montserrat-Regular-webfont.svg#montserratregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'montserratbold';
+  src: url("../fonts/Montserrat-Bold-webfont.eot");
+  src: url("../fonts/Montserrat-Bold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/Montserrat-Bold-webfont.woff") format("woff"), url("../fonts/Montserrat-Bold-webfont.ttf") format("truetype"), url("../fonts/Montserrat-Bold-webfont.svg#montserratbold") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'montserratlight';
+  src: url("../fonts/montserrat-light-webfont.eot");
+  src: url("../fonts/montserrat-light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/montserrat-light-webfont.woff2") format("woff2"), url("../fonts/montserrat-light-webfont.woff") format("woff"), url("../fonts/montserrat-light-webfont.ttf") format("truetype"), url("../fonts/montserrat-light-webfont.svg#montserratlight") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'montserratthin';
+  src: url("../fonts/montserrat-thin-webfont.eot");
+  src: url("../fonts/montserrat-thin-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/montserrat-thin-webfont.woff2") format("woff2"), url("../fonts/montserrat-thin-webfont.woff") format("woff"), url("../fonts/montserrat-thin-webfont.ttf") format("truetype"), url("../fonts/montserrat-thin-webfont.svg#montserratthin") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.wrap-row {
+  -ms-flex-flow: row wrap;
+      flex-flow: row wrap;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-direction: row;
+}
+
+.wrap-column {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-flex-direction: column;
+}
+
+.space-between {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+
+.start {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+}
+
+.center {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-justify-content: center;
+}
+
+.align-center {
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+              -ms-grid-row-align: center;
+          align-items: center;
+}
+
+/* Removes glowing outline on button focus */
+.remove-outline {
+  outline: 0;
+}
+
+.header {
+  background: rgba(15, 42, 65, 0.98);
+  height: 75px;
+  text-align: center;
+  box-shadow: 0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+  width: 100%;
+  position: relative;
+  top: 0px;
+  z-index: 1;
+}
+.header h1 {
+  margin: 0;
+  line-height: 75px;
+  color: #FFF;
+  font-family: 'montserratlight' sans-serif;
+  letter-spacing: 1px;
+  font-weight: 100;
+}
+
+#right {
+  margin: 0;
+}
+
+#right_container {
+  width: 799px;
+  padding-bottom: 5px;
+}
+
+#global_error {
+  padding-bottom: 0;
+}
+
+.counter-name {
+  position: absolute;
+  margin: 0px;
+  padding: 0px;
+  text-align: right;
+  top: 44px;
+  left: 445px;
+  color: white;
+  font-size: 16px;
+  vertical-align: center;
+}
+
+.form-group {
+  position: relative;
+}
+
+#title-name {
+  font-size: 20px;
+}
+
+.animate-show {
+  opacity: 1;
+}
+.animate-show.ng-hide {
+  opacity: 0;
+}
+.animate-show.ng-hide-add, .animate-show.ng-hide-remove {
+  -webkit-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+}
+
+.animate-hide {
+  opacity: 1;
+}
+.animate-hide.ng-hide {
+  opacity: 0;
+}
+.animate-hide.ng-hide-remove {
+  -webkit-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+}
+
+.notifications {
+  min-height: 600px;
+  background-color: #18587C;
+  padding-bottom: 20px;
+}
+
+.notifs-wrap {
+  width: 759px;
+  margin: 5px 20px 20px 20px;
+}
+
+.notif-wrap {
+  width: 759px;
+  height: 50px;
+  background-color: #2375A2;
+  margin: 15px 0px;
+}
+
+.old-notif-wrap {
+  width: 759px;
+  height: 50px;
+  margin: 0px;
+}
+
+.notif-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #3EB9FD;
+  border: none;
+}
+.notif-icon i {
+  color: white;
+  font-size: 25px;
+}
+
+.old-notif-icon {
+  width: 50px;
+  height: 50px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: none;
+}
+.old-notif-icon i {
+  color: white;
+  font-size: 25px;
+}
+
+.notif-text {
+  width: 505px;
+  height: 50px;
+  padding-left: 20px;
+  color: white;
+  font-family: 'montserratlight' sans-serif;
+  letter-spacing: 1px;
+  font-weight: 100;
+  text-transform: uppercase;
+  border: none;
+}
+
+.notif-date {
+  width: 125px;
+  height: 50px;
+  color: white;
+  font-family: 'montserratlight' sans-serif;
+  letter-spacing: 1px;
+  font-weight: 100;
+  border: none;
+}
+
+.notif-chevron {
+  width: 59px;
+  height: 50px;
+  border: none;
+}
+.notif-chevron i {
+  color: white;
+  font-size: 15px;
+}
+
+.old-notif-odd {
+  background-color: #467996;
+}
+
+.old-notif-even {
+  background-color: #306989;
+}

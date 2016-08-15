@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="app/assets/stylesheets/exhibits.css"/>
+        <link rel="stylesheet" type="text/css" href="css/newexhibit.css"/>
+        <link rel="stylesheet" type="text/css" href="css/project_single.css"/>
+        <!-- This needs to change and be its own css -->
+        <link rel="stylesheet" type="text/css" href="css/project_all.css"/>
+        <!-- This needs to change and be its own css -->
+        <link rel="stylesheet" type="text/css" href="css/map_interface.css"/>
+        <link rel="stylesheet" type="text/css" href="vendor/css/leaflet.css"/>
+        <link rel="stylesheet" type="text/css" href="css/l.geosearch.css"/>
+        <script src="vendor/js/leaflet.js"></script>
+        <script src="vendor/js/l.control.geosearch.js"></script> 
+        <script src="vendor/js/l.geosearch.provider.openstreetmap.js"></script> 
+    </head>
+    <body ng-app="mbira">
+        <div  ng-controller="newExhibitCtrl">
+            <div id="loading" class="loading">
+                <div class="flex center wrap-column align-center" style="height:100%">
+                    <div class="loader-inner ball-pulse">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <div class="loading-text"></div>
+                </div>
+            </div>
+            <div id="media-modal-1" class="overlay" ng-click="resetCropper()">
+                <div class="media-modal">
+                    <div class="media-modal-header">
+                        <div ng-show="mediaCheckBox" class="crop-steps animate-show flex wrap-row space-between">
+                            <span class="modal-step" ng-class="{'current-step': modal.current == 'Thumbnail', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Thumbnail', 533) : null">1. Thumbnail</span> 
+                            <span class="modal-step" ng-class="{'current-step': modal.current == 'Crop', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Crop', 533) : null">2. Crop</span> 
+                            <span class="modal-step" ng-class="{'current-step': modal.current == 'Details', 'pointer': modal.mode == 'edit'}" ng-click="modal.mode == 'edit' ? stepInto('Details', 350) : null">3. Details</span>
+                        </div>
+                        <div class="close" ng-click="resetCropper()">&times;</div>
+                    </div>
+                    <div ng-show="modal.current == 'Thumbnail' || modal.current == 'Crop'" ng-include src="'app/views/media/partials/_thumbnail_image_crop.html'"></div>
+                    <div class="animate-hide" id="details" ng-show="modal.current == 'Details'" ng-include src="'app/views/media/partials/_image_details.html'"></div>
+                </div>
+            </div>
+            <!--HEADER-->
+            <div class="header">
+                <div class="back">
+                    <a ui-sref='viewProject({project: projectId, pid: PID})'>
+                        <img src="app/assets/images/back.png"/>
+                        <p>{{project}}</p>
+                    </a>
+                </div>
+                <div class="title">
+                    <h1>NEW EXHIBIT</h1>
+                </div>
+            </div>
+            <!--PROJECT INFORMATION-->       
+            <div class="exhibit_info">
+                <form id="newexhibitform" name="newexhibitform" novalidate ng-submit="submit()" role="form">
+                    <br><br>
+                    <div class="thumbnail-header dropzone exhibitHeader">
+                        <img class="headerImg" src="app/assets/images/Default-Header.png">
+                        <div class="thumbnail_title">
+                            <h3>{{"EDIT EXHIBIT HEADER"}}</h3>
+                        </div>
+                        <div class="form-group-file-header">				        
+                            <input type="file" id="fileHeaderSelect" name="file" ng-file-select="onHeaderSelect($files)">
+                        </div>
+                    </div>
+                    <div class="thumbnail dropzone">
+                        <div class="thumbnail-img">
+                            <img src="app/assets/images/Default.png" height="239" width="239">
+                        </div>
+                        <div class="thumbnail_title">
+                            <h3>{{newExhibit.name || "Drop/Add Thumbnail"}}</h3>
+                        </div>
+                        <div class="form-group-file">
+                            <input type="file" id="fileSelect" name="file" ng-file-select="onThumbSelect($files)">
+                        </div>
+                    </div>
+                    <div class="">                        
+                        <input type="text" required class="form-control npInput" id="name" name="name" ng-model="newExhibit.name" placeholder="Exhibit Name">
+                    </div>
+                    <div class="">                        
+                        <textarea required class="form-control npInput" id="description" name="description" ng-model="newExhibit.description" placeholder="Exhibit Description"></textarea>
+                    </div>
+                    <div id='stops' ng-repeat="place in places">
+                        {{place[1]}} {{place[2]}}
+                    </div>
+                    <button type="submit" id="submit" class="btn btn-default" ng-disabled="newexhibitform.$invalid" ng-class="{'btn-disabled': newexhibitform.$invalid}">CREATE EXHIBIT</button>
+                </form>
+            </div>
+            <script type='text/javascript'>
+                $(".overlay *").click(function(e) {
+                    e.stopPropagation();
+                });
+                
+                var cropper;
+                
+                var vtoggle = -1
+                var htoggle = -1
+                
+                function toggleFlip(type) {
+                	if (type == "vertical") {
+                		cropper.scaleY(vtoggle)
+                		vtoggle == -1 ? vtoggle = 1 : vtoggle = -1;
+                	} else {
+                		cropper.scaleX(htoggle)
+                		htoggle == -1 ? htoggle = 1 : htoggle = -1;
+                	}
+                }
+                
+            </script>
+        </div>
+    </body>
+</html>

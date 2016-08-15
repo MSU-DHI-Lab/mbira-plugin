@@ -1,0 +1,100 @@
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+.flex {
+  display: flex;
+}
+
+.wrap-row {
+  flex-flow: row wrap;
+  flex-direction: row;
+  -webkit-flex-direction: row;
+
+}
+
+.wrap-column {
+  flex-direction: column;
+  -webkit-flex-direction: column;
+}
+
+.space-between {
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+}
+
+.start {
+  justify-content: flex-start;
+  -webkit-justify-content: flex-start; 
+}
+
+.center {
+  justify-content: center;
+  -webkit-justify-content: center;
+}
+
+.align-center {
+    align-content: center;
+    align-items: center;
+}
+
+/* Removes glowing outline on button focus */
+.remove-outline {
+    outline:0;
+}
+
+.header {
+    background: rgba(15,42,65,.98);
+    height: 75px;
+    text-align: center;
+    -webkit-box-shadow: 0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    -moz-box-shadow:    0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    box-shadow:         0px 4px 3px 0px rgba(50, 50, 50, 0.2);
+    width:100%;
+    position:relative;
+    top:0px;
+    z-index: 1;
+
+    h1 {
+        margin: 0;
+        line-height: 75px;
+        color: #FFF;
+        font-family: 'montserratlight' sans-serif;
+        letter-spacing: 1px;
+        font-weight: 100;
+    }
+}
+
+#right {
+    margin: 0;
+}
+
+#right_container {
+    width: 799px;
+    padding-bottom: 5px;
+}
+
+#global_error {
+    padding-bottom: 0;
+}
+
+.counter-name {
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+    text-align: right;
+    top: 44px;
+    left: 445px;
+    color: white;
+    font-size: 16px;
+    vertical-align: center;
+}
+
+.form-group {
+    position: relative;
+}
+
+#title-name {
+    font-size: 20px;
+}

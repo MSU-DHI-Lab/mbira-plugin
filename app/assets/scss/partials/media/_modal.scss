@@ -1,0 +1,106 @@
+.overlay, .overlayViewImage, .loading {
+  position: fixed;
+  display:none;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.overlay, .overlayViewImage {
+  z-index: 9990;
+}
+
+.overlayViewImage, .loading {
+  background-color: rgba( $mbiraDarkBlue, .38);
+  cursor: hand;
+  cursor: pointer;
+}
+
+.loading {
+  z-index: 90000;
+  background-color: rgba( $mbiraDarkBlue, .80);
+  cursor: hand;
+  cursor: pointer;
+}
+
+.loading-text {
+  color: white;
+  font-family: montserratthin;
+  font-size: 20px;
+  font-weight: 100;
+  text-decoration: none;
+}
+
+.loader-inner {
+  z-index: 90000;
+}
+
+.media-modal, .viewImage {
+  position: fixed;
+  z-index: 10000;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  width: 700px;
+  height: 571px;
+
+  -moz-transition: 0.7s;
+  -ms-transition: 0.7s;
+  -o-transition: 0.7s;
+  -webkit-transition: 0.7s;
+  transition: 0.7s;
+}
+
+.media-modal {
+  background: rgba(15,42,65,.98);
+
+  .content {
+    overflow: auto;
+    width: 549px;
+    height: 432.88px;
+  }
+
+  h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+    -webkit-transition: height 2s; /* For Safari 3.1 to 6.0 */
+    transition: height 2s;
+  }
+}
+
+.media-modal-header {
+  width: 700px;
+  padding-bottom: 30px;
+
+  .close {
+    float: right;
+    transition: all 200ms;
+    font-family: montserratthin;
+    font-size: 40px;
+    font-weight: 100;
+    text-decoration: none;
+    line-height: 0px;
+    margin-top: 2px;
+    color: white;
+
+    &:hover {
+      color: #3EB9FD;
+      cursor: pointer; 
+      cursor: hand;
+    }
+  }
+}
+
+#editable {
+    max-width: 549px;
+    max-height: 432.88px;
+}
+
+.pointer {
+  cursor: hand;
+  cursor: pointer;
+}

@@ -1,0 +1,86 @@
+.notifications {
+    min-height: 600px;
+    background-color: #18587C;
+    padding-bottom: 20px;
+}
+
+.notifs-wrap {
+	width: 759px;
+	margin: 5px 20px 20px 20px;
+}
+
+.notif-wrap {
+	width: 759px;
+	height: 50px;
+	background-color: #2375A2;
+	margin: 15px 0px;
+}
+
+.old-notif-wrap {
+	width: 759px;
+	height: 50px;
+	margin: 0px;
+}
+
+
+.notif-icon {
+	width: 50px;
+	height: 50px;
+	background-color: #3EB9FD;
+	border: none;
+	i {
+		color: white;
+		font-size: 25px;
+	}
+}
+
+.old-notif-icon {
+	width: 50px;
+	height: 50px;
+	background-color: rgba(255,255,255,.2);
+	border: none;
+	i {
+		color: white;
+		font-size: 25px;
+	}
+}
+
+.notif-text {
+	width: 505px;
+	height: 50px;
+	padding-left: 20px;
+	color: white;
+    font-family: 'montserratlight' sans-serif;
+    letter-spacing: 1px;
+    font-weight: 100;
+	text-transform: uppercase;
+	border: none;
+}
+
+.notif-date {
+	width: 125px;
+	height: 50px;
+	color: white;
+    font-family: 'montserratlight' sans-serif;
+    letter-spacing: 1px;
+    font-weight: 100;
+	border: none;
+}
+
+.notif-chevron {
+	width: 59px;
+	height: 50px;
+	border: none;
+	i {
+		color: white;
+		font-size: 15px;
+	}
+}
+
+.old-notif-odd {
+	background-color: #467996;
+}
+
+.old-notif-even {
+	background-color: #306989; 
+}
