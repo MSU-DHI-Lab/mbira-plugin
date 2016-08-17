@@ -16,9 +16,9 @@
 
 		$thumbCanvasData = $_POST['thumbCanvasData'];
 		$thumbCropData = $_POST['thumbCropData'];
-		$title = $_POST['title'];
-		$altDesc = $_POST['altDesc'];
-		$description = $_POST['description'];
+		$title = mysqli_real_escape_string($con, $_POST['title']);
+		$altDesc = mysqli_real_escape_string($con, $_POST['altDesc']);
+		$description = mysqli_real_escape_string($con, $_POST['description']);
 		$type = $_POST['type'];
 
 		if ($type == 'loc'){
@@ -106,9 +106,9 @@
 		$project_id = $_POST['project'];
 		$title = $_POST['title'];
 		$altDesc = $_POST['altDesc'];
-		$description = $_POST['description'];
-		$type = $_POST['type'];
-		$mid = $_POST['mid'];
+		$description = mysqli_real_escape_string($con, $_POST['description']);
+		$type = mysqli_real_escape_string($con, $_POST['type']);
+		$mid = mysqli_real_escape_string($con, $_POST['mid']);
 
 		if ($type == 'loc'){
 			$typeID = 'location_id';

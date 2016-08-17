@@ -163,9 +163,10 @@ mbira.controller("newExplorationCtrl", function ($timeout, $scope, $http, $uploa
 			toggle_comments: $scope.newExploration.toggle_comments
 		}).success(function(data) {
 			//return to project
-			console.log(data)
-			$scope.thumbSave[1].eid = data;
-			explorations.save($scope.thumbSave[0], $scope.thumbSave[1]);
+			if (typeof $scope.thumbSave !== "undefined") {
+				$scope.thumbSave[1].eid = data;
+				explorations.save($scope.thumbSave[0], $scope.thumbSave[1]);
+			}
 			$scope.header ? explorations.save($scope.header, {task: 'uploadHeader', id: data, project: $scope.projectId}) : null;
 			$(".loading").fadeOut("slow", function(){
 				location.href = "#/viewProject/?project="+$scope.projectId+'&pid='+$scope.PID;

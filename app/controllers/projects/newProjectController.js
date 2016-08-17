@@ -153,17 +153,25 @@ mbira.controller("newProjectCtrl", function ($timeout, $scope, $http, $upload, $
 			//upload logo
 			projID = data;
 
-			$scope.thumbSave[1].project = projID;
-			projects.save($scope.thumbSave[0], $scope.thumbSave[1]);
-			projects.save($scope.logo,{task: 'uploadLogo', id: projID});
+			if (typeof $scope.thumbSave !== "undefined") {
+				$scope.thumbSave[1].project = projID;
+				projects.save($scope.thumbSave[0], $scope.thumbSave[1]);
+			}
+			
+			projects.save($scope.logo,{task: 'uploadLogo', id: projID}).success(function(){
+				projects.save($scope.header,{task: 'uploadHeader', id: projID}).success(function() {
+					$(".loading").fadeOut("slow", function(){
+						location.href = "javascript:history.back()";
+					});
+				});
+
+			});
 
 			//upload header
-			projects.save($scope.header,{task: 'uploadHeader', id: projID});
+			
 
 			// return to project
-			$(".loading").fadeOut("slow", function(){
-				location.href = "javascript:history.back()";
-			});
+
 			
 		});
 	}

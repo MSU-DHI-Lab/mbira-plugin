@@ -12,16 +12,17 @@
 		`name` VARCHAR(5000) NULL DEFAULT NULL,
 		`shortDescription` VARCHAR(150) NULL DEFAULT NULL,
 		`description` VARCHAR(5000) NULL DEFAULT NULL,
-		`image_path` VARCHAR(10000) NULL DEFAULT NULL,
+		`image_path` VARCHAR(1000) NULL DEFAULT NULL,
 		`thumb_path` VARCHAR(500) NULL DEFAULT NULL,
 		`thumbCanvasData` VARCHAR(500) NULL DEFAULT NULL,
 		`thumbCropData` VARCHAR(500) NULL DEFAULT NULL,
-		`logo_image_path` VARCHAR(10000) NULL DEFAULT NULL,
-		`header_image_path` VARCHAR(10000) NULL DEFAULT NULL,
+		`logo_image_path` VARCHAR(1000) NULL DEFAULT NULL,
+		`header_image_path` VARCHAR(1000) NULL DEFAULT NULL,
 		PRIMARY KEY (`id`))
 		ENGINE = InnoDB
-		AUTO_INCREMENT = 30
-		DEFAULT CHARACTER SET = latin1";
+		AUTO_INCREMENT = 1
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);
 	
 
@@ -32,10 +33,10 @@
 		`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
 		`project_id` INT(11) UNSIGNED NULL,
 		`name` VARCHAR(500) NULL DEFAULT NULL,
-		`description` VARCHAR(10000) NULL DEFAULT NULL,
-		`short_description` VARCHAR(10000) NULL DEFAULT NULL,
-		`dig_deeper` VARCHAR(10000) NULL DEFAULT NULL,
-		`coordinates` VARCHAR(10000) NULL DEFAULT NULL,
+		`description` VARCHAR(1000) NULL DEFAULT NULL,
+		`short_description` VARCHAR(1000) NULL DEFAULT NULL,
+		`dig_deeper` VARCHAR(1000) NULL DEFAULT NULL,
+		`coordinates` VARCHAR(1000) NULL DEFAULT NULL,
 		`geoJSON_path` varchar(500) DEFAULT NULL,
 		`radius` VARCHAR(100) NULL DEFAULT NULL,
 		`shape` VARCHAR(45) NULL DEFAULT NULL,
@@ -51,7 +52,8 @@
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
-		DEFAULT CHARACTER SET = latin1";
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);
 
 
@@ -63,7 +65,7 @@
 		`project_id` INT(11) UNSIGNED NOT NULL,
 		`pid` INT(11) NULL DEFAULT NULL,
 		`name` VARCHAR(200) NOT NULL,
-		`description` VARCHAR(10000) NULL DEFAULT NULL,
+		`description` VARCHAR(1000) NULL DEFAULT NULL,
 		`direction` VARCHAR(200) NULL DEFAULT NULL,
 		`file_path` VARCHAR(500) NULL DEFAULT NULL,
 		`thumb_path` VARCHAR(500) NULL DEFAULT NULL,
@@ -79,7 +81,8 @@
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
-		DEFAULT CHARACTER SET = latin1";
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);
 
 // -- -----------------------------------------------------
@@ -92,9 +95,9 @@
 		`pid` INT(11) NULL DEFAULT NULL,
 		`sid` INT(11) NULL DEFAULT NULL,
 		`name` VARCHAR(200) NOT NULL,
-		`description` VARCHAR(10000) NULL DEFAULT NULL,
-		`short_description` VARCHAR(10000) NULL DEFAULT NULL,
-		`dig_deeper` VARCHAR(10000) NULL DEFAULT NULL,
+		`description` VARCHAR(1000) NULL DEFAULT NULL,
+		`short_description` VARCHAR(1000) NULL DEFAULT NULL,
+		`dig_deeper` VARCHAR(1000) NULL DEFAULT NULL,
 		`latitude` VARCHAR(100) NULL DEFAULT NULL,
 		`longitude` VARCHAR(100) NULL DEFAULT NULL,
 		`thumb_path` VARCHAR(500) NULL DEFAULT NULL,
@@ -110,8 +113,9 @@
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
-		AUTO_INCREMENT = 28
-		DEFAULT CHARACTER SET = latin1";
+		AUTO_INCREMENT = 1
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);
 	
 
@@ -136,7 +140,8 @@
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
-		DEFAULT CHARACTER SET = latin1";
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);
 
 // -- -----------------------------------------------------
@@ -167,7 +172,8 @@
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
 		AUTO_INCREMENT = 1
-		DEFAULT CHARACTER SET = latin1";
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);
 	
 // -- -----------------------------------------------------
@@ -191,7 +197,8 @@
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
-		DEFAULT CHARACTER SET = latin1";
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);
 
 // -- -----------------------------------------------------
@@ -220,7 +227,9 @@
 		REFERENCES `mbira_areas` (`id`)
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
-		ENGINE = InnoDB";
+		ENGINE = InnoDB
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);	
 
 // -- -----------------------------------------------------
@@ -231,7 +240,7 @@
 		`project_id` INT(11) UNSIGNED NOT NULL,
 		`pid` int(11) unsigned NOT NULL,
 		`name` VARCHAR(200) NOT NULL,
-		`description` VARCHAR(10000) NULL,
+		`description` VARCHAR(1000) NULL,
 		`file_path` VARCHAR(500) NULL DEFAULT NULL,
 		`thumb_path` VARCHAR(500) NULL DEFAULT NULL,
 		`thumbCanvasData` VARCHAR(500) NULL DEFAULT NULL,
@@ -244,7 +253,9 @@
 		REFERENCES `mbira_projects` (`id`)
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
-		ENGINE = InnoDB";
+		ENGINE = InnoDB
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);	
 	
 // -- -----------------------------------------------------
@@ -266,7 +277,8 @@
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
-		DEFAULT CHARACTER SET = latin1";
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);	
 		
 // -- -----------------------------------------------------
@@ -288,7 +300,8 @@
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
-		DEFAULT CHARACTER SET = latin1";
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);	
 
 // -- -----------------------------------------------------
@@ -305,7 +318,9 @@
 		`isPending` INT DEFAULT 1,
 		PRIMARY KEY (`id`),
 		UNIQUE INDEX `username_UNIQUE` (`username` ASC))
-		ENGINE = InnoDB";
+		ENGINE = InnoDB
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);		
 
 // -- -----------------------------------------------------
@@ -328,7 +343,8 @@
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
 		ENGINE = InnoDB
-		DEFAULT CHARACTER SET = latin1";
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);	
 
 // -- -----------------------------------------------------
@@ -356,7 +372,9 @@
 		REFERENCES `mbira_users` (`id`)
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
-		ENGINE = InnoDB";
+		ENGINE = InnoDB
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);	
 
 // -- -----------------------------------------------------
@@ -384,7 +402,9 @@
 		REFERENCES `mbira_users` (`id`)
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
-		ENGINE = InnoDB";
+		ENGINE = InnoDB
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);	
 	
 // -- -----------------------------------------------------
@@ -412,7 +432,9 @@
 		REFERENCES `mbira_locations` (`id`)
 		ON DELETE Cascade
 		ON UPDATE NO ACTION)
-		ENGINE = InnoDB";
+		ENGINE = InnoDB
+  		DEFAULT CHARACTER SET utf8
+  		DEFAULT COLLATE utf8_unicode_ci";
 	mysqli_query($con, $sql);
 	
 	$sql = "ALTER TABLE project

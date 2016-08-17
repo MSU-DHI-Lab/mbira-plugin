@@ -147,8 +147,10 @@ mbira.controller("newExhibitCtrl", function ($timeout, $scope, $http, $upload, $
 			description: $scope.newExhibit.description,
 		}).success(function(data) {
 			// return to project
-			$scope.thumbSave[1].eid = data;
-			exhibits.save($scope.thumbSave[0], $scope.thumbSave[1]);
+			if (typeof $scope.thumbSave !== "undefined") {
+				$scope.thumbSave[1].eid = data;
+				exhibits.save($scope.thumbSave[0], $scope.thumbSave[1]);
+			}
 			exhibits.save($scope.header, {task: 'uploadHeader', id: data, project: $scope.projectId});
 			$(".loading").fadeOut("slow", function(){
 				location.href = "#/viewProject/?project="+$scope.projectId+'&pid='+$scope.PID;

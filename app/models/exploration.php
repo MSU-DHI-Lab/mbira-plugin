@@ -61,7 +61,7 @@ function createRow($con) {
 	$pid = $_POST['pid'];
 	$name = mysqli_real_escape_string($con, $_POST['name']);
 	$desc = mysqli_real_escape_string($con, $_POST['description']);
-	$dir = $_POST['direction'];
+	$dir = mysqli_real_escape_string($con, $_POST['direction']);
 	$toggle_comments = $_POST['toggle_comments'];
 	
 	//Create row in mbira_explorations

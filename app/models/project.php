@@ -162,9 +162,9 @@ function saveThumbnail($con) {
 
 function createRow($con) {
 	//Create new row
-	$title = $_POST['name'];
-	$sdesc = $_POST['shortDescription'];
-	$desc = $_POST['description'];
+	$title = mysqli_real_escape_string($con, $_POST['name']);
+	$sdesc = mysqli_real_escape_string($con, $_POST['shortDescription']);
+	$desc = mysqli_real_escape_string($con, $_POST['description']);
 
 	mysqli_query($con,"INSERT INTO mbira_projects (name, shortDescription, description) VALUES ('$title', '$sdesc', '$desc')");
 
@@ -192,7 +192,7 @@ function createRow($con) {
 	}
 
 	//Add path to mbira_projects row
-	$sql = "UPDATE mbira_projects SET image_path='".$path."' WHERE id=".$id;
+	$sql = "UPDATE mbira_projects SET image_path='".$path."', thumb_path='".$path."' WHERE id=".$id;
 	mysqli_query($con, $sql);
 		
 	//Create project in kora
