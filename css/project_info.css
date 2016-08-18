@@ -170,6 +170,10 @@ img {
 	clear: both;
 }
 
+#index-fix {
+    z-index:100
+}
+
 .thumbnail-img, .thumbnail-img img {
     width: 239px;
     height: 239px;
@@ -309,6 +313,7 @@ img {
 
 .short {
     position: relative;
+    z-index: 1;
 }
 
 .counter {

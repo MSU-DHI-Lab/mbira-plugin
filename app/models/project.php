@@ -24,6 +24,10 @@ function deleteRow($con){
 	mysqli_query($con,'DROP TABLE p'.$pid.'Control');
 	mysqli_query($con,'DROP TABLE p'.$pid.'Data');
 	mysqli_query($con,'DROP TABLE p'.$pid.'PublicData');
+	mysqli_query($con,'DELETE FROM project WHERE pid='.$pid);
+	mysqli_query($con,'DELETE FROM scheme WHERE pid='.$pid);
+	mysqli_query($con,'DELETE FROM permGroup WHERE pid='.$pid);
+	mysqli_query($con,'DELETE FROM collection WHERE schemeid='.$pid);
 
 
 }
