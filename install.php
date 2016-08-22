@@ -41,6 +41,7 @@
 		`radius` VARCHAR(100) NULL DEFAULT NULL,
 		`shape` VARCHAR(45) NULL DEFAULT NULL,
 		`thumb_path` VARCHAR(500) NULL DEFAULT NULL,
+		`header_image_path` VARCHAR(1000) NULL DEFAULT NULL,
 		`toggle_dig_deeper` VARCHAR(45) NULL DEFAULT 'true',
 		`toggle_media` VARCHAR(45) NULL DEFAULT 'true',
 		`toggle_comments` VARCHAR(45) NULL DEFAULT 'true',
