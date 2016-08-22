@@ -441,6 +441,10 @@
 	$sql = "ALTER TABLE project
 		ADD shortDescription varchar(255)";
 	mysqli_query($con, $sql);
+
+	$sql = "ALTER TABLE mbira_areas
+		ADD header_image_path varchar(1000) NULL DEFAULT NULL";
+	mysqli_query($con, $sql);
 	
 	mysqli_close($con);
 ?>
