@@ -1,8 +1,4 @@
 ._*
-/images/
 .DS_Store
 .svn/
 .sass-cache
-media/*
-tmp/*
-JSON/*
