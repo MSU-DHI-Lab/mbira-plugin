@@ -316,7 +316,8 @@
 		`salt` char(16) NOT NULL,
 		`firstName` VARCHAR(45) NULL,
 		`lastName` VARCHAR(45) NULL,
-		`isPending` INT DEFAULT 1,
+		`validator` VARCHAR(100) DEFAULT NULL,
+		`confirm` VARCHAR(100) DEFAULT 0,
 		PRIMARY KEY (`id`),
 		UNIQUE INDEX `username_UNIQUE` (`username` ASC))
 		ENGINE = InnoDB
@@ -446,6 +447,10 @@
 		ADD header_image_path varchar(1000) NULL DEFAULT NULL";
 	mysqli_query($con, $sql);
 	
+	$sql = "ALTER TABLE mbira_users
+		ADD (`validator` VARCHAR(100) DEFAULT NULL, `confirm` VARCHAR(100) DEFAULT 0)";
+	mysqli_query($con, $sql);
+
 	mysqli_close($con);
 ?>
 

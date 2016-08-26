@@ -14,13 +14,6 @@
 			$imageCropData = $_POST['imageCropData'];
 		}
 
-		$thumbCanvasData = $_POST['thumbCanvasData'];
-		$thumbCropData = $_POST['thumbCropData'];
-		$title = mysqli_real_escape_string($con, $_POST['title']);
-		$altDesc = mysqli_real_escape_string($con, $_POST['altDesc']);
-		$description = mysqli_real_escape_string($con, $_POST['description']);
-		$type = $_POST['type'];
-
 		if ($type == 'loc'){
 			$typeID = 'location_id';
 			$folder = 'locations';
@@ -31,7 +24,7 @@
 			$typeID = 'area_id';
 			$folder = 'areas';
 		} 
-		
+
 		$name = explode('.', basename($_FILES['file']['name']));
 
 		$uploaddir = '../../media/images/project'.$project_id.'/'.$folder.'/'.$id.'/';
@@ -53,6 +46,12 @@
 			$crop_file_path = 'media/images/project'.$project_id.'/'.$folder.'/'.$id.'/'.$uniqid.'_cropped.'.$crop_file_ext;	
 		}
 
+		$thumbCanvasData = $_POST['thumbCanvasData'];
+		$thumbCropData = $_POST['thumbCropData'];
+		$title = mysqli_real_escape_string($con, $_POST['title']);
+		$altDesc = mysqli_real_escape_string($con, $_POST['altDesc']);
+		$description = mysqli_real_escape_string($con, $_POST['description']);
+		$type = $_POST['type'];
 		
 		mysqli_query($con,"INSERT INTO mbira_".$type."_media (".$typeID.", file_path, thumb_path, cropped_image_path, isThumb, imageCanvasData, imageCropData, thumbCanvasData, thumbCropData, title, alt_desc, description) VALUES ('$id', '$file_path', '$thumb_file_path', '$crop_file_path', 'no', '$imageCanvasData', '$imageCropData', '$thumbCanvasData', '$thumbCropData', '$title', '$altDesc', '$description')");
 
