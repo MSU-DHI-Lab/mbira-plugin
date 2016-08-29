@@ -283,7 +283,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 		currentlatlng = $scope.polygon.getLatLngs();
 		latlngArray = []
 		for (p=0;p<currentlatlng.length;p++){
-			latlngArray.push([currentlatlng[p].lat,currentlatlng[p].lng])
+			latlngArray.push({lat: currentlatlng[p].lat, lng: currentlatlng[p].lng})
 		}
 		geo = $scope.polygon.toGeoJSON();
 
@@ -303,10 +303,11 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 				toggle_comments: $scope.area.toggle_comments,
 				toggle_dig_deeper: $scope.area.toggle_dig_deeper
 		}).success(function(data){
+			$scope.header ? areas.save($scope.header, {task: 'uploadHeader', id: $stateParams.area, project: $stateParams.project}) : null ;
 			exhibits.add($stateParams.area,$scope.outputExhibits, 'area')
 			//Close (return to project)
 			$(".loading").fadeOut("fast", function() {
-				location.href = "javascript:history.back()";
+				// location.href = "javascript:history.back()";
 			});
 		})
 

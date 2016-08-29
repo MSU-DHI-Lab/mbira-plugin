@@ -27,8 +27,8 @@ function deleteRow($con){
 
 //Update area
 function updateRow($con){
-	$aid = $_POST['aid'];
-	$project_id = $_POST['project'];
+	$aid = $_POST['id'];
+	$project_id = $_POST['projectId'];
 	$name = mysqli_real_escape_string($con, $_POST['name']);
 	$desc = mysqli_real_escape_string($con, $_POST['description']);
 	$short_desc = mysqli_real_escape_string($con, $_POST['shortDescription']);
