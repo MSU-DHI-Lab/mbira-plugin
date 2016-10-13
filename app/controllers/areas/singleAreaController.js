@@ -1,4 +1,4 @@
-mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $upload, $stateParams, setMap, timeStamp, exhibits, media, mediaCreation, 
+mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $upload, $stateParams, setMap, timeStamp, exhibits, media, mediaCreation,
 	projects, comments, temporary, users, areas){
 	$scope.project = $stateParams.project;
 	$scope.pid = $stateParams.pid;
@@ -38,9 +38,9 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 
 	function getMedia(){
 		$(".loading").fadeOut("slow", function(){
-			media.get($stateParams.area, 'area').success(function(data){$scope.media = data});	
+			media.get($stateParams.area, 'area').success(function(data){$scope.media = data});
 		});
-		
+
     }
 
 	function checkIfHasReply(objToPushTo, idToCheck,data){
@@ -88,15 +88,15 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 		})
 	}
 
-	$scope.approveComment = function(id) { 
+	$scope.approveComment = function(id) {
 		comments.approve(id, 'area').success(function(){loadComments();});
 	}
 
-	$scope.reinstateComment = function(id) { 
+	$scope.reinstateComment = function(id) {
 		comments.reinstate(id, 'area').success(function(){loadComments();});
 	}
 
-	$scope.deleteComment = function(id) { 
+	$scope.deleteComment = function(id) {
 		comments.delete(id, 'area').success(function(){loadComments();});
 	}
 
@@ -110,15 +110,6 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 		iconSize:     [20, 20], // size of the icon
 		iconAnchor:   [10, 10], // point of the icon which will correspond to marker's location
 	});
-
-	$http({
-		method: 'POST',
-		url: "ajax/getUsers.php",
-		headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-	}).success(function(data){
-		$scope.userData = data;
-		loadComments(data);
-	})
 
 	//load area info
 	areas.get($stateParams.area).success(function(data){
@@ -325,7 +316,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 		document.getElementById('editable').addEventListener('built', imgCallback)
 
 		if ($scope.cropper) {
-			$scope.cropper.replace(URL.createObjectURL($files[0])) 
+			$scope.cropper.replace(URL.createObjectURL($files[0]))
 		} else {
 			$('#editable').attr('src', URL.createObjectURL($files[0]))
 			$scope.cropper = mediaCreation.initializeCropper('editable');
@@ -340,7 +331,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 	}
 
 	//Save thumbnail
-	$scope.onThumbSelect = function($files) { 
+	$scope.onThumbSelect = function($files) {
 		$scope.modal.mode = 'new';
 		mediaCreation.reset($scope);
 		$scope.file = $files[0];
@@ -352,7 +343,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 		document.getElementById('editable').addEventListener('built', imgCallback)
 
 		if ($scope.cropper) {
-			$scope.cropper.replace(URL.createObjectURL($files[0])) 
+			$scope.cropper.replace(URL.createObjectURL($files[0]))
 		} else {
 			$('#editable').attr('src', URL.createObjectURL($files[0]))
 			$scope.cropper = mediaCreation.initializeCropper('editable');
@@ -360,7 +351,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 		$(".overlay").fadeIn('slow');
 	};
 
-	function setCropper(type) {	
+	function setCropper(type) {
 		// $scope.modal.type == 'media' ? mediaCreation.srcFromFile($scope.mediaFile) : mediaCreation.srcFromFile($scope.file);
 		if (type == 'media') {
 			$scope.cropper.setCanvasData($scope.mediaCanvasData);
@@ -384,7 +375,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 			$scope.thumbnailCanvasData = $scope.cropper.getCanvasData();
 			$scope.thumbnailCropData = $scope.cropper.getCropBoxData();
 			$scope.fileThumbnail = blob;
-			
+
 			$(".thumbnail-img").empty();
 			$('.thumbnail-img').append("<img src='"+ imgSrc + "'>");
 			// var formData = new FormData();
@@ -435,7 +426,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 		$("#details").fadeOut(600, function(){
 			mediaCreation.stepInto($scope, "Details")
 		})
-		
+
 		$timeout(function(){$('.media-modal').css({height: '350px'});},500)
 	}
 
@@ -470,7 +461,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 		document.getElementById('editable').addEventListener('built', imgCallback)
 
 		if ($scope.cropper) {
-			$scope.cropper.replace(m.file_path) 
+			$scope.cropper.replace(m.file_path)
 		} else {
 			$('#editable').attr('src', m.file_path)
 			$scope.cropper = mediaCreation.initializeCropper('editable');
@@ -506,7 +497,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 		document.getElementById('editable').addEventListener('built', imgCallback)
 
 		if ($scope.cropper) {
-			$scope.cropper.replace(m.file_path) 
+			$scope.cropper.replace(m.file_path)
 		} else {
 			$('#editable').attr('src', m.file_path)
 			$scope.cropper = mediaCreation.initializeCropper('editable');
@@ -554,9 +545,9 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 				$('#crop-submit').css({display:'none', visibility:'hidden'});
 			});
 			$('#skip-forward, #step-back').css({visibility:'visible'})
-			$('#skip-forward, #step-back').animate({width:'220px'}, 500)	
+			$('#skip-forward, #step-back').animate({width:'220px'}, 500)
 			$scope.cropper.setAspectRatio(NaN)
-			setCropper('media');		
+			setCropper('media');
 		} else if (command == 'Thumbnail') {
 			$scope.stepBack();
 		}
@@ -573,7 +564,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 		$("#details").fadeOut(600, function(){
 			mediaCreation.stepInto($scope, "Details")
 		})
-		
+
 		$timeout(function(){$('.media-modal').css({height: '350px'});},500)
 	}
 
@@ -595,9 +586,9 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 				description: $("#details-desc").val()
 			}
 			if( isEdit) {
-				detailsData.task = 'update'; 
-				detailsData.mid = $scope.mediaId; 
-			} else { 
+				detailsData.task = 'update';
+				detailsData.mid = $scope.mediaId;
+			} else {
 				detailsData.task = 'create'
 			}
 			media.save($scope.mediaFile, detailsData).success( function() {
@@ -627,7 +618,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 
 	$scope.resetCropper = function() {
 		$('.overlay').fadeOut('slow', function() {
-			if ($scope.thumbnailCanvasData) {  
+			if ($scope.thumbnailCanvasData) {
 				setCropper();
 			} else {
 				$scope.cropper.reset();
