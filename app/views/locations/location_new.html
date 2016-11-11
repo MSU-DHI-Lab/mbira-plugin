@@ -80,7 +80,7 @@
                                 <div class="counter">{{newLocation.shortDescription.length}}/400</div>
                             </div>
                             <div class="form-group short">
-                                <textarea class="form-control npInput short" id="textField" name="short" maxlength="400" ng-model="newLocation.shortDescription" placeholder="Enter a short description for the location - this text will appear in the location's pop up in the map view"></textarea>
+                                <textarea medium-editor bind-options="{placeholder: {text: 'Enter a short description for the location - this text will appear in the location\'s pop up \nin the map view',hideOnClick: false}}" class="form-control npInput short textField" name="short" maxlength="400" ng-model="newLocation.shortDescription"></textarea>
                             </div>
                         </div>
                         <div class="field">
@@ -88,7 +88,7 @@
                                 <h1 class='label-name'>LOCATION DESCRIPTION</h1>
                             </div>
                             <div class="form-group">
-                                <textarea id="textField" ng-model="newLocation.description" placeholder="Enter descriptive text for the location - this will appear on the location's detail page"></textarea>
+                                <textarea medium-editor bind-options="{placeholder: {text: 'Enter descriptive text for the location - this will appear on the location\'s detail page',hideOnClick: false}}" class="textField" ng-model="newLocation.description"></textarea>
                             </div>
                         </div>
                         <div class="field">
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <textarea id="textField" ng-model="newLocation.dig_deeper" placeholder="Enter Dig Deeper text - this will appear on the location's Dig Deeper page"></textarea>
+                                <textarea class="textField" ng-model="newLocation.dig_deeper" medium-editor bind-options="{placeholder: {text: 'Enter Dig Deeper text - this will appear on the location\'s Dig Deeper page',hideOnClick: false}}"></textarea>
                             </div>
                         </div>
                         <div class="field">

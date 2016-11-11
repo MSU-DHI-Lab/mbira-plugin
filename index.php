@@ -25,9 +25,12 @@
 	<link rel="stylesheet" href="vendor/css/hint.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css">
 	<link rel="stylesheet" href="vendor/css/cropper.min.css">
+	<link rel="stylesheet" href="vendor/css/flat-medium.css">
 	<link rel="stylesheet" href="vendor/css/loaders.min.css">
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
  
 	<script src="vendor/js/jquery-1.11.1.min.js"></script>
+
 	<script src="vendor/js/hideShowPassword.min.js"></script>
 	<script src="vendor/js/clipboard.min.js"></script>
 	<script src="vendor/js/cropper.min.js"></script>
@@ -39,6 +42,8 @@
 	<script src="vendor/js/angular/fileUpload/angular-file-upload.min.js"></script> 
 	<script src="vendor/js/angular/angular-sortable-view.js"></script>
 	<script src="vendor/js/angular/isteven-multi-select.js"></script>
+	<script src="//cdn.jsdelivr.net/medium-editor/latest/js/medium-editor.min.js"></script>
+	<script src="vendor/js/angular-medium-editor.min.js"></script>
 
 	<script src="app/controllers/configController.js"></script> 
 	<script src="app/controllers/projects/newProjectController.js"></script> 

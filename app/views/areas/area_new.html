@@ -79,7 +79,7 @@
                             <div class="counter">{{newArea.shortDescription.length}}/400</div>
                         </div>
                         <div class="form-group short">
-                            <textarea class="form-control npInput short" id="textField" name="short" maxlength="400" ng-model="newArea.shortDescription" placeholder="Enter a short description for the area - this text will appear in the area's pop up in the map view"></textarea>
+                            <textarea class="form-control npInput short textField" name="short" maxlength="400" ng-model="newArea.shortDescription" medium-editor bind-options="{placeholder: {text: 'Enter a short description for the area - this text will appear in the area\'s pop up \nin the map view',hideOnClick: false}}"></textarea>
                         </div>
                     </div>
                     <div class="field">
@@ -87,7 +87,7 @@
                             <h1 class='label-name'>DESCRIPTION</h1>
                         </div>
                         <div class="form-group">
-                            <textarea id="textField" ng-model="newArea.description" placeholder="Enter descriptive text for the area - this will appear on the area's detail page"></textarea>
+                            <textarea class="textField" ng-model="newArea.description" medium-editor bind-options="{placeholder: {text: 'Enter descriptive text for the area - this will appear on the area\'s detail page',hideOnClick: false}}"></textarea>
                         </div>
                     </div>
                     <div class="field">
@@ -99,7 +99,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <textarea id="textField" ng-model="newArea.dig_deeper" placeholder="Enter Dig Deeper text - this will appear on the area's Dig Deeper page"></textarea>
+                            <textarea class="textField" ng-model="newArea.dig_deeper" medium-editor bind-options="{placeholder: {text: 'Enter Dig Deeper text - this will appear on the area\'s Dig Deeper page',hideOnClick: false}}"></textarea>
                         </div>
                     </div>
                     <div class="field">

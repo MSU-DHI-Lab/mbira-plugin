@@ -412,8 +412,8 @@ input.cmn-toggle-round-flat:checked + label:after {
      font-family: 'montserratregular', sans-serif;
 }
 
-#textField {
-    width: 100%;
+.textField {
+    width: 719px;
     height: 140px;
     font-family: 'montserratlight', sans-serif;
     font-size: 16px;
@@ -446,7 +446,7 @@ textarea {
    opacity:  1;
 }
 
-#textField:focus {
+.textField:focus {
     outline: none !important;
     border: inset 2px solid rgba(255,255,255, .5);
     box-shadow: inset 0px 0 5px #FFF;

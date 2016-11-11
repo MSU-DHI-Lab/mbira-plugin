@@ -1,4 +1,4 @@
-var mbira  = angular.module('mbira', ['ui.router', 'angularFileUpload', 'angular-sortable-view', 'isteven-multi-select', 'ngAnimate']);
+var mbira  = angular.module('mbira', ['ui.router', 'angularFileUpload', 'angular-sortable-view', 'isteven-multi-select', 'ngAnimate', 'angular-medium-editor']);
 
 mbira.config(function($stateProvider, $urlRouterProvider) {
 	
