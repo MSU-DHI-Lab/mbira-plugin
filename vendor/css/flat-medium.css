@@ -21,7 +21,7 @@
       -webkit-transition: background-color .2s ease-in, color .2s ease-in;
               transition: background-color .2s ease-in, color .2s ease-in; }
       .medium-editor-toolbar li button:hover {
-        background-color: #346a3f;
+        background-color: #3EB9FD;
         color: #fff; }
     .medium-editor-toolbar li .medium-editor-button-active {
       background-color: #23482a;
