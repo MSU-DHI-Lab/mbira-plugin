@@ -18,7 +18,9 @@ mbira.controller("newLocationCtrl", function ($timeout, $scope, $http, $upload, 
 	$scope.newLocation = {
 		name: "",
 		description: "",
-		shortDescription: "",
+		short_description: "",
+		short_description_prev: "",
+		short_description_length: 0,
 		dig_deeper: "",
 		file: "",
 		latitude: '',
@@ -28,6 +30,7 @@ mbira.controller("newLocationCtrl", function ($timeout, $scope, $http, $upload, 
 		toggle_dig_deeper: true
 
 	}
+	setShortDesc();
 	
 	temp=[];
 	exhibits.getAll($scope.projectId).success(function(data){
@@ -399,6 +402,35 @@ mbira.controller("newLocationCtrl", function ($timeout, $scope, $http, $upload, 
 
 	}
 
+  function setShortDesc() {
+    $scope.newLocation.short_description_prev = $scope.newLocation.short_description
+    var div = document.createElement("div");
+    div.innerHTML = $scope.newLocation.short_description; 
+
+    text = (div.textContent || div.innerText || "")
+    $scope.newLocation.short_description_length = text.length;
+    if (text.length == 1 && $scope.newLocation.short_description == "<br>") {
+      $scope.newLocation.short_description_length = 0
+    }
+  }
+
+  $scope.getLength = function(element) {
+    var div = document.createElement("div");
+    div.innerHTML = element; 
+
+    text = (div.textContent || div.innerText || "");
+    if (text.length == 1 && element == "<br>") {
+      $scope.newLocation.short_description_length = 0
+    } else if (text.length > 400) {
+      $scope.newLocation.short_description_length = 400
+      $scope.newLocation.short_description = $scope.newLocation.short_description_prev
+    }else {
+      $scope.newLocation.short_description_length = text.length
+    }
+
+    $scope.newLocation.short_description_prev = $scope.newLocation.short_description
+  }
+
 	//submit new location
 	$scope.submit = function() {
 		$(".loading-text").html("Saving");
@@ -411,7 +443,7 @@ mbira.controller("newLocationCtrl", function ($timeout, $scope, $http, $upload, 
 			pid: $stateParams.pid,
 			name: $scope.newLocation.name,
 			description: $scope.newLocation.description,
-			shortDescription: $scope.newLocation.shortDescription,
+			shortDescription: $scope.newLocation.short_description,
 			dig_deeper: $scope.newLocation.dig_deeper,
 			lat: $scope.newLocation.latitude,
 			lon: $scope.newLocation.longitude,

@@ -73,11 +73,11 @@
                     <input type="text" required class="form-control npInput" id="name" name="name" ng-model="project.name">
                 </div>
                 <div class="short">
-                    <textarea required class="form-control npInput" id="short" name="short" maxlength="150" ng-model="project.shortDescription" placeholder="Short Project Description"></textarea>
-                    <div class="counter">{{project.shortDescription.length}}/150</div>
+                    <textarea required class="form-control npInput short_inner" name="short" ng-model="project.shortDescription" medium-editor bind-options="{placeholder: {text: 'Short Project Description',hideOnClick: false}}" ng-change="getLength(project.shortDescription)" ></textarea>
+                    <div class="counter">{{project.shortDescription_length}}/150</div>
                 </div>
                 <div class="">				        
-                    <textarea required class="form-control npInput" id="description" name="description" ng-model="project.description" placeholder="About the Project"></textarea>
+                    <textarea required class="form-control npInput description" medium-editor bind-options="{placeholder: {text: 'About the Project',hideOnClick: false}}" name="description" ng-model="project.description" placeholder="About the Project"></textarea>
                 </div>
                 <button type="submit" id="submit" class="btn btn-default" ng-disabled="projectform.$invalid" ng-class="{'btn-disabled': projectform.$invalid}">UPDATE PROJECT</button>
                 <div id="delete" ng-click='delete()' class='field-label delete'>

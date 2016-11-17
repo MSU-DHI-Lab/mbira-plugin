@@ -23,7 +23,9 @@ mbira.controller("newAreaCtrl", function ($timeout, $scope, $http, $upload, $sta
 	$scope.newArea = {
 		name: "",
 		description: "",
-		shortDescription: "",
+		short_description: "",
+		short_description_prev: "",
+		short_description_length: 0,
 		dig_deeper: '',
 		file:"",
 		shape: "",
@@ -33,6 +35,7 @@ mbira.controller("newAreaCtrl", function ($timeout, $scope, $http, $upload, $sta
 		toggle_dig_deeper: true,
 		toggle_comments: true
 	}
+	setShortDesc();
 
 	$scope.exhibits = [];
 	temp=[];
@@ -397,6 +400,35 @@ mbira.controller("newAreaCtrl", function ($timeout, $scope, $http, $upload, $sta
 
 	}
 
+  function setShortDesc() {
+    $scope.newArea.short_description_prev = $scope.newArea.short_description
+    var div = document.createElement("div");
+    div.innerHTML = $scope.newArea.short_description; 
+
+    text = (div.textContent || div.innerText || "")
+    $scope.newArea.short_description_length = text.length;
+    if (text.length == 1 && $scope.newArea.short_description == "<br>") {
+      $scope.newArea.short_description_length = 0
+    }
+  }
+
+  $scope.getLength = function(element) {
+    var div = document.createElement("div");
+    div.innerHTML = element; 
+
+    text = (div.textContent || div.innerText || "");
+    if (text.length == 1 && element == "<br>") {
+      $scope.newArea.short_description_length = 0
+    } else if (text.length > 400) {
+      $scope.newArea.short_description_length = 400
+      $scope.newArea.short_description = $scope.newArea.short_description_prev
+    }else {
+      $scope.newArea.short_description_length = text.length
+    }
+
+    $scope.newArea.short_description_prev = $scope.newArea.short_description
+  }
+
 	//submit new area
 	$scope.submit = function() {
 		$(".loading-text").html("Saving");
@@ -407,7 +439,7 @@ mbira.controller("newAreaCtrl", function ($timeout, $scope, $http, $upload, $sta
 				projectId: $scope.ID,
 				name: $scope.newArea.name,
 				description: $scope.newArea.description,
-				shortDescription: $scope.newArea.shortDescription,
+				shortDescription: $scope.newArea.short_description,
 				dig_deeper: $scope.newArea.dig_deeper,
 				shape: $scope.newArea.shape,
 				radius: $scope.newArea.radius,

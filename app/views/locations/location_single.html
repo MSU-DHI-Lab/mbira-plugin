@@ -93,10 +93,10 @@
                 <div class="field">
                     <div class='field-label flex wrap-row space-between align-center'>
                         <h1 class='label-name'>LOCATION TAGLINE</h1>
-                        <div class="counter">{{location.short_description.length}}/400</div>
+                        <div class="counter">{{location.short_description_length}}/400</div>
                     </div>
                     <div class="form-group short">				        
-                        <textarea medium-editor bind-options="{placeholder: {text: 'Enter Short Location Description',hideOnClick: false}}" class="form-control npInput short textField" name="short" maxlength="400" ng-model="location.short_description" placeholder="Short Location Description"></textarea>
+                        <textarea medium-editor bind-options="{placeholder: {text: 'Enter Short Location Description',hideOnClick: false}}" ng-change="getLength(location.short_description)" class="form-control npInput short textField" name="short" ng-model="location.short_description" placeholder="Short Location Description"></textarea>
                     </div>
                 </div>
                 <div class="field">

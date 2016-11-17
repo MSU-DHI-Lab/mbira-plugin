@@ -73,11 +73,11 @@
                     <input type="text" required class="form-control npInput" id="name" name="name" ng-model="newProject.name" placeholder="Project Name">
                 </div>
                 <div class="short">
-                    <textarea required class="form-control npInput" id="short" name="short" maxlength="150" ng-model="newProject.shortDescription" placeholder="Short Project Description"></textarea>
-                    <div class="counter">{{newProject.shortDescription.length}}/150</div>
+                    <textarea required class="form-control npInput short_inner" name="short" maxlength="150" ng-model="newProject.shortDescription" medium-editor bind-options="{placeholder: {text: 'Short Project Description',hideOnClick: false}}" ng-change="getLength(roject.shortDescription)" ></textarea>
+                    <div class="counter">{{newProject.shortDescription_length}}/150</div>
                 </div>
                 <div class="">                        
-                    <textarea required class="form-control npInput" id="description" name="description" ng-model="newProject.description" placeholder="About the Project"></textarea>
+                    <textarea required class="form-control npInput description" medium-editor bind-options="{placeholder: {text: 'About the Project',hideOnClick: false}}"name="description" ng-model="newProject.description" ></textarea>
                 </div>
                 <button type="submit" id="submit" class="btn btn-default" ng-disabled="newprojectform.$invalid" ng-class="{'btn-disabled': newprojectform.$invalid}">CREATE PROJECT</button>
             </form>

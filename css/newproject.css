@@ -293,9 +293,10 @@ img {
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
 }
 
-#short {
+.short_inner {
     width: 500px;
     height: 155px;
+    box-sizing: border-box;
     font-family: 'montserratlight', sans-serif;
     font-size: 16px;
     background: rgba(255,255,255, 0.3);
@@ -303,11 +304,16 @@ img {
     box-shadow: none;
     border:none;
     padding: 20px 20px 20px 20px;
-    margin: 0 0 20px 20px;
+    margin: 0 0 20px 280px;
     -webkit-box-shadow: 3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     -moz-box-shadow:    3px 3px 3px 0px rgba(50, 50, 50, 0.2);
     box-shadow:         3px 3px 3px 0px rgba(50, 50, 50, 0.2);
-    position: relative;
+
+}
+
+.medium-editor-placeholder:after {
+    padding-left: initial;
+    margin-left: 20px;
 }
 
 .short {
@@ -326,9 +332,11 @@ img {
 
 }
 
-#description {
+.description {
     width: 500px;
-    height: 155px;
+    height: 239px;
+    box-sizing: border-box;
+    float: left;
     font-family: 'montserratlight', sans-serif;
     font-size: 16px;
     background: rgba(255,255,255, 0.3);
@@ -360,7 +368,7 @@ textarea {
    opacity:  1;
 }
 
-#name:focus, #description:focus, #short:focus {
+#name:focus, .description:focus, .short_inner:focus {
     outline: none !important;
     border: inset 2px solid rgba(255,255,255, .5);
     box-shadow: inset 0px 0 5px #FFF;

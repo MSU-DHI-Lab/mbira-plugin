@@ -40,10 +40,10 @@ mbira.controller("singleLocationCtrl", function ($timeout, $scope, $http, $state
 
 
 
-    function getMedia(){
-    	$(".loading").fadeOut("slow");
-  		media.get($stateParams.location, 'loc').success(function(data){$scope.media = data});
-    }
+  function getMedia(){
+  	$(".loading").fadeOut("slow");
+		media.get($stateParams.location, 'loc').success(function(data){$scope.media = data});
+  }
 
 
 	function checkIfHasReply(objToPushTo, idToCheck,data){
@@ -112,6 +112,9 @@ mbira.controller("singleLocationCtrl", function ($timeout, $scope, $http, $state
 	locations.get($stateParams.location).success(function(data){
 		//Put location in scope
 		$scope.location = data;
+		setShortDesc()
+
+
 
 		var newIcon = L.icon({
 			iconUrl: 'js/images/LocationMarker.svg',
@@ -485,6 +488,35 @@ mbira.controller("singleLocationCtrl", function ($timeout, $scope, $http, $state
 		});
 	};
 
+	function setShortDesc() {
+		$scope.location.short_description_prev = $scope.location.short_description
+		var div = document.createElement("div");
+		div.innerHTML = $scope.location.short_description; 
+
+		text = (div.textContent || div.innerText || "")
+		$scope.location.short_description_length = text.length;
+		if (text.length == 1 && $scope.location.short_description == "<br>") {
+			$scope.location.short_description_length = 0
+		}
+	}
+
+	$scope.getLength = function(element) {
+		var div = document.createElement("div");
+		div.innerHTML = element; 
+
+		text = (div.textContent || div.innerText || "");
+		if (text.length == 1 && element == "<br>") {
+			$scope.location.short_description_length = 0
+		} else if (text.length > 400) {
+			$scope.location.short_description_length = 400
+			$scope.location.short_description = $scope.location.short_description_prev
+		}else {
+			$scope.location.short_description_length = text.length
+		}
+
+		$scope.location.short_description_prev = $scope.location.short_description
+	}
+
 	//Delete location
 	$scope.delete = function(){
 		locations.delete($stateParams.location, $scope.projectId).success(function(data){
@@ -514,9 +546,9 @@ mbira.controller("singleLocationCtrl", function ($timeout, $scope, $http, $state
 		}).success(function(data){
 			$scope.header ? locations.save($scope.header, {task: 'uploadHeader', id: $stateParams.location, project: $scope.projectId}) : null ;
 			exhibits.add($stateParams.location,$scope.outputExhibits, 'loc')
-			//Close (return to project)
-			$(".loading").fadeOut("fast");
-			location.href = "javascript:history.back()";
+
+			$(".overlay").fadeOut('slow');
+			getMedia();
 		})
 	}
 });

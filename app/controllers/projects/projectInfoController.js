@@ -142,13 +142,44 @@ mbira.controller("projectInfoCtrl", function ($timeout, $scope, $http, $upload, 
 			$('.headerImg').attr('src', $scope.project.header_image_path )
 		}
 		$('.projectImg').attr('src', $scope.project.image_path )
+		setShortDesc();
 	})
 	
+  function setShortDesc() {
+    $scope.project.shortDescription_prev = $scope.project.shortDescription
+    var div = document.createElement("div");
+    div.innerHTML = $scope.project.shortDescription; 
+
+    text = (div.textContent || div.innerText || "")
+    $scope.project.shortDescription_length = text.length;
+    if (text.length == 1 && $scope.project.shortDescription == "<br>") {
+      $scope.project.shortDescription_length = 0
+    }
+  }
+
+  $scope.getLength = function(element) {
+    var div = document.createElement("div");
+    div.innerHTML = element; 
+
+    text = (div.textContent || div.innerText || "");
+    if (text.length == 1 && element == "<br>") {
+      $scope.project.shortDescription_length = 0
+    } else if (text.length > 150) {
+      $scope.project.shortDescription_length = 150
+      $scope.project.shortDescription = $scope.project.shortDescription_prev
+    }else {
+      $scope.project.shortDescription_length = text.length
+    }
+
+    $scope.project.shortDescription_prev = $scope.project.shortDescription
+  }
+
 	//Handle "save and close"
 	$scope.submit = function(){
 		//Save		
 		$(".loading-text").html("Saving");
 		$(".loading").fadeIn("slow");
+		console.log($scope.project)
 		projects.save($scope.file, 
 			{ 
 				task: 'update',

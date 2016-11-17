@@ -115,6 +115,7 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 	areas.get($stateParams.area).success(function(data){
 		//Put area in scope
 		$scope.area = data;
+		setShortDesc()
 
 
 		//Parse string to get array  of coorinates
@@ -265,6 +266,35 @@ mbira.controller("singleAreaCtrl", function ($timeout, $scope, $http, $state, $u
 		}
 		getMedia();
 	})
+
+  function setShortDesc() {
+    $scope.area.short_description_prev = $scope.area.short_description
+    var div = document.createElement("div");
+    div.innerHTML = $scope.area.short_description; 
+
+    text = (div.textContent || div.innerText || "")
+    $scope.area.short_description_length = text.length;
+    if (text.length == 1 && $scope.area.short_description == "<br>") {
+      $scope.area.short_description_length = 0
+    }
+  }
+
+  $scope.getLength = function(element) {
+    var div = document.createElement("div");
+    div.innerHTML = element; 
+
+    text = (div.textContent || div.innerText || "");
+    if (text.length == 1 && element == "<br>") {
+      $scope.area.short_description_length = 0
+    } else if (text.length > 400) {
+      $scope.area.short_description_length = 400
+      $scope.area.short_description = $scope.area.short_description_prev
+    }else {
+      $scope.area.short_description_length = text.length
+    }
+
+    $scope.area.short_description_prev = $scope.area.short_description
+  }
 
 	//Handle "save and close"
 	$scope.submit = function(){

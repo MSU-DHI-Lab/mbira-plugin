@@ -80,7 +80,7 @@
                         <input type="text" required class="form-control npInput" id="name" name="name" ng-model="newExhibit.name" placeholder="Exhibit Name">
                     </div>
                     <div class="">                        
-                        <textarea required class="form-control npInput" id="description" name="description" ng-model="newExhibit.description" placeholder="Exhibit Description"></textarea>
+                        <textarea medium-editor bind-options="{placeholder: {text: 'Exhibit Description',hideOnClick: false}}" required class="form-control npInput description" name="description" ng-model="newExhibit.description"></textarea>
                     </div>
                     <div id='stops' ng-repeat="place in places">
                         {{place[1]}} {{place[2]}}

@@ -7,10 +7,13 @@ mbira.controller("newProjectCtrl", function ($timeout, $scope, $http, $upload, $
 	$scope.newProject = {
 	    name: "",
 		shortDescription: "",
+		shortDescription_prev: "",
+		shortDescription_length: 0,
 		description: "",
 		file: "",
 		logo: ""
 	}
+	setShortDesc();
 	
 	//Save thumbnail
 	$scope.onThumbSelect = function($files) { 
@@ -138,6 +141,35 @@ mbira.controller("newProjectCtrl", function ($timeout, $scope, $http, $upload, $
 			$('.logoImg').css('object-fit: contain;')
 		});
 	};
+
+  function setShortDesc() {
+    $scope.newProject.short_description_prev = $scope.newProject.short_description
+    var div = document.createElement("div");
+    div.innerHTML = $scope.newProject.short_description; 
+
+    text = (div.textContent || div.innerText || "")
+    $scope.newProject.short_description_length = text.length;
+    if (text.length == 1 && $scope.newProject.short_description == "<br>") {
+      $scope.newProject.short_description_length = 0
+    }
+  }
+
+  $scope.getLength = function(element) {
+    var div = document.createElement("div");
+    div.innerHTML = element; 
+
+    text = (div.textContent || div.innerText || "");
+    if (text.length == 1 && element == "<br>") {
+      $scope.newProject.short_description_length = 0
+    } else if (text.length > 150) {
+      $scope.newProject.short_description_length = 150
+      $scope.newProject.short_description = $scope.newProject.short_description_prev
+    }else {
+      $scope.newProject.short_description_length = text.length
+    }
+
+    $scope.newProject.short_description_prev = $scope.newProject.short_description
+  }	
 	
 	//Submit new project
 	$scope.submit = function() {
