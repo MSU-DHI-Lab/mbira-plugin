@@ -447,10 +447,36 @@
 		ADD header_image_path varchar(1000) NULL DEFAULT NULL";
 	mysqli_query($con, $sql);
 	
-	$sql = "ALTER TABLE mbira_users
-		ADD (`validator` VARCHAR(100) DEFAULT NULL, `confirm` VARCHAR(100) DEFAULT 0)";
+	$sql = "ALTER TABLE mbira_locations MODIFY description VARCHAR(65353);";
 	mysqli_query($con, $sql);
-
+	
+	$sql = "ALTER TABLE mbira_locations MODIFY dig_deeper VARCHAR(65353);";
+	mysqli_query($con, $sql);
+	
+	$sql = "ALTER TABLE mbira_areas MODIFY description VARCHAR(65353);";
+	mysqli_query($con, $sql);
+	
+	$sql = "ALTER TABLE mbira_areas MODIFY dig_deeper VARCHAR(65353);";
+	mysqli_query($con, $sql);
+	
+	$sql = "ALTER TABLE mbira_exhibits MODIFY description VARCHAR(65353);";
+	mysqli_query($con, $sql);
+		
+	$sql = "ALTER TABLE mbira_explorations MODIFY description VARCHAR(65353);";
+	mysqli_query($con, $sql);
+	
+	$sql = "ALTER TABLE mbira_projects MODIFY description VARCHAR(65353);";
+	mysqli_query($con, $sql);
+		
+	$sql = "ALTER TABLE mbira_location_comments MODIFY comment VARCHAR(5000);";
+	mysqli_query($con, $sql);
+	
+	$sql = "ALTER TABLE mbira_area_comments MODIFY comment VARCHAR(5000);";
+	mysqli_query($con, $sql);
+	
+	$sql = "ALTER TABLE mbira_exploration_comments MODIFY comment VARCHAR(5000);";
+	mysqli_query($con, $sql);
+	
 	mysqli_close($con);
 ?>
 
