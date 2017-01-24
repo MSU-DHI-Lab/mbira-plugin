@@ -2,9 +2,9 @@
 	require_once('../../model/manager.php');
 	require_once('../pluginsConfig.php');
 	
-	Manager::Init();
+	Kora\Manager::Init();
 	
-	if (!Manager::IsLoggedIn())
+	if (!Kora\Manager::IsLoggedIn())
 	{
 		header( 'Location: ../../accountLogin.php' ) ;
 	}	
