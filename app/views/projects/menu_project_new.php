@@ -73,7 +73,7 @@
                     <input type="text" required class="form-control npInput" id="name" name="name" ng-model="newProject.name" placeholder="Project Name">
                 </div>
                 <div class="short">
-                    <textarea required class="form-control npInput short_inner" name="short" maxlength="150" ng-model="newProject.shortDescription" medium-editor bind-options="{placeholder: {text: 'Short Project Description',hideOnClick: false}}" ng-change="getLength(roject.shortDescription)" ></textarea>
+                    <textarea required class="form-control npInput short_inner" name="short" ng-model="newProject.shortDescription" medium-editor bind-options="{placeholder: {text: 'Short Project Description',hideOnClick: false}}" ng-change="getLength(newProject.shortDescription)" ></textarea>
                     <div class="counter">{{newProject.shortDescription_length}}/150</div>
                 </div>
                 <div class="">                        

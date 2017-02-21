@@ -143,32 +143,31 @@ mbira.controller("newProjectCtrl", function ($timeout, $scope, $http, $upload, $
 	};
 
   function setShortDesc() {
-    $scope.newProject.short_description_prev = $scope.newProject.short_description
+    $scope.newProject.shortDescription_prev = $scope.newProject.shortDescription
     var div = document.createElement("div");
-    div.innerHTML = $scope.newProject.short_description; 
+    div.innerHTML = $scope.newProject.shortDescription; 
 
     text = (div.textContent || div.innerText || "")
-    $scope.newProject.short_description_length = text.length;
-    if (text.length == 1 && $scope.newProject.short_description == "<br>") {
-      $scope.newProject.short_description_length = 0
+    $scope.newProject.shortDescription_length = text.length;
+    if (text.length == 1 && $scope.newProject.shortDescription == "<br>") {
+      $scope.newProject.shortDescription_length = 0
     }
   }
 
   $scope.getLength = function(element) {
     var div = document.createElement("div");
     div.innerHTML = element; 
-
     text = (div.textContent || div.innerText || "");
     if (text.length == 1 && element == "<br>") {
-      $scope.newProject.short_description_length = 0
+      $scope.newProject.shortDescription_length = 0
     } else if (text.length > 150) {
-      $scope.newProject.short_description_length = 150
-      $scope.newProject.short_description = $scope.newProject.short_description_prev
+      $scope.newProject.shortDescription_length = 150
+      $scope.newProject.shortDescription = $scope.newProject.shortDescription_prev
     }else {
-      $scope.newProject.short_description_length = text.length
+      $scope.newProject.shortDescription_length = text.length
     }
 
-    $scope.newProject.short_description_prev = $scope.newProject.short_description
+    $scope.newProject.shortDescription_prev = $scope.newProject.shortDescription
   }	
 	
 	//Submit new project

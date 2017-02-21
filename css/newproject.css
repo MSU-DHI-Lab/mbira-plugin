@@ -395,3 +395,7 @@ textarea {
     color: #3EB9FD;
     background: #FFF;
 }
+
+#submit.btn-disabled {
+    opacity: .3;
+}
