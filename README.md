@@ -25,7 +25,7 @@ Information on our current and future work can be found at [Where we are, and wh
 
 The current version of the mbira authoring tool requires [KORA 2.6.2](https://github.com/matrix-msu/kora)
 
-Once you have downloaded and installed [KORA][(http://kora.marix.msu.edu), follow the directions at [How to Install the mbira Plugin](https://github.com/matrix-msu/mbira-plugin/wiki/How-to-install-the-Mbira-plugin) to install the mbira authring plugin.
+Once you have downloaded and installed [KORA](http://kora.marix.msu.edu), follow the directions at [How to Install the mbira Plugin](https://github.com/matrix-msu/mbira-plugin/wiki/How-to-install-the-Mbira-plugin) to install the mbira authring plugin.
 
 Once installed, you can start creating mbira projects.  Documentation on how to create and manage mbira projects can be found [here](https://github.com/matrix-msu/mbira-plugin/wiki).
 
