@@ -21,7 +21,7 @@ Based on the metaphor of “space and landscape as museum,” mbira lets users c
 
 Information on our current and future work can be found at [Where we are, and where we are going: the present and future of mbira](http://mbira.matrix.msu.edu/where-we-are-and-where-we-are-going/)
 
-###Installation Instructions###
+### Installation Instructions
 
 The current version of the mbira authoring tool requires [KORA 2.6.2](https://github.com/matrix-msu/kora)
 
